@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import authenticationSlice from './authenticationSlice';
+import expensesSlice from './expensesSlice';
+import ToastMiddleware from '../middleware/ToastMiddleware';
 
-export const store = configureStore({
+export default configureStore({
   reducer: {
-    counter: counterReducer,
+    authenticationSlice: authenticationSlice,
+    expensesSlice: expensesSlice,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ToastMiddleware)
 });
