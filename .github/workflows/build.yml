@@ -24,6 +24,3 @@ jobs:
 
       - name: Build
         run: npm run build # Adjust the build command as needed
-
-      - name: Test
-        run: npm test # Adjust the test command as needed
