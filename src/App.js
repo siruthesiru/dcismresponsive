@@ -6,6 +6,13 @@ import SignUpPage from './components/SignUpPage';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAuthenticated } from './app/authenticationSlice';
+import Login from './pages/Public/Login';
+import LandingPage from './pages/Public/LandingPage';
+import RegisterAlumni from './pages/Public/RegisterAlumni';
+import RegisterCompany from './pages/Public/RegisterCompany';
+import ForgotPassword from './pages/Public/ForgotPassword';
+import UnprotectedRoutes from './utils/unProtectedRoutes';
+import ChangePassword from './pages/Public/ChangePassword';
 
 
 const App = () => {
@@ -21,12 +28,27 @@ const App = () => {
 
   return (
     <BrowserRouter>
-    <Navbar />
+      {/* <Navbar /> */}
+
       <Routes>
-        <Route path="/" element={isLoggedIn ? <HomePage /> : <SignInPage />} />
-        <Route path="/signup" element={isLoggedIn ? <Navigate to='/' /> : <SignUpPage />} />
-        <Route path="/signin" element={isLoggedIn ? <Navigate to='/' /> : <SignInPage />} />
+
+        <Route element={<UnprotectedRoutes />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signin" exact element={<Login />} />
+          <Route path="/signup" element={<RegisterAlumni />} />
+          <Route path="/signup/company" element={<RegisterCompany />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+        </Route>
+
+        {/* 
+        <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
+        <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <Login />} />
+        <Route path="/register" element={isLoggedIn ? <Navigate to='/dashboard' /> : <RegisterAlumni />} />
         <Route path="*" element={<h2>Page not found!</h2>} />
+      */}
+
+        <Route path="/home" element={<HomePage />} />
+
       </Routes>
     </BrowserRouter>
   );

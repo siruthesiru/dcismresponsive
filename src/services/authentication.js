@@ -1,4 +1,4 @@
-import { userAuthenticated } from '../app/authenticationSlice';
+import { authenticationError, userAuthenticated } from '../app/authenticationSlice';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -7,21 +7,50 @@ const axiosInstance = axios.create({
 
 export const SignUp = async (dispatch, credentials) => {
     try {
-        // api call
-        const { data } = await axiosInstance.post('/signup', credentials);
-        dispatch(userAuthenticated(data));
-    } catch {
-        console.log('Error!');
+        const response = await axiosInstance.post('/signup', credentials);
+        const { data } = response;
+
+        if (response.status === 201) {
+            // User registered successfully
+            dispatch(userAuthenticated(data));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while signing up.';
+        dispatch(authenticationError(errorMessage))
+    }
+}
+
+export const SignUpCompany = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/signup/company', credentials);
+        const { data } = response;
+
+        if (response.data === 201) {
+            dispatch(userAuthenticated(data));
+        }
+
+    } catch (error) {
+        console.log('Error:', error);
+        const errorMessage = error.response?.data || 'An error occured while signing up';
+        dispatch(authenticationError(errorMessage));
+
     }
 }
 
 export const SignIn = async (dispatch, credentials) => {
     try {
-        // api call
-        const { data } = await axiosInstance.post('/signin', credentials);
-        dispatch(userAuthenticated(data));
-    } catch {
-        console.log('Error!');
+        const response = await axiosInstance.post('/signin', credentials);
+        const { data } = response;
+
+        if (response.status === 201) {
+            // User registered successfully
+            dispatch(userAuthenticated(data));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while signing in.';
+        dispatch(authenticationError(errorMessage))
     }
 }
 
