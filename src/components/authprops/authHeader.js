@@ -11,11 +11,7 @@ const AuthHeader = () => {
           <Link to="/">ACES!</Link>
         </span>
       </h1>
-
-
       <GoogleAuth />
-
-
       <div className="flex items-center justify-center">
         <div className="border border-solid border-slate-200 h-px w-1/3"></div>
         <div className="mx-4 text-slate-400">OR</div>
