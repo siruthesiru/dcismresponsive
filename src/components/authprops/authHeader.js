@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import GoogleAuth from "../googleauth";
 
 const AuthHeader = () => {
   return (
@@ -12,13 +12,9 @@ const AuthHeader = () => {
         </span>
       </h1>
 
-      <button className="flex w-full rounded-md shadow-md justify-center border p-4">
-        <FaFacebook size={25} className="mx-2" /> Login with Facebook
-      </button>
 
-      <button className="flex w-full rounded-md shadow-md justify-center border p-4">
-        <FaGoogle size={25} className="mx-2" /> Login with Google
-      </button>
+      <GoogleAuth />
+
 
       <div className="flex items-center justify-center">
         <div className="border border-solid border-slate-200 h-px w-1/3"></div>

@@ -11,7 +11,6 @@ export const SignUp = async (dispatch, credentials) => {
         const { data } = response;
 
         if (response.status === 201) {
-            // User registered successfully
             dispatch(userAuthenticated(data));
         }
     } catch (error) {
@@ -44,7 +43,6 @@ export const SignIn = async (dispatch, credentials) => {
         const { data } = response;
 
         if (response.status === 201) {
-            // User registered successfully
             dispatch(userAuthenticated(data));
         }
     } catch (error) {
@@ -54,7 +52,7 @@ export const SignIn = async (dispatch, credentials) => {
     }
 }
 
-export const ThirdPartySignIn = async (dispatch, token) => {
+export const SignUpGoogle = async (dispatch, token) => {
     try {
         // api call        
         const { data } = await axiosInstance.post(`/google?token=${token}`);
