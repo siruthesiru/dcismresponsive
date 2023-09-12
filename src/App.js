@@ -1,31 +1,15 @@
-import { React, useEffect } from 'react';
+import { React } from 'react';
 import HomePage from './components/HomePage';
-// import Navbar from './components/Navbar';
-// import SignInPage from './components/SignInPage';
-// import SignUpPage from './components/SignUpPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { userAuthenticated } from './app/authenticationSlice';
 import Login from './pages/Public/Login';
 import LandingPage from './pages/Public/LandingPage';
 import RegisterAlumni from './pages/Public/RegisterAlumni';
 import RegisterCompany from './pages/Public/RegisterCompany';
 import ForgotPassword from './pages/Public/ForgotPassword';
 import UnprotectedRoutes from './utils/unProtectedRoutes';
-// import ChangePassword from './pages/Public/ChangePassword';
 
 
 const App = () => {
-  // const { isLoggedIn } = useSelector(state => state.authenticationSlice);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem('token');
-  //   if (token !== undefined && token !== null) {
-  //     dispatch(userAuthenticated({ token: token }))
-  //   }
-  // }, [dispatch]);
-
   return (
     <BrowserRouter>
       {/* <Navbar /> */}
