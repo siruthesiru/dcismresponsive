@@ -8,7 +8,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     return <Nav className='navbar' style={{ backgroundColor: '#e4fff2' }}>
-        <h1 style={{ fontFamily: 'Brush Script MT, cursive' }}>My Expenses</h1>
+        <h1 style={{ fontFamily: 'Brush Script MT, cursive' }}>DCISM ACES</h1>
         {isLoggedIn
             ?
             <div style={{display:'flex', alignItems:'center'}}>
