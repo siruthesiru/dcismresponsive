@@ -9,7 +9,6 @@ export const SignUp = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup', credentials);
         const { data } = response;
-
         if (response.status === 201) {
             dispatch(userAuthenticated(data));
         }
@@ -41,6 +40,7 @@ export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
         const { data } = response;
+        console.log(data);
 
         if (response.status === 201) {
             dispatch(userAuthenticated(data));

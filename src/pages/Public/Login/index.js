@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+    Button,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { SignIn } from "../../../services/authentication";
 import { NavLink } from "react-router-dom";
@@ -24,42 +28,42 @@ const Login = () => {
             <AuthImage />
             <div className="w-full md:w-[70%] lg::w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
                 <AuthHeader />
-                <Form onSubmit={handleSubmit}>
-                    <InputGroup className="mb-3">
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 flex items-center">
                         <FaEnvelope size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="text"
-                            placeholder="Username"
+                            label="Username"
+                            variant="outlined"
                             autoComplete="username"
+                            fullWidth
                             required
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
+                    </div>
+                    <div className="mb-3 flex items-center">
                         <FaLock size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="password"
-                            placeholder="Password"
+                            label="Password"
+                            variant="outlined"
                             autoComplete="current-password"
+                            fullWidth
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                    </InputGroup>
+                    </div>
 
-                    {
-                        error && (
-                            <div className="text-red-500 mx-4">
-                                {error}
-                            </div>
-                        )
-                    }
+                    {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
+
                     <div className="flex text-sm p-4">
                         <p>
-                            Forgot Password?{" "}
-                            <span>
+                            Forgot Password?
+                            <span className="text-[15px] ml-2">
                                 <NavLink to="/forgotpassword" className="text-second underline">
                                     Click Here
                                 </NavLink>
@@ -69,13 +73,12 @@ const Login = () => {
 
                     <Button
                         type="submit"
-                        variant="primary"
-                        style={{ margin: "auto", display: "block", width: "10rem" }}
+                        variant="contained"
+                        style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px" }}
                     >
                         Login
                     </Button>
-
-                    <p className="text-[16px] mt-[20px] text-center">
+                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                         Don't have an account? Register as
                         <span className="text-second underline px-2">
                             <NavLink to="/signup">Alumni</NavLink>
@@ -84,8 +87,8 @@ const Login = () => {
                         <span className="text-second underline px-2">
                             <NavLink to="/signup/company">Company</NavLink>
                         </span>
-                    </p>
-                </Form>
+                    </Typography>
+                </form>
             </div>
         </div>
     );

@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaKey } from "react-icons/fa";
 import AuthImage from "../../../components/authprops/authImage";
+import {
+    Button,
+    TextField,
+    Typography,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const ChangePassword = () => {
+    const error = useSelector((state) => state.authenticationSlice.error)
+
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const dispatch = useDispatch();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log({ password, confirmPassword })
+    };
+
     return (
         <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 mt-10">
             <AuthImage />
@@ -12,30 +30,52 @@ const ChangePassword = () => {
                     Change <br /> Password
                 </h1>
 
-                <form className="space-y-8">
-                    <div className="flex items-center border rounded-md shadow-md p-4 ">
-                        <FaKey size={25} className="mr-2" />
-                        <input
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 flex items-center">
+                        <FaKey size={25} className="mx-2" />
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="password"
-                            name="password"
-                            placeholder="New Password"
-                            className="outline-none"
+                            label="Password"
+                            variant="outlined"
+                            autoComplete="password"
+                            fullWidth
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
-                    <div className="flex items-center border rounded-md shadow-md p-4 ">
-                        <FaKey size={25} className="mr-2" />
-                        <input
+                    <div className="mb-3 flex items-center">
+                        <FaKey size={25} className="mx-2" />
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="password"
-                            name="password"
-                            placeholder="Confirm Password"
-                            className="outline-none"
+                            label="Confirm Password"
+                            variant="outlined"
+                            autoComplete="confirmPassword"
+                            fullWidth
+                            required
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
 
-                    <button className="w-full p-4 bg-main rounded-md text-white">
-                        Reset Password
-                    </button>
+                    {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
+
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "12px", marginTop: "2rem" }}
+                    >
+                        Continue
+                    </Button>
+                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
+                        Remember your password?
+                        <span className="text-second underline px-2">
+                            <NavLink to="/signin">Back to Login</NavLink>
+                        </span>
+                    </Typography>
                 </form>
             </div>
         </div>

@@ -4,6 +4,7 @@ const initialState = {
     token: '',
     isLoggedIn: false,
     user: null,
+    username: null,
     error: null,
 };
 
@@ -17,6 +18,7 @@ export const authenticationSlice = createSlice({
                 ...state,
                 token: action.payload.token,
                 isLoggedIn: true,
+                username: action.payload.username,
                 user: action.payload.user
             }
         },
