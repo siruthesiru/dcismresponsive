@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaUserAlt, FaBuilding } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthImage from "../../../components/authprops/authImage";
 import AuthHeader from "../../../components/authprops/authHeader";
 import { useDispatch, useSelector } from "react-redux";
