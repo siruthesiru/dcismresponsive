@@ -23,7 +23,4 @@ jobs:
         run: npm ci
 
       - name: Build
-         run: |
-          npm run build
-          # Exit with a success code to prevent the build step from failing due to ESLint warnings treated as errors
-          exit 0
+        run: npm run build # Adjust the build command as needed
