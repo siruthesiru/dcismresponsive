@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthImage from "../../../components/authprops/authImage";
+import {
+    Button,
+    TextField,
+    Typography,
+} from "@mui/material";
+import { useSelector } from "react-redux";
 
 const ForgotPassword = () => {
+
+    const error = useSelector((state) => state.authenticationSlice.error)
+
+    const [email, setEmail] = useState("");
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log({ email })
+    };
+
     return (
         <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 mt-10">
             <AuthImage />
@@ -14,28 +30,38 @@ const ForgotPassword = () => {
                 </h1>
                 <p className="text-main pb-8">Dont worry. We can help</p>
 
-                <div className="space-y-8">
-                    <div className="flex items-center border rounded-md shadow-md p-4 ">
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 flex items-center">
                         <FaEnvelope size={25} className="mx-2" />
-                        <input
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="email"
-                            name="email"
-                            placeholder="Email Address"
-                            className="outline-none flex-1 "
+                            label="Email"
+                            variant="outlined"
+                            autoComplete="email"
+                            fullWidth
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
-                    <button className="w-full p-4 bg-main rounded-md text-white">
-                        Continue
-                    </button>
-                </div>
+                    {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
 
-                <p className="text-[16px] mt-[20px] mb-4 text-center">
-                    Remember your password?{" "}
-                    <span className=" text-second underline">
-                        <Link to="/signin">Back to Login</Link>
-                    </span>
-                </p>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "12px", marginTop: "2rem" }}
+                    >
+                        Continue
+                    </Button>
+                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
+                        Remember your password?
+                        <span className="text-second underline px-2">
+                            <NavLink to="/signin">Back to Login</NavLink>
+                        </span>
+                    </Typography>
+                </form>
             </div>
         </div>
     );

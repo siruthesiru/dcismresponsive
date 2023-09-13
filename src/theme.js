@@ -235,7 +235,6 @@ export const themeSetting = (mode) => {
     };
 };
 
-// context for color mode
 export const ColorModeContext = createContext({
     toggleColorMode: () => { },
 });
@@ -248,11 +247,10 @@ export const useMode = () => {
     };
 
     const colors = tokens(mode);
-    const theme = createTheme(themeSetting(mode, colors)); // Create MUI theme using createTheme
+    const theme = createTheme(themeSetting(mode, colors));
 
     return {
         theme,
         toggleColorMode,
     };
 };
-
