@@ -4,6 +4,7 @@ import { category } from "../../data/landingdata";
 const Category = () => {
     const data = category[0];
 
+    
     return (
         <div className="bg-[#D1D4F4] py-8 lg:py-0" id="Explore">
             <div className="container mx-auto flex flex-col px-2 ">
