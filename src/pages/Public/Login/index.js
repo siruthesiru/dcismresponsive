@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
     Button,
+    InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
@@ -26,12 +27,19 @@ const Login = () => {
     return (
         <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 pt-5 mt-10">
             <AuthImage />
-            <div className="w-full md:w-[70%] lg::w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
+            <div className="w-full md:w-[70%] lg:w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
                 <AuthHeader />
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3 flex items-center">
-                        <FaEnvelope size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaEnvelope size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="text"
                             label="Username"
@@ -44,8 +52,15 @@ const Login = () => {
                         />
                     </div>
                     <div className="mb-3 flex items-center">
-                        <FaLock size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaLock size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="password"
                             label="Password"
@@ -60,7 +75,7 @@ const Login = () => {
 
                     {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
 
-                    <div className="flex text-sm p-4">
+                    <div className="flex text-sm mb-4">
                         <p>
                             Forgot Password?
                             <span className="text-[15px] ml-2">

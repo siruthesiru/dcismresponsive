@@ -111,7 +111,7 @@ const Navbar = () => {
                             {opened ? (
                                 <RxCross2 size={25} onClick={toggleMenu} />
                             ) : (
-                                <RxHamburgerMenu size={25} onClick={toggleMenu} />
+                                <RxHamburgerMenu size={25} onClick={toggleMenu} color={'white'} />
                             )}
                         </div>
                     </div>

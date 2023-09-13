@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { FaEnvelope } from "react-icons/fa";
+import {FaEnvelope, FaRegAddressCard} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthImage from "../../../components/authprops/authImage";
 import {
-    Button,
+    Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
@@ -32,8 +32,16 @@ const ForgotPassword = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3 flex items-center">
-                        <FaEnvelope size={25} className="mx-2" />
+
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaEnvelope size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="email"
                             label="Email"

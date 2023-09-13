@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FaKey } from "react-icons/fa";
+import {FaEnvelope, FaKey} from "react-icons/fa";
 import AuthImage from "../../../components/authprops/authImage";
 import {
-    Button,
+    Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
@@ -31,8 +31,16 @@ const ChangePassword = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3 flex items-center">
-                        <FaKey size={25} className="mx-2" />
+
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaKey size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="password"
                             label="Password"
