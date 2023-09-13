@@ -1,13 +1,13 @@
 
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUserAlt, FaBuilding } from "react-icons/fa";
+import {FaEnvelope, FaLock, FaUserAlt, FaBuilding, FaRegAddressCard} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthImage from "../../../components/authprops/authImage";
 import AuthHeader from "../../../components/authprops/authHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUp } from "../../../services/authentication";
 import {
-    Button,
+    Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
@@ -32,12 +32,19 @@ const RegisterCompany = () => {
     return (
         <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 pt-5 mt-10">
             <AuthImage />
-            <div className="w-full md:w-[70%] lg::w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
+            <div className="w-full md:w-[70%] lg:w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
                 <AuthHeader />
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3 flex items-center">
-                        <FaUserAlt size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaUserAlt size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="text"
                             label="Username"
@@ -51,11 +58,18 @@ const RegisterCompany = () => {
                     </div>
 
                     <div className="mb-3 flex items-center">
-                        <FaUserAlt size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaRegAddressCard size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="text"
-                            label="Complete Name (LastName, FirstName, MI)"
+                            label="Name of Representative (Last Name, First Name)"
                             autoComplete="name"
                             variant="outlined"
                             fullWidth
@@ -66,8 +80,16 @@ const RegisterCompany = () => {
                     </div>
 
                     <div className="mb-3 flex items-center">
-                        <FaBuilding size={25} className="mx-2" />
+
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaBuilding size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="text"
                             label="Company Name"
@@ -81,8 +103,15 @@ const RegisterCompany = () => {
                     </div>
 
                     <div className="mb-3 flex items-center">
-                        <FaEnvelope size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaEnvelope size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="email"
                             label="Email"
@@ -95,10 +124,16 @@ const RegisterCompany = () => {
                         />
                     </div>
 
-
                     <div className="mb-3 flex items-center">
-                        <FaLock size={25} className="mx-2" />
                         <TextField
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <FaLock size={25} className="mx-2" />
+                                    </InputAdornment>
+                                ),
+                            }}
+
                             sx={{ outline: "none", flex: 1 }}
                             type="password"
                             label="Password"
@@ -117,7 +152,7 @@ const RegisterCompany = () => {
                         variant="contained"
                         style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
                     >
-                        Sign Up
+                        Sign Up As Company
                     </Button>
                     <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                         Already have an account?
