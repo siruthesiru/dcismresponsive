@@ -5,8 +5,12 @@ import { NavLink } from "react-router-dom";
 import AuthImage from "../../../components/authprops/authImage";
 import AuthHeader from "../../../components/authprops/authHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { SignUpCompany } from "../../../services/authentication";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
+import { SignUp } from "../../../services/authentication";
+import {
+    Button,
+    TextField,
+    Typography,
+} from "@mui/material";
 
 const RegisterCompany = () => {
     const error = useSelector((state) => state.authenticationSlice.error);
@@ -22,7 +26,7 @@ const RegisterCompany = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        SignUpCompany(dispatch, { username, password, name, companyName, email })
+        SignUp(dispatch, { username, password, name, companyName, email })
 
     };
     return (
@@ -30,81 +34,98 @@ const RegisterCompany = () => {
             <AuthImage />
             <div className="w-full md:w-[70%] lg::w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
                 <AuthHeader />
-                <Form onSubmit={handleSubmit}>
-                    <InputGroup className="mb-3">
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 flex items-center">
                         <FaUserAlt size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="text"
-                            placeholder="Username"
+                            label="Username"
+                            variant="outlined"
                             autoComplete="username"
+                            fullWidth
                             required
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                    </InputGroup>
+                    </div>
 
-                    <InputGroup className="mb-3">
+                    <div className="mb-3 flex items-center">
                         <FaUserAlt size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="text"
-                            placeholder="Complete Name (LastName, FirstName, MI)"
+                            label="Complete Name (LastName, FirstName, MI)"
                             autoComplete="name"
+                            variant="outlined"
+                            fullWidth
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
+                    </div>
+
+                    <div className="mb-3 flex items-center">
                         <FaBuilding size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="text"
-                            placeholder="Company Name"
+                            label="Company Name"
                             autoComplete="companyName"
+                            variant="outlined"
+                            fullWidth
                             required
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
                         />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
+                    </div>
+
+                    <div className="mb-3 flex items-center">
                         <FaEnvelope size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="email"
-                            placeholder="Email"
+                            label="Email"
+                            variant="outlined"
                             autoComplete="email"
+                            fullWidth
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
+                    </div>
+
+
+                    <div className="mb-3 flex items-center">
                         <FaLock size={25} className="mx-2" />
-                        <FormControl
+                        <TextField
+                            sx={{ outline: "none", flex: 1 }}
                             type="password"
-                            placeholder="Password"
+                            label="Password"
+                            variant="outlined"
                             autoComplete="password"
+                            fullWidth
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                    </InputGroup>
-                    {
-                        error && (
-                            <div className="text-red-500 mx-4">
-                                {error}
-                            </div>
-                        )
-                    }
-                    <button className="w-full p-4 bg-main rounded-md text-white mt-6">
-                        Sign Up
-                    </button>
+                    </div>
+                    {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
 
-                    <p className="text-[16px] mt-[20px] text-center">
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
+                    >
+                        Sign Up
+                    </Button>
+                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                         Already have an account?
-                        <span className=" text-second underline px-2">
+                        <span className="text-second underline px-2">
                             <NavLink to="/signin">Login</NavLink>
                         </span>
-                    </p>
-                </Form>
+                    </Typography>
+                </form>
             </div>
         </div>
     );

@@ -37,7 +37,7 @@ const UnprotectedRoutes = () => {
         }
     }, [dispatch]);
 
-    return isLoggedIn ? <Navigate to='/home' /> : <Outlet />;
+    return isLoggedIn ? <Navigate to='/admin' /> : <Outlet />;
 };
 
 export default UnprotectedRoutes;
