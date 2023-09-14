@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import React, { useState, useEffect } from 'react';
 import { Nav } from "react-bootstrap";
+import applogo from "../../assets/applogowhite.webp";
 
 const Navbar = () => {
     const [opened, setOpened] = useState(false);
@@ -27,7 +28,8 @@ const Navbar = () => {
         <div className="sticky top-0 w-full z-10 bg-primary ">
             <div className=" container mx-auto p-4 hidden md:flex">
                 <div className="flex flex-row justify-between items-center">
-                    <p className="text-white">Logo here</p>
+                    <img src={applogo} alt="ACES Logo" width={40}/>
+                    <p className="text-white text-3xl font-bold pl-2">ACES</p>
                 </div>
                 <div className="hidden md:flex justify-center ml-auto">
                     <ul className="flex p-4 space-x-8 text-white text-bold">
@@ -104,7 +106,8 @@ const Navbar = () => {
                 <div>
                     <div className="flex flex-row justify-between items-center sticky z-20">
                         <div className="flex">
-                            <p className="text-main">Logo here</p>
+                            <img src={applogo} alt="ACES Logo" width={25}/>
+                            <p className="text-white text-base pl-2">ACES</p>
                         </div>
 
                         <div>
