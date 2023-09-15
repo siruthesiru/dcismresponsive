@@ -10,30 +10,7 @@ const Companies = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const customLastColumn = {
-        field: "status",
-        headerName: "Status",
-        width: 150,
-        renderCell: (params) => {
-            const isVerified = params.row.verified;
 
-            return (
-                <Box
-                    sx={{
-                        backgroundColor: isVerified
-                            ? colors.greenAccent[500]
-                            : colors.redAccent[500],
-                        color: colors.greenAccent[100],
-                        padding: "6px 12px",
-                        borderRadius: "4px",
-                        fontWeight: "semi-bold",
-                    }}
-                >
-                    {isVerified ? "Verified User" : "Not Verified"}
-                </Box>
-            );
-        },
-    };
 
     return (
         <Box m="1.5rem 2.5rem">
@@ -44,7 +21,6 @@ const Companies = () => {
                 slug="companies"
                 columns={companyColumn}
                 rows={mockCompanies}
-                lastColumn={customLastColumn}
             />
         </Box>
     );

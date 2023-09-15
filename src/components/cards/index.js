@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { tokens } from "../../theme";
+import { useNavigate } from "react-router-dom";
 
 const JobCard = ({
     _id,
@@ -22,6 +23,7 @@ const JobCard = ({
     endDate,
     isActive,
 }) => {
+    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -91,8 +93,13 @@ const JobCard = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        sx={{ my: "1rem", backgroundColor: colors.greenAccent[500] }}
+                        sx={{
+                            my: "1rem", backgroundColor: colors.greenAccent[500], "&:hover": {
+                                backgroundColor: colors.primary[500]
+                            },
+                        }}
                         size="small"
+                        onClick={() => navigate('/view_candidates')}
                     >
                         View Candidates
                     </Button>

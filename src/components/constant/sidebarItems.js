@@ -45,10 +45,6 @@ export const navItems = [
         icon: <Diversity3 />,
     },
     {
-        text: "Verification Alumni",
-        icon: <VerifiedUser />,
-    },
-    {
         text: "Others",
         icon: null,
     },
@@ -57,11 +53,11 @@ export const navItems = [
         icon: <LiveHelpOutlined />,
     },
     {
-        text: "Events",
+        text: "Announcement",
         icon: <ListAlt />,
     },
     {
-        text: "Calendar",
+        text: "Events",
         icon: <CalendarMonthOutlined />,
     },
 ];

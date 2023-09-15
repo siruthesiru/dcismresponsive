@@ -47,14 +47,50 @@ export const companyColumn = [
         field: "phone",
         headerName: "Phone",
         type: "string",
-        width: 200,
+        width: 150,
     },
     {
         field: "createdAt",
         headerName: "Created At",
         type: "string",
-        width: 200,
+        width: 150,
     },
+    {
+        field: "verified",
+        headerName: "Verified",
+        width: 150,
+        type: "boolean",
+        renderCell: (params) => {
+            const isVerified = params.value;
+            const style = {
+                color: isVerified ? 'green' : 'red',
+            };
+
+            return (
+                <di style={style}>
+                    {isVerified ? <CheckIcon /> : <CloseIcon />}
+                </di>
+            )
+        }
+    },
+    {
+        field: "active",
+        headerName: "Status",
+        width: 150,
+        type: "boolean",
+        renderCell: (params) => {
+            const isActive = params.value;
+            const style = {
+                color: isActive ? 'green' : 'red',
+            };
+
+            return (
+                <di style={style}>
+                    {isActive ? "Active" : "Inactive"}
+                </di>
+            )
+        }
+    }
 ];
 
 export const alumniColumns = [
@@ -64,7 +100,99 @@ export const alumniColumns = [
         headerName: "avatar",
         width: 100,
         renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder; // Placeholder image source
+            const imgSrc = params.row.img || placeholder;
+
+            return (
+                <img
+                    src={imgSrc}
+                    alt=""
+                    style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                    }}
+                />
+            );
+        },
+    },
+    {
+        field: "firstName",
+        type: "string",
+        headerName: "First name",
+        width: 150,
+    },
+    {
+        field: "lastName",
+        type: "string",
+        headerName: "Last name",
+        width: 150,
+    },
+    {
+        field: "email",
+        type: "string",
+        headerName: "Email",
+        width: 200,
+    },
+    {
+        field: "phone",
+        headerName: "Phone",
+        type: "string",
+        width: 150,
+    },
+    {
+        field: "createdAt",
+        headerName: "Created At",
+        type: "string",
+        width: 150,
+    },
+    {
+        field: "verified",
+        headerName: "Verified",
+        width: 150,
+        type: "boolean",
+        renderCell: (params) => {
+            const isVerified = params.value;
+            const style = {
+                color: isVerified ? 'green' : 'red',
+            };
+
+            return (
+                <di style={style}>
+                    {isVerified ? <CheckIcon /> : <CloseIcon />}
+                </di>
+            )
+        }
+    },
+    {
+        field: "active",
+        headerName: "Status",
+        width: 150,
+        type: "boolean",
+        renderCell: (params) => {
+            const isActive = params.value;
+            const style = {
+                color: isActive ? 'green' : 'red',
+            };
+
+            return (
+                <di style={style}>
+                    {isActive ? "Active" : "Inactive"}
+                </di>
+            )
+        }
+    }
+];
+
+
+export const faqColumns = [
+    { field: "id", headerName: "ID", width: 90 },
+    {
+        field: "img",
+        headerName: "avatar",
+        width: 100,
+        renderCell: (params) => {
+            const imgSrc = params.row.img || placeholder;
 
             return (
                 <img
@@ -110,25 +238,8 @@ export const alumniColumns = [
         type: "string",
         width: 200,
     },
-    {
-        field: "verified",
-        headerName: "Verified",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isVerified = params.value;
-            const style = {
-                color: isVerified ? 'green' : 'red',
-            };
-
-            return (
-                <di style={style}>
-                    {isVerified ? <CheckIcon /> : <CloseIcon />}
-                </di>
-            )
-        }
-    }
 ];
+
 
 export const verifyColumns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -190,5 +301,30 @@ export const verifyColumns = [
         headerName: "Created At",
         type: "string",
         width: 200,
+    },
+];
+
+
+export const ViewCandidatesColumns = [
+    { id: 'id', label: 'ID', minWidth: 100 },
+    { id: 'firstName', label: 'First Name', minWidth: 170 },
+    { id: 'lastName', label: 'Last Name', minWidth: 170 },
+    {
+        id: 'email',
+        label: 'Email',
+        minWidth: 250,
+        align: 'left',
+    },
+    {
+        id: 'phone',
+        label: 'Phone Number',
+        minWidth: 150,
+        align: 'left',
+    },
+    {
+        id: 'createdAt',
+        label: 'CreatedAt',
+        minWidth: 250,
+        align: 'left',
     },
 ];
