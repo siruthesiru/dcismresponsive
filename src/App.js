@@ -15,6 +15,7 @@ import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
 import Companies from './pages/Admin/Company';
 import Alumni from './pages/Admin/Alumni';
+import PendingJobs from './pages/Admin/PendingJobs';
 
 
 const App = () => {
@@ -60,7 +61,7 @@ const App = () => {
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/verification_company" element={<VerifyCompany />} />
                 <Route path="/companies" element={<Companies />} />
-                <Route path="/pending_jobs" element={<Alumni />} />
+                <Route path="/pending_jobs" element={<PendingJobs />} />
                 <Route path="/verification_alumni" element={<Alumni />} />
                 <Route path="/faq" element={<Alumni />} />
                 <Route path="/events" element={<Alumni />} />
