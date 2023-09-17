@@ -15,7 +15,7 @@ const RegisterCompany = () => {
     const error = useSelector((state) => state.authenticationSlice.error);
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
-    const [companyName, setCompanyName] = useState("");
+    const [CompanyName, setCompanyName] = useState("");
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -77,7 +77,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -121,7 +121,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
+                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}

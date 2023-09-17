@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
 });
 
-export const SignUpAlumni = async (dispatch, credentials) => {
+export const SignUpCompany = async (dispatch, credentials) => {
     try {
         const data = await axiosInstance.post('/signup/company', credentials);
         //const { data } = response;
