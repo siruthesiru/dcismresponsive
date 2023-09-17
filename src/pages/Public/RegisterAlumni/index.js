@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaIdBadge, FaUserAlt } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaBuilding, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpAlumni } from "../../../services/authentication";
-import placeholder from '../../../assets/placeholder.webp'
-import FormWithHeader from "../../../components/formheader";
 import {
     Button, InputAdornment,
     TextField,
@@ -77,7 +75,7 @@ const RegisterAlumni = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -152,7 +150,7 @@ const RegisterAlumni = () => {
                         <NavLink to="/signin">Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/company">Coompany</NavLink>
                     </span>
                 </Typography>
             </form>
