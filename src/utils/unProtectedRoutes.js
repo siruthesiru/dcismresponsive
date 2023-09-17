@@ -27,6 +27,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const UnprotectedRoutes = () => {
     const { isSucceed } = useSelector(state => state.authentication);
+    
     return isSucceed ? <Navigate to='/dashboard' /> : <Outlet />;
 };
 
