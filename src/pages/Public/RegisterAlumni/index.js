@@ -14,32 +14,30 @@ import {
 const RegisterAlumni = () => {
     const error = useSelector((state) => state.authentication.error)
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
-    const [idNum, setIdNum] = useState("");
-    const [email, setEmail] = useState("");
-
-
+    const [FirstName, setFirstName] = useState("");
+    const [LastName, setLastName] = useState("");
+    const [Password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [IdNum, setIdNum] = useState("");
+    const [Email, setEmail] = useState("");
     const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        SignUpAlumni(dispatch, { username, password, firstname, lastname, idNum, email })
-
-    };
 
     return (
         <FormWithHeader imageSrc={placeholder}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={event => {
+                event.preventDefault();
+                if (Password === confirmPassword) {
+                    SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email });
+                }
+            }}>
                 <div className="mb-3 flex items-center">
 
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaUserAlt size={25} className="mx-2" />
+                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -51,14 +49,15 @@ const RegisterAlumni = () => {
                         variant="outlined"
                         fullWidth
                         required
-                        value={firstname}
+                        value={FirstName}
                         onChange={(e) => setFirstName(e.target.value)}
                     />
+
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaUserAlt size={25} className="mx-2" />
+                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -70,7 +69,7 @@ const RegisterAlumni = () => {
                         variant="outlined"
                         fullWidth
                         required
-                        value={lastname}
+                        value={LastName}
                         onChange={(e) => setLastName(e.target.value)}
                     />
                 </div>
@@ -79,21 +78,21 @@ const RegisterAlumni = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaUserAlt size={25} className="mx-2" />
+                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
-                        placeholder="Username"
-                        label="Username"
+                        placeholder="Email"
+                        label="Email"
                         variant="outlined"
-                        autoComplete="username"
+                        autoComplete="email"
                         fullWidth
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={Email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
 
@@ -102,7 +101,7 @@ const RegisterAlumni = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaIdBadge size={25} className="mx-2" />
+                                    <strong style={{color: "black"}}><FaIdBadge size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -112,10 +111,10 @@ const RegisterAlumni = () => {
                         placeholder="USC ID Number"
                         label="USC ID Number"
                         variant="outlined"
-                        autoComplete="idNum"
+                        autoComplete="IdNum"
                         fullWidth
                         required
-                        value={idNum}
+                        value={IdNum}
                         onChange={(e) => setIdNum(e.target.value)}
                     />
                 </div>
@@ -124,32 +123,7 @@ const RegisterAlumni = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaEnvelope size={25} className="mx-2" />
-                                </InputAdornment>
-                            ),
-                        }}
-
-                        sx={{ outline: "none", flex: 1 }}
-                        type="email"
-                        placeholder="Email"
-                        label="Email"
-                        variant="outlined"
-                        autoComplete="email"
-                        fullWidth
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-
-
-                <div className="mb-3 flex items-center">
-
-                    <TextField
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <FaLock size={25} className="mx-2" />
+                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -162,8 +136,33 @@ const RegisterAlumni = () => {
                         autoComplete="password"
                         fullWidth
                         required
-                        value={password}
+                        value={Password}
                         onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+
+
+                <div className="mb-3 flex items-center">
+
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1 }}
+                        type="password"
+                        placeholder="Confirm Password"
+                        label="Confirm Password"
+                        variant="outlined"
+                        autoComplete="confirmPassword"
+                        fullWidth
+                        required
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
 
@@ -173,6 +172,7 @@ const RegisterAlumni = () => {
                     type="submit"
                     variant="contained"
                     style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
+                    disabled={Password !== confirmPassword || Password.length <= 0}    
                 >
                     Sign Up As Alumni
                 </Button>
@@ -182,7 +182,7 @@ const RegisterAlumni = () => {
                         <NavLink to="/signin">Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/alumni">Company</NavLink>
                     </span>
                 </Typography>
             </form>

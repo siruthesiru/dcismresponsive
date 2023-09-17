@@ -9,6 +9,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup/alumni', credentials);
         const { data } = response;
+
         if (response.status === 201) {
             dispatch(userAuthenticated(data));
         }
@@ -37,13 +38,15 @@ export const SignUpCompany = async (dispatch, credentials) => {
 
 export const SignIn = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signin', credentials);
-        const { data } = response;
-        console.log(data);
+        const data = await axiosInstance.post('/signin', credentials);
+        console.log(data.data);
 
-        if (response.status === 201) {
-            dispatch(userAuthenticated(data));
-        }
+        dispatch(userAuthenticated(data.data));
+        // const { data } = response;
+
+        // if (response.status === 201) {
+        //     dispatch(userAuthenticated(data));
+        // }
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing in.';

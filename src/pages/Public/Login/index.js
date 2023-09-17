@@ -14,19 +14,16 @@ import FormWithHeader from "../../../components/formheader";
 
 const Login = () => {
     const error = useSelector((state) => state.authentication.error)
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [Email, setEmail] = useState("");
+    const [Password, setPassword] = useState("");
     const dispatch = useDispatch();
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        SignIn(dispatch, { username, password });
-    };
 
     return (
         <FormWithHeader imageSrc={placeholder}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={event => {
+                event.preventDefault();
+                SignIn(dispatch, { Email, Password });
+            }}>
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
@@ -38,15 +35,15 @@ const Login = () => {
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type="text"
-                        placeholder="Username"
-                        label="Username"
+                        type="email"
+                        placeholder="Email"
+                        label="Email"
                         variant="outlined"
-                        autoComplete="username"
+                        autoComplete="email"
                         fullWidth
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={Email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
                 <div className="mb-3 flex items-center">
@@ -64,10 +61,10 @@ const Login = () => {
                         placeholder="Password"
                         label="Password"
                         variant="outlined"
-                        autoComplete="current-password"
+                        autoComplete="password"
                         fullWidth
                         required
-                        value={password}
+                        value={Password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
@@ -95,7 +92,7 @@ const Login = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Don't have an account? Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup">Alumni</NavLink>
+                        <NavLink to="/signup/alumni">Alumni</NavLink>
                     </span>
                     or
                     <span className="text-second underline px-2">

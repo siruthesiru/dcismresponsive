@@ -1,28 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-    token: '',
-    isLoggedIn: false,
-    user: null,
-    username: null,
-    error: null,
-};
-
 export const authenticationSlice = createSlice({
     name: 'authentication',
-    initialState,
+    initialState: {
+        token: '',
+        isLoggedIn: false,
+    },
     reducers: {
         userAuthenticated: (state, action) => {
             sessionStorage.setItem('token', action.payload.token);
             return {
-                ...state,
-                token: action.payload.token,
-                isLoggedIn: true,
-                username: action.payload.username,
-                user: action.payload.user
+                ...state, ...{
+                    token: action.payload.token,
+                    isSucceed: action.payload.isSucceed,
+                    isLoggedIn: true,
+                }
             }
-        },
-        authenticationError: (state, action) => {
+        },authenticationError: (state, action) => {
             return {
                 ...state,
                 error: action.payload,
@@ -30,13 +24,12 @@ export const authenticationSlice = createSlice({
         },
         logout: () => {
             sessionStorage.clear();
-            return {
-                initialState,
-            };
-        },
+        }
     }
 });
 
 export const { userAuthenticated, logout, authenticationError } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;
+
+
