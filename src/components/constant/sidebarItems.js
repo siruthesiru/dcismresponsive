@@ -16,6 +16,11 @@ export const navItems = [
         icon: <HomeOutlined />,
     },
     {
+        text: "Crud",
+        icon: <HomeOutlined />,
+    },
+    
+    {
         text: "Company Section",
         icon: null,
     },

@@ -104,7 +104,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                     fontSize="0.85rem"
                                     sx={{ color: colors.primary[100] }}
                                 >
-                                    {username}
+                                    {email}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
