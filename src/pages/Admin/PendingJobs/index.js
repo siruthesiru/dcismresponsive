@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Button, useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
-import { tokens } from "../../../theme";
 import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
 import { applyVerificationCompanies } from "../../../data/mockAdminData";
 
-const VerifyCompany = () => {
+
+const PendingJobs = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -25,7 +26,7 @@ const VerifyCompany = () => {
                             color: colors.greenAccent[100],
                         }}
                     >
-                        Accept
+                        Post
                     </Button>
                     <Button
                         variant="contained"
@@ -35,7 +36,7 @@ const VerifyCompany = () => {
                             color: colors.greenAccent[100],
                         }}
                     >
-                        Decline
+                        Reject
                     </Button>
                 </Box>
             );
@@ -46,8 +47,8 @@ const VerifyCompany = () => {
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header
-                    title="Verification List"
-                    subtitle="Companies applying for partnership"
+                    title="Pending Job Posting"
+                    subtitle="Companies wanted to post jobs"
                 />
             </Box>
             <DataTable
@@ -60,4 +61,4 @@ const VerifyCompany = () => {
     );
 };
 
-export default VerifyCompany;
+export default PendingJobs;

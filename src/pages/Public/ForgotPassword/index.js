@@ -13,7 +13,7 @@ import placeholder from '../../../assets/placeholder.webp'
 
 const ForgotPassword = () => {
 
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const error = useSelector((state) => state.authentication.error)
 
     const [email, setEmail] = useState("");
 
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaEnvelope size={25} className="mx-2" />
                                 </InputAdornment>
@@ -36,6 +36,7 @@ const ForgotPassword = () => {
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
+                        placeholder="Email"
                         type="email"
                         label="Email"
                         variant="outlined"
