@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
-import { SignUp } from "../../../services/authentication";
+import { SignUpCompany } from "../../../services/authentication";
 import {
     Button, InputAdornment,
     TextField,
@@ -27,7 +27,7 @@ const RegisterCompany = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        SignUp(dispatch, { username, password, lastname, firstname, companyName, email })
+        SignUpCompany(dispatch, { username, password, lastname, firstname, companyName, email })
 
     };
     return (

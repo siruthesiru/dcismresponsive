@@ -2,12 +2,12 @@ import { authenticationError, userAuthenticated } from '../app/authenticationSli
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}/Authentication`,
+    baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
 });
 
-export const SignUp = async (dispatch, credentials) => {
+export const SignUpAlumni = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup', credentials);
+        const response = await axiosInstance.post('/signup/alumni', credentials);
         const { data } = response;
         if (response.status === 201) {
             dispatch(userAuthenticated(data));

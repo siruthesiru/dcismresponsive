@@ -48,7 +48,7 @@ const App = () => {
               <Route element={<UnprotectedRoutes />}>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/signin" exact element={<Login />} />
-                <Route path="/signup" element={<RegisterAlumni />} />
+                <Route path="/signup/alumni" element={<RegisterAlumni />} />
                 <Route path="/signup/company" element={<RegisterCompany />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/changepassword" element={<ChangePassword />} />
