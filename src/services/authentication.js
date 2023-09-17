@@ -2,16 +2,18 @@ import { authenticationError, userAuthenticated } from '../app/authenticationSli
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}/Authentication`,
+    baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
 });
 
-export const SignUp = async (dispatch, credentials) => {
+export const SignUpCompany = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup', credentials);
-        const { data } = response;
-        if (response.status === 201) {
-            dispatch(userAuthenticated(data));
-        }
+        const data = await axiosInstance.post('/signup/company', credentials);
+        //const { data } = response;
+        console.log(data);
+      //  if (response.data === 201) {
+        dispatch(userAuthenticated(data.data));
+      //  }
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing up.';
@@ -19,14 +21,14 @@ export const SignUp = async (dispatch, credentials) => {
     }
 }
 
-export const SignUpCompany = async (dispatch, credentials) => {
+export const SignUpAlumni = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup/company', credentials);
-        const { data } = response;
-
-        if (response.data === 201) {
-            dispatch(userAuthenticated(data));
-        }
+        const data = await axiosInstance.post('/signup/alumni', credentials);
+        //const { data } = response;
+        console.log(data);
+      //  if (response.data === 201) {
+        dispatch(userAuthenticated(data.data));
+      //  }
 
     } catch (error) {
         console.log('Error:', error);
@@ -37,13 +39,15 @@ export const SignUpCompany = async (dispatch, credentials) => {
 
 export const SignIn = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signin', credentials);
-        const { data } = response;
+        const data = await axiosInstance.post('/signin', credentials);
         console.log(data);
 
-        if (response.status === 201) {
-            dispatch(userAuthenticated(data));
-        }
+        dispatch(userAuthenticated(data.data));
+        // const { data } = response;
+
+        // if (response.status === 201) {
+        //     dispatch(userAuthenticated(data));
+        // }
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing in.';
