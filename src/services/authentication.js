@@ -9,9 +9,9 @@ export const SignUpCompany = async (dispatch, credentials) => {
     try {
         const data = await axiosInstance.post('/signup/company', credentials);
         //const { data } = response;
-        console.log(data.token);
+        console.log(data);
       //  if (response.data === 201) {
-            dispatch(userAuthenticated(data));
+        dispatch(userAuthenticated(data.data));
       //  }
 
     } catch (error) {
@@ -25,9 +25,9 @@ export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const data = await axiosInstance.post('/signup/alumni', credentials);
         //const { data } = response;
-        console.log(data.token);
+        console.log(data);
       //  if (response.data === 201) {
-            dispatch(userAuthenticated(data));
+        dispatch(userAuthenticated(data.data));
       //  }
 
     } catch (error) {
@@ -40,7 +40,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignIn = async (dispatch, credentials) => {
     try {
         const data = await axiosInstance.post('/signin', credentials);
-        console.log(data.data);
+        console.log(data);
 
         dispatch(userAuthenticated(data.data));
         // const { data } = response;

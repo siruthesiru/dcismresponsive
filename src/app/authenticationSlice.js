@@ -5,6 +5,7 @@ export const authenticationSlice = createSlice({
     initialState: {
         token: '',
         isLoggedIn: false,
+        isSucceed: false,
     },
     reducers: {
         userAuthenticated: (state, action) => {

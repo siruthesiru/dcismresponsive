@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaBuilding, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { SignUpCompany } from "../../../services/authentication";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
+import { useDispatch, useSelector } from "react-redux";
+import { SignUpCompany } from "../../../services/authentication";
 import {
     Button, InputAdornment,
     TextField,
@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 
 const RegisterCompany = () => {
-    const error = useSelector((state) => state.authenticationSlice.error);
+    const error = useSelector((state) => state.authentication.error)
+
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
+    const [Password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [CompanyName, setCompanyName] = useState("");
     const [Email, setEmail] = useState("");
-    const [Password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
 
 
@@ -27,7 +28,7 @@ const RegisterCompany = () => {
             <form onSubmit={event => {
                 event.preventDefault();
                 if (Password === confirmPassword) {
-                    SignUpCompany(dispatch, { FirstName, LastName, CompanyName, Password, Email });
+                    SignUpCompany(dispatch, { FirstName, LastName, Password, CompanyName, Email });
                 }
             }}>
                 <div className="mb-3 flex items-center">
@@ -81,6 +82,7 @@ const RegisterCompany = () => {
                                 </InputAdornment>
                             ),
                         }}
+
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
                         placeholder="Email"
@@ -180,7 +182,7 @@ const RegisterCompany = () => {
                         <NavLink to="/signin">Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/alumni">Alumni</NavLink>
                     </span>
                 </Typography>
             </form>
@@ -189,4 +191,4 @@ const RegisterCompany = () => {
     );
 };
 
-export default RegisterAlumni;
+export default RegisterCompany;
