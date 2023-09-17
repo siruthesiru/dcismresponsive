@@ -25,7 +25,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const data = await axiosInstance.post('/signup/alumni', credentials);
         //const { data } = response;
-        console.log(data);
+        console.log(data.token);
       //  if (response.data === 201) {
             dispatch(userAuthenticated(data));
       //  }
