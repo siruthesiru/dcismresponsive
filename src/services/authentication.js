@@ -20,14 +20,14 @@ export const SignUpAlumni = async (dispatch, credentials) => {
     }
 }
 
-export const SignUpCompany = async (dispatch, credentials) => {
+export const SignUpAlumni = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup/company', credentials);
-        const { data } = response;
-
-        if (response.data === 201) {
+        const data = await axiosInstance.post('/signup/alumni', credentials);
+        //const { data } = response;
+        console.log(data);
+      //  if (response.data === 201) {
             dispatch(userAuthenticated(data));
-        }
+      //  }
 
     } catch (error) {
         console.log('Error:', error);
