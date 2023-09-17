@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 const RegisterAlumni = () => {
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const error = useSelector((state) => state.authentication.error)
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

@@ -13,7 +13,7 @@ import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
 
 const Login = () => {
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const error = useSelector((state) => state.authentication.error)
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

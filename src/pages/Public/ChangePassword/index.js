@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const ChangePassword = () => {
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const error = useSelector((state) => state.authentication.error)
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

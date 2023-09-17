@@ -13,7 +13,7 @@ import placeholder from '../../../assets/placeholder.webp'
 
 const ForgotPassword = () => {
 
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const error = useSelector((state) => state.authentication.error)
 
     const [email, setEmail] = useState("");
 

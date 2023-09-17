@@ -45,13 +45,15 @@ const Events = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-    const [allEvents, setAllEvents] = useState(events);
+    // const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+    // const [allEvents, setAllEvents] = useState(events);
+
+    const [allEvents] = useState(events);
 
 
-    const handleAddEvent = () => {
-        setAllEvents([...allEvents.newEvent])
-    }
+    // const handleAddEvent = () => {
+    //     setAllEvents([...allEvents.newEvent])
+    // }
 
 
 

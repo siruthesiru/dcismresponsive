@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../app/authenticationSlice';
 
 const Navbar = () => {
-    const { isLoggedIn } = useSelector(state => state.authenticationSlice);
+    const { isLoggedIn } = useSelector(state => state.authentication);
     const dispatch = useDispatch();
 
     return <Nav className='navbar' style={{ backgroundColor: '#e4fff2' }}>

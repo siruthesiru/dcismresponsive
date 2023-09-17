@@ -22,6 +22,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import placeholder from "../../assets/placeholder.webp";
 import { navItems } from "../constant/sidebarItems";
 import { tokens } from "../../theme";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({
     isNonMobile,
@@ -29,6 +30,9 @@ const Sidebar = ({
     isSidebarOpen,
     setIsSidebarOpen,
 }) => {
+
+    const { username } = useSelector(state => state.authentication)
+
     const { pathname } = useLocation();
     const [active, setActive] = useState("");
     const navigate = useNavigate();
@@ -158,7 +162,7 @@ const Sidebar = ({
                                     fontSize="0.9rem"
                                     sx={{ color: colors.greenAccent[100] }}
                                 >
-                                    Natsu Dragneel
+                                    {username}
                                 </Typography>
                                 <Typography
                                     fontSize="0.8rem"
