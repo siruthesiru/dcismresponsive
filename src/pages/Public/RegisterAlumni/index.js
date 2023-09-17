@@ -99,8 +99,6 @@ const RegisterAlumni = () => {
                         onChange={(e) => setIdNum(e.target.value)}
                     />
                 </div>
-
-
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{

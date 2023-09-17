@@ -30,7 +30,7 @@ const Login = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaEnvelope size={25} className="mx-2" />
                                 </InputAdornment>
@@ -39,6 +39,7 @@ const Login = () => {
 
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
+                        placeholder="Username"
                         label="Username"
                         variant="outlined"
                         autoComplete="username"
@@ -51,7 +52,7 @@ const Login = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaLock size={25} className="mx-2" />
                                 </InputAdornment>
@@ -60,6 +61,7 @@ const Login = () => {
 
                         sx={{ outline: "none", flex: 1 }}
                         type="password"
+                        placeholder="Password"
                         label="Password"
                         variant="outlined"
                         autoComplete="current-password"
