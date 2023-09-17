@@ -28,7 +28,7 @@ const ChangePassword = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaKey size={25} className="mx-2" />
                                 </InputAdornment>
@@ -36,6 +36,7 @@ const ChangePassword = () => {
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
+                        placeholder="Password"
                         type="password"
                         label="Password"
                         variant="outlined"
@@ -50,13 +51,14 @@ const ChangePassword = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaKey size={25} className="mx-2" />
                                 </InputAdornment>
                             ),
                         }}
                         sx={{ outline: "none", flex: 1 }}
+                        placeholder="Confirm Password"
                         type="password"
                         label="Confirm Password"
                         variant="outlined"

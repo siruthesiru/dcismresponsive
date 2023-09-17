@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUserAlt, FaBuilding, FaRegAddressCard } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUserAlt, FaBuilding } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
@@ -17,7 +17,8 @@ const RegisterCompany = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
     const [companyName, setCompanyName] = useState("");
     const [email, setEmail] = useState("");
 
@@ -26,16 +27,57 @@ const RegisterCompany = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        SignUp(dispatch, { username, password, name, companyName, email })
+        SignUp(dispatch, { username, password, lastname, firstname, companyName, email })
 
     };
     return (
         <FormWithHeader imageSrc={placeholder}>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3 flex items-center">
+
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <FaUserAlt size={25} className="mx-2" />
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        type="text"
+                        label="First Name"
+                        autoComplete="firstname"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        value={firstname}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <FaUserAlt size={25} className="mx-2" />
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        type="text"
+                        label="Last Name"
+                        autoComplete="lastname"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        value={lastname}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaUserAlt size={25} className="mx-2" />
                                 </InputAdornment>
@@ -44,6 +86,7 @@ const RegisterCompany = () => {
 
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
+                        placeholder="Username"
                         label="Username"
                         variant="outlined"
                         autoComplete="username"
@@ -55,32 +98,10 @@ const RegisterCompany = () => {
                 </div>
 
                 <div className="mb-3 flex items-center">
-                    <TextField
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    <FaRegAddressCard size={25} className="mx-2" />
-                                </InputAdornment>
-                            ),
-                        }}
-
-                        sx={{ outline: "none", flex: 1 }}
-                        type="text"
-                        label="Name of Representative (Last Name, First Name)"
-                        autoComplete="name"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
-
-                <div className="mb-3 flex items-center">
 
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaBuilding size={25} className="mx-2" />
                                 </InputAdornment>
@@ -90,6 +111,7 @@ const RegisterCompany = () => {
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
                         label="Company Name"
+                        placeholder="Company Name"
                         autoComplete="companyName"
                         variant="outlined"
                         fullWidth
@@ -102,7 +124,7 @@ const RegisterCompany = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaEnvelope size={25} className="mx-2" />
                                 </InputAdornment>
@@ -112,6 +134,7 @@ const RegisterCompany = () => {
                         sx={{ outline: "none", flex: 1 }}
                         type="email"
                         label="Email"
+                        placeholder="Email"
                         variant="outlined"
                         autoComplete="email"
                         fullWidth
@@ -124,7 +147,7 @@ const RegisterCompany = () => {
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
-                            endAdornment: (
+                            startAdornment: (
                                 <InputAdornment position="start">
                                     <FaLock size={25} className="mx-2" />
                                 </InputAdornment>
@@ -134,6 +157,7 @@ const RegisterCompany = () => {
                         sx={{ outline: "none", flex: 1 }}
                         type="password"
                         label="Password"
+                        placeholder="Password"
                         variant="outlined"
                         autoComplete="password"
                         fullWidth
