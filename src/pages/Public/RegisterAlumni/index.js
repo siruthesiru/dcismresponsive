@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaIdBadge, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import placeholder from '../../../assets/placeholder.webp'
+import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpAlumni } from "../../../services/authentication";
 import placeholder from '../../../assets/placeholder.webp'
