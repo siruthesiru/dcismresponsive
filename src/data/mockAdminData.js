@@ -381,6 +381,7 @@ export const mockCompanies = [
         phone: "123-456-7890",
         createdAt: "2023-08-01",
         verified: true,
+        active: true,
     },
     {
         id: 2,
@@ -390,6 +391,7 @@ export const mockCompanies = [
         phone: "987-654-3210",
         createdAt: "2023-07-15",
         verified: false,
+        active: false,
     },
     {
         id: 3,
@@ -399,6 +401,8 @@ export const mockCompanies = [
         phone: "555-123-4567",
         createdAt: "2023-09-10",
         verified: true,
+        active: true,
+
     },
     {
         id: 4,
@@ -408,6 +412,8 @@ export const mockCompanies = [
         phone: "123-789-4560",
         createdAt: "2023-06-20",
         verified: false,
+        active: false,
+
     },
     {
         id: 5,
@@ -417,6 +423,8 @@ export const mockCompanies = [
         phone: "555-987-1234",
         createdAt: "2023-05-10",
         verified: true,
+        active: true,
+
     },
     {
         id: 6,
@@ -427,6 +435,8 @@ export const mockCompanies = [
         phone: "789-456-1230",
         createdAt: "2023-04-25",
         verified: false,
+        active: true,
+
     },
     {
         id: 7,
@@ -437,6 +447,8 @@ export const mockCompanies = [
         phone: "123-789-4560",
         createdAt: "2023-03-15",
         verified: true,
+        active: true,
+
     },
     {
         id: 8,
@@ -447,6 +459,7 @@ export const mockCompanies = [
         phone: "987-555-1234",
         createdAt: "2023-02-20",
         verified: false,
+        active: false,
     },
     {
         id: 9,
@@ -457,6 +470,8 @@ export const mockCompanies = [
         phone: "555-123-9876",
         createdAt: "2023-01-05",
         verified: true,
+        active: true,
+
     },
     {
         id: 10,
@@ -467,6 +482,8 @@ export const mockCompanies = [
         phone: "123-555-7890",
         createdAt: "2022-12-10",
         verified: false,
+        active: false,
+
     },
     {
         id: 11,
@@ -476,6 +493,8 @@ export const mockCompanies = [
         phone: "555-888-1234",
         createdAt: "2022-11-15",
         verified: true,
+        active: true,
+
     },
     {
         id: 12,
@@ -485,6 +504,8 @@ export const mockCompanies = [
         phone: "789-555-1230",
         createdAt: "2022-10-25",
         verified: false,
+        active: true,
+
     },
     {
         id: 13,
@@ -494,6 +515,8 @@ export const mockCompanies = [
         phone: "123-789-5550",
         createdAt: "2022-09-15",
         verified: true,
+        active: true,
+
     },
     {
         id: 14,
@@ -503,6 +526,8 @@ export const mockCompanies = [
         phone: "555-111-7890",
         createdAt: "2022-08-20",
         verified: false,
+        active: true,
+
     },
     {
         id: 15,
@@ -513,6 +538,8 @@ export const mockCompanies = [
         phone: "555-789-1111",
         createdAt: "2022-07-05",
         verified: true,
+        active: true,
+
     },
     {
         id: 16,
@@ -522,6 +549,8 @@ export const mockCompanies = [
         phone: "123-555-7891",
         createdAt: "2022-06-10",
         verified: false,
+        active: true,
+
     },
     {
         id: 17,
@@ -531,6 +560,8 @@ export const mockCompanies = [
         phone: "555-123-7892",
         createdAt: "2022-05-15",
         verified: true,
+        active: true,
+
     },
     {
         id: 18,
@@ -541,6 +572,8 @@ export const mockCompanies = [
         phone: "789-555-1233",
         createdAt: "2022-04-25",
         verified: false,
+        active: true,
+
     },
     {
         id: 19,
@@ -550,6 +583,8 @@ export const mockCompanies = [
         phone: "123-789-5553",
         createdAt: "2022-03-15",
         verified: true,
+        active: true,
+
     },
     {
         id: 20,
@@ -559,6 +594,8 @@ export const mockCompanies = [
         phone: "555-123-7894",
         createdAt: "2022-02-20",
         verified: false,
+        active: true,
+
     },
 ];
 
