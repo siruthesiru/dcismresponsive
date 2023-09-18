@@ -182,7 +182,7 @@ const RegisterAlumni = () => {
                         <NavLink to="/signin">Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Coompany</NavLink>
+                        <NavLink to="/signup/company">Company</NavLink>
                     </span>
                 </Typography>
             </form>
