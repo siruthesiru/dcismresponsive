@@ -3,8 +3,6 @@ import { FaEnvelope, FaLock, FaBuilding, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
-import placeholder from '../../../assets/placeholder.webp'
-import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpCompany } from "../../../services/authentication";
 import {

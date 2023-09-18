@@ -40,7 +40,6 @@ export const SignUpCompany = async (dispatch, credentials) => {
 }
 
 export const SignUpAlumni = async (dispatch, credentials) => {
-export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup/alumni', credentials);
         console.log(response);
@@ -106,10 +105,6 @@ export const SignIn = async (dispatch, credentials) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
-
-
-
-
 
 export const SignUpGoogle = async (dispatch, token) => {
     try {
