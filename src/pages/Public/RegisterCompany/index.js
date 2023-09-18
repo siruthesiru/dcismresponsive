@@ -37,7 +37,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -57,7 +57,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -78,7 +78,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -101,7 +101,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaBuilding size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaBuilding size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -123,7 +123,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -148,7 +148,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -172,17 +172,14 @@ const RegisterCompany = () => {
                     type="submit"
                     variant="contained"
                     style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
-                    disabled={Password !== confirmPassword || Password.length <= 0}    
+                    disabled={Password !== confirmPassword || Password.length <= 0}
                 >
                     Sign Up As Company
                 </Button>
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?
                     <span className="text-second underline px-2">
-                        <NavLink to="/signin">Login</NavLink>
-                    </span> or Register as
-                    <span className="text-second underline px-2">
-                        <NavLink to="/signup/alumni">Alumni</NavLink>
+                        <NavLink to="/signup/company">Login</NavLink>
                     </span>
                 </Typography>
             </form>
