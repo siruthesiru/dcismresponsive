@@ -3,6 +3,8 @@ import { FaEnvelope, FaLock, FaBuilding, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
+import placeholder from '../../../assets/placeholder.webp'
+import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpCompany } from "../../../services/authentication";
 import {
@@ -12,7 +14,7 @@ import {
 } from "@mui/material";
 
 const RegisterCompany = () => {
-    const error = useSelector((state) => state.authentication.error)
+    const { message } = useSelector((state) => state.authentication)
 
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
@@ -37,7 +39,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -57,7 +59,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -78,7 +80,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaEnvelope size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -101,7 +103,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaBuilding size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaBuilding size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -123,7 +125,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -148,7 +150,7 @@ const RegisterCompany = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -166,15 +168,22 @@ const RegisterCompany = () => {
                     />
                 </div>
 
-                {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
+                {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
 
                 <Button
                     type="submit"
                     variant="contained"
-                    style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
-                    disabled={Password !== confirmPassword || Password.length <= 0}    
+                    style={{
+                        display: "block",
+                        width: "100%",
+                        padding: "15px",
+                        marginTop: "2rem",
+                        backgroundColor: Password !== confirmPassword ? "#A9A9A9" : "#030F4B",
+                        color: "#FFFFFF",
+                    }}
+                    disabled={Password !== confirmPassword}
                 >
-                    Sign Up As Company
+                    Sign Up As Alumni
                 </Button>
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?

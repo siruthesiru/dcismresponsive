@@ -10,6 +10,7 @@ const initialState = {
 export const authenticationSlice = createSlice({
     name: 'authentication',
     initialState,
+    initialState,
     reducers: {
         userAuthenticated: (state, action) => {
             sessionStorage.setItem('token', action.payload.token);
@@ -29,7 +30,11 @@ export const authenticationSlice = createSlice({
             state.token = null;
         },
         logout: (state) => {
+        logout: (state) => {
             sessionStorage.clear();
+            state = initialState;
+        },
+    },
             state = initialState;
         },
     },

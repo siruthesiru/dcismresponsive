@@ -31,6 +31,7 @@ export const SignUpCompany = async (dispatch, credentials) => {
             );
         }
 
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing up.';
@@ -38,6 +39,7 @@ export const SignUpCompany = async (dispatch, credentials) => {
     }
 }
 
+export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup/alumni', credentials);
@@ -63,6 +65,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
                 })
             );
         }
+
 
 
     } catch (error) {
@@ -103,6 +106,8 @@ export const SignIn = async (dispatch, credentials) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
+
+
 
 
 

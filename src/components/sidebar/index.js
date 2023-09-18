@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
     Box,
-    Divider,
     Drawer,
     IconButton,
     List,
@@ -16,13 +15,10 @@ import {
 import {
     ChevronLeft,
     ChevronRightOutlined,
-    SettingsOutlined,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import placeholder from "../../assets/placeholder.webp";
 import { navItems } from "../constant/sidebarItems";
 import { tokens } from "../../theme";
-import { useSelector } from "react-redux";
 
 const Sidebar = ({
     isNonMobile,
