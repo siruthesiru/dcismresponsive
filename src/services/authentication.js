@@ -7,13 +7,13 @@ const axiosInstance = axios.create({
 
 export const SignUpCompany = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup/company', credentials);
-        const response = await axiosInstance.post('/signup/alumni', credentials);
-        const { data } = response;
-
-        if (response.status === 201) {
+        const data = await axiosInstance.post('/signup/company', credentials);
+        //const { data } = response;
+        console.log(data.token);
+      //  if (response.data === 201) {
             dispatch(userAuthenticated(data));
-        }
+      //  }
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing up.';

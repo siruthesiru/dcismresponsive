@@ -11,15 +11,14 @@ import {
     Typography,
 } from "@mui/material";
 
-const RegisterAlumni = () => {
-    const error = useSelector((state) => state.authentication.error)
-
+const RegisterCompany = () => {
+    const error = useSelector((state) => state.authenticationSlice.error);
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
-    const [Password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [CompanyName, setCompanyName] = useState("");
+    const [companyName, setCompanyName] = useState("");
     const [Email, setEmail] = useState("");
+    const [Password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
 
 
@@ -82,7 +81,6 @@ const RegisterAlumni = () => {
                                 </InputAdornment>
                             ),
                         }}
-
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
                         placeholder="Email"
