@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaBuilding, FaUserAlt } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
@@ -10,6 +10,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { Badge } from "@mui/icons-material";
 
 const RegisterAlumni = () => {
     const { message } = useSelector((state) => state.authentication)
@@ -101,7 +102,7 @@ const RegisterAlumni = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{ color: "black" }}><FaBuilding size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><Badge size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
