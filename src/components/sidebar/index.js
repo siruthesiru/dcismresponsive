@@ -31,7 +31,7 @@ const Sidebar = ({
     setIsSidebarOpen,
 }) => {
 
-    const { username } = useSelector(state => state.authentication)
+    const { email } = useSelector(state => state.authentication)
 
     const { pathname } = useLocation();
     const [active, setActive] = useState("");
@@ -162,7 +162,7 @@ const Sidebar = ({
                                     fontSize="0.9rem"
                                     sx={{ color: colors.greenAccent[100] }}
                                 >
-                                    {username}
+                                    {email}
                                 </Typography>
                                 <Typography
                                     fontSize="0.8rem"

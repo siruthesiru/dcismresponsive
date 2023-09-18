@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    token: '',
-    isLoggedIn: false,
-    user: null,
-    username: null,
-    error: null,
+    isSucceed: false,
+    message: null,
+    email: null,
+    token: null,
 };
 
 export const authenticationSlice = createSlice({
@@ -14,27 +13,23 @@ export const authenticationSlice = createSlice({
     reducers: {
         userAuthenticated: (state, action) => {
             sessionStorage.setItem('token', action.payload.token);
-            return {
-                ...state,
-                token: action.payload.token,
-                isLoggedIn: true,
-                username: action.payload.username,
-                user: action.payload.user
-            }
+            state.token = action.payload.token;
+            state.isSucceed = action.payload.isSucceed;
+            state.email = action.payload.email;
+            state.message = null;
         },
         authenticationError: (state, action) => {
-            return {
-                ...state,
-                error: action.payload,
-            }
+            const { message } = action.payload;
+            state.isSucceed = false;
+            state.message = message;
+            state.email = null;
+            state.token = null;
         },
-        logout: () => {
+        logout: (state) => {
             sessionStorage.clear();
-            return {
-                initialState,
-            };
+            state = initialState;
         },
-    }
+    },
 });
 
 export const { userAuthenticated, logout, authenticationError } = authenticationSlice.actions;
