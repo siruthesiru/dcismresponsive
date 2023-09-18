@@ -179,7 +179,7 @@ const RegisterCompany = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Login</NavLink>
+                        <NavLink to="/signin">Login</NavLink>
                     </span>
                 </Typography>
             </form>
