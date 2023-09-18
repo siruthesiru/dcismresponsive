@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
 const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    const { username } = useSelector(state => state.authentication)
+    const { email } = useSelector(state => state.authentication)
 
     const dispatch = useDispatch();
 
@@ -104,7 +104,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                     fontSize="0.85rem"
                                     sx={{ color: colors.primary[100] }}
                                 >
-                                    {username}
+                                    {email}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
