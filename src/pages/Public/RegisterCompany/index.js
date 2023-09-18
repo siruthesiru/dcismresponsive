@@ -187,6 +187,9 @@ const RegisterCompany = () => {
                     Already have an account?
                     <span className="text-second underline px-2">
                         <NavLink to="/signin">Login</NavLink>
+                    </span> or Register as
+                    <span className="text-second underline px-2">
+                        <NavLink to="/signup/alumni">Alumni</NavLink>
                     </span>
                 </Typography>
             </form>

@@ -18,6 +18,9 @@ export const SignUpCompany = async (dispatch, credentials) => {
                     message: null,
                     email: response.data.email,
                     token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
                 })
             );
         } else {
@@ -27,6 +30,7 @@ export const SignUpCompany = async (dispatch, credentials) => {
                 })
             );
         }
+
 
     } catch (error) {
         console.error('Error:', error);
@@ -48,6 +52,9 @@ export const SignUpAlumni = async (dispatch, credentials) => {
                     message: null,
                     email: response.data.email,
                     token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
                 })
             );
         } else {
@@ -57,6 +64,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
                 })
             );
         }
+
 
 
     } catch (error) {
@@ -78,6 +86,9 @@ export const SignIn = async (dispatch, credentials) => {
                     message: null,
                     email: response.data.email,
                     token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
                 })
             );
         } else {
@@ -95,8 +106,6 @@ export const SignIn = async (dispatch, credentials) => {
     }
 }
 
-
-
 export const SignUpGoogle = async (dispatch, token) => {
     try {
         // api call        
@@ -106,5 +115,3 @@ export const SignUpGoogle = async (dispatch, token) => {
         console.log('Error!')
     }
 }
-
-
