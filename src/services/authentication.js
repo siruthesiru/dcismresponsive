@@ -7,12 +7,26 @@ const axiosInstance = axios.create({
 
 export const SignUpCompany = async (dispatch, credentials) => {
     try {
-        const data = await axiosInstance.post('/signup/company', credentials);
-        //const { data } = response;
-        console.log(data);
-        //  if (response.data === 201) {
-        dispatch(userAuthenticated(data.data));
-        //  }
+        const response = await axiosInstance.post('/signup/company', credentials);
+        console.log(response);
+
+        if (response.data.isSucceed) {
+
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
 
     } catch (error) {
         console.error('Error:', error);
@@ -23,12 +37,27 @@ export const SignUpCompany = async (dispatch, credentials) => {
 
 export const SignUpAlumni = async (dispatch, credentials) => {
     try {
-        const data = await axiosInstance.post('/signup/alumni', credentials);
-        //const { data } = response;
-        console.log(data);
-        //  if (response.data === 201) {
-        dispatch(userAuthenticated(data.data));
-        //  }
+        const response = await axiosInstance.post('/signup/alumni', credentials);
+        console.log(response);
+
+        if (response.data.isSucceed) {
+
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
+
 
     } catch (error) {
         console.log('Error:', error);

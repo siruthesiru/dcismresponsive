@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Public/Login';
 import LandingPage from './pages/Public/LandingPage';
 import RegisterAlumni from './pages/Public/RegisterAlumni';
 import RegisterCompany from './pages/Public/RegisterCompany';
 import ForgotPassword from './pages/Public/ForgotPassword';
-import UnprotectedRoutes from './utils/unProtectedRoutes';
 import ChangePassword from './pages/Public/ChangePassword';
 import Layout from './pages/Admin/Layout';
 import { ColorModeContext, useMode } from "./theme";
@@ -15,12 +14,13 @@ import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
 import Companies from './pages/Admin/Company';
 import Alumni from './pages/Admin/Alumni';
-import ProtectedRoutes from './utils/protectedRoutes';
 import ViewCandidates from './pages/Admin/ViewCandidates';
 import PendingJobs from './pages/Admin/PendingJobs';
 import FAQ from './pages/Admin/FAQ';
 import Events from './pages/Admin/Events';
 import Announcements from './pages/Admin/Announcement';
+import UnprotectedRoute from './utils/unProtectedRoutes';
+import ProtectedRoute from './utils/protectedRoute';
 
 
 const App = () => {
@@ -42,10 +42,17 @@ const App = () => {
           <BrowserRouter>
             {/* <Navbar /> */}
 
+            {/* 
+        <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
+        <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <Login />} />
+        <Route path="/register" element={isLoggedIn ? <Navigate to='/dashboard' /> : <RegisterAlumni />} />
+        <Route path="*" element={<h2>Page not found!</h2>} />
+      */}
+
             <Routes>
               <Route path="*" element={<h2>Page not found!</h2>} />
 
-              <Route element={<UnprotectedRoutes />}>
+              <Route element={<UnprotectedRoute />}>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/signin" exact element={<Login />} />
                 <Route path="/signup/alumni" element={<RegisterAlumni />} />
@@ -54,16 +61,8 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword />} />
               </Route>
 
-              {/* 
-        <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
-        <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <Login />} />
-        <Route path="/register" element={isLoggedIn ? <Navigate to='/dashboard' /> : <RegisterAlumni />} />
-        <Route path="*" element={<h2>Page not found!</h2>} />
-      */}
-
               <Route element={<Layout />}>
-                <Route element={<ProtectedRoutes />}>
-                  <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
+                <Route element={<ProtectedRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/verification_company" element={<VerifyCompany />} />
                   <Route path="/companies" element={<Companies />} />
@@ -74,7 +73,6 @@ const App = () => {
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/events" element={<Events />} />
                   <Route path="/announcement" element={<Announcements />} />
-
                 </Route>
               </Route>
 
