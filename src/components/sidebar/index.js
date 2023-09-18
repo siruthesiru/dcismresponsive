@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
     Box,
-    Divider,
     Drawer,
     IconButton,
     List,
@@ -16,13 +15,10 @@ import {
 import {
     ChevronLeft,
     ChevronRightOutlined,
-    SettingsOutlined,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import placeholder from "../../assets/placeholder.webp";
 import { navItems } from "../constant/sidebarItems";
 import { tokens } from "../../theme";
-import { useSelector } from "react-redux";
 
 const Sidebar = ({
     isNonMobile,
@@ -30,9 +26,6 @@ const Sidebar = ({
     isSidebarOpen,
     setIsSidebarOpen,
 }) => {
-
-    const { username } = useSelector(state => state.authentication)
-
     const { pathname } = useLocation();
     const [active, setActive] = useState("");
     const navigate = useNavigate();
@@ -135,49 +128,6 @@ const Sidebar = ({
                                 );
                             })}
                         </List>
-                    </Box>
-
-                    <Box position="absolute" bottom="2rem">
-                        <Divider />
-                        <Box
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            textTransform="none"
-                            gap="1rem"
-                            m="1.5rem 2rem 0 3rem"
-                        >
-                            <Box
-                                component="img"
-                                alt="profile"
-                                src={placeholder}
-                                height="40px"
-                                width="40px"
-                                borderRadius="50%"
-                                sx={{ objectFit: "cover" }}
-                            />
-                            <Box textAlign="left">
-                                <Typography
-                                    fontWeight="bold"
-                                    fontSize="0.9rem"
-                                    sx={{ color: colors.greenAccent[100] }}
-                                >
-                                    {username}
-                                </Typography>
-                                <Typography
-                                    fontSize="0.8rem"
-                                    sx={{ color: colors.greenAccent[200] }}
-                                >
-                                    Chairman
-                                </Typography>
-                            </Box>
-                            <SettingsOutlined
-                                sx={{
-                                    color: colors.greenAccent[200],
-                                    fontSize: "25px ",
-                                }}
-                            />
-                        </Box>
                     </Box>
                 </Drawer>
             )}
