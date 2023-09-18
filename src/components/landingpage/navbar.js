@@ -90,7 +90,7 @@ const Navbar = () => {
                             Login
                         </NavLink>
                         <NavLink
-                            to="/signup"
+                            to="/signup/alumni"
                             className="flex items-center justify-center border  rounded-lg w-[120px] bg-[#2E2376] text-bold text-white"
                         >
                             Register

@@ -15,6 +15,12 @@ import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
 import Companies from './pages/Admin/Company';
 import Alumni from './pages/Admin/Alumni';
+import ProtectedRoutes from './utils/protectedRoutes';
+import ViewCandidates from './pages/Admin/ViewCandidates';
+import PendingJobs from './pages/Admin/PendingJobs';
+import FAQ from './pages/Admin/FAQ';
+import Events from './pages/Admin/Events';
+import Announcements from './pages/Admin/Announcement';
 
 
 const App = () => {
@@ -56,17 +62,20 @@ const App = () => {
       */}
 
               <Route element={<Layout />}>
-                <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/jobs" element={<Jobs />} />
-                <Route path="/verification_company" element={<VerifyCompany />} />
-                <Route path="/companies" element={<Companies />} />
-                <Route path="/pending_jobs" element={<Alumni />} />
-                <Route path="/verification_alumni" element={<Alumni />} />
-                <Route path="/faq" element={<Alumni />} />
-                <Route path="/events" element={<Alumni />} />
-                <Route path="/calendar" element={<Alumni />} />
-                <Route path="/alumni" element={<Alumni />} />
+                <Route element={<ProtectedRoutes />}>
+                  <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/verification_company" element={<VerifyCompany />} />
+                  <Route path="/companies" element={<Companies />} />
+                  <Route path="/jobs" element={<Jobs />} />
+                  <Route path="/view_candidates" element={<ViewCandidates />} />
+                  <Route path="/pending_jobs" element={<PendingJobs />} />
+                  <Route path="/alumni" element={<Alumni />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/events" element={<Events />} />
+                  <Route path="/announcement" element={<Announcements />} />
+
+                </Route>
               </Route>
 
 
