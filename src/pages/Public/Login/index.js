@@ -13,7 +13,7 @@ import placeholder from '../../../assets/placeholder.webp'
 import FormWithHeader from "../../../components/formheader";
 
 const Login = () => {
-    const { message } = useSelector((state) => state.authentication)
+    const error = useSelector((state) => state.authentication.error)
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const dispatch = useDispatch();
@@ -69,7 +69,7 @@ const Login = () => {
                     />
                 </div>
 
-                {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
+                {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
 
                 <div className="flex text-sm mb-4">
                     <p>

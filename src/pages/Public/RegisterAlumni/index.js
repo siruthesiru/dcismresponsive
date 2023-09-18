@@ -22,33 +22,36 @@ const RegisterAlumni = () => {
     const [Email, setEmail] = useState("");
     const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        SignUp(dispatch, { username, password, name, idNum, email })
-
-    };
 
     return (
-        <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 pt-5 mt-10">
-            <AuthImage />
-            <div className="w-full md:w-[70%] lg::w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
-                <AuthHeader />
+        <FormWithHeader imageSrc={placeholder}>
+            <form onSubmit={event => {
+                event.preventDefault();
+                if (Password === confirmPassword) {
+                    SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email });
+                }
+            }}>
+                <div className="mb-3 flex items-center">
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3 flex items-center">
-                        <FaUserAlt size={25} className="mx-2" />
-                        <TextField
-                            sx={{ outline: "none", flex: 1 }}
-                            type="text"
-                            label="Username"
-                            variant="outlined"
-                            autoComplete="username"
-                            fullWidth
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{color: "black"}}><FaUserAlt size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        type="text"
+                        label="First Name"
+                        autoComplete="firstname"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        value={FirstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
 
                     <TextField
                         InputProps={{
@@ -93,21 +96,50 @@ const RegisterAlumni = () => {
                     />
                 </div>
 
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{color: "black"}}><FaBuilding size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
-                    <div className="mb-3 flex items-center">
-                        <FaLock size={25} className="mx-2" />
-                        <TextField
-                            sx={{ outline: "none", flex: 1 }}
-                            type="password"
-                            label="Password"
-                            variant="outlined"
-                            autoComplete="password"
-                            fullWidth
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
+                        sx={{ outline: "none", flex: 1 }}
+                        type="text"
+                        placeholder="USC ID Number"
+                        label="USC ID Number"
+                        variant="outlined"
+                        autoComplete="IdNum"
+                        fullWidth
+                        required
+                        value={IdNum}
+                        onChange={(e) => setIdNum(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{color: "black"}}><FaLock size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1 }}
+                        type="password"
+                        placeholder="Password"
+                        label="Password"
+                        variant="outlined"
+                        autoComplete="password"
+                        fullWidth
+                        required
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
 
 
                 <div className="mb-3 flex items-center">

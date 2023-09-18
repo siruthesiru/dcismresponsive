@@ -17,6 +17,9 @@ export const authenticationSlice = createSlice({
             state.isSucceed = action.payload.isSucceed;
             state.email = action.payload.email;
             state.message = null;
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.role = action.payload.role;
         },
         authenticationError: (state, action) => {
             const { message } = action.payload;
