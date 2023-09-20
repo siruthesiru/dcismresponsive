@@ -1,176 +1,204 @@
-
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaIdBadge, FaRegAddressCard, FaUserAlt } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import AuthImage from "../../../components/authprops/authImage";
-import AuthHeader from "../../../components/authprops/authHeader";
+import placeholder from '../../../assets/placeholder.webp'
+import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
-import { SignUp } from "../../../services/authentication";
+import { SignUpAlumni } from "../../../services/authentication";
 import {
     Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
+import { Badge } from "@mui/icons-material";
 
 const RegisterAlumni = () => {
-    const error = useSelector((state) => state.authenticationSlice.error)
+    const { message } = useSelector((state) => state.authentication)
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    const [idNum, setIdNum] = useState("");
-    const [email, setEmail] = useState("");
-
-
+    const [FirstName, setFirstName] = useState("");
+    const [LastName, setLastName] = useState("");
+    const [Password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [IdNum, setIdNum] = useState("");
+    const [Email, setEmail] = useState("");
     const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        SignUp(dispatch, { username, password, name, idNum, email })
-
-    };
 
     return (
-        <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 pt-5 mt-10">
-            <AuthImage />
-            <div className="w-full md:w-[70%] lg:w-[60%] ml-auto justify-end border rounded-md p-8 space-y-4 border-slate-300 bg-white ">
-                <AuthHeader />
+        <FormWithHeader imageSrc={placeholder}>
+            <form onSubmit={event => {
+                event.preventDefault();
+                if (Password === confirmPassword) {
+                    SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email });
+                }
+            }}>
+                <div className="mb-3 flex items-center">
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3 flex items-center">
-                        <TextField
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <FaUserAlt size={25} className="mx-2" />
-                                    </InputAdornment>
-                                ),
-                            }}
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
-                            sx={{ outline: "none", flex: 1 }}
-                            type="text"
-                            label="Username"
-                            variant="outlined"
-                            autoComplete="username"
-                            fullWidth
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
+                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        type="text"
+                        label="First Name"
+                        autoComplete="firstname"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        value={FirstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
 
-                    <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><FaUserAlt size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
-                        <TextField
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <FaRegAddressCard size={25} className="mx-2" />
-                                    </InputAdornment>
-                                ),
-                            }}
+                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        type="text"
+                        label="Last Name"
+                        autoComplete="lastname"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        value={LastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><FaEnvelope size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
-                            sx={{ outline: "none", flex: 1 }}
-                            type="text"
-                            label="Complete Name (LastName, FirstName, MI)"
-                            autoComplete="name"
-                            variant="outlined"
-                            fullWidth
-                            required
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
+                        sx={{ outline: "none", flex: 1 }}
+                        type="text"
+                        placeholder="Email"
+                        label="Email"
+                        variant="outlined"
+                        autoComplete="email"
+                        fullWidth
+                        required
+                        value={Email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
 
-                    <div className="mb-3 flex items-center">
-                        <TextField
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <FaIdBadge size={25} className="mx-2" />
-                                    </InputAdornment>
-                                ),
-                            }}
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><Badge size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
-                            sx={{ outline: "none", flex: 1 }}
-                            type="text"
-                            label="USC ID Number"
-                            variant="outlined"
-                            autoComplete="idNum"
-                            fullWidth
-                            required
-                            value={idNum}
-                            onChange={(e) => setIdNum(e.target.value)}
-                        />
-                    </div>
+                        sx={{ outline: "none", flex: 1 }}
+                        type="text"
+                        placeholder="USC ID Number"
+                        label="USC ID Number"
+                        variant="outlined"
+                        autoComplete="IdNum"
+                        fullWidth
+                        required
+                        value={IdNum}
+                        onChange={(e) => setIdNum(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3 flex items-center">
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
+
+                        sx={{ outline: "none", flex: 1 }}
+                        type="password"
+                        placeholder="Password"
+                        label="Password"
+                        variant="outlined"
+                        autoComplete="password"
+                        fullWidth
+                        required
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
 
 
-                    <div className="mb-3 flex items-center">
-                        <TextField
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <FaEnvelope size={25} className="mx-2" />
-                                    </InputAdornment>
-                                ),
-                            }}
+                <div className="mb-3 flex items-center">
 
-                            sx={{ outline: "none", flex: 1 }}
-                            type="email"
-                            label="Email"
-                            variant="outlined"
-                            autoComplete="email"
-                            fullWidth
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
+                    <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
+                                </InputAdornment>
+                            ),
+                        }}
 
+                        sx={{ outline: "none", flex: 1 }}
+                        type="password"
+                        placeholder="Confirm Password"
+                        label="Confirm Password"
+                        variant="outlined"
+                        autoComplete="confirmPassword"
+                        fullWidth
+                        required
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
 
-                    <div className="mb-3 flex items-center">
+                {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
 
-                        <TextField
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <FaLock size={25} className="mx-2" />
-                                    </InputAdornment>
-                                ),
-                            }}
+                <Button
+                    type="submit"
+                    variant="contained"
+                    style={{
+                        display: "block",
+                        width: "100%",
+                        padding: "15px",
+                        marginTop: "2rem",
+                        backgroundColor: Password !== confirmPassword ? "#A9A9A9" : "#030F4B",
+                        color: "#FFFFFF",
+                    }}
+                    disabled={Password !== confirmPassword}
+                >
+                    Sign Up As Alumni
+                </Button>
 
-                            sx={{ outline: "none", flex: 1 }}
-                            type="password"
-                            label="Password"
-                            variant="outlined"
-                            autoComplete="password"
-                            fullWidth
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
+                <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
+                    Already have an account?
+                    <span className="text-second underline px-2">
+                        <NavLink to="/signin">Login</NavLink>
+                    </span> or Register as
+                    <span className="text-second underline px-2">
+                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/company">Company</NavLink>
+                    </span>
+                </Typography>
+            </form>
+        </FormWithHeader>
 
-                    {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
-
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "15px", marginTop: "2rem" }}
-                    >
-                        Sign Up As Alumni
-                    </Button>
-                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
-                        Already have an account?
-                        <span className="text-second underline px-2">
-                            <NavLink to="/signin">Login</NavLink>
-                        </span>
-                    </Typography>
-                </form>
-            </div >
-        </div >
     );
 };
 
 export default RegisterAlumni;
-

@@ -23,10 +23,12 @@ import {
 } from "@mui/icons-material";
 import placeholder from "../../assets/placeholder.webp";
 import { ColorModeContext, tokens } from "../../theme";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
-const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
+const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+    const { email } = useSelector(state => state.authentication)
+
     const dispatch = useDispatch();
 
     const theme = useTheme();
@@ -102,7 +104,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                                     fontSize="0.85rem"
                                     sx={{ color: colors.primary[100] }}
                                 >
-                                    {user.username}
+                                    {email}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
@@ -122,7 +124,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                         >
                             <MenuItem>
-                                <Button onClick={() => { dispatch(logout()) }} href="/signin" sx={{ fontSize: "0.65rem", color: colors.primary[100], fontWeight: "bold" }}> Log out</Button>
+                                <Button onClick={() => { dispatch(logout()) }} href="/" sx={{ fontSize: "0.65rem", color: colors.primary[100], fontWeight: "bold" }}> Log out</Button>
                             </MenuItem>
                         </Menu>
                     </Box>

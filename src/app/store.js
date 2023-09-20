@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 
 export default configureStore({
   reducer: {
-    authenticationSlice: authenticationSlice,
+    authentication: authenticationSlice,
     expensesSlice: expensesSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ToastMiddleware, thunk),

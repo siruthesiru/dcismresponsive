@@ -2,16 +2,36 @@ import { authenticationError, userAuthenticated } from '../app/authenticationSli
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}/Authentication`,
+    baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
 });
 
-export const SignUp = async (dispatch, credentials) => {
+export const SignUpCompany = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup', credentials);
-        const { data } = response;
-        if (response.status === 201) {
-            dispatch(userAuthenticated(data));
+        const response = await axiosInstance.post('/signup/company', credentials);
+        console.log(response);
+
+        if (response.data.isSucceed) {
+
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
         }
+
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing up.';
@@ -19,36 +39,70 @@ export const SignUp = async (dispatch, credentials) => {
     }
 }
 
-export const SignUpCompany = async (dispatch, credentials) => {
+export const SignUpAlumni = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/signup/company', credentials);
-        const { data } = response;
+        const response = await axiosInstance.post('/signup/alumni', credentials);
+        console.log(response);
 
-        if (response.data === 201) {
-            dispatch(userAuthenticated(data));
+        if (response.data.isSucceed) {
+
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
         }
+
+
 
     } catch (error) {
         console.log('Error:', error);
         const errorMessage = error.response?.data || 'An error occured while signing up';
         dispatch(authenticationError(errorMessage));
-
     }
 }
 
 export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
-        const { data } = response;
-        console.log(data);
+        console.log(response);
 
-        if (response.status === 201) {
-            dispatch(userAuthenticated(data));
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
         }
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing in.';
-        dispatch(authenticationError(errorMessage))
+        dispatch(authenticationError({ message: errorMessage }));
     }
 }
 
@@ -61,5 +115,3 @@ export const SignUpGoogle = async (dispatch, token) => {
         console.log('Error!')
     }
 }
-
-
