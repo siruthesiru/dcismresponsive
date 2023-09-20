@@ -8,6 +8,7 @@ import {
     Diversity3,
     LiveHelpOutlined,
     CalendarMonthOutlined,
+    Person2
 } from "@mui/icons-material";
 
 export const navItems = [
@@ -16,10 +17,10 @@ export const navItems = [
         icon: <HomeOutlined />,
     },
     {
-        text: "Crud",
-        icon: <HomeOutlined />,
+        text: "Profile",
+        icon: <Person2 />,
     },
-    
+
     {
         text: "Company Section",
         icon: null,
