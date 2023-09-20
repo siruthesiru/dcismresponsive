@@ -5,8 +5,8 @@ import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { AlumniRows } from "../../../data/mockAdminData";
 import { faqColumns } from "../../../components/constant/adminColumnHeaders";
-import FAQForm from "./FAQForm";
 import PopUp from "../../../components/popup";
+import FAQForm from "../../../components/forms/FAQ";
 
 const FAQ = () => {
     const theme = useTheme();

@@ -6,8 +6,7 @@ import DataTable from "../../../components/dataTable";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import { AlumniRows } from "../../../data/mockAdminData";
 import PopUp from "../../../components/popup";
-import AlumniForm from "./AlumniForm";
-
+import AlumniForm from "../../../components/forms/AlumniForm";
 
 const Alumni = () => {
     const theme = useTheme();
