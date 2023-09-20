@@ -10,7 +10,7 @@ const PopUp = ({ title, children, openPopup, setOpenup }) => {
 
     return (
         <Dialog open={openPopup}>
-            <DialogTitle sx={{ backgroundColor: colors.greenAccent[500] }}>
+            <DialogTitle sx={{ backgroundColor: colors.primary[500] }}>
                 <div className='flex'>
                     <Typography variant='h4' sx={{ color: "white", flexGrow: 1 }}>{title}</Typography>
                     <Button onClick={() => setOpenup(false)} >

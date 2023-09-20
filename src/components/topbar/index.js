@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
 const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    const { email } = useSelector(state => state.authentication)
+    const { firstName, lastName, role } = useSelector(state => state.authentication)
 
     const dispatch = useDispatch();
 
@@ -104,13 +104,13 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                     fontSize="0.85rem"
                                     sx={{ color: colors.primary[100] }}
                                 >
-                                    {email}
+                                    {firstName} {lastName}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
                                     sx={{ color: colors.primary[200] }}
                                 >
-                                    Chairman
+                                    {role}
                                 </Typography>
                             </Box>
                             <ArrowDropDownOutlined

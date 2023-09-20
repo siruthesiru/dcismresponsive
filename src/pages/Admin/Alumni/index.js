@@ -23,7 +23,7 @@ const Alumni = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.greenAccent[500] }}
+                            style={{ backgroundColor: colors.primary[500] }}
                             onClick={() => setOpenup(true)}
                         >
                             Add User
@@ -31,7 +31,7 @@ const Alumni = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.primary[500] }}
+                            style={{ backgroundColor: colors.greenAccent[500] }}
                         >
                             Upload CSV
                         </Button>

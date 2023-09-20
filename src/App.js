@@ -22,6 +22,7 @@ import Announcements from './pages/Admin/Announcement';
 import UnprotectedRoute from './utils/unProtectedRoutes';
 import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
+import Profile from './pages/Admin/Profile';
 
 
 const App = () => {
@@ -75,6 +76,7 @@ const App = () => {
                   <Route path="/events" element={<Events />} />
                   <Route path="/addAnnouncement" element={<AnnouncementForm />} />
                   <Route path="/announcements" element={<Announcements />} />
+                  <Route path="/profile" element={<Profile />} />
                 </Route>
               </Route>
 
