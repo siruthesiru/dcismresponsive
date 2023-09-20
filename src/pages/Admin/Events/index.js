@@ -52,7 +52,7 @@ const Events = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.greenAccent[500] }}
+                            style={{ backgroundColor: colors.primary[500] }}
                             onClick={() => {
                                 setOpenup(true);
                             }}

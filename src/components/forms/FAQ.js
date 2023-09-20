@@ -67,7 +67,7 @@ const FAQForm = () => {
                                     width: "100%",
                                     padding: "10px",
                                     marginTop: "2rem",
-                                    backgroundColor: "#4cceac",
+                                    backgroundColor: "#221769",
                                     color: "#FFFFFF",
                                 }}
                             >

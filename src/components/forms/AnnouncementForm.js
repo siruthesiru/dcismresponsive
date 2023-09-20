@@ -116,7 +116,7 @@ const AnnouncementForm = () => {
                                     padding: "10px",
                                     marginLeft: "10px",
                                     marginTop: "2rem",
-                                    backgroundColor: "#221769",
+                                    backgroundColor: "#4cceac",
                                     color: "#FFFFFF",
                                 }}
                             >
@@ -133,7 +133,7 @@ const AnnouncementForm = () => {
                                     display: "block",
                                     padding: "10px",
                                     marginTop: "2rem",
-                                    backgroundColor: "#4cceac",
+                                    backgroundColor: "#221769",
                                     color: "#FFFFFF",
                                 }}
                             >
