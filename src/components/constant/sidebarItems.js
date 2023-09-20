@@ -59,7 +59,7 @@ export const navItems = [
         icon: <LiveHelpOutlined />,
     },
     {
-        text: "Announcement",
+        text: "Announcements",
         icon: <ListAlt />,
     },
     {
