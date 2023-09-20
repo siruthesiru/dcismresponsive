@@ -33,7 +33,7 @@ const Category = () => {
                                 />
                                 <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 "></div>
                             </div>
-                            <p className="absolute bottom-0 left-0 right-0 text-[18px] text-main text-center py-2 font-bold uppercase">
+                            <p className="bottom-0 left-0 right-0 text-[18px] text-main text-center py-2 font-bold uppercase">
                                 {item.title}
                             </p>
                         </div>

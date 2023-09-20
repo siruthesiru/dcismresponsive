@@ -6,14 +6,14 @@ const Discover = () => {
 
     return (
         <div className="container mx-auto flex flex-col lg:flex-row py-16 px-2 lg:max-w-[980px] xl:max-w-[1260px]">
-            <div className="lg:w-[50%]">
-                <img src={data.img} alt="placeholder" className="mb-4" />
+            <div className="lg:w-[50%] max-h-[560px]">
+                <img src={data.img} alt="placeholder" className="mb-4 object-cover" />
             </div>
 
             <div className="lg:w-[50%] flex flex-col px-6 lg:flex">
-                <div className="flex flex-col space-y-8 lg:mx-4 text-justify">
+                <div className="flex flex-col space-y-8 lg:mx-4">
                     <div
-                        className=" text-4xl text-main font-bold xl:text-5xl lg:mt-16 "
+                        className=" text-4xl text-main font-bold xl:text-5xl lg:mt-24 "
                         dangerouslySetInnerHTML={{ __html: data.title }}
                     />
 

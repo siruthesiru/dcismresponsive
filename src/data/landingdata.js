@@ -1,5 +1,19 @@
-import placeholder from "../assets/placeholder.webp";
+// import placeholder from "../assets/placeholder.webp";
 import heroimage from "../assets/graduate2hero.webp";
+
+import alliance from "../assets/company-alliance.png";
+import boundless from "../assets/company-boundless.png";
+import gcash from "../assets/company-gcash.png";
+import ncr from "../assets/company-ncr.png";
+
+import alumni from "../assets/alumnischool.webp";
+
+import developer from "../assets/developer.png";
+import manager from "../assets/teamlead.png";
+import statistician from "../assets/statistician.png"
+
+import partner from "../assets/partner.png";
+import gplay from "../assets/google-play-bg.png";
 
 export const homebanner = [
     {
@@ -12,38 +26,61 @@ export const homebanner = [
     },
 ];
 
+export const company = [
+    {
+        id: 1,
+        img: alliance,
+        alt: "Alliance logo"
+    },
+    {
+        id: 2,
+        img: boundless,
+        alt: "Boundless Immigration logo"
+    },
+    {
+        id: 3,
+        img: gcash,
+        alt: "G-Cash logo"
+    },
+    {
+        id: 4,
+        img: ncr,
+        alt: "NCR logo"
+    }
+]
+
 export const discover = [
     {
         id: 1,
-        img: placeholder,
-        alt: "placeholder",
-        title: "<h1>Discover our <br>Awesome Features<h1>",
+        img: alumni,
+        alt: "Alumni walking back to school",
+        title: "<h1>Keep in touch with DCISM<h1>",
         content:
-            "<p>This is fill in text. It is here temporarily, and will be replaced with the proper text shortly. It is repeated many times so we will see what the website will look like with text.</p>",
+            "<p>Help us highlight real-life examples of student outcomes and let us help you find the right opportunities through alumni tracking</p>",
     },
 ];
 
 export const category = [
     {
-        title: "<h1>Choose your Category  with our help<h1>",
+        title: "<h1>Find the right job for your skillset<h1>",
         content:
-            "This is fill in text. It is here temporarily, and will be replaced with the proper text shortly. It is repeated many times so we can see what the website will look like with text. This is fill in text. It is here temporarily and will be replaced with the proper text.",
+            "Browse through the job openings posted by our reputed partner companies and get recommendations for job postings based on your skills and degree.",
 
         data: [
             {
                 id: 1,
-                img: placeholder,
-                title: "Frontend Developer",
+                img: developer,
+                title: "Developer",
             },
             {
                 id: 2,
-                img: placeholder,
-                title: "Data Analyst",
+                img: manager,
+                title: "Management Staff",
             },
             {
                 id: 3,
-                img: placeholder,
-                title: "Full Stack",
+                img: statistician,
+                title: "Statistician",
             },
         ],
     },
@@ -52,21 +89,21 @@ export const category = [
 export const learn = [
     {
         id: 1,
-        img: placeholder,
-        alt: "placeholder",
-        title: "<h1>Learn more <br>about our Application<h1>",
+        img: partner,
+        alt: "Company meeting",
+        title: "<h1>Become A Partner<h1>",
         content:
-            "<p>This is fill in text. It is here temporarily, and will be replaced with the proper text shortly. It is repeated many times so we will see what the website will look like with text.</p>",
+            "<p>Is your compnay looking to hire competent computer, information science and mathematics graduates or interns? Register as a partner company now!</p>",
     },
 ];
 
 export const googleplay = [
     {
         id: 1,
-        img: placeholder,
-        alt: "placeholder",
+        img: gplay,
+        alt: "Google Play themed background",
         title: "<h1>Get it on <br>Google Play<h1>",
         content:
-            "<p>This is fill in text. It is here temporarily, and will be replaced with the proper text shortly. It is repeated many times so we will see what the website will look like with text.</p>",
+            "<p>Install the app on your phone to receive notifications anytime, anywhere!</p>",
     },
 ];

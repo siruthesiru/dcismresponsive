@@ -24,7 +24,7 @@ const HomeBanner = () => {
                     dangerouslySetInnerHTML={{ __html: data.title }}
                 />
                 <div
-                    className="hidden md:flex text-[18px] w-[500px] font-bold"
+                    className="hidden md:flex text-[18px] w-[500px]"
                     dangerouslySetInnerHTML={{ __html: data.content }}
                 />
             </div>
