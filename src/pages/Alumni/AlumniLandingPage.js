@@ -3,7 +3,7 @@ import ExpenseForm from './ExpenseForm';
 import { ToastContainer } from 'react-toastify';
 import Navbar from './Navbar';
 
-const HomePage = () => (
+const AlumniLandingPage = () => (
     <>
         <Navbar />
         <div style={{ width: '60%', margin: 'auto' }}>
@@ -17,5 +17,4 @@ const HomePage = () => (
     </>
 
 );
-
-export default HomePage;
+export default AlumniLandingPage;
