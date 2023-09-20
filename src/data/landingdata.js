@@ -8,11 +8,11 @@ import ncr from "../assets/company-ncr.png";
 
 import alumni from "../assets/alumnischool.webp";
 
-import developer from "../assets/developer.png";
-import manager from "../assets/teamlead.png";
-import statistician from "../assets/statistician.png"
+import developer from "../assets/developer.webp";
+import manager from "../assets/teamlead.webp";
+import statistician from "../assets/statistician.webp"
 
-import partner from "../assets/partner.png";
+import partner from "../assets/partner.webp";
 import gplay from "../assets/google-play-bg.png";
 
 export const homebanner = [
@@ -91,7 +91,7 @@ export const learn = [
         id: 1,
         img: partner,
         alt: "Company meeting",
-        title: "<h1>Become A Partner<h1>",
+        title: "<h1>Become Our Partner<h1>",
         content:
             "<p>Is your compnay looking to hire competent computer, information science and mathematics graduates or interns? Register as a partner company now!</p>",
     },
