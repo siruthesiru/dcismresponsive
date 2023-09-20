@@ -42,7 +42,7 @@ const Sidebar = ({
     };
 
     return (
-        <Box component="nav">
+        <>
             {isSidebarOpen && (
                 <Drawer
                     open={isSidebarOpen}
@@ -69,7 +69,7 @@ const Sidebar = ({
                                 justifyContent="space-between"
                                 alignItems="center"
                             >
-                                <Box display="flex" alignItems="center" gap="0.5rem">
+                                <Box display="flex" alignItems="center" >
                                     <Typography
                                         variant="h4"
                                         fontWeight="bold"
@@ -131,7 +131,7 @@ const Sidebar = ({
                     </Box>
                 </Drawer>
             )}
-        </Box>
+        </>
     );
 };
 

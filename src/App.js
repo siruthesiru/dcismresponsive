@@ -21,6 +21,7 @@ import Events from './pages/Admin/Events';
 import Announcements from './pages/Admin/Announcement';
 import UnprotectedRoute from './utils/unProtectedRoutes';
 import ProtectedRoute from './utils/protectedRoute';
+import AnnouncementForm from './components/forms/AnnouncementForm';
 
 
 const App = () => {
@@ -72,7 +73,8 @@ const App = () => {
                   <Route path="/alumni" element={<Alumni />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/events" element={<Events />} />
-                  <Route path="/announcement" element={<Announcements />} />
+                  <Route path="/addAnnouncement" element={<AnnouncementForm />} />
+                  <Route path="/announcements" element={<Announcements />} />
                 </Route>
               </Route>
 

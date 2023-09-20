@@ -6,9 +6,7 @@ import DataTable from "../../../components/dataTable";
 import { AlumniRows } from "../../../data/mockAdminData";
 import { faqColumns } from "../../../components/constant/adminColumnHeaders";
 import PopUp from "../../../components/popup";
-import FAQForm from "./FAQForm";
-
-
+import FAQForm from "../../../components/forms/FAQ";
 
 const FAQ = () => {
     const theme = useTheme();
@@ -25,8 +23,9 @@ const FAQ = () => {
                             variant="contained"
                             size="medium"
                             style={{ backgroundColor: colors.greenAccent[500] }}
-                            onClick={() => setOpenup(true)}
-
+                            onClick={() => {
+                                setOpenup(true);
+                            }}
                         >
                             Add FAQ
                         </Button>
@@ -34,7 +33,12 @@ const FAQ = () => {
                 </Box>
                 <DataTable slug="faq" columns={faqColumns} rows={AlumniRows} />
             </Box>
-            <PopUp title="FAQ FORM" openPopup={openPopup} setOpenup={setOpenup}>
+            <PopUp
+                title="FAQ FORM"
+                openPopup={openPopup}
+                setOpenup={setOpenup}
+
+            >
                 <FAQForm />
             </PopUp>
         </>
