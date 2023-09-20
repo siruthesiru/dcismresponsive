@@ -17,12 +17,17 @@ const courses = [
 const AlumniForm = () => {
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
-    const [Course, setCourse] = useState([]);
+    const [Course, setCourse] = useState(''); // Change the initial value to an empty string
     const [YearGraduate, setYearGraduated] = useState("");
     const [IdNum, setIdNum] = useState("");
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        // Add your form submission logic here
+    };
+
     return (
-        <form>
+        <form onSubmit={handleFormSubmit}>
             <div className="mb-3 flex items-center">
                 <TextField
                     InputProps={{
@@ -97,11 +102,9 @@ const AlumniForm = () => {
                     <Select
                         labelId="program-graduated-label"
                         id="program-graduated"
-                        multiple
                         value={Course}
                         onChange={(e) => setCourse(e.target.value)}
                         style={{ maxHeight: '250px' }}
-                        renderValue={(selected) => selected.join(', ')}
                     >
                         {courses.map((course) => (
                             <MenuItem key={course} value={course}>
