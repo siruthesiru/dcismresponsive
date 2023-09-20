@@ -6,15 +6,15 @@ const Learn = () => {
 
     return (
         <div className="container mx-auto flex flex-col lg:flex-row py-16 px-2 lg:max-w-[980px] xl:max-w-[1260px]">
-            <div className="lg:w-[50%] flex flex-col lg:flex">
+            <div className="lg:w-[50%] flex flex-col lg:flex md:pb-10">
                 <div className="flex flex-col space-y-8 lg:mx-4 text-justify">
                     <div
-                        className=" text-4xl text-main font-bold xl:text-5xl lg:mt-16 "
+                        className=" text-4xl text-main font-bold xl:text-5xl lg:mt-20 "
                         dangerouslySetInnerHTML={{ __html: data.title }}
                     />
 
                     <div
-                        className="text-[18px]"
+                        className="text-[18px] pr-8"
                         dangerouslySetInnerHTML={{ __html: data.content }}
                     />
                 </div>

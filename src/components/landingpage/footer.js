@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-scroll";
+import applogo from "../../assets/applogowhite.webp";
 
 const Footer = () => {
     return (
@@ -7,12 +8,11 @@ const Footer = () => {
             <div className="container mx-auto flex flex-col md:flex-row justify-between p-8 ">
                 <div className="flex flex-col text-center md:text-left space-y-8">
                     <div className="justify-between items-center">
-                        <p>Logo here</p>
+                        <img src={applogo} alt="ACES Logo" width={100}/>
                     </div>
                     <div className="w-full md:w-[290px] flex flex-col space-y-8 pb-8">
                         <p>
-                            This is fill in text. It is here temporarily, and will be replaced
-                            with the proper text shortly.
+                            <b>ACES</b> is only for use of the Department of Computer, Information Sciences and Mathematics department of the University of San Carlos
                         </p>
                     </div>
                 </div>
@@ -73,14 +73,14 @@ const Footer = () => {
 
                 <div className="text-center md:text-left space-y-4 mt-4 md:mt-0">
                     <p className="flex flex-col">
-                        Unit 123, Block 123 <span>Sample Street, Sample City </span>Country,
-                        1234 Zip Code
+                        Bunzel Building, USC Talamban Campus <span>Banilad, Cebu City </span>Cebu,
+                        6000
                     </p>
                     <p className="flex flex-col">
-                        Contact Name 1 <span>Contact No, 123 456 7890</span>
+                        Belarmino, Chris Ray <span>Contact: cbelarmino@usc.edu.ph</span>
                     </p>
                     <p className="flex flex-col">
-                        Contact Name 2 <span>Contact No, 123 456 7890</span>
+                        Dela Paz, Khent <span>Contact: kldelapaz@usc.edu.ph</span>
                     </p>
                 </div>
             </div>
