@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import placeholder from '../../../assets/placeholder.webp'
+import placeholder from '../../../assets/capstole.webp'
 import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpAlumni } from "../../../services/authentication";
@@ -191,7 +191,6 @@ const RegisterAlumni = () => {
                         <NavLink to="/signin">Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
                         <NavLink to="/signup/company">Company</NavLink>
                     </span>
                 </Typography>
