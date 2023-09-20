@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <Publicformheader imageSrc={placeholder} title="Forgot Password ?" description="Dont worry. We can help">
+        <Publicformheader imageSrc={placeholder} title="Forgot Password?" description="Don't worry. We can help!">
             <form onSubmit={handleSubmit}>
                 <div className="mb-3 flex items-center">
                     <TextField

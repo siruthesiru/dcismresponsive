@@ -44,6 +44,7 @@ const RegisterCompany = () => {
 
                         sx={{ outline: "none", flex: 1, marginRight: 2 }}
                         type="text"
+                        placeholder="First Name"
                         label="First Name"
                         autoComplete="firstname"
                         variant="outlined"
@@ -62,8 +63,9 @@ const RegisterCompany = () => {
                             ),
                         }}
 
-                        sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                        sx={{ outline: "none", flex: 1, marginRight: 0 }}
                         type="text"
+                        placeholder="Last Name"
                         label="Last Name"
                         autoComplete="lastname"
                         variant="outlined"
@@ -181,7 +183,7 @@ const RegisterCompany = () => {
                     }}
                     disabled={Password !== confirmPassword}
                 >
-                    Sign Up As Alumni
+                    Sign Up As Company
                 </Button>
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?
