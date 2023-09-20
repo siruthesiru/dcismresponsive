@@ -1,13 +1,14 @@
 import placeholder from "../assets/placeholder.webp";
+import heroimage from "../assets/graduate2hero.webp";
 
 export const homebanner = [
     {
         id: 1,
-        img: placeholder,
+        img: heroimage,
         alt: "placeholder",
-        title: "<h1>Find the Perfect<br>Job Match<h1>",
+        title: "<h1>Lifelong Learners:<br>Welcome Home!<h1>",
         content:
-            "<p>This is fill in text. It is here temporarily, and will be replaced with the proper text shortly. It is repeated many times so we will see what the website will look like with text.</p>",
+            "<p>The Department of Computer, Information Sciences, and Mathematics brings you ACES - bridging the gaps between alumni, the department, partnered companies, and interns; building a legacy.</p>",
     },
 ];
 
