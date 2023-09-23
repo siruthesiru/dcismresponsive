@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     Box,
     IconButton,
@@ -10,7 +10,6 @@ import {
     Menu,
     MenuItem,
 } from "@mui/material";
-import { useContext } from "react";
 import { InputBase } from "@mui/material";
 
 import {
@@ -27,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
 const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    const { firstName, lastName, role } = useSelector(state => state.authentication)
+    const { firstName, lastName } = useSelector(state => state.authentication)
 
     const dispatch = useDispatch();
 
@@ -98,21 +97,15 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                 width="32px"
                                 style={{ borderRadius: "50%", objectFit: "cover" }}
                             />
-                            <Box>
-                                <Typography
-                                    fontWeight="bold"
-                                    fontSize="0.85rem"
-                                    sx={{ color: colors.primary[100] }}
-                                >
-                                    {firstName} {lastName}
-                                </Typography>
-                                <Typography
-                                    fontSize="0.75rem"
-                                    sx={{ color: colors.primary[200] }}
-                                >
-                                    {role}
-                                </Typography>
-                            </Box>
+
+                            <Typography
+                                fontWeight="bold"
+                                fontSize="0.85rem"
+                                sx={{ color: colors.primary[100] }}
+                            >
+                                {firstName} {lastName}
+                            </Typography>
+
                             <ArrowDropDownOutlined
                                 sx={{ color: colors.primary[300], fontSize: "25px" }}
                             />

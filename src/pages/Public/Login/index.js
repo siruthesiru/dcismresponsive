@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { SignIn } from "../../../services/authentication";
 import { NavLink } from "react-router-dom";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import placeholder from '../../../assets/capstole.webp'
 import FormWithHeader from "../../../components/formheader";
 
@@ -17,6 +17,9 @@ const Login = () => {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const dispatch = useDispatch();
+
+    const [showPassword, setShowPassword] = useState(false);
+
 
     return (
         <FormWithHeader imageSrc={placeholder}>
@@ -29,7 +32,7 @@ const Login = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaEnvelope size={25} className="mx-2" />
+                                    <strong style={{ color: "black" }}><FaEnvelope size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
@@ -51,13 +54,24 @@ const Login = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaLock size={25} className="mx-2" />
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {showPassword ? (
+                                        <FaEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    ) : (
+                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    )}
+                                </InputAdornment>
+                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         label="Password"
                         variant="outlined"
