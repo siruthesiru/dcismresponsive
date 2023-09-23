@@ -28,13 +28,28 @@ const Alumni = () => {
                         >
                             Add User
                         </Button>
-                        <Button
-                            variant="contained"
-                            size="medium"
-                            style={{ backgroundColor: colors.greenAccent[500] }}
-                        >
-                            Upload CSV
-                        </Button>
+                        <input
+                            type="file"
+                            accept=".csv"
+                            style={{ display: "none" }}
+                            id="csv-upload-input"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    console.log(`Uploaded CSV file: ${file.name}`);
+                                }
+                            }}
+                        />
+                        <label htmlFor="csv-upload-input">
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                style={{ backgroundColor: colors.greenAccent[500] }}
+                                component="span"
+                            >
+                                Upload CSV
+                            </Button>
+                        </label>
                     </Box>
                 </Box>
                 <DataTable slug="alumni" columns={alumniColumns} rows={AlumniRows} />

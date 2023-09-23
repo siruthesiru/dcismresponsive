@@ -101,7 +101,7 @@ const Profile = () => {
                                 />
                             </label>
                             <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, marginLeft: "2rem" }}>
-                                Click the placeholder a new profile picture
+                                Click the placeholder for adding profile.
                             </Typography>
                         </Box>
                     ) : (
