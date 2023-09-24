@@ -1,26 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import CompanyLandingPage from '../pages/Company/CompanyLandingPage';
-import AlumniLandingPage from '../pages/Alumni/AlumniLandingPage';
+
 
 const UnprotectedRoute = () => {
   const { isSucceed, role } = useSelector((state) => state.authentication);
 
-  // Define your condition for rendering based on the user's role
   let content;
   switch (role) {
     case 'ALUMNI':
-      content = <AlumniLandingPage />;
+      content = <Navigate to="/user_dashboard" />;
       break;
     case 'COMPANY':
-      content = <CompanyLandingPage />;
+      content = <Navigate to="/company_dashboard" />;
       break;
     case 'ADMIN':
-      content = <Navigate to="/dashboard" />;
+      content = <Navigate to="/admin_dashboard" />;
       break;
     default:
-      content = <Navigate to="/dashboard" />;
+      content = <Outlet />;
       break;
   }
 

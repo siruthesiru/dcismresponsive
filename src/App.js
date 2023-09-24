@@ -23,6 +23,9 @@ import UnprotectedRoute from './utils/unProtectedRoutes';
 import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
+import LandingPageAlumni from './pages/Alumni/LandingPage.js';
+import Navbar from './components/topbar/navbar';
+import LandingPageCompany from './pages/Company/LandingPage';
 
 
 const App = () => {
@@ -63,9 +66,9 @@ const App = () => {
                 <Route path="/changepassword" element={<ChangePassword />} />
               </Route>
 
-              <Route element={<Layout />}>
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
+              <Route element={<ProtectedRoute userRole="ADMIN" />}>
+                <Route element={<Layout />}>
+                  <Route path="/admin_dashboard" element={<Dashboard />} />
                   <Route path="/verification_company" element={<VerifyCompany />} />
                   <Route path="/companies" element={<Companies />} />
                   <Route path="/jobs" element={<Jobs />} />
@@ -80,13 +83,24 @@ const App = () => {
                 </Route>
               </Route>
 
+              {/* route for user create a layout for the alumni ang company */}
+              <Route element={<ProtectedRoute userRole="ALUMNI" />}>
+                <Route element={<Navbar />}>
+                  <Route path="/user_dashboard" element={<LandingPageAlumni />} />
+                </Route>
+              </Route>
 
-              {/* route for user  */}
+              {/* route for company  */}
+              <Route element={<ProtectedRoute userRole="COMPANY" />}>
+                <Route element={<Navbar />}>
+                  <Route path="/company_dashboard" element={<LandingPageCompany />} />
+                </Route>
+              </Route>
 
             </Routes>
           </BrowserRouter>
         </div>
-      </ThemeProvider>
+      </ThemeProvider >
     </ColorModeContext.Provider >
   );
 }

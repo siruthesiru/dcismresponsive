@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaKey } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import Publicformheader from "../../../components/formheader/publicformheader";
 import placeholder from '../../../assets/capstole.webp'
 import {
@@ -13,13 +13,16 @@ import { NavLink } from "react-router-dom";
 const ChangePassword = () => {
     const error = useSelector((state) => state.authentication.error)
 
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [Password, setPassword] = useState("");
+    const [ConfirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log({ password, confirmPassword })
+        console.log({ Password, ConfirmPassword })
     };
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     return (
 
@@ -30,42 +33,67 @@ const ChangePassword = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaKey size={25} className="mx-2" />
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {showPassword ? (
+                                        <FaEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    ) : (
+                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    )}
+                                </InputAdornment>
+                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password"
-                        type="password"
                         label="Password"
                         variant="outlined"
                         autoComplete="password"
                         fullWidth
                         required
-                        value={password}
+                        value={Password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
 
+
                 <div className="mb-3 flex items-center">
+
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <FaKey size={25} className="mx-2" />
+                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {showConfirmPassword ? (
+                                        <FaEye onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
+
+                                    ) : (
+                                        <FaEyeSlash onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
+
+                                    )}
+                                </InputAdornment>
+                            )
                         }}
+
                         sx={{ outline: "none", flex: 1 }}
+                        type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm Password"
-                        type="password"
                         label="Confirm Password"
                         variant="outlined"
                         autoComplete="confirmPassword"
                         fullWidth
                         required
-                        value={confirmPassword}
+                        value={ConfirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
