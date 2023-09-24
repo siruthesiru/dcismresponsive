@@ -1,4 +1,4 @@
-import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated } from '../app/authenticationSlice';
+import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated, userChangePassword } from '../app/authenticationSlice';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -116,10 +116,60 @@ export const SignUpGoogle = async (dispatch, token) => {
 }
 
 export const resetPasswordRequest = async (dispatch, credentials) => {
+    // try {
+    //     const response = await axiosInstance.post('/forgotpassword', credentials);
+    //     console.log(response.data.message);
+    //     dispatch(forgotPasswordRequestSuccess({ message: response.data.message }))
+    // } catch (error) {
+    //     console.error('Error:', error);
+    //     const errorMessage = error.response?.data || 'An error occurred while signing in.';
+    //     dispatch(authenticationError({ message: errorMessage }));
+    // }
+
     try {
         const response = await axiosInstance.post('/forgotpassword', credentials);
-        console.log(response.data.message);
-        dispatch(forgotPasswordRequestSuccess({ message: response.data.message }))
+        console.log(response)
+        if (response.data.isSucceed) {
+            dispatch(
+                forgotPasswordRequestSuccess({
+                    isSucceed: response.data.isSucceed,
+                    message: response.data.message,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while signing in.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
+export const changePassword  = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/changepassword', credentials);
+
+        if (response.data.isSucceed) {
+            dispatch(
+                userChangePassword({
+                    isSucceed: response.data.isSucceed,
+                    message: response.data.message,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
+
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while signing in.';

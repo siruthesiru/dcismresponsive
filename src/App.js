@@ -63,7 +63,7 @@ const App = () => {
                 <Route path="/signup/alumni" element={<RegisterAlumni />} />
                 <Route path="/signup/company" element={<RegisterCompany />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/changepassword" element={<ChangePassword />} />
+                <Route path="/changepassword/:Token" element={<ChangePassword />} />
               </Route>
 
               <Route element={<ProtectedRoute userRole="ADMIN" />}>
