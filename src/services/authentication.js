@@ -1,4 +1,4 @@
-import { authenticationError, userAuthenticated } from '../app/authenticationSlice';
+import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated } from '../app/authenticationSlice';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -108,10 +108,21 @@ export const SignIn = async (dispatch, credentials) => {
 
 export const SignUpGoogle = async (dispatch, token) => {
     try {
-        // api call        
         const { data } = await axiosInstance.post(`/google?token=${token}`);
         dispatch(userAuthenticated(data));
     } catch {
         console.log('Error!')
+    }
+}
+
+export const resetPasswordRequest = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/forgotpassword', credentials);
+        console.log(response.data.message);
+        dispatch(forgotPasswordRequestSuccess({ message: response.data.message }))
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while signing in.';
+        dispatch(authenticationError({ message: errorMessage }));
     }
 }

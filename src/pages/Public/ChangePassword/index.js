@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash, FaKey, FaLock } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import Publicformheader from "../../../components/formheader/publicformheader";
 import placeholder from '../../../assets/capstole.webp'
 import {

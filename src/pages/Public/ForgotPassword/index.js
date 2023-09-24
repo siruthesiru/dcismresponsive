@@ -1,29 +1,51 @@
 import React, { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
+    Alert,
+    AlertTitle,
     Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Publicformheader from "../../../components/formheader/publicformheader";
 import placeholder from '../../../assets/capstole.webp'
+import { resetPasswordRequest } from "../../../services/authentication";
+import { clearForgotPasswordRequestStatus } from "../../../app/authenticationSlice";
 
 
 const ForgotPassword = () => {
 
-    const error = useSelector((state) => state.authentication.error)
+    const { isSucceed, message } = useSelector((state) => state.authentication)
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log({ email })
-    };
+        resetPasswordRequest(dispatch, { email });
+        if (isSucceed) {
+            setShowSuccessAlert(true);
+        }
+    }
+
+    const handleNavigateToLogin = () => {
+        navigate("/signin");
+        dispatch(clearForgotPasswordRequestStatus());
+    }
 
     return (
         <Publicformheader imageSrc={placeholder} title="Forgot Password?" description="Don't worry. We can help!">
+            {showSuccessAlert && (
+                <Alert severity="success" onClose={() => setShowSuccessAlert(false)}>
+                    <AlertTitle>Success</AlertTitle>
+                    {message} — <strong>check it out!</strong>
+                </Alert>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3 flex items-center">
                     <TextField
@@ -47,9 +69,6 @@ const ForgotPassword = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-
-                {error && <Typography className="text-red-500 mx-4">{error}</Typography>}
-
                 <Button
                     type="submit"
                     variant="contained"
@@ -60,7 +79,7 @@ const ForgotPassword = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Remember your password?
                     <span className="text-second underline px-2">
-                        <NavLink to="/signin">Back to Login</NavLink>
+                        <NavLink to="/signin" onClick={handleNavigateToLogin}>Back to Login</NavLink>
                     </span>
                 </Typography>
             </form>
