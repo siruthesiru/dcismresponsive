@@ -8,7 +8,6 @@ const axiosInstance = axios.create({
 export const SignUpCompany = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup/company', credentials);
-        console.log(response);
 
         if (response.data.isSucceed) {
 
@@ -42,7 +41,6 @@ export const SignUpCompany = async (dispatch, credentials) => {
 export const SignUpAlumni = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signup/alumni', credentials);
-        console.log(response);
 
         if (response.data.isSucceed) {
 
@@ -77,7 +75,6 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
-        console.log(response);
 
         if (response.data.isSucceed) {
             dispatch(
@@ -108,10 +105,24 @@ export const SignIn = async (dispatch, credentials) => {
 
 export const SignUpGoogle = async (dispatch, token) => {
     try {
-        const { data } = await axiosInstance.post(`/google?token=${token}`);
-        dispatch(userAuthenticated(data));
-    } catch {
-        console.log('Error!')
+        const response = await axiosInstance.post(`/google?token=${token}`);
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    isSucceed: response.data.isSucceed,
+                    message: null,
+                    email: response.data.email,
+                    token: response.data.token,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    role: response.data.role,
+                })
+            );
+        } 
+    } catch(error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
+        dispatch(authenticationError({ message: errorMessage }));
     }
 }
 
@@ -146,7 +157,7 @@ export const resetPasswordRequest = async (dispatch, credentials) => {
 
     } catch (error) {
         console.error('Error:', error);
-        const errorMessage = error.response?.data || 'An error occurred while signing in.';
+        const errorMessage = error.response?.data || 'An error occurred while requesting to change password.';
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
@@ -172,7 +183,7 @@ export const changePassword  = async (dispatch, credentials) => {
 
     } catch (error) {
         console.error('Error:', error);
-        const errorMessage = error.response?.data || 'An error occurred while signing in.';
+        const errorMessage = error.response?.data || 'An error occurred while changing password.';
         dispatch(authenticationError({ message: errorMessage }));
     }
 }

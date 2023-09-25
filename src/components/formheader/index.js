@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoogleAuth from '../googleauth';
+import GoogleAuth from '../googleauth/index';
 
 const FormWithHeader = ({ imageSrc, children }) => {
     return (
