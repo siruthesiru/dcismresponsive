@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Publicformheader from "../../../components/formheader/publicformheader";
 import placeholder from '../../../assets/capstole.png';
 import { resetPasswordRequest } from "../../../services/authentication";
-//import { logout } from "../../../app/authenticationSlice";
 import { clearForgotPasswordRequestStatus } from "../../../app/authenticationSlice";
 
 const ForgotPassword = () => {
@@ -20,27 +19,15 @@ const ForgotPassword = () => {
     const error = useSelector((state) => state.authentication.error)
 
     const [email, setEmail] = useState("");
-    
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    // if (isSucceed) {
-    //     setShowSuccessAlert(true);
-    // }
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     resetPasswordRequest(dispatch, { email });
-    //     if (isSucceed) {
-    //         setShowSuccessAlert(true);
-    //     }
-    // }
 
     const handleNavigateToLogin = () => {
         navigate("/signin");
         dispatch(clearForgotPasswordRequestStatus());
     }
-    
+
     return (
         isSucceed ? (
             <Publicformheader imageSrc={placeholder} title="Forgot Password?" description="Don't worry. We can help!">
@@ -50,24 +37,24 @@ const ForgotPassword = () => {
                         {message} — <strong>check it out!</strong>
                     </Alert>
                 )}
-            <form>
-                <Button
-                variant="link"
-                href="/signin"
-                onClick={handleNavigateToLogin}
-                style={{textAlign: "center", color: "white", display: "block", width: "100%", backgroundColor: "#000", padding: "12px", marginTop: "2rem" }}
+                <form>
+                    <Button
+                        variant="link"
+                        href="/signin"
+                        onClick={handleNavigateToLogin}
+                        style={{ textAlign: "center", color: "white", display: "block", width: "100%", backgroundColor: "#000", padding: "12px", marginTop: "2rem" }}
                     >
-                Back to Login
-            </Button>
-                <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
-                    Remember your password?
-                    <span className="text-second underline px-2">
-                        <NavLink to="/signin">Back to Login</NavLink>
-                    </span>
-                </Typography>
-            </form>
+                        Back to Login
+                    </Button>
+                    <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
+                        Remember your password?
+                        <span className="text-second underline px-2">
+                            <NavLink to="/signin">Back to Login</NavLink>
+                        </span>
+                    </Typography>
+                </form>
             </Publicformheader>
-         ) : (
+        ) : (
             // Display the message if not successful
             <Publicformheader imageSrc={placeholder} title="Forgot Password?" description="Don't worry. We can help!">
                 <form onSubmit={async (event) => {

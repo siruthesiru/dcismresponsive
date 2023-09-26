@@ -74,6 +74,7 @@ const App = () => {
               <Route element={<ProtectedRoute userRole="ADMIN" />}>
                 <Route element={<Layout />}>
                   <Route path="/admin_dashboard" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/verification_company" element={<VerifyCompany />} />
                   <Route path="/companies" element={<Companies />} />
                   <Route path="/jobs" element={<Jobs />} />
