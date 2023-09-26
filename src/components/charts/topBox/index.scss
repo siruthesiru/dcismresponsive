@@ -1,0 +1,35 @@
+.topBox {
+  .title {
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .list {
+    .listItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+
+      .position {
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .details {
+        display: flex;
+        gap: 20px;
+
+        .hired {
+          font-size: 15px;
+          font-weight: 300;
+        }
+
+        .slot {
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
