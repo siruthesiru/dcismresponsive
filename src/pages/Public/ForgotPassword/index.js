@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import Publicformheader from "../../../components/formheader/publicformheader";
-import placeholder from '../../../assets/capstole.webp'
+import placeholder from '../../../assets/capstole.png'
 
 
 const ForgotPassword = () => {

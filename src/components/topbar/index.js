@@ -21,7 +21,7 @@ import {
     NotificationsOutlined,
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { ColorModeContext, tokens } from "../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";

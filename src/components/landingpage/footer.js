@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-scroll";
-import applogo from "../../assets/applogowhite.webp";
+import applogo from "../../assets/applogowhite.png";
 
 const Footer = () => {
     return (

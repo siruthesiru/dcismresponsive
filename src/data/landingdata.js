@@ -1,18 +1,18 @@
-// import placeholder from "../assets/placeholder.webp";
-import heroimage from "../assets/graduate2hero.webp";
+// import placeholder from "../assets/placeholder.png";
+import heroimage from "../assets/graduate2hero.png";
 
 import alliance from "../assets/company-alliance.png";
 import boundless from "../assets/company-boundless.png";
 import gcash from "../assets/company-gcash.png";
 import ncr from "../assets/company-ncr.png";
 
-import alumni from "../assets/alumnischool.webp";
+import alumni from "../assets/alumnischool.png";
 
-import developer from "../assets/developer.webp";
-import manager from "../assets/teamlead.webp";
-import statistician from "../assets/statistician.webp"
+import developer from "../assets/developer.png";
+import manager from "../assets/teamlead.png";
+import statistician from "../assets/statistician.png"
 
-import partner from "../assets/partner.webp";
+import partner from "../assets/partner.png";
 import gplay from "../assets/google-play-bg.png";
 
 export const homebanner = [

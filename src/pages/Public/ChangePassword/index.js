@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaKey } from "react-icons/fa";
 import Publicformheader from "../../../components/formheader/publicformheader";
-import placeholder from '../../../assets/capstole.webp'
+import placeholder from '../../../assets/capstole.png'
 import {
     Button, InputAdornment,
     TextField,
