@@ -4,13 +4,12 @@ const initialState = {
     isSucceed: localStorage.getItem('isSucceed') || false,
     token: localStorage.getItem('token') || null,
     email: localStorage.getItem('email') || null,
-    //isSucceed: false,
     message: null,
-    //email: null,
-    //token: null,
     firstName: localStorage.getItem('firstName') || null,
     lastName: localStorage.getItem('lastName') || null,
     role: localStorage.getItem('role') || null,
+    //forgotPasswordRequestSuccess: false,
+
 };
 
 export const authenticationSlice = createSlice({
@@ -40,13 +39,26 @@ export const authenticationSlice = createSlice({
             state.email = null;
             state.token = null;
         },
-        logout: (state) => {
+        logout: () => {
             localStorage.clear();
-            state = initialState;
+            return initialState;
+        },
+        forgotPasswordRequestSuccess: (state, action) => {
+            //state.forgotPasswordRequestSuccess = true;
+            state.isSucceed = action.payload.isSucceed;
+            state.message = action.payload.message;
+        },
+        clearForgotPasswordRequestStatus: (state) => {
+            state.isSucceed = false;
+            state.message = null;
+        },
+        userChangePassword: (state, action) => {
+            state.isSucceed = action.payload.isSucceed;
+            state.message = action.payload.message;;
         },
     },
 });
 
-export const { userAuthenticated, logout, authenticationError } = authenticationSlice.actions;
+export const { userAuthenticated, logout, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

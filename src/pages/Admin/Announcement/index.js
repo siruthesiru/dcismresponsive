@@ -5,8 +5,10 @@ import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { AlumniRows } from "../../../data/mockAdminData";
 import { faqColumns } from "../../../components/constant/adminColumnHeaders";
+import { useNavigate } from "react-router-dom";
 
 const Announcements = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -18,7 +20,8 @@ const Announcements = () => {
                     <Button
                         variant="contained"
                         size="medium"
-                        style={{ backgroundColor: colors.greenAccent[500] }}
+                        style={{ backgroundColor: colors.primary[500] }}
+                        onClick={() => navigate("/addAnnouncement")}
                     >
                         Add Announcement
                     </Button>

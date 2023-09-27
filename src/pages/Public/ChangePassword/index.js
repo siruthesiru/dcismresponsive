@@ -1,30 +1,68 @@
 import React, { useState } from "react";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { FaKey } from "react-icons/fa";
 import Publicformheader from "../../../components/formheader/publicformheader";
 import placeholder from '../../../assets/capstole.png'
+import { changePassword } from "../../../services/authentication";
 import {
+    Alert,
+    AlertTitle,
     Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { clearForgotPasswordRequestStatus } from "../../../app/authenticationSlice";
 
 const ChangePassword = () => {
+    const { isSucceed, message } = useSelector((state) => state.authentication);
     const error = useSelector((state) => state.authentication.error)
-
-    const [password, setPassword] = useState("");
+    
+    //const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [NewPassword, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const { Token } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log({ password, confirmPassword })
-    };
+    const handleNavigateToLogin = () => {
+        navigate("/signin");
+        dispatch(clearForgotPasswordRequestStatus());
+    }
 
     return (
-
-        <Publicformheader imageSrc={placeholder} title="Change Password" description="Please use a strong combination">
-            <form onSubmit={handleSubmit}>
+        isSucceed ? (
+            <Publicformheader imageSrc={placeholder} title="ChangePassword" description="Please use a strong combination">
+            {isSucceed && (
+                <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    {message} — <strong>check it out!</strong>
+                </Alert>
+            )}
+            <form >
+                <Button
+                    variant="link"
+                    href="/signin"
+                    onClick={handleNavigateToLogin}
+                    style={{ marginLeft: '1rem', color: '#000' }}
+                >
+                    Back to Login
+                </Button>
+                <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
+                    Remember your password?
+                    <span className="text-second underline px-2">
+                        <NavLink to="/signin" onClick={handleNavigateToLogin}>Back to Login</NavLink>
+                    </span>
+                </Typography>
+            </form>
+        </Publicformheader>
+            
+        ) : (
+            <Publicformheader imageSrc={placeholder} title="ChangePassword" description="Please use a strong combination">
+            <form onSubmit={async (event) => {
+                    event.preventDefault();
+                    changePassword(dispatch, { Token, NewPassword });
+                }}>
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
@@ -43,7 +81,7 @@ const ChangePassword = () => {
                         autoComplete="password"
                         fullWidth
                         required
-                        value={password}
+                        value={NewPassword}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
@@ -75,7 +113,10 @@ const ChangePassword = () => {
                 <Button
                     type="submit"
                     variant="contained"
-                    style={{ display: "block", width: "100%", backgroundColor: "#030F4B", padding: "12px", marginTop: "2rem" }}
+                    style={{ display: "block", width: "100%", backgroundColor: NewPassword !== confirmPassword ? "#A9A9A9" : "#030F4B", padding: "12px", marginTop: "2rem", color: "#FFFFFF",}}
+
+                    disabled={NewPassword !== confirmPassword}
+
                 >
                     Continue
                 </Button>
@@ -87,7 +128,7 @@ const ChangePassword = () => {
                 </Typography>
             </form>
         </Publicformheader>
-
+        )
     );
 };
 

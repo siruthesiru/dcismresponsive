@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUserAlt } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/capstole.png'
 import FormWithHeader from "../../../components/formheader";
@@ -22,6 +22,10 @@ const RegisterAlumni = () => {
     const [IdNum, setIdNum] = useState("");
     const [Email, setEmail] = useState("");
     const dispatch = useDispatch();
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
 
     return (
@@ -120,6 +124,7 @@ const RegisterAlumni = () => {
                         value={IdNum}
                         onChange={(e) => setIdNum(e.target.value)}
                     />
+
                 </div>
                 <div className="mb-3 flex items-center">
                     <TextField
@@ -129,10 +134,21 @@ const RegisterAlumni = () => {
                                     <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {showPassword ? (
+                                        <FaEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    ) : (
+                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
+
+                                    )}
+                                </InputAdornment>
+                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         label="Password"
                         variant="outlined"
@@ -154,10 +170,21 @@ const RegisterAlumni = () => {
                                     <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {showConfirmPassword ? (
+                                        <FaEye onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
+
+                                    ) : (
+                                        <FaEyeSlash onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
+
+                                    )}
+                                </InputAdornment>
+                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm Password"
                         label="Confirm Password"
                         variant="outlined"

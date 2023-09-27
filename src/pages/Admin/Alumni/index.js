@@ -6,8 +6,7 @@ import DataTable from "../../../components/dataTable";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import { AlumniRows } from "../../../data/mockAdminData";
 import PopUp from "../../../components/popup";
-import AlumniForm from "./AlumniForm";
-
+import AlumniForm from "../../../components/forms/AlumniForm";
 
 const Alumni = () => {
     const theme = useTheme();
@@ -24,18 +23,33 @@ const Alumni = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.greenAccent[500] }}
+                            style={{ backgroundColor: colors.primary[500] }}
                             onClick={() => setOpenup(true)}
                         >
                             Add User
                         </Button>
-                        <Button
-                            variant="contained"
-                            size="medium"
-                            style={{ backgroundColor: colors.primary[500] }}
-                        >
-                            Upload CSV
-                        </Button>
+                        <input
+                            type="file"
+                            accept=".csv"
+                            style={{ display: "none" }}
+                            id="csv-upload-input"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    console.log(`Uploaded CSV file: ${file.name}`);
+                                }
+                            }}
+                        />
+                        <label htmlFor="csv-upload-input">
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                style={{ backgroundColor: colors.greenAccent[500] }}
+                                component="span"
+                            >
+                                Upload CSV
+                            </Button>
+                        </label>
                     </Box>
                 </Box>
                 <DataTable slug="alumni" columns={alumniColumns} rows={AlumniRows} />
