@@ -12,7 +12,7 @@ import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import applogo from "../../assets/applogowhite.webp";
+import applogo from "../../assets/applogowhite.png";
 import { ColorModeContext, tokens } from '../../theme';
 import { BusinessCenter, DarkModeOutlined, Help, LightModeOutlined, Newspaper, Search } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
