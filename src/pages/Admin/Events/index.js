@@ -1,43 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/header";
 import PopUp from "../../../components/popup";
 import Calendar from "../../../components/calendar";
 import EventForm from "../../../components/forms/EventForm";
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllEvents } from "../../../services/events";
 
-const events = [
-    {
-        title: "Big Meeting",
-        start: new Date(2023, 8, 20, 8, 30, 0),
-        end: new Date(2023, 8, 20, 11, 0, 0),
-        audience: "Company",
-    },
-    {
-        title: "Vacation",
-        start: new Date(2023, 8, 25, 8, 30, 0),
-        end: new Date(2023, 8, 25, 19, 0, 0),
-        audience: "Alumni",
-    },
-    {
-        title: "Conference",
-        start: new Date(2023, 8, 30, 8, 30, 0),
-        end: new Date(2023, 8, 30, 17, 0, 0),
-        audience: "All",
-    },
-];
 
 const Events = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+    const events = useSelector((state) => state.eventsSlice.events);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        GetAllEvents(dispatch);
+    }, [dispatch])
+
     const [openPopup, setOpenup] = useState(false);
     const [allEvents, setAllEvents] = useState(events);
 
-    const handleAddEvent = (newEvent) => {
+    const handleEvent = (newEvent) => {
         setAllEvents([...allEvents, newEvent]);
         setOpenup(false);
     };
+
 
     return (
         <>
@@ -64,11 +54,11 @@ const Events = () => {
                 <Calendar events={allEvents} />
             </Box>
             <PopUp
-                title="Event FORM"
+                title="ADD EVENT FORM"
                 openPopup={openPopup}
                 setOpenup={setOpenup}
             >
-                <EventForm onAddEvent={handleAddEvent} />
+                <EventForm onSubmit={handleEvent} />
             </PopUp>
         </>
     );
