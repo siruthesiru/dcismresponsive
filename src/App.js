@@ -23,9 +23,14 @@ import UnprotectedRoute from './utils/unProtectedRoutes';
 import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
-import LandingPageAlumni from './pages/Alumni/LandingPage.js';
 import Navbar from './components/topbar/navbar';
 import LandingPageCompany from './pages/Company/LandingPage';
+
+import AlumniEvents from './pages/Alumni/LandingPage/Events.js';
+import AlumniFAQ from './pages/Alumni/Help.js';
+import AlumniJobs from './pages/Alumni/Jobs.js';
+import AlumniNotif from './pages/Alumni/Notif.js';
+
 
 
 const App = () => {
@@ -85,9 +90,13 @@ const App = () => {
 
               {/* route for user create a layout for the alumni ang company */}
               <Route element={<ProtectedRoute userRole="ALUMNI" />}>
-                <Route element={<Navbar />}>
-                  <Route path="/user_dashboard" element={<LandingPageAlumni />} />
-                </Route>
+                <Route element={<Navbar />}/>
+                  <Route path="/user_dashboard" element={<AlumniEvents />} />
+                  <Route path="/faq" element={<AlumniFAQ />} />
+                  <Route path="/jobs" element={<AlumniJobs />} />
+                  <Route path="/notifications" element={<AlumniNotif />} />
+
+                {/* </Route> */}
               </Route>
 
               {/* route for company  */}

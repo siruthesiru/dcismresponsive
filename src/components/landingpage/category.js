@@ -24,8 +24,8 @@ const Category = () => {
 
                 <div className="container mx-auto grid lg:grid-cols-3 gap-4 py-16 px-2">
                     {data.data.map((item, index) => (
-                        <div key={index} className="relative">
-                            <div className="group">
+                        <div key={index} >
+                            <div className="relative group">
                                 <img
                                     src={item.img}
                                     alt={item.title}
