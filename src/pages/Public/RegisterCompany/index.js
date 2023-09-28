@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaBuilding, FaUserAlt, FaEyeSlash, FaEye } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import placeholder from '../../../assets/company.webp'
+import placeholder from '../../../assets/company.png'
 import FormWithHeader from "../../../components/formheader";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpCompany } from "../../../services/authentication";

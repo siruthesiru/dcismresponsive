@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Publicformheader from "../../../components/formheader/publicformheader";
-import placeholder from '../../../assets/capstole.webp'
+import placeholder from '../../../assets/capstole.png';
 import { resetPasswordRequest } from "../../../services/authentication";
 //import { logout } from "../../../app/authenticationSlice";
 import { clearForgotPasswordRequestStatus } from "../../../app/authenticationSlice";

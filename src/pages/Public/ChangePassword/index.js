@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { FaKey } from "react-icons/fa";
 import Publicformheader from "../../../components/formheader/publicformheader";
-import placeholder from '../../../assets/capstole.webp'
+import placeholder from '../../../assets/capstole.png'
 import { changePassword } from "../../../services/authentication";
 import {
     Alert,

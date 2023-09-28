@@ -8,8 +8,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { SignIn } from "../../../services/authentication";
 import { NavLink } from "react-router-dom";
-import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
-import placeholder from '../../../assets/capstole.webp'
+import placeholder from '../../../assets/capstole.png';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import FormWithHeader from "../../../components/formheader";
 
 const Login = () => {

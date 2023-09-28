@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import React, { useState, useEffect } from 'react';
 import { Nav } from "react-bootstrap";
-import applogo from "../../assets/applogowhite.webp";
+import applogo from "../../assets/applogowhite.png";
 
 const Navbar = () => {
     const [opened, setOpened] = useState(false);
