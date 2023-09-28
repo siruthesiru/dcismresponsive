@@ -9,7 +9,15 @@ import { useDispatch } from 'react-redux';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
     const audiences = ["All", "Company", "Alumni"];
-    const [newEvent, setNewEvent] = useState({ title: "", venue: "", eventInfo: "", start: null, end: null, audience: "All", file: null });
+    const [newEvent, setNewEvent] = useState({
+        title: "",
+        venue: "",
+        eventInfo: "",
+        start: null,
+        end: null,
+        audience: "All",
+        file: null
+    });
 
     const dispatch = useDispatch();
 
@@ -26,11 +34,6 @@ const EventForm = ({ onSubmit, initialEvent }) => {
             AddEvent(dispatch, newEvent);
         }
         onSubmit(newEvent);
-    }
-
-    const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        setNewEvent({ ...newEvent, file: selectedFile });
     }
 
     return (
@@ -116,7 +119,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <input
                         type="file"
                         accept=".pdf, .doc, .docx"
-                        onChange={handleFileChange}
+                        onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
                     />
                 </Grid>
                 <Grid item sm={12}>

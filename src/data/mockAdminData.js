@@ -709,3 +709,80 @@ export const applyVerificationCompanies = [
         createdAt: "2023-09-10",
     },
 ];
+
+export const mockEvents = [
+    {
+        title: "Event 1",
+        venue: "Virtual",
+        eventInfo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        start: new Date("2023-09-01T09:00:00Z"), // Sample start time for Event 1
+        end: new Date("2023-09-01T12:00:00Z"),   // Sample end time for Event 1
+        audience: "All",
+        file: null,
+    },
+    {
+        title: "Event 2",
+        venue: "Online",
+        eventInfo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        start: new Date("2023-09-05T14:00:00Z"), // Sample start time for Event 2
+        end: new Date("2023-09-05T17:00:00Z"),   // Sample end time for Event 2
+        audience: "Company",
+        file: null,
+    },
+    {
+        title: "Event 3",
+        venue: "In-Person",
+        eventInfo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        start: new Date("2023-09-10T10:30:00Z"), // Sample start time for Event 3
+        end: new Date("2023-09-10T16:00:00Z"),   // Sample end time for Event 3
+        audience: "Alumni",
+        file: null,
+    },
+];
+
+export const mockAnnouncements = [
+    {
+        id: 1, // Unique ID for the first announcement
+        Title: "Important Announcement 1",
+        Description: "<p>This is the description of Announcement 1.</p>",
+        Audience: "All",
+        file: {
+            name: "Important_Announcement.pdf",
+            size: 1024 * 1024, // 1 MB
+            type: "application/pdf",
+        },
+    },
+    {
+        id: 2, // Unique ID for the second announcement
+        Title: "Company Meeting",
+        Description: "<p>This is the description of the Company Meeting.</p>",
+        Audience: "Company",
+        file: {
+            name: "Company_Meeting.docx",
+            size: 2048 * 1024, // 2 MB
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        },
+    },
+    {
+        id: 3, // Unique ID for the third announcement
+        Title: "Alumni Event",
+        Description: "<p>This is the description of the Alumni Event.</p>",
+        Audience: "Alumni",
+        file: null, // No file attached to this announcement
+    },
+    {
+        id: 4, // Unique ID for the fourth announcement
+        Title: "Product Launch",
+        Description: "<p>We are excited to announce the launch of our new product!</p>",
+        Audience: "All",
+        file: null,
+    },
+    {
+        id: 5, // Unique ID for the fifth announcement
+        Title: "Conference Registration",
+        Description: "<p>Register now for our upcoming conference.</p>",
+        Audience: "All",
+        file: null,
+    },
+    // Add more announcements as needed
+];

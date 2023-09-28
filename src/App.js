@@ -31,8 +31,6 @@ import AlumniFAQ from './pages/Alumni/Help.js';
 import AlumniJobs from './pages/Alumni/Jobs.js';
 import AlumniNotif from './pages/Alumni/Notif.js';
 
-
-
 const App = () => {
   const { theme, toggleColorMode } = useMode();
 
@@ -83,7 +81,8 @@ const App = () => {
                   <Route path="/alumni" element={<Alumni />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/events" element={<Events />} />
-                  <Route path="/addAnnouncement" element={<AnnouncementForm />} />
+                  <Route exact path="/addAnnouncement" element={<AnnouncementForm />} />
+                  <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
                   <Route path="/announcements" element={<Announcements />} />
                   <Route path="/profile" element={<Profile />} />
                 </Route>
@@ -91,11 +90,11 @@ const App = () => {
 
               {/* route for user create a layout for the alumni ang company */}
               <Route element={<ProtectedRoute userRole="ALUMNI" />}>
-                <Route element={<Navbar />}/>
-                  <Route path="/user_dashboard" element={<AlumniEvents />} />
-                  <Route path="/faq" element={<AlumniFAQ />} />
-                  <Route path="/jobs" element={<AlumniJobs />} />
-                  <Route path="/notifications" element={<AlumniNotif />} />
+                <Route element={<Navbar />} />
+                <Route path="/user_dashboard" element={<AlumniEvents />} />
+                <Route path="/faq" element={<AlumniFAQ />} />
+                <Route path="/jobs" element={<AlumniJobs />} />
+                <Route path="/notifications" element={<AlumniNotif />} />
 
                 {/* </Route> */}
               </Route>

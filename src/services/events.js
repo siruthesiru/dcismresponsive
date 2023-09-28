@@ -9,6 +9,7 @@ import {
     deleteEvent,
     deleteEventError
 } from '../app/eventsSlice'
+import { mockEvents } from "../data/mockAdminData";
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Events`,
@@ -21,7 +22,8 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllEvents = async (dispatch) => {
     try {
-        const { data } = await axiosInstance.get();
+        // const { data } = await axiosInstance.get();
+        const data = mockEvents;
         dispatch(getAllEvents(data))
     } catch (error) {
         console.error('Error:', error);

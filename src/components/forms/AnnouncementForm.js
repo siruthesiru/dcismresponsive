@@ -1,145 +1,128 @@
-import React, { useState } from 'react';
-import { Box, Button, Grid, InputLabel, MenuItem, Paper, Select, TextField } from "@mui/material";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import './index.scss'
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Grid, MenuItem, Paper, Select, TextField } from "@mui/material";
 import Header from '../header';
+import RichTextEditor from './RichTextEditor';
+import { EditAnnouncement, GetAnnouncementByID } from '../../services/announcement';
+import { useDispatch } from 'react-redux';
+import { addAnnouncement, editAnnouncementError } from '../../app/announcementsSlice';
+import { useParams } from 'react-router-dom';
 
 const audiences = ["All", "Company", "Alumni"];
 
 const AnnouncementForm = () => {
-    const [Title, setTitle] = useState("");
-    const [Description, setDescription] = useState("");
-    const [Audience, setAudience] = useState('All');
-    const [Start, setStart] = useState(null);
-    const [End, setEnd] = useState(null);
-    const [Venue, setVenue] = useState("");
+
+    const [formData, setFormData] = useState({
+        Title: "",
+        Description: "",
+        Audience: "All",
+        file: null,
+    });
+
+    const dispatch = useDispatch();
+    const { id } = useParams();
+
+    useEffect(() => {
+        const fetchAnnouncementData = async () => {
+            try {
+                if (id) {
+                    const announcementData = await GetAnnouncementByID(dispatch, id);
+                    console.log(announcementData);
+                    if (announcementData) {
+                        setFormData(announcementData);
+                    }
+                }
+            } catch (error) {
+                dispatch(editAnnouncementError());
+                console.error('Error:', error);
+            }
+        };
+
+        fetchAnnouncementData();
+    }, [id, dispatch]);
+
 
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        // Add your form submission logic here
+        if (id) {
+            EditAnnouncement(dispatch, formData);
+        } else {
+            addAnnouncement(dispatch, formData);
+        }
     };
 
+
     return (
-        <Box m="1.5rem 2.5rem">
+        <Box m="1rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Header title="Add Announcement" subtitle="" />
+                <Header title={id ? "Edit Announcement" : "Add Announcement"} subtitle="" />
             </Box>
             <Paper elevation={3} sx={{ p: "1.5rem 2.5rem" }}>
                 <form onSubmit={handleFormSubmit}>
-                    <Grid container spacing={1}>
-                        <Grid item xs={12} sm={12}>
-                            <InputLabel htmlFor="program-graduated-label" >Title: </InputLabel>
+                    <Grid item xs={12} sm={12}>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "1rem" }}>
+                            <label>Title: </label>
                             <TextField
                                 placeholder='Type in the title'
-                                value={Title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                value={formData.Title}
+                                onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
                                 variant='outlined'
                                 fullWidth
                                 required
                             />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <InputLabel htmlFor="program-graduated-label" >Description: </InputLabel>
-                            <TextField
-                                placeholder='Type in the title'
-                                value={Description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                variant='outlined'
-                                fullWidth
-                                required
-                                multiline
-                                minRows={5}
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <label>Add File: </label>
+                            <input
+                                type="file"
+                                accept=".pdf, .doc, .docx"
+                                onChange={(e) => setFormData({ ...formData, file: e.target.files[0] })}
                             />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <InputLabel htmlFor="program-graduated-label" >Intended Audience: </InputLabel>
-                            <Select
-                                labelId="program-graduated-label"
-                                id="program-graduated"
-                                value={Audience}
-                                onChange={(e) => setAudience(e.target.value)}
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem" }}>
+                            <div>
+                                <label>Intended Audience: </label>
+                                <Select
+                                    labelId="program-graduated-label"
+                                    id="program-graduated"
+                                    value={formData.Audience}
+                                    onChange={(e) => setFormData({ ...formData, Audience: e.target.value })}
 
-                            >
-                                {audiences.map((item) => (
-                                    <MenuItem key={item} value={item}>
-                                        {item}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <InputLabel htmlFor="program-graduated-label" >Start: </InputLabel>
-                            <DatePicker
-                                className='date-picker-start'
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={60}
-                                dateFormat="MM/dd/yyyy h:mm aa"
-                                selected={Start}
-                                onChange={(e) => setStart(e.target.value)}
-                            />
+                                >
+                                    {audiences.map((item) => (
+                                        <MenuItem key={item} value={item}>
+                                            {item}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </div>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <label>Description: </label>
+                        <RichTextEditor value={formData.Description} onChange={(value) => setFormData({ ...formData, value })} />
+                    </Grid>
 
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <InputLabel htmlFor="program-graduated-label">End: </InputLabel>
-                            <DatePicker
-                                className='date-picker'
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={60}
-                                dateFormat="MM/dd/yyyy h:mm aa"
-                                selected={End}
-                                onChange={(e) => setEnd(e.target.value)}
-                            />
 
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <InputLabel htmlFor="program-graduated-label" >Venue: </InputLabel>
-                            <TextField
-                                placeholder='Type in the title'
-                                value={Venue}
-                                onChange={(e) => setVenue(e.target.value)}
-                                variant='outlined'
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-                            <InputLabel htmlFor="program-graduated-label" >Upload File: </InputLabel>
-                            <Button
-                                type="button"
-                                variant="contained"
-                                style={{
-                                    display: "block",
-                                    padding: "10px",
-                                    marginLeft: "10px",
-                                    marginTop: "2rem",
-                                    backgroundColor: "#4cceac",
-                                    color: "#FFFFFF",
-                                }}
-                            >
-                                Browse File
-                            </Button>
-                        </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Button
+                            type="button"
+                            variant="contained"
+                            style={{
 
-                        <Grid item sm={12}>
-                            <Button
-                                type="button"
-                                variant="contained"
-                                style={{
-
-                                    display: "block",
-                                    padding: "10px",
-                                    marginTop: "2rem",
-                                    backgroundColor: "#221769",
-                                    color: "#FFFFFF",
-                                }}
-                            >
-                                Submit
-                            </Button>
-                        </Grid>
+                                display: "block",
+                                padding: "10px",
+                                marginTop: "3rem",
+                                backgroundColor: "#221769",
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            {id ? "Update" : "Submit"}
+                        </Button>
                     </Grid>
                 </form>
             </Paper>
