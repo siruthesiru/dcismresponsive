@@ -37,7 +37,7 @@
 
 
 import {
-    addEvent, editEvent, deleteEvent, addEventError, editEventError, deleteEventError, getAllEvents, getAllEventsError
+    addEvent, editEvent, deleteEvent, addEventError, editEventError, deleteEventError, getAllEventsError
 } from '../app/eventsSlice';
 import { toast } from 'react-toastify';
 
