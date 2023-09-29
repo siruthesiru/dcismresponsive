@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import './index.scss'
+import './index.scss';
+import { AddEvent, EditEvent } from '../../services/events';
+import { useDispatch } from 'react-redux';
 
-const audiences = ["All", "Company", "Alumni"];
 
-const EventForm = ({ onAddEvent }) => {
-    const [newEvent, setNewEvent] = useState({ title: "", start: null, end: null, audience: "All" });
+const EventForm = ({ onSubmit, initialEvent }) => {
+    const audiences = ["All", "Company", "Alumni"];
+    const [newEvent, setNewEvent] = useState({
+        title: "",
+        venue: "",
+        eventInfo: "",
+        start: null,
+        end: null,
+        audience: "All",
+        file: null
+    });
 
-    const handleAddEvent = () => {
-        if (newEvent.title && newEvent.start && newEvent.end) {
-            onAddEvent(newEvent);
-            setNewEvent({ title: "", start: null, end: null, audience: "All" });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (initialEvent) {
+            setNewEvent(initialEvent);
         }
+    }, [initialEvent])
+
+    const handleFormSubmit = () => {
+        if (initialEvent) {
+            EditEvent(dispatch, newEvent);
+        } else {
+            AddEvent(dispatch, newEvent);
+        }
+        onSubmit(newEvent);
     }
 
     return (
-
         <form>
             <Grid container spacing={1}>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        label="Title"
-                        placeholder='Type in the title'
-                        value={newEvent.title}
-                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                        variant='outlined'
-                        fullWidth
-                        required
-                    />
-                </Grid>
-                <Grid xs={12} sm={12} sx={{ display: "flex", alignItems: "center", m: "10px" }}>
+                <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center" }}>
                     <InputLabel htmlFor="program-graduated-label" >Intended Audience: </InputLabel>
                     <Select
                         labelId="program-graduated-label"
@@ -47,8 +55,43 @@ const EventForm = ({ onAddEvent }) => {
                         ))}
                     </Select>
                 </Grid>
-                <Grid xs={12} sm={12} sx={{ display: "flex", alignItems: "center" }} >
-                    <InputLabel htmlFor="program-graduated-label" >Start: </InputLabel>
+                <Grid item xs={12} sm={12}>
+                    <TextField
+                        label="Event Name"
+                        placeholder='Type the title of the event'
+                        value={newEvent.title}
+                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        variant='outlined'
+                        fullWidth
+                        required
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <TextField
+                        label="Event Info"
+                        placeholder='Type the description of the event'
+                        multiline
+                        minRows={3}
+                        value={newEvent.eventInfo}
+                        onChange={(e) => setNewEvent({ ...newEvent, eventInfo: e.target.value })}
+                        variant='outlined'
+                        fullWidth
+                        required
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <TextField
+                        label="Venue"
+                        placeholder='Venue of the event'
+                        value={newEvent.venue}
+                        onChange={(e) => setNewEvent({ ...newEvent, venue: e.target.value })}
+                        variant='outlined'
+                        fullWidth
+                        required
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <InputLabel htmlFor="program-graduated-label">Start: </InputLabel>
                     <DatePicker
                         className='date-picker-start'
                         showTimeSelect
@@ -58,7 +101,9 @@ const EventForm = ({ onAddEvent }) => {
                         selected={newEvent.start}
                         onChange={(start) => setNewEvent({ ...newEvent, start })}
                     />
-                    <InputLabel htmlFor="program-graduated-label" sx={{ marginLeft: "2rem" }} >End: </InputLabel>
+                </Grid>
+                <Grid xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }} >
+                    <InputLabel htmlFor="program-graduated-label" >End: </InputLabel>
                     <DatePicker
                         className='date-picker'
                         showTimeSelect
@@ -69,7 +114,14 @@ const EventForm = ({ onAddEvent }) => {
                         onChange={(end) => setNewEvent({ ...newEvent, end })}
                     />
                 </Grid>
-
+                <Grid item sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                    <InputLabel htmlFor="program-graduated-label" >Add File: </InputLabel>
+                    <input
+                        type="file"
+                        accept=".pdf, .doc, .docx"
+                        onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
+                    />
+                </Grid>
                 <Grid item sm={12}>
                     <Button
                         type="button"
@@ -78,19 +130,17 @@ const EventForm = ({ onAddEvent }) => {
                             display: "block",
                             width: "100%",
                             padding: "10px",
-                            marginTop: "2rem",
+                            marginTop: "1rem",
                             backgroundColor: "#221769",
                             color: "#FFFFFF",
                         }}
-                        onClick={handleAddEvent}
+                        onClick={handleFormSubmit}
                     >
-                        Submit
+                        {initialEvent ? 'Update Event' : 'Add Event'}
                     </Button>
                 </Grid>
             </Grid>
         </form>
-
-
     );
 }
 

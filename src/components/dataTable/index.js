@@ -1,6 +1,6 @@
 import { Box, IconButton, useTheme } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { EditNote, DeleteOutline } from "@mui/icons-material";
 import { tokens } from "../../theme";
@@ -9,6 +9,8 @@ import { tokens } from "../../theme";
 const DataTable = (props) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const navigate = useNavigate();
 
     const handleDelete = (id) => {
         //delete the item
@@ -23,15 +25,15 @@ const DataTable = (props) => {
         renderCell: (params) => {
             return (
                 <Box display="flex" gap="10px">
-                    <IconButton>
-                        <Link to={`/${props.slug}/${params.row.id}`}>
-                            <EditNote
-                                style={{
-                                    fontSize: "20px",
-                                    color: colors.yellowAccent[400],
-                                }}
-                            />
-                        </Link>
+                    <IconButton onClick={() => navigate(`/edit${props.slug}/${params.row.id}`)}>
+
+                        <EditNote
+                            style={{
+                                fontSize: "20px",
+                                color: colors.yellowAccent[400],
+                            }}
+                        />
+
                     </IconButton>
                     <IconButton onClick={() => handleDelete(params.row.id)}>
                         <DeleteOutline
@@ -49,7 +51,7 @@ const DataTable = (props) => {
     const lastColumn = props.lastColumn || defaultActionColumn;
 
     return (
-        <Box sx={{ marginTop: "1.5rem" }}>
+        <Box sx={{ marginTop: "1.5rem", width: "100%", height: "100%" }}>
             <DataGrid
                 sx={{
                     backgroundColor: colors.primary[400],
@@ -63,7 +65,9 @@ const DataTable = (props) => {
                     },
                 }}
                 rows={props.rows}
+                getRowId={(row) => row.id}
                 columns={[...props.columns, lastColumn]}
+                style={{ width: "100%" }}
                 initialState={{
                     pagination: {
                         paginationModel: {

@@ -186,57 +186,43 @@ export const alumniColumns = [
 
 
 export const faqColumns = [
-    { field: "id", headerName: "ID", width: 90 },
     {
-        field: "img",
-        headerName: "avatar",
-        width: 100,
+        field: "Title",
+        headerName: "Title",
+        flex: 1,
+    },
+    {
+        field: "Description",
+        headerName: "Description",
+        flex: 2,
+    },
+    {
+        field: "Audience",
+        headerName: "Audience",
+        flex: 1,
+    },
+    {
+        field: "File",
+        headerName: "File",
+        flex: 1,
         renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
+            const { file } = params.row;
 
-            return (
-                <img
-                    src={imgSrc}
-                    alt=""
-                    style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                    }}
-                />
-            );
+            // Check if a file is attached
+            if (file) {
+                return (
+                    <a
+                        href={file.url} // Replace with the actual URL to the file
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {file.name}
+                    </a>
+                );
+            } else {
+                return "No File";
+            }
         },
-    },
-    {
-        field: "firstName",
-        type: "string",
-        headerName: "First name",
-        width: 150,
-    },
-    {
-        field: "lastName",
-        type: "string",
-        headerName: "Last name",
-        width: 150,
-    },
-    {
-        field: "email",
-        type: "string",
-        headerName: "Email",
-        width: 200,
-    },
-    {
-        field: "phone",
-        headerName: "Phone",
-        type: "string",
-        width: 200,
-    },
-    {
-        field: "createdAt",
-        headerName: "Created At",
-        type: "string",
-        width: 200,
     },
 ];
 

@@ -1,31 +1,68 @@
+// import {
+//     newExpense, editExpense, deleteExpense,
+//     setExpensesError, newExpenseError, editExpenseError, deleteExpenseError
+// } from '../app/expensesSlice';
+// import { toast } from 'react-toastify';
+
+// const ToastMiddleware = () => next => action => {
+//     switch (action.type) {
+//         case newExpense.type:
+//             toast.success('New expense added successfully');
+//             break
+//         case editExpense.type:
+//             toast.success('Expense  edited successfully');
+//             break;
+//         case deleteExpense.type:
+//             toast.success('Expense deleted successfully');
+//             break
+//         case setExpensesError.type:
+//             toast.error('Error loading expenses');
+//             break;
+//         case newExpenseError.type:
+//             toast.error('Error adding new expense');
+//             break;
+//         case editExpenseError.type:
+//             toast.error('Error editing expense');
+//             break;
+//         case deleteExpenseError.type:
+//             toast.error('Error deleting expense');
+//             break;
+//         default:
+//             break;
+//     }
+//     return next(action);
+
+// }
+// export default ToastMiddleware;
+
+
 import {
-    newExpense, editExpense, deleteExpense,
-    setExpensesError, newExpenseError, editExpenseError, deleteExpenseError
-} from '../app/expensesSlice';
+    addEvent, editEvent, deleteEvent, addEventError, editEventError, deleteEventError, getAllEventsError
+} from '../app/eventsSlice';
 import { toast } from 'react-toastify';
 
 const ToastMiddleware = () => next => action => {
     switch (action.type) {
-        case newExpense.type:
-            toast.success('New expense added successfully');
+        case addEvent.type:
+            toast.success('New Event added successfully');
             break
-        case editExpense.type:
-            toast.success('Expense  edited successfully');
+        case editEvent.type:
+            toast.success('Event  edited successfully');
             break;
-        case deleteExpense.type:
-            toast.success('Expense deleted successfully');
+        case deleteEvent.type:
+            toast.success('Event deleted successfully');
             break
-        case setExpensesError.type:
+        case getAllEventsError.type:
             toast.error('Error loading expenses');
             break;
-        case newExpenseError.type:
-            toast.error('Error adding new expense');
+        case addEventError.type:
+            toast.error('Error adding new event');
             break;
-        case editExpenseError.type:
-            toast.error('Error editing expense');
+        case editEventError.type:
+            toast.error('Error editing the event');
             break;
-        case deleteExpenseError.type:
-            toast.error('Error deleting expense');
+        case deleteEventError.type:
+            toast.error('Error deleting the event');
             break;
         default:
             break;

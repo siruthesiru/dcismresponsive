@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
-import { AlumniRows } from "../../../data/mockAdminData";
 import { faqColumns } from "../../../components/constant/adminColumnHeaders";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllAnnouncements } from "../../../services/announcement";
 
 const Announcements = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const announcements = useSelector((state) => state.announcementsSlice.announcements);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        GetAllAnnouncements(dispatch)
+    }, [dispatch])
 
     return (
         <Box m="1.5rem 2.5rem">
@@ -27,7 +35,7 @@ const Announcements = () => {
                     </Button>
                 </Box>
             </Box>
-            <DataTable slug="announcements" columns={faqColumns} rows={AlumniRows} />
+            <DataTable slug="Announcement" columns={faqColumns} rows={announcements} />
         </Box>
     );
 };

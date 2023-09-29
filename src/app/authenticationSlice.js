@@ -8,8 +8,6 @@ const initialState = {
     firstName: localStorage.getItem('firstName') || null,
     lastName: localStorage.getItem('lastName') || null,
     role: localStorage.getItem('role') || null,
-    //forgotPasswordRequestSuccess: false,
-
 };
 
 export const authenticationSlice = createSlice({
@@ -44,7 +42,6 @@ export const authenticationSlice = createSlice({
             return initialState;
         },
         forgotPasswordRequestSuccess: (state, action) => {
-            //state.forgotPasswordRequestSuccess = true;
             state.isSucceed = action.payload.isSucceed;
             state.message = action.payload.message;
         },
