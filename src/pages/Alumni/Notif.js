@@ -5,14 +5,15 @@ import JobContent from '../../components/alumni-company/JobContent';
 import NotifContent from '../../components/alumni-company/NotificationContent';
 
 
-import { NotifData,UserCardData,PendingData} from "../../data/mockAlumniData";
+import { NotifData, UserCardData, PendingData } from "../../data/mockAlumniData";
+import Search from '../../components/alumni-company/SearchBox';
 
 
 function Notif() {
     const user = UserCardData[0];
     const pending = PendingData[0];
     const notif = NotifData[0];
-    console.log("data",notif);
+    console.log("data", notif);
 
 
     return (
@@ -20,11 +21,12 @@ function Notif() {
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>
 
                 <div className="sm:w-[25%] gap-2">
+                    <Search />
                     <UserCard data={user} />
                 </div>
 
                 <div className='sm:w-[50%] space-y-2'>
-                    <NotifContent data={notif}/>
+                    <NotifContent data={notif} />
                 </div>
 
                 <div className='sm:w-[25%]'>

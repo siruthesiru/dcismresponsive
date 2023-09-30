@@ -9,13 +9,13 @@ const UnprotectedRoute = () => {
   let content;
   switch (role) {
     case 'ALUMNI':
-      content = <Navigate to="/user_dashboard" />;
+      content = <Navigate to="/alumni/dashboard" />;
       break;
     case 'COMPANY':
-      content = <Navigate to="/company_dashboard" />;
+      content = <Navigate to="/company/dashboard" />;
       break;
     case 'ADMIN':
-      content = <Navigate to="/admin_dashboard" />;
+      content = <Navigate to="/admin/dashboard" />;
       break;
     default:
       content = <Outlet />;
