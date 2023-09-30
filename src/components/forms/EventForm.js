@@ -30,25 +30,43 @@ const EventForm = ({ onSubmit, initialEvent }) => {
             const endDate = new Date(initialEvent.end);
             setNewEvent({
                 ...initialEvent,
-                // Name: initialEvent.name,
-                // Description: initialEvent.description,
-                // Venue: initialEvent.venue,
-                // Audience: initialEvent.audience,
-                // Start: startDate,
-                // End: endDate
+                Name: initialEvent.name,
+                Description: initialEvent.description,
+                Venue: initialEvent.venue,
+                Audience: initialEvent.audience,
+                Start: startDate,
+                End: endDate
             });
         }
     }, [initialEvent])
 
     console.log(newEvent);
-    const handleFormSubmit = () => {
-        if (initialEvent) {
-            EditEvent(dispatch, newEvent);
-        } else {
-            AddEvent(dispatch, newEvent);
+    const handleFormSubmit = async () => {
+        try {
+            let editedEventData;
+
+            if (initialEvent) {
+                editedEventData = await EditEvent(dispatch, newEvent);
+                await GetAllEvents(dispatch);
+            } else {
+                await AddEvent(dispatch, newEvent);
+                await GetAllEvents(dispatch);
+            }
+
+            // Update the newEvent state with the edited or newly added event data
+            setNewEvent(editedEventData || {
+                Name: "",
+                Description: "",
+                Venue: "",
+                Audience: "All",
+                Start: new Date(),
+                End: new Date(),
+            });
+
+            onSubmit(editedEventData);
+        } catch (error) {
+            console.error('Error:', error);
         }
-        GetAllEvents(dispatch);
-        onSubmit(newEvent);
     }
 
     return (
