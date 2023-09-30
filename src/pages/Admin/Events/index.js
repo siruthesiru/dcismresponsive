@@ -8,6 +8,9 @@ import EventForm from "../../../components/forms/EventForm";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllEvents } from "../../../services/events";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Events = () => {
     const theme = useTheme();
@@ -21,10 +24,8 @@ const Events = () => {
     }, [dispatch])
 
     const [openPopup, setOpenup] = useState(false);
-    const [allEvents, setAllEvents] = useState(events);
 
-    const handleEvent = (newEvent) => {
-        setAllEvents([...allEvents, newEvent]);
+    const handleEvent = () => {
         setOpenup(false);
     };
 
@@ -38,6 +39,8 @@ const Events = () => {
                     justifyContent="space-between"
                 >
                     <Header title="Calendar Section" subtitle="List of Events" />
+                    <ToastContainer position="top-right" autoClose={3000} />
+
                     <Box display="flex" gap="15px">
                         <Button
                             variant="contained"
@@ -51,7 +54,7 @@ const Events = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Calendar events={allEvents} />
+                <Calendar events={events} />
             </Box>
             <PopUp
                 title="ADD EVENT FORM"

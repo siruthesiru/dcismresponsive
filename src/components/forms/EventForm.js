@@ -3,36 +3,51 @@ import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/mate
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import { AddEvent, EditEvent } from '../../services/events';
+import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
 import { useDispatch } from 'react-redux';
 
 
 const EventForm = ({ onSubmit, initialEvent }) => {
+
     const audiences = ["All", "Company", "Alumni"];
-    const [newEvent, setNewEvent] = useState({
-        title: "",
-        venue: "",
-        eventInfo: "",
-        start: null,
-        end: null,
-        audience: "All",
-        file: null
+
+    // Initialize newEvent with the same format as initialEvent
+    const [newEvent, setNewEvent] = useState(initialEvent ? { ...initialEvent } : {
+        Name: "",
+        Description: "",
+        Venue: "",
+        Audience: "All",
+        Start: new Date(),
+        End: new Date(),
+        // File: null
     });
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (initialEvent) {
-            setNewEvent(initialEvent);
+            const startDate = new Date(initialEvent.start);
+            const endDate = new Date(initialEvent.end);
+            setNewEvent({
+                ...initialEvent,
+                // Name: initialEvent.name,
+                // Description: initialEvent.description,
+                // Venue: initialEvent.venue,
+                // Audience: initialEvent.audience,
+                // Start: startDate,
+                // End: endDate
+            });
         }
     }, [initialEvent])
 
+    console.log(newEvent);
     const handleFormSubmit = () => {
         if (initialEvent) {
             EditEvent(dispatch, newEvent);
         } else {
             AddEvent(dispatch, newEvent);
         }
+        GetAllEvents(dispatch);
         onSubmit(newEvent);
     }
 
@@ -44,8 +59,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <Select
                         labelId="program-graduated-label"
                         id="program-graduated"
-                        value={newEvent.audience}
-                        onChange={(e) => setNewEvent({ ...newEvent, audience: e.target.value })}
+                        value={newEvent.Audience}
+                        onChange={(e) => setNewEvent({ ...newEvent, Audience: e.target.value })}
                         style={{ maxHeight: '250px', marginLeft: "1rem" }}
                     >
                         {audiences.map((item) => (
@@ -59,8 +74,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <TextField
                         label="Event Name"
                         placeholder='Type the title of the event'
-                        value={newEvent.title}
-                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        value={newEvent.Name}
+                        onChange={(e) => setNewEvent({ ...newEvent, Name: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
@@ -72,8 +87,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         placeholder='Type the description of the event'
                         multiline
                         minRows={3}
-                        value={newEvent.eventInfo}
-                        onChange={(e) => setNewEvent({ ...newEvent, eventInfo: e.target.value })}
+                        value={newEvent.Description}
+                        onChange={(e) => setNewEvent({ ...newEvent, Description: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
@@ -83,8 +98,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <TextField
                         label="Venue"
                         placeholder='Venue of the event'
-                        value={newEvent.venue}
-                        onChange={(e) => setNewEvent({ ...newEvent, venue: e.target.value })}
+                        value={newEvent.Venue}
+                        onChange={(e) => setNewEvent({ ...newEvent, Venue: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
@@ -98,8 +113,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         timeFormat="HH:mm"
                         timeIntervals={60}
                         dateFormat="MM/dd/yyyy h:mm aa"
-                        selected={newEvent.start}
-                        onChange={(start) => setNewEvent({ ...newEvent, start })}
+                        selected={newEvent.Start}
+                        onChange={(Start) => setNewEvent({ ...newEvent, Start })}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }} >
@@ -110,8 +125,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         timeFormat="HH:mm"
                         timeIntervals={60}
                         dateFormat="MM/dd/yyyy h:mm aa"
-                        selected={newEvent.end}
-                        onChange={(end) => setNewEvent({ ...newEvent, end })}
+                        selected={newEvent.End}
+                        onChange={(End) => setNewEvent({ ...newEvent, End })}
                     />
                 </Grid>
                 <Grid item sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
