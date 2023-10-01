@@ -73,16 +73,15 @@ const EventWithTooltip = ({ event }) => {
                         />
                     </IconButton>
                 </Box>
+                <PopUp
+                    title="EDIT EVENT"
+                    openPopup={openEditPopup}
+                    setOpenup={setOpenEditPopup}
+                >
+                    <EventForm onSubmit={handleEditEvent} initialEvent={event} />
+                </PopUp>
+                <ConfirmationDialog open={openDeletePopup} onClose={handleDeleteEvent} onConfirm={handleDelete} />
             </Box>
-
-            <PopUp
-                title="EDIT EVENT"
-                openPopup={openEditPopup}
-                setOpenup={setOpenEditPopup}
-            >
-                <EventForm onSubmit={handleEditEvent} initialEvent={event} />
-            </PopUp>
-            <ConfirmationDialog open={openDeletePopup} onClose={handleDeleteEvent} onConfirm={handleDelete} />
         </Tooltip >
     );
 };

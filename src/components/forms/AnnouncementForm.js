@@ -13,7 +13,7 @@ const AnnouncementForm = () => {
 
     const [formData, setFormData] = useState({
         Title: "",
-        Description: "",
+        Content: "",
         Audience: "All",
         file: null,
     });
@@ -83,28 +83,27 @@ const AnnouncementForm = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem" }}>
-                            <div>
-                                <label>Intended Audience: </label>
-                                <Select
-                                    labelId="program-graduated-label"
-                                    id="program-graduated"
-                                    value={formData.Audience}
-                                    onChange={(e) => setFormData({ ...formData, Audience: e.target.value })}
+                        <Box sx={{ display: "flex", alignItems: "center", marginTop: "1rem" }}>
+                            <label>Intended Audience: </label>
+                            <Select
+                                labelId="program-graduated-label"
+                                id="program-graduated"
+                                value={formData.Audience}
+                                onChange={(e) => setFormData({ ...formData, Audience: e.target.value })}
+                                style={{ marginLeft: "5px" }}
+                            >
+                                {audiences.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        {item}
+                                    </MenuItem>
+                                ))}
+                            </Select>
 
-                                >
-                                    {audiences.map((item) => (
-                                        <MenuItem key={item} value={item}>
-                                            {item}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </div>
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <label>Description: </label>
-                        <RichTextEditor value={formData.Description} onChange={(value) => setFormData({ ...formData, value })} />
+                        <RichTextEditor value={formData.Content} onChange={(value) => setFormData({ ...formData, Content: value })} />
                     </Grid>
 
 
