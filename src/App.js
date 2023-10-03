@@ -89,7 +89,7 @@ const App = () => {
               </Route>
 
               {/* route for user create a layout for the alumni ang company */}
-              <Route element={<ProtectedRoute userRole="ALUMNI" />}>
+              <Route element={<ProtectedRoute userRole="ALUMNI" userVerified="true"/>}>
                 <Route element={<Navbar />} />
                 <Route path="/user_dashboard" element={<AlumniEvents />} />
                 <Route path="/faq" element={<AlumniFAQ />} />
