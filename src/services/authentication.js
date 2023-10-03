@@ -129,28 +129,6 @@ export const SignIn = async (dispatch, credentials) => {
 //         dispatch(authenticationError({ message: errorMessage }));
 //     }
 // }
-export const LoginGoogle = async (dispatch, token) => {
-    try {
-        const response = await axiosInstance.post(`/google-login?token=${token}`);
-        console.log(token);
-        console.log(response.message);
-        if (response.data.isSucceed) {
-            dispatch(
-                userAuthenticated({
-                    isAlumni: response.data.isAlumni,
-                    role: response.data.role,
-                    message: response.data.message,
-                    email: response.data.email,
-                    token: response.data.token,
-                })
-            );
-        } 
-    } catch(error) {
-        console.error('Error:', error);
-        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
-        dispatch(authenticationError({ message: errorMessage }));
-    }
-}
 
 export const SignUpGoogleAlumni = async (dispatch, token, role) => {
     try {
@@ -160,31 +138,6 @@ export const SignUpGoogleAlumni = async (dispatch, token, role) => {
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
-                    isAlumni: response.data.isAlumni,
-                    role: response.data.role,
-                    message: response.data.message,
-                    email: response.data.email,
-                    token: response.data.token,
-                })
-            );
-        } 
-    } catch(error) {
-        console.error('Error:', error);
-        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
-        dispatch(authenticationError({ message: errorMessage }));
-    }
-}
-
-export const SignUpGoogleCompany = async (dispatch, token, role) => {
-    try {
-        const response = await axiosInstance.post(`/google-company?token=${token}&role=${role}`);
-        console.log(token);
-        console.log(role);
-        if (response.data.isSucceed) {
-            dispatch(
-                userAuthenticated({
-                    isAlumni: response.data.isAlumni,
-                    role: response.data.role,
                     message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
