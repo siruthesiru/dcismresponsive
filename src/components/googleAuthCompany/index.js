@@ -1,9 +1,10 @@
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import React from 'react'
-import { SignUpGoogleAlumni } from '../../services/authentication'
+import { SignUpGoogleCompany } from '../../services/authentication'
 import { useDispatch } from 'react-redux'
-const role = "ALUMNI";
-const GoogleAuth = () => {
+const role = "COMPANY";
+
+const GoogleAuthCompany = () => {
     const dispatch = useDispatch();
     return (
         <div className='flex w-full rounded-md shadow-md justify-center border'>
@@ -11,7 +12,7 @@ const GoogleAuth = () => {
                 <div className='p-2'>
                     
                 <GoogleLogin
-                     onSuccess={credentialResponse => SignUpGoogleAlumni(dispatch, credentialResponse.credential, role)}
+                     onSuccess={credentialResponse => SignUpGoogleCompany(dispatch, credentialResponse.credential, role)}
                     // onSuccess={credentialResponse => {
                     //     console.log(credentialResponse);
                     //   }}
@@ -27,4 +28,4 @@ const GoogleAuth = () => {
     )
 }
 
-export default GoogleAuth
+export default GoogleAuthCompany

@@ -10,7 +10,7 @@ import { SignIn } from "../../../services/authentication";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/capstole.png';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import FormWithHeader from "../../../components/formheader";
+import FormWithHeader from "../../../components/formheader/index.js";
 
 const Login = () => {
     const { message } = useSelector((state) => state.authentication)

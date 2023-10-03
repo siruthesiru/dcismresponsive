@@ -35,10 +35,9 @@ export const authenticationSlice = createSlice({
             state.role = action.payload.role;
         },
         authenticationError: (state, action) => {
-            const { message } = action.payload;
             state.isAlumni = false;
             state.isSucceed = false;
-            state.message = message;
+            state.message = action.payload.message;
             state.email = null;
             state.token = null;
         },

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/capstole.png'
-import FormWithHeader from "../../../components/formheader";
+import FormWithHeader from "../../../components/formheader/indexAlumni";
 import { useDispatch, useSelector } from "react-redux";
 import { SignUpAlumni } from "../../../services/authentication";
 import {
