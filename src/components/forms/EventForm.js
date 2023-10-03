@@ -3,7 +3,7 @@ import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/mate
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
+import { AddEvent, EditEvent } from '../../services/events';
 import { useDispatch } from 'react-redux';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
@@ -34,14 +34,13 @@ const EventForm = ({ onSubmit, initialEvent }) => {
 
     const dispatch = useDispatch();
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async () => {
 
         if (initialEvent) {
-            EditEvent(dispatch, newEvent);
+            await EditEvent(dispatch, newEvent);
         } else {
-            AddEvent(dispatch, newEvent);
+            await AddEvent(dispatch, newEvent);
         }
-        GetAllEvents(dispatch);
         onSubmit(newEvent);
     }
 
@@ -136,6 +135,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
                     />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
                     <Button
                         type="button"

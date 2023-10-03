@@ -10,7 +10,6 @@ import {
     addAAnnouncementError,
     getAnnouncementByID
 } from '../app/announcementsSlice'
-import { mockAnnouncements } from "../data/mockAdminData";
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Announcements`,
@@ -23,8 +22,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllAnnouncements = async (dispatch) => {
     try {
-        // const { data } = await axiosInstance.get();
-        const data = mockAnnouncements;
+        const { data } = await axiosInstance.get();
         dispatch(getAllAnnouncements(data))
     } catch (error) {
         console.error('Error:', error);
@@ -34,13 +32,9 @@ export const GetAllAnnouncements = async (dispatch) => {
 
 export const GetAnnouncementByID = async (dispatch, id) => {
     try {
-        // const { data } = await axiosInstance.get(`/${id}`);
-        // dispatch(editAnnouncement(data));
-
-        const announcementId = parseInt(id, 10); // Convert id to a number
-        const announcement = mockAnnouncements.find((announcement) => announcement.id === announcementId);
-        dispatch(getAnnouncementByID(announcement));
-        return announcement;
+        const { data } = await axiosInstance.get(`/${id}`);
+        dispatch(getAnnouncementByID(data));
+        return data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(editAnnouncementError());

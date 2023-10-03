@@ -17,6 +17,9 @@ const Events = () => {
     const colors = tokens(theme.palette.mode);
 
     const events = useSelector((state) => state.eventsSlice.events);
+    const errorMessage = useSelector((state) => state.eventsSlice.errorMessage);
+    console.log(errorMessage);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -39,7 +42,7 @@ const Events = () => {
                     justifyContent="space-between"
                 >
                     <Header title="Calendar Section" subtitle="List of Events" />
-                    <ToastContainer position="top-right" autoClose={3000} />
+                    <ToastContainer position="top-right" autoClose={3000} errorMessage={errorMessage} />
 
                     <Box display="flex" gap="15px">
                         <Button
