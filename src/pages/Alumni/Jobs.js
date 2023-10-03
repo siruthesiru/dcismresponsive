@@ -1,10 +1,10 @@
 import React from 'react'
 
 import UserCard from '../../components/alumni-company/UserCard';
-import Search from '../../components/alumni-company/UserCard';
 import JobContent from '../../components/alumni-company/JobContent';
 
-import { JobsData,UserCardData,PendingData} from "../../data/mockAlumniData";
+import { JobsData, UserCardData, PendingData } from "../../data/mockAlumniData";
+import Search from '../../components/alumni-company/SearchBox';
 
 
 function Jobs() {
@@ -16,8 +16,6 @@ function Jobs() {
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>
-
-
                 <div className="flex flex-col sm:w-[25%] gap-2">
                     <Search />
                     <UserCard data={user} />

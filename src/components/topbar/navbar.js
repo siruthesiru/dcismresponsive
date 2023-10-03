@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -13,19 +12,18 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import applogo from "../../assets/applogowhite.png";
-import { ColorModeContext, tokens } from '../../theme';
-import { BusinessCenter, DarkModeOutlined, Help, LightModeOutlined, Newspaper, Search } from '@mui/icons-material';
+import { BusinessCenter, Help, Newspaper } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { tokens } from '../../theme';
 
 
 const Navbar = () => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
-
     const { firstName, lastName } = useSelector(state => state.authentication)
     const dispatch = useDispatch();
 
@@ -52,6 +50,9 @@ const Navbar = () => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const navigate = useNavigate();
+
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -73,7 +74,7 @@ const Navbar = () => {
                 <Button>My Profile</Button>
             </MenuItem>
             <MenuItem>
-                <Button onClick={() => { dispatch(logout()) }} href="/"> Log out</Button>
+                <Button onClick={() => { dispatch(logout()) }} href="/" > Log out</Button>
             </MenuItem>
         </Menu>
     );
@@ -96,24 +97,14 @@ const Navbar = () => {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton onClick={colorMode.toggleColorMode} size="large" color="inherit">
-                    {theme.palette.mode === "light" ? (
-                        <LightModeOutlined />
-                    ) : (
-                        <DarkModeOutlined />
-                    )}
-                </IconButton>
-                <p>{`${theme.palette.mode} mode`}</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton size="large" color="inherit">
+                <IconButton size="large" color="inherit" onClick={() => navigate("/alumni/dashboard")}>
                     <Newspaper />
                 </IconButton>
                 <p>Events and Announcement</p>
             </MenuItem>
             <MenuItem>
                 <IconButton size="large" color="inherit">
-                    <Badge badgeContent={10} color="error">
+                    <Badge badgeContent={10} color="error" onClick={() => navigate("/alumni/jobs")}>
                         <BusinessCenter />
                     </Badge>
                 </IconButton>
@@ -121,14 +112,14 @@ const Navbar = () => {
             </MenuItem>
             <MenuItem>
                 <IconButton size="large" color="inherit">
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={17} color="error" onClick={() => navigate("/alumni/notifications")}>
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
             <MenuItem>
-                <IconButton size="large" color="inherit">
+                <IconButton size="large" color="inherit" onClick={() => navigate("/alumni/faq")}>
                     <Help />
                 </IconButton>
                 <p>FAQ</p>
@@ -139,7 +130,7 @@ const Navbar = () => {
                 </IconButton>
                 <p>{firstName} {lastName}</p>
             </MenuItem>
-        </Menu>
+        </Menu >
     );
 
     return (
@@ -166,29 +157,9 @@ const Navbar = () => {
                     >
                         ACES
                     </Typography>
-                    <Box
-                        sx={{
-                            backgroundColor: colors.primary[400],
-                            borderRadius: "9px",
-                            marginLeft: "2rem",
-                            padding: "0.1rem 1.5rem",
-                        }}
-                    >
-                        <InputBase placeholder="Search.." />
-                        <IconButton>
-                            <Search />
-                        </IconButton>
-                    </Box>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: "1rem" }}>
-                        <IconButton onClick={colorMode.toggleColorMode} size="large" color="inherit">
-                            {theme.palette.mode === "light" ? (
-                                <LightModeOutlined />
-                            ) : (
-                                <DarkModeOutlined />
-                            )}
-                        </IconButton>
-                        <IconButton size="large" color="inherit">
+                        <IconButton size="large" color="inherit" onClick={() => navigate("/alumni/dashboard")}>
                             <Newspaper />
                         </IconButton>
                         <IconButton
@@ -196,7 +167,7 @@ const Navbar = () => {
                             aria-label="show 10 jobs matches to the user"
                             color="inherit"
                         >
-                            <Badge badgeContent={10} color="error">
+                            <Badge badgeContent={10} color="error" onClick={() => navigate("/alumni/jobs")}>
                                 <BusinessCenter />
                             </Badge>
                         </IconButton>
@@ -205,11 +176,11 @@ const Navbar = () => {
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge badgeContent={17} color="error" onClick={() => navigate("/alumni/notifications")}>
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton size="large" color="inherit">
+                        <IconButton size="large" color="inherit" onClick={() => navigate("/alumni/faq")}>
                             <Help />
                         </IconButton>
                         <IconButton

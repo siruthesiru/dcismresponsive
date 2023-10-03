@@ -717,8 +717,12 @@ export const mockEvents = [
         eventInfo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         start: new Date("2023-09-01T09:00:00Z"), // Sample start time for Event 1
         end: new Date("2023-09-01T12:00:00Z"),   // Sample end time for Event 1
-        audience: "All",
-        file: null,
+        Audience: "Company",
+        file: {
+            name: "Company_Meeting.docx",
+            size: 2048 * 1024, // 2 MB
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        },
     },
     {
         title: "Event 2",
