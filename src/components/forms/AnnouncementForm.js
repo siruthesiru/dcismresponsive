@@ -5,7 +5,6 @@ import RichTextEditor from './RichTextEditor';
 import { useDispatch, } from 'react-redux';
 import { AddAnnouncement, EditAnnouncement, GetAnnouncementByID } from '../../services/announcement';
 import { useNavigate, useParams } from 'react-router-dom'; // Import useHistory
-import { addEventError } from '../../app/eventsSlice';
 import { editAnnouncementError } from '../../app/announcementsSlice';
 
 
@@ -55,7 +54,6 @@ const AnnouncementForm = () => {
             }
             navigate('/announcements');
         } catch (error) {
-            dispatch(addEventError());
 
         }
 
