@@ -40,6 +40,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
             await EditEvent(dispatch, newEvent);
         } else {
             await AddEvent(dispatch, newEvent);
+            console.log(newEvent);
         }
         onSubmit(newEvent);
     }

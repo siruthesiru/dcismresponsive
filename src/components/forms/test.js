@@ -2,28 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid, MenuItem, Paper, Select, TextField } from "@mui/material";
 import Header from '../header';
 import RichTextEditor from './RichTextEditor';
-import { useDispatch, } from 'react-redux';
-import { AddAnnouncement, EditAnnouncement, GetAnnouncementByID } from '../../services/announcement';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useHistory
-import { addEventError } from '../../app/eventsSlice';
-import { editAnnouncementError } from '../../app/announcementsSlice';
-
+import { EditAnnouncement, GetAnnouncementByID } from '../../services/announcement';
+import { useDispatch } from 'react-redux';
+import { addAnnouncement, editAnnouncementError } from '../../app/announcementsSlice';
+import { useParams } from 'react-router-dom';
 
 const audiences = ["All", "Company", "Alumni"];
 
 const AnnouncementForm = () => {
 
-    const { id } = useParams();
-
     const [formData, setFormData] = useState({
-        title: "",
-        content: "",
-        audience: "All",
+        Title: "",
+        Content: "",
+        Audience: "All",
         file: null,
     });
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
         const fetchAnnouncementData = async () => {
@@ -44,28 +40,24 @@ const AnnouncementForm = () => {
         fetchAnnouncementData();
     }, [id, dispatch]);
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            if (id) {
-                await EditAnnouncement(dispatch, formData, id);
-            } else {
-                await AddAnnouncement(dispatch, formData);
-                console.log(formData);
-            }
-            navigate('/announcements');
-        } catch (error) {
-            dispatch(addEventError());
-
+    const handleFormSubmit = () => {
+        addAnnouncement(dispatch, formData);
+        console.log(formData);
+        if (id) {
+            EditAnnouncement(dispatch, formData);
+        } else {
+            addAnnouncement(dispatch, formData);
+            console.log(formData);
         }
-
     };
 
 
     return (
         <Box m="1rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Header title={id ? "Edit Announcement" : "Add Announcement"} subtitle="" />
+                {/* <Header title={id ? "Edit Announcement" : "Add Announcement"} subtitle="" /> */}
+                <Header title="Add Announcement" subtitle="" />
+
             </Box>
             <Paper elevation={3} sx={{ p: "1.5rem 2.5rem" }}>
                 <form onSubmit={handleFormSubmit}>
@@ -74,8 +66,8 @@ const AnnouncementForm = () => {
                             <label>Title: </label>
                             <TextField
                                 placeholder='Type in the title'
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                value={formData.Title}
+                                onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
                                 variant='outlined'
                                 fullWidth
                                 required
@@ -98,8 +90,8 @@ const AnnouncementForm = () => {
                             <Select
                                 labelId="program-graduated-label"
                                 id="program-graduated"
-                                value={formData.audience}
-                                onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
+                                value={formData.Audience}
+                                onChange={(e) => setFormData({ ...formData, Audience: e.target.value })}
                                 style={{ marginLeft: "5px" }}
                             >
                                 {audiences.map((item) => (
@@ -113,7 +105,7 @@ const AnnouncementForm = () => {
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <label>Description: </label>
-                        <RichTextEditor value={formData.content} onChange={(value) => setFormData({ ...formData, content: value })} />
+                        <RichTextEditor value={formData.Content} onChange={(value) => setFormData({ ...formData, Content: value })} />
                     </Grid>
 
 
@@ -130,7 +122,8 @@ const AnnouncementForm = () => {
                                 color: "#FFFFFF",
                             }}
                         >
-                            {id ? "Update" : "Submit"}
+                            Submit
+                            {/* {id ? "Update" : "Submit"} */}
                         </Button>
                     </Grid>
                 </form>

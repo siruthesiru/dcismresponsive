@@ -187,17 +187,22 @@ export const alumniColumns = [
 
 export const faqColumns = [
     {
-        field: "Title",
+        field: "id",
+        headerName: "ID",
+        flex: 1,
+    },
+    {
+        field: "title",
         headerName: "Title",
         flex: 1,
     },
     {
-        field: "Description",
-        headerName: "Description",
+        field: "content",
+        headerName: "Content",
         flex: 2,
     },
     {
-        field: "Audience",
+        field: "audience",
         headerName: "Audience",
         flex: 1,
     },
@@ -224,6 +229,17 @@ export const faqColumns = [
             }
         },
     },
+    {
+        field: "createdAt",
+        headerName: "CreatedAt",
+        flex: 1,
+    },
+    {
+        field: "updatedAt",
+        headerName: "UpdatedAt",
+        flex: 1,
+    },
+
 ];
 
 

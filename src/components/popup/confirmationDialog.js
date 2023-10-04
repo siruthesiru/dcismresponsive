@@ -13,7 +13,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
             <DialogTitle id="alert-dialog-title">Confirm Delete</DialogTitle>
             <DialogContent>
                 <Typography variant="body1">
-                    Are you sure you want to delete this event?
+                    Are you sure you want to delete this item?
                 </Typography>
             </DialogContent>
             <DialogActions>

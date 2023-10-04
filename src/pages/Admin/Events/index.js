@@ -42,7 +42,7 @@ const Events = () => {
                     justifyContent="space-between"
                 >
                     <Header title="Calendar Section" subtitle="List of Events" />
-                    <ToastContainer position="top-right" autoClose={3000} errorMessage={errorMessage} />
+                    <ToastContainer position="top-right" autoClose={3000} />
 
                     <Box display="flex" gap="15px">
                         <Button

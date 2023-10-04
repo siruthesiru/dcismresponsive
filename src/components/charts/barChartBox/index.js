@@ -1,85 +1,93 @@
 import React from 'react';
 import {
-    AreaChart,
-    Area,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
+  LineChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Legend,
+  Line
 } from 'recharts';
 
 import './index.scss';
 
 const data = [
-    {
-        semester: 'Semester 1',
-        'Course A': 20,
-        'Course B': 15,
-        'Course C': 18,
-        'Course D': 25,
-        'Course E': 12,
-        'Course F': 30,
-        'Course G': 22,
-    },
-    {
-        semester: 'Semester 2',
-        'Course A': 30,
-        'Course B': 25,
-        'Course C': 28,
-        'Course D': 33,
-        'Course E': 18,
-        'Course F': 35,
-        'Course G': 28,
-    },
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
 ];
 
-const colors = [
-    '#8884d8',
-    '#82ca9d',
-    '#ffc658',
-    'red',
-    'blue',
-    'green',
-    'purple',
-];
+const LineChartBox = () => {
 
-const courses = Object.keys(data[0]).filter((key) => key !== 'semester');
-
-const BarChartBox = () => {
-
-    return (
-        <div className='barChartBox'>
-            <h1 className='text-xl font-semibold'>Alumni Report</h1>
-            <p>Number of Graduates per semester</p>
-            <div className='chart'>
-                <ResponsiveContainer width='99%' height='100%'>
-                    <AreaChart
-                        data={data}
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <XAxis dataKey='semester' />
-                        <YAxis />
-                        <Tooltip />
-                        {courses.map((course, index) => (
-                            <Area
-                                key={course}
-                                type='monotone'
-                                dataKey={course}
-                                stackId='1'
-                                stroke={colors[index]}
-                                fill={colors[index]}
-                            />
-                        ))}
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
-        </div>
-    );
+  return (
+    <div className='lineChartBox'>
+      <h1 className='text-xl font-semibold'>Alumni Report</h1>
+      <p>Number of Graduates per semester</p>
+      <div className='chart'>
+        <ResponsiveContainer width='99%' height='100%'>
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
 };
 
-export default BarChartBox;
+export default LineChartBox;

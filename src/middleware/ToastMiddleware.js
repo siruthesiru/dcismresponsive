@@ -1,3 +1,4 @@
+import { addAAnnouncementError, addAnnouncement, deleteAnnouncement, deleteAnnouncementError, editAnnouncement, editAnnouncementError, getAllAnnouncementsError } from '../app/announcementsSlice';
 import {
     addEvent,
     editEvent,
@@ -31,6 +32,27 @@ const ToastMiddleware = () => (next) => (action) => {
             toast.error(action.payload);
             break;
         case deleteEventError.type:
+            toast.error(action.payload);
+            break;
+        case addAnnouncement.type:
+            toast.success('New Announcement added successfully');
+            break;
+        case editAnnouncement.type:
+            toast.success('Announcement updated successfully');
+            break;
+        case deleteAnnouncement.type:
+            toast.success('Announcement deleted successfully');
+            break;
+        case getAllAnnouncementsError.type:
+            toast.error('Error loading expenses');
+            break;
+        case addAAnnouncementError.type:
+            toast.error(action.payload);
+            break;
+        case editAnnouncementError.type:
+            toast.error(action.payload);
+            break;
+        case deleteAnnouncementError.type:
             toast.error(action.payload);
             break;
         default:
