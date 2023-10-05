@@ -24,7 +24,6 @@ import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
-import Navbar from './components/topbar/navbar';
 
 import AlumniEvents from './pages/Alumni/LandingPage/A_Events.js';
 import AlumniFAQ from './pages/Alumni/A_Help.js';
@@ -128,6 +127,7 @@ const App = () => {
               <Route element={<UnprotectedRoute />}>
 
                   <Route path="/company/dashboard" element={<CompanyEvents />} />
+
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
                   <Route path="/company/jobs" element={<CompanyJobs />} />
                   <Route path="/company/notifications" element={<CompanyNotif />} />

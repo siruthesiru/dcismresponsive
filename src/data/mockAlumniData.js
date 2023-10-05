@@ -1,7 +1,4 @@
-import { Prev } from "react-bootstrap/esm/PageItem";
 import placeholder from "../../src/assets/placeholder.png";
-
-// import { EventData,HelpData, JobsData,NotifData,UserCardData} from "../../../data/mockAdminData";
 
 export const EventData = [
   {

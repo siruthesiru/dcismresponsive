@@ -10,7 +10,6 @@ import Search from '../../components/alumni-company/SearchBox';
 function A_SearchPage() {
     const user = UserCardData[0];
     const pending = PendingData[0];
-    const search = SearchData;
 
 
     return (
