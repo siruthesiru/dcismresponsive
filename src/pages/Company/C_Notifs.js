@@ -1,12 +1,11 @@
 import React from 'react'
+import CompanyCard from '../../components/alumni-company/CompanyCard';
 
-import UserCard from '../../components/alumni-company/UserCard';
 import JobContent from '../../components/alumni-company/JobContent';
 import NotifContent from '../../components/alumni-company/NotificationContent';
 
 
 import { NotifData, UserCardData, PendingData } from "../../data/mockAlumniData";
-import Search from '../../components/alumni-company/SearchBox';
 
 
 function Notif() {
@@ -21,8 +20,7 @@ function Notif() {
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>
 
                 <div className="sm:w-[25%] gap-2">
-                    <Search />
-                    <UserCard data={user} />
+                    <CompanyCard data={user} />
                 </div>
 
                 <div className='sm:w-[50%] space-y-2'>
