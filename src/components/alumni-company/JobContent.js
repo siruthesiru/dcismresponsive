@@ -1,6 +1,11 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 export default function JobContent({ data }) {
+  const location = useLocation();
+
+  const isCompanyPage = location.pathname.includes("/company");
+
   return (
     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
       <h1 className="font-bold text-[15px] uppercase ">{data.Head}</h1>
@@ -24,6 +29,12 @@ export default function JobContent({ data }) {
                 <Content title="Slots" desc={item.Slots} />
 
                 <p className="flex justify-end text-[#0098FF]">View Details</p>
+
+                {isCompanyPage && (
+                  <p className="flex justify-end text-[#aa3636]">
+                    Cancel Posting
+                  </p>
+                )}
               </div>
             </div>
           </div>
