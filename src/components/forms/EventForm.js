@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,35 +6,45 @@ import './index.scss';
 import { AddEvent, EditEvent } from '../../services/events';
 import { useDispatch } from 'react-redux';
 
-
 const EventForm = ({ onSubmit, initialEvent }) => {
+
     const audiences = ["All", "Company", "Alumni"];
-    const [newEvent, setNewEvent] = useState({
-        title: "",
-        venue: "",
-        eventInfo: "",
-        start: null,
-        end: null,
-        audience: "All",
-        file: null
+
+    const [newEvent, setNewEvent] = useState(() => {
+        if (initialEvent) {
+            const startDate = new Date(initialEvent.start);
+            const endDate = new Date(initialEvent.end);
+
+            return {
+                ...initialEvent,
+                start: startDate,
+                end: endDate,
+            };
+        } else {
+            return {
+                name: "",
+                description: "",
+                venue: "",
+                audience: "All",
+                start: new Date(),
+                end: new Date(),
+            };
+        }
     });
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (initialEvent) {
-            setNewEvent(initialEvent);
-        }
-    }, [initialEvent])
+    const handleFormSubmit = async () => {
 
-    const handleFormSubmit = () => {
         if (initialEvent) {
-            EditEvent(dispatch, newEvent);
+            await EditEvent(dispatch, newEvent);
         } else {
-            AddEvent(dispatch, newEvent);
+            await AddEvent(dispatch, newEvent);
+            console.log(newEvent);
         }
         onSubmit(newEvent);
     }
+
 
     return (
         <form>
@@ -46,7 +56,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         id="program-graduated"
                         value={newEvent.audience}
                         onChange={(e) => setNewEvent({ ...newEvent, audience: e.target.value })}
-                        style={{ maxHeight: '250px', marginLeft: "1rem" }}
+                        style={{ maxHeight: '250px', marginLeft: "1rem", flex: 1 }}
                     >
                         {audiences.map((item) => (
                             <MenuItem key={item} value={item}>
@@ -59,8 +69,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <TextField
                         label="Event Name"
                         placeholder='Type the title of the event'
-                        value={newEvent.title}
-                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        value={newEvent.name}
+                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
@@ -72,13 +82,17 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         placeholder='Type the description of the event'
                         multiline
                         minRows={3}
-                        value={newEvent.eventInfo}
-                        onChange={(e) => setNewEvent({ ...newEvent, eventInfo: e.target.value })}
+                        value={newEvent.description}
+                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
                     />
                 </Grid>
+                {/* <Grid item xs={12} sm={12}>
+                    <label>Description: </label>
+                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
+                </Grid> */}
                 <Grid item xs={12} sm={12}>
                     <TextField
                         label="Venue"
@@ -102,7 +116,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         onChange={(start) => setNewEvent({ ...newEvent, start })}
                     />
                 </Grid>
-                <Grid xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }} >
+                <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }} >
                     <InputLabel htmlFor="program-graduated-label" >End: </InputLabel>
                     <DatePicker
                         className='date-picker'
@@ -114,7 +128,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         onChange={(end) => setNewEvent({ ...newEvent, end })}
                     />
                 </Grid>
-                <Grid item sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
                     <InputLabel htmlFor="program-graduated-label" >Add File: </InputLabel>
                     <input
                         type="file"
@@ -122,7 +136,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
                     />
                 </Grid>
-                <Grid item sm={12}>
+
+                <Grid item xs={12} sm={12}>
                     <Button
                         type="button"
                         variant="contained"

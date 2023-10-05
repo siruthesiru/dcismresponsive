@@ -4,9 +4,9 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts'
 import './index.scss'
 
 const data = [
-    { name: "Employed", value: 400, color: "#0088FE" },
-    { name: "Unemployed", value: 300, color: "#00C49F" },
-    { name: "Self-Employed", value: 300, color: "#FFBB28" },
+    { name: "Employed", value: 400, color: "#5A6ACF" },
+    { name: "Unemployed", value: 300, color: "#8593ED" },
+    { name: "Self-Employed", value: 300, color: "#C7CEFF" },
 ];
 
 const PieChartBox = () => {

@@ -10,13 +10,11 @@ import {
     Menu,
     MenuItem,
 } from "@mui/material";
-import { InputBase } from "@mui/material";
 
 import {
     LightModeOutlined,
     DarkModeOutlined,
     Menu as MenuIcon,
-    Search,
     NotificationsOutlined,
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
@@ -52,21 +50,6 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                     <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <MenuIcon />
                     </IconButton>
-                    <Box
-                        sx={{
-                            backgroundColor: colors.primary[400],
-                            borderRadius: "9px",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "1rem",
-                            padding: "0.1rem 1.5rem",
-                        }}
-                    >
-                        <InputBase placeholder="Search.." />
-                        <IconButton>
-                            <Search />
-                        </IconButton>
-                    </Box>
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
