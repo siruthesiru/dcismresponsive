@@ -106,11 +106,8 @@ const App = () => {
 
               {/* route for user create a layout for the alumni ang company */}
 
-
-
-              {/* <Route element={<ProtectedRoute userRole="ALUMNI" />}> */}
-              <Route element={<ProtectedRoute userRole="ALUMNI" />}>
-                <Route element={<LayoutUser />} >
+              <Route element={<UnprotectedRoute userRole="ALUMNI" />}>
+                <Route element={<LayoutAlumni />} >
                   <Route path="/alumni/dashboard" element={<AlumniEvents />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<AlumniJobs />} />
@@ -124,26 +121,25 @@ const App = () => {
               </Route>
 
               {/* route for company  */}
-              {/* <Route element={<ProtectedRoute userRole="COMPANY" />}> */}
-              <Route element={<ProtectedRoute userRole="COMPANY" />}>
-                <Route element={<LayoutUser />} >
+              <Route element={<UnprotectedRoute userRole="COMPANY" />}>
+                <Route element={<LayoutCompany />} >
                   <Route path="/company/dashboard" element={<CompanyEvents />} />
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
                   <Route path="/company/jobs" element={<CompanyJobs />} />
                   <Route path="/company/notifications" element={<CompanyNotif />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-                </Route>                <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
-                <Route path="/company/add-posting" element={<CompanyAddPosting />} />
-                <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
+                  <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
+                  <Route path="/company/add-posting" element={<CompanyAddPosting />} />
+                  <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
 
 
+                </Route>
               </Route>
-            </Route>
 
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider >
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider >
     </ColorModeContext.Provider >
   );
 }
