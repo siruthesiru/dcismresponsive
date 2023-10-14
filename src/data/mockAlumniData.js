@@ -152,6 +152,33 @@ export const JobsData = [
   },
 ];
 
+export const CompanyJobsData = [
+  {
+    Head: "Your Postings",
+    Desc: "All your job placements",
+    data: [
+      {
+        Title: "Web Developer",
+        Company: "Accenture",
+        Location: "Cebu City",
+        Years: "5",
+        Salary: "P20,000",
+        Slots: "5",
+        Responses: "5",
+      },
+      {
+        Title: "Quality Assurance",
+        Company: "Touch Fire",
+        Location: "Cebu City",
+        Years: "5",
+        Salary: "P20,000",
+        Slots: "5",
+        Responses: "5",
+      },
+    ],
+  },
+];
+
 export const NotifData = [
   {
     data: [
@@ -298,5 +325,18 @@ export const CompanyProfileData = [
     contact_number: "123456789",
     contact_email: "joserizal@spinneret.com",
 
+  },
+];
+
+export const JobData = [
+  {
+    title: "Network Administrator based in Cebu",
+    position: "DevOps Specialist",
+    companyName: "Costa Losta Inc.",
+    companyAddress: "13th Floor, Rosalita Building 3, IT Park, Cebu City",
+    offer: " ₱26,000.00",
+    slots: 2,
+    yearsExperience: 1,
+    details: "Costa Losta is seeking a skilled DevOps Specialist to join our team. As a DevOps Specialist, you will be responsible for the development, deployment, and maintenance of our software applications and infrastructure. You will work closely with developers, testers, and other stakeholders to ensure the smooth operation of our systems."
   },
 ];

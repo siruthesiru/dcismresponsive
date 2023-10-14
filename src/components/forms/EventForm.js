@@ -12,13 +12,11 @@ const EventForm = ({ onSubmit, initialEvent }) => {
 
     const [newEvent, setNewEvent] = useState(() => {
         if (initialEvent) {
-            const startDate = new Date(initialEvent.start);
-            const endDate = new Date(initialEvent.end);
 
             return {
                 ...initialEvent,
-                start: startDate,
-                end: endDate,
+                start: new Date(initialEvent.start),
+                end: new Date(initialEvent.end),
             };
         } else {
             return {
@@ -35,11 +33,14 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     const dispatch = useDispatch();
 
     const handleFormSubmit = async () => {
+        const isoStartDate = newEvent.start.toISOString();
+        const isoEndDate = newEvent.end.toISOString();
+
 
         if (initialEvent) {
-            await EditEvent(dispatch, newEvent);
+            await EditEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
         } else {
-            await AddEvent(dispatch, newEvent);
+            await AddEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
             console.log(newEvent);
         }
         onSubmit(newEvent);
@@ -114,9 +115,10 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         dateFormat="MM/dd/yyyy h:mm aa"
                         selected={newEvent.start}
                         onChange={(start) => setNewEvent({ ...newEvent, start })}
+
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }} >
+                <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
                     <InputLabel htmlFor="program-graduated-label" >End: </InputLabel>
                     <DatePicker
                         className='date-picker'

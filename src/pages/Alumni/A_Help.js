@@ -20,8 +20,6 @@ function A_Help() {
                         </div>
                     ))}
                 </div>
-
-
             </div>
 
         </div>
