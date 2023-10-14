@@ -1,5 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 export default function AlumniProfileContent({ data, skills }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
       <div className="flex flex-col mx-auto justify-center items-center text-center">
@@ -55,8 +59,16 @@ export default function AlumniProfileContent({ data, skills }) {
           <Line />
 
           <Head head="Resume" />
-          <div className="flex justify-center">
-            <div className="w-1/2 hover:cursor-pointer border-2 p-2 bg-[#284858] text-white uppercase mt-8 rounded-xl flex justify-center items-center ">
+          <div>
+            {skills[0].skill.map((skill, index) => (
+              <div key={index} className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100">
+                <div>{skill}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center" onClick={() => navigate("/alumni/edit-profile")}>
+            <div className="w-1/2 hover:cursor-pointer border-2 p-2 bg-[#221769] text-white uppercase mt-8 rounded-xl flex justify-center items-center ">
               <p>Edit Profile</p>
             </div>
           </div>

@@ -9,7 +9,6 @@ import {
     ListItemIcon,
     ListItemText,
     Typography,
-    useTheme,
 } from "@mui/material";
 
 import {
@@ -18,7 +17,8 @@ import {
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { navItems } from "../constant/sidebarItems";
-import { tokens } from "../../theme";
+import applogo from "../../assets/applogowhite.png";
+
 
 const Sidebar = ({
     isNonMobile,
@@ -29,8 +29,6 @@ const Sidebar = ({
     const { pathname } = useLocation();
     const [active, setActive] = useState("");
     const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     useEffect(() => {
         setActive(pathname.substring(1));
@@ -51,9 +49,10 @@ const Sidebar = ({
                     anchor="left"
                     sx={{
                         width: drawerWidth,
-                        "&. MuiDrawer-paper": {
-                            color: colors.grey[100],
-                            backgroundColor: colors.primary[200],
+                        "& .MuiPaper-root": {
+                            backgroundColor: "#221769",
+                        },
+                        "&.MuiDrawer-paper": {
                             boxSizing: "border-box",
                             borderWidth: isNonMobile ? 0 : "2px",
                             width: drawerWidth,
@@ -61,74 +60,84 @@ const Sidebar = ({
                         },
                     }}
                 >
-                    <Box width="100%">
-                        <Box m="1.5rem 2rem 2rem 3rem">
-                            <Box
-                                color={colors.primary[100]}
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                            >
-                                <Box display="flex" alignItems="center" >
-                                    <Typography
-                                        variant="h4"
-                                        fontWeight="bold"
-                                        sx={{ color: colors.greenAccent[100] }}
-                                    >
-                                        ACES
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            {!isNonMobile && (
-                                <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                                    <ChevronLeft />
+
+                    <Box m="1.5rem 2rem 2rem 3rem">
+                        <Box
+                            color="#221769"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                        >
+                            <Box display="flex" alignItems="center" >
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    aria-label="open drawer"
+                                    sx={{ mr: 2 }}
+                                >
+                                    <img src={applogo} alt="ACES Logo" width={40} />
                                 </IconButton>
-                            )}
+                                <Typography
+                                    variant="h4"
+                                    fontWeight="bold"
+                                    sx={{ display: { xs: 'none', sm: 'block' }, color: "white" }}
+                                >
+                                    ACES
+                                </Typography>
+
+                            </Box>
                         </Box>
-                        <List>
-                            {navItems.map(({ text, icon }) => {
-                                if (!icon) {
-                                    return (
-                                        <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
-                                            {text}
-                                        </Typography>
-                                    );
-                                }
-                                const path = text.replace(/\s+/g, "_").toLowerCase();
+                        {!isNonMobile && (
+                            <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)} sx={{ color: "white" }}>
+                                <ChevronLeft />
+                            </IconButton>
+                        )}
+                    </Box>
+
+                    <List>
+                        {navItems.map(({ text, icon }) => {
+                            if (!icon) {
                                 return (
-                                    <ListItem key={text} disablePadding>
-                                        <ListItemButton
-                                            onClick={() => handleItemClick(path)}
+                                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem", color: "white" }}>
+                                        {text}
+                                    </Typography>
+                                );
+                            }
+                            const path = text.replace(/\s+/g, "_").toLowerCase();
+                            return (
+                                <ListItem key={text} disablePadding>
+                                    <ListItemButton
+                                        onClick={() => handleItemClick(path)}
+                                        sx={{
+                                            backgroundColor:
+                                                active === path ? "#f2f0f0" : "transparent",
+                                            color:
+                                                active === path
+                                                    ? "#00ccff"
+                                                    : "white",
+                                        }}
+                                    >
+                                        <ListItemIcon
                                             sx={{
-                                                backgroundColor:
-                                                    active === path ? colors.primary[400] : "transparent",
+                                                ml: "2rem",
                                                 color:
                                                     active === path
-                                                        ? colors.blue[700]
-                                                        : colors.greenAccent[100],
+                                                        ? "#00bbff"
+                                                        : "white",
                                             }}
                                         >
-                                            <ListItemIcon
-                                                sx={{
-                                                    ml: "2rem",
-                                                    color:
-                                                        active === path
-                                                            ? colors.blue[600]
-                                                            : colors.greenAccent[200],
-                                                }}
-                                            >
-                                                {icon}
-                                            </ListItemIcon>
-                                            <ListItemText primary={text} />
-                                            {active === path && (
-                                                <ChevronRightOutlined sx={{ ml: "auto" }} />
-                                            )}
-                                        </ListItemButton>
-                                    </ListItem>
-                                );
-                            })}
-                        </List>
-                    </Box>
+                                            {icon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+                                        {active === path && (
+                                            <ChevronRightOutlined sx={{ ml: "auto" }} />
+                                        )}
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+
                 </Drawer>
             )}
         </>

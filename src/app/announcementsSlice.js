@@ -2,13 +2,13 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 
 //Error Actions
 export const getAllAnnouncementsError = createAction('getAllAnnouncementsError');
-export const addAAnnouncementError = createAction('addAnnouncementError');
+export const addAnnouncementError = createAction('addAnnouncementError');
 export const editAnnouncementError = createAction('editAnnouncementError');
 export const deleteAnnouncementError = createAction('deleteAnnouncementError');
 export const getAnnouncementByIDError = createAction('getAnnouncementByIDError');
 
 
-export const announcementSlice = createSlice({
+export const announcementsSlice = createSlice({
     name: 'announcements',
     initialState: {
         announcements: [],
@@ -56,6 +56,6 @@ export const announcementSlice = createSlice({
 
 })
 
-export const { getAllAnnouncements, getAnnouncementByID, addAnnouncement, editAnnouncement, deleteAnnouncement, setErrorMessage, clearErrorMessage } = announcementSlice.actions;
+export const { getAllAnnouncements, getAnnouncementByID, addAnnouncement, editAnnouncement, deleteAnnouncement, setErrorMessage, clearErrorMessage } = announcementsSlice.actions;
 
-export default announcementSlice.reducer;
+export default announcementsSlice.reducer;

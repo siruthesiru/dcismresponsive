@@ -7,9 +7,9 @@ import {
     deleteAnnouncement,
     deleteAnnouncementError,
     addAnnouncement,
-    addAAnnouncementError,
     getAnnouncementByID,
-    setErrorMessage
+    setErrorMessage,
+    addAnnouncementError
 } from '../app/announcementsSlice'
 
 const axiosInstance = axios.create({
@@ -49,7 +49,7 @@ export const AddAnnouncement = async (dispatch, Announcement) => {
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
-        dispatch(addAAnnouncementError(error.response.data));
+        dispatch(addAnnouncementError(error.response.data));
     }
 }
 

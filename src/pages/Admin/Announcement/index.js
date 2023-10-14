@@ -9,6 +9,7 @@ import { DeleteAnnouncement, GetAllAnnouncements } from "../../../services/annou
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { DeleteOutline, EditNote } from "@mui/icons-material";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
@@ -23,17 +24,16 @@ const Announcements = () => {
     const dispatch = useDispatch();
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
 
     useEffect(() => {
         GetAllAnnouncements(dispatch)
     }, [dispatch])
-    console.log(announcements);
-
 
     const handleDelete = (id) => {
         DeleteAnnouncement(dispatch, id)
             .then(() => {
-                GetAllAnnouncements(dispatch);
+                setDeleteOccurred(true);
             })
             .catch((error) => {
                 console.error("Error deleting announcement:", error);
@@ -42,7 +42,12 @@ const Announcements = () => {
         setOpenDeletePopup(false);
     };
 
-
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetAllAnnouncements(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
 
     const ActionColumn = {
         field: "action",
@@ -81,6 +86,7 @@ const Announcements = () => {
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title="Announcement Section" subtitle="List of announcements" />
+
                 <ToastContainer position="top-right" autoClose={3000} />
 
                 <Box display="flex" gap="15px">
@@ -94,7 +100,7 @@ const Announcements = () => {
                     </Button>
                 </Box>
             </Box>
-            <Box sx={{ marginTop: "1.5rem", width: "100%", height: "100%" }}>
+            <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
                 <DataGrid
                     sx={{
                         backgroundColor: colors.primary[400],

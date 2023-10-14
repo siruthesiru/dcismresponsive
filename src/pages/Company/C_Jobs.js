@@ -5,12 +5,12 @@ import JobContent from "../../components/alumni-company/JobContent";
 import Search from "../../components/alumni-company/SearchBox";
 import CreateJob from "../../components/alumni-company/CompanyNewListing";
 
-import { JobsData, UserCardData, PendingData } from "../../data/mockAlumniData";
+import { UserCardData, PendingData, CompanyJobsData } from "../../data/mockAlumniData";
 
 function Jobs() {
   const user = UserCardData[0];
   const pending = PendingData[0];
-  const jobSections = JobsData;
+  const jobSections = CompanyJobsData[0];
 
   return (
     <div className="bg-slate-100 min-h-screen">
@@ -23,9 +23,7 @@ function Jobs() {
           <CreateJob />
 
           <div className="space-y-2">
-            {jobSections.map((section, index) => (
-              <JobContent key={index} data={section} />
-            ))}
+            <JobContent data={jobSections} />
           </div>
         </div>
 

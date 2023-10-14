@@ -6,7 +6,6 @@ import {
     WorkOutline,
     ListAlt,
     Diversity3,
-    LiveHelpOutlined,
     CalendarMonthOutlined,
     Person2
 } from "@mui/icons-material";
@@ -53,10 +52,6 @@ export const navItems = [
     {
         text: "Others",
         icon: null,
-    },
-    {
-        text: "FAQ",
-        icon: <LiveHelpOutlined />,
     },
     {
         text: "Announcements",
