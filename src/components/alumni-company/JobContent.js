@@ -1,9 +1,9 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function JobContent({ data }) {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const isCompanyPage = location.pathname.includes("/company");
 
   return (
@@ -28,7 +28,7 @@ export default function JobContent({ data }) {
               <div className="flex flex-col">
                 <Content title="Slots" desc={item.Slots} />
 
-                <p className="flex justify-end text-[#0098FF]">View Details</p>
+                <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={() => navigate("/alumni/job")}>View Details</p>
 
                 {isCompanyPage && (
                   <p className="flex justify-end text-[#aa3636]">
