@@ -23,13 +23,27 @@ import UnprotectedRoute from './utils/unProtectedRoutes';
 import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
-import LandingPageCompany from './pages/Company/LandingPage';
 
-import AlumniEvents from './pages/Alumni/LandingPage/Events.js';
-import AlumniFAQ from './pages/Alumni/Help.js';
-import AlumniJobs from './pages/Alumni/Jobs.js';
-import AlumniNotif from './pages/Alumni/Notif.js';
+
+import AlumniEvents from './pages/Alumni/LandingPage/A_Events.js';
+import AlumniFAQ from './pages/Alumni/A_Help.js';
+import AlumniJobs from './pages/Alumni/A_Jobs.js';
+import AlumniNotif from './pages/Alumni/A_Notif.js';
+import AlumniSearch from './pages/Alumni/A_SearchPage';
+import AlumniProfile from './pages/Alumni/A_Profile';
+import AlumniEditProfile from './pages/Alumni/A_EditProfile';
+
+
+
 import LayoutUser from './pages/Alumni/Layout';
+
+import CompanyEvents from './pages/Company/LandingPage/C_Events.js';
+import CompanyFAQ from './pages/Company/C_Help.js';
+import CompanyJobs from './pages/Company/C_Jobs.js';
+import CompanyNotif from './pages/Company/C_Notifs.js';
+import CompanyProfile from './pages/Company/C_Profile.js';
+
+
 
 const App = () => {
   const { theme, toggleColorMode } = useMode();
@@ -40,6 +54,7 @@ const App = () => {
     }),
     [toggleColorMode]
   );
+  
 
 
   return (
@@ -89,20 +104,36 @@ const App = () => {
               </Route>
 
               {/* route for user create a layout for the alumni ang company */}
-              <Route element={<ProtectedRoute userRole="ALUMNI" />}>
+
+
+
+              {/* <Route element={<ProtectedRoute userRole="ALUMNI" />}> */}
+              <Route element={<UnprotectedRoute />}>
                 <Route element={<LayoutUser />} >
                   <Route path="/alumni/dashboard" element={<AlumniEvents />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<AlumniJobs />} />
                   <Route path="/alumni/notifications" element={<AlumniNotif />} />
+                  <Route path="/alumni/search" element={<AlumniSearch />} />
+                  <Route path="/alumni/profile" element={<AlumniProfile />} />
+                  <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
+
+
                 </Route>
               </Route>
 
               {/* route for company  */}
-              <Route element={<ProtectedRoute userRole="COMPANY" />}>
-                <Route element={<LayoutUser />} >
-                  <Route path="/company/dashboard" element={<LandingPageCompany />} />
-                </Route>
+              {/* <Route element={<ProtectedRoute userRole="COMPANY" />}> */}
+              <Route element={<UnprotectedRoute />}>
+
+                  <Route path="/company/dashboard" element={<CompanyEvents />} />
+
+                  <Route exact path="/company/faq" element={<CompanyFAQ />} />
+                  <Route path="/company/jobs" element={<CompanyJobs />} />
+                  <Route path="/company/notifications" element={<CompanyNotif />} />
+                  <Route path="/company/profile" element={<CompanyProfile />} />
+
+               
               </Route>
 
             </Routes>

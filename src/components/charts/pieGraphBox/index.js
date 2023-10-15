@@ -10,7 +10,7 @@ const data = [
     { course: 'Course D', employmentRate: 90 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#5164de', '#5A6ACF', '#8593ED', '#C7CEFF'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {

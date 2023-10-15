@@ -7,9 +7,9 @@ import {
     editEvent,
     editEventError,
     deleteEvent,
-    deleteEventError
+    deleteEventError,
+    setErrorMessage,
 } from '../app/eventsSlice'
-import { mockEvents } from "../data/mockAdminData";
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Events`,
@@ -22,8 +22,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllEvents = async (dispatch) => {
     try {
-        // const { data } = await axiosInstance.get();
-        const data = mockEvents;
+        const { data } = await axiosInstance.get();
         dispatch(getAllEvents(data))
     } catch (error) {
         console.error('Error:', error);
@@ -33,29 +32,33 @@ export const GetAllEvents = async (dispatch) => {
 
 export const AddEvent = async (dispatch, event) => {
     try {
-        const { data } = await axiosInstance.post('', event);
-        dispatch(addEvent(data))
+        const response = await axiosInstance.post('', event);
+        dispatch(addEvent(response.data))
     } catch (error) {
         console.error('Error:', error);
-        dispatch(addEventError())
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(addEventError(error.response.data));
     }
 }
 
 export const EditEvent = async (dispatch, event) => {
     try {
         await axiosInstance.put('', event);
-        dispatch(editEvent(event))
+        dispatch(editEvent(event));
     } catch (error) {
         console.error('Error:', error);
-        dispatch(editEventError())
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(editEventError(error.response.data));
     }
-}
+};
 
 export const DeleteEvent = async (dispatch, event) => {
     try {
         await axiosInstance.delete('', { data: { ...event } });
         dispatch(deleteEvent(event));
-    } catch {
-        dispatch(deleteEventError());
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(deleteEventError(error.response.data));
     }
 }

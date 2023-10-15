@@ -12,6 +12,7 @@ export const announcementSlice = createSlice({
     name: 'announcements',
     initialState: {
         announcements: [],
+        errorMessage: null,
     },
     reducers: {
         getAllAnnouncements: (state, action) => {
@@ -44,11 +45,17 @@ export const announcementSlice = createSlice({
             const announcements = state.announcements.filter(announcement =>
                 announcement.id !== action.payload.id);
             return { ...state, announcements: [...announcements] }
-        }
+        },
+        setErrorMessage: (state, action) => {
+            return { ...state, errorMessage: action.payload };
+        },
+        clearErrorMessage: (state,) => {
+            return { ...state, errorMessage: null };
+        },
     }
 
 })
 
-export const { getAllAnnouncements, getAnnouncementByID, addAnnouncement, editAnnouncement, deleteAnnouncement } = announcementSlice.actions;
+export const { getAllAnnouncements, getAnnouncementByID, addAnnouncement, editAnnouncement, deleteAnnouncement, setErrorMessage, clearErrorMessage } = announcementSlice.actions;
 
 export default announcementSlice.reducer;

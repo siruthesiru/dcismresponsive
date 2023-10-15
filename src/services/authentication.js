@@ -91,7 +91,8 @@ export const SignIn = async (dispatch, credentials) => {
                     role: response.data.role,
                 })
             );
-        } else {
+        }
+        else {
             dispatch(
                 authenticationError({
                     message: response.data.message,
@@ -119,8 +120,8 @@ export const LoginGoogle = async (dispatch, token) => {
                     token: response.data.token,
                 })
             );
-        } 
-    } catch(error) {
+        }
+    } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
         dispatch(authenticationError({ message: errorMessage }));
@@ -225,3 +226,29 @@ export const changePassword = async (dispatch, credentials) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
+
+// export const userProfile = async (dispatch, token) => {
+//     try {
+//         const response = await axiosInstance.post('/changepassword', credentials);
+
+//         if (response.data.isSucceed) {
+//             dispatch(
+//                 userChangePassword({
+//                     isSucceed: response.data.isSucceed,
+//                     message: response.data.message,
+//                 })
+//             );
+//         } else {
+//             dispatch(
+//                 authenticationError({
+//                     message: response.data.message,
+//                 })
+//             );
+//         }
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         const errorMessage = error.response?.data || 'An error occurred while changing password.';
+//         dispatch(authenticationError({ message: errorMessage }));
+//     }
+// }

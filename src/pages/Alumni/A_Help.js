@@ -2,7 +2,7 @@ import React from 'react'
 import { HelpData } from "../../data/mockAlumniData";
 
 
-function Help() {
+function A_Help() {
     const data = HelpData[0];
 
     return (
@@ -28,5 +28,5 @@ function Help() {
     )
 }
 
-export default Help
+export default A_Help
 
