@@ -4,12 +4,11 @@ import { Navigate, Outlet } from 'react-router';
 import AccountVerify from '../components/accountverify/index';
 import { clearAccount } from "../app/authenticationSlice";
 
-const ProtectedRoute = ({ userRole, userVerified  }) => {
+const ProtectedRoute = ({ userRole  }) => {
   const { isSucceed, role, isAccess } = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
 
   const isAuthorized = role === userRole;
-  const isVerified = isAccess === userVerified;
 
   if(isAccess === false)
   {
