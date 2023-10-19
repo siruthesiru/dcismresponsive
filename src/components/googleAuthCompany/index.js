@@ -1,17 +1,18 @@
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import React from 'react'
-import { SignUpGoogle } from '../../services/authentication'
+import { SignUpGoogleCompany } from '../../services/authentication'
 import { useDispatch } from 'react-redux'
+const role = "COMPANY";
 
-const GoogleAuth = () => {
+const GoogleAuthCompany = () => {
     const dispatch = useDispatch();
-
     return (
         <div className='flex w-full rounded-md shadow-md justify-center border'>
-            <GoogleOAuthProvider clientId="178866011599-ugbm9asmikn05mk1mfo1efqjgg68dl1s.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
                 <div className='p-2'>
+                    
                 <GoogleLogin
-                     onSuccess={credentialResponse => SignUpGoogle(dispatch, credentialResponse.credential)}
+                     onSuccess={credentialResponse => SignUpGoogleCompany(dispatch, credentialResponse.credential, role)}
                     // onSuccess={credentialResponse => {
                     //     console.log(credentialResponse);
                     //   }}
@@ -27,4 +28,4 @@ const GoogleAuth = () => {
     )
 }
 
-export default GoogleAuth
+export default GoogleAuthCompany

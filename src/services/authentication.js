@@ -13,8 +13,9 @@ export const SignUpCompany = async (dispatch, credentials) => {
 
             dispatch(
                 userAuthenticated({
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
-                    message: null,
+                    message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
                     firstName: response.data.firstName,
@@ -46,8 +47,9 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 
             dispatch(
                 userAuthenticated({
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
-                    message: null,
+                    message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
                     firstName: response.data.firstName,
@@ -75,12 +77,13 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
-
+        console.log(response);
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
-                    message: null,
+                    message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
                     firstName: response.data.firstName,
@@ -104,19 +107,17 @@ export const SignIn = async (dispatch, credentials) => {
     }
 }
 
-export const SignUpGoogle = async (dispatch, token) => {
+export const LoginGoogle = async (dispatch, token) => {
     try {
-        const response = await axiosInstance.post(`/google?token=${token}`);
+        const response = await axiosInstance.post(`/google-login?token=${token}`);
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
-                    isSucceed: response.data.isSucceed,
-                    message: null,
+                    role: response.data.role,
+                    isAccess: response.data.isAccess,
+                    message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
-                    firstName: response.data.firstName,
-                    lastName: response.data.lastName,
-                    role: response.data.role,
                 })
             );
         }
@@ -126,6 +127,53 @@ export const SignUpGoogle = async (dispatch, token) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
+
+export const SignUpGoogleAlumni = async (dispatch, token, role) => {
+    try {
+        const response = await axiosInstance.post(`/google-alumni?token=${token}&role=${role}`);
+        console.log(token);
+        console.log(role);
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    role: response.data.role,
+                    isAccess: response.data.isAccess,
+                    message: response.data.message,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        } 
+    } catch(error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
+export const SignUpGoogleCompany = async (dispatch, token, role) => {
+    try {
+        const response = await axiosInstance.post(`/google-company?token=${token}&role=${role}`);
+        console.log(token);
+        console.log(role);
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    role: response.data.role,
+                    isAccess: response.data.isAccess,
+                    message: response.data.message,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        } 
+    } catch(error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
 
 export const resetPasswordRequest = async (dispatch, credentials) => {
     try {

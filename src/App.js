@@ -108,7 +108,7 @@ const App = () => {
 
 
               {/* <Route element={<ProtectedRoute userRole="ALUMNI" />}> */}
-              <Route element={<UnprotectedRoute />}>
+              <Route element={<ProtectedRoute userRole="ALUMNI"/>}>
                 <Route element={<LayoutUser />} >
                   <Route path="/alumni/dashboard" element={<AlumniEvents />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
@@ -124,7 +124,7 @@ const App = () => {
 
               {/* route for company  */}
               {/* <Route element={<ProtectedRoute userRole="COMPANY" />}> */}
-              <Route element={<UnprotectedRoute />}>
+              <Route element={<ProtectedRoute userRole="COMPANY"/>}>
 
                   <Route path="/company/dashboard" element={<CompanyEvents />} />
 
