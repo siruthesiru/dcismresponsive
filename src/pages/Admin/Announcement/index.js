@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, useTheme } from "@mui/material";
-import { tokens } from "../../../theme";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Header from "../../../components/header";
 import { faqColumns } from "../../../components/constant/adminColumnHeaders";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +15,6 @@ import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
 const Announcements = () => {
     const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     const announcements = useSelector((state) => state.announcementsSlice.announcements);
 
@@ -26,9 +23,9 @@ const Announcements = () => {
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
 
-    useEffect(() => {
-        GetAllAnnouncements(dispatch)
-    }, [dispatch])
+    // useEffect(() => {
+    //     GetAllAnnouncements(dispatch)
+    // }, [dispatch])
 
     const handleDelete = (id) => {
         DeleteAnnouncement(dispatch, id)
@@ -61,7 +58,7 @@ const Announcements = () => {
                         <EditNote
                             style={{
                                 fontSize: "20px",
-                                color: colors.yellowAccent[400],
+                                color: "#ffef62",
                             }}
                         />
 
@@ -73,7 +70,7 @@ const Announcements = () => {
                         <DeleteOutline
                             style={{
                                 fontSize: "20px",
-                                color: colors.redAccent[400],
+                                color: "#e2726e"
                             }}
                         />
                     </IconButton>
@@ -93,7 +90,7 @@ const Announcements = () => {
                     <Button
                         variant="contained"
                         size="medium"
-                        style={{ backgroundColor: colors.primary[500] }}
+                        style={{ backgroundColor: "#221769" }}
                         onClick={() => navigate("/addAnnouncement")}
                     >
                         Add Announcement
@@ -101,40 +98,42 @@ const Announcements = () => {
                 </Box>
             </Box>
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
-                <DataGrid
-                    sx={{
-                        backgroundColor: colors.primary[400],
-                        padding: "20px",
-                        "& .MuiDataGrid-toolbarContainer": {
-                            flexDirection: "row-reverse",
-                            color: colors.greenAccent[100],
-                        },
-                        "& .MuiButtonBase-root": {
-                            color: colors.greenAccent[100],
-                        },
-                    }}
-                    rows={announcements}
-                    getRowId={(row) => row.id}
-                    columns={[...faqColumns, ActionColumn]}
-                    style={{ width: "100%" }}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 10,
+                <Typography>No Data Available</Typography>
+                {announcements.length > 0 && (
+                    <DataGrid
+                        sx={{
+                            padding: "20px",
+                            "& .MuiDataGrid-toolbarContainer": {
+                                flexDirection: "row-reverse",
+                                color: "#221769",
                             },
-                        },
-                    }}
-                    slots={{ toolbar: GridToolbar }}
-                    slotProps={{
-                        toolbar: {
-                            showQuickFilter: true,
-                            quickFilterProps: { debounceMs: 500 },
-                        },
-                    }}
-                    pageSizeOptions={[10]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
-                />
+                            "& .MuiButtonBase-root": {
+                                color: "#221769",
+                            },
+                        }}
+                        rows={announcements}
+                        getRowId={(row) => row.id}
+                        columns={[...faqColumns, ActionColumn]}
+                        style={{ width: "100%" }}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10,
+                                },
+                            },
+                        }}
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                            toolbar: {
+                                showQuickFilter: true,
+                                quickFilterProps: { debounceMs: 500 },
+                            },
+                        }}
+                        pageSizeOptions={[10]}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                    />
+                )}
             </Box>
             <ConfirmationDialog
                 open={openDeletePopup}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, useTheme } from "@mui/material";
-import { tokens } from "../../../theme";
+import { Box, Button } from "@mui/material";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
@@ -9,8 +8,6 @@ import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
 
 const Alumni = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [openPopup, setOpenup] = useState(false);
 
 
@@ -23,7 +20,7 @@ const Alumni = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.primary[500] }}
+                            style={{ backgroundColor: "#221769" }}
                             onClick={() => setOpenup(true)}
                         >
                             Add User
@@ -44,7 +41,7 @@ const Alumni = () => {
                             <Button
                                 variant="contained"
                                 size="medium"
-                                style={{ backgroundColor: colors.greenAccent[500] }}
+                                style={{ backgroundColor: "#4cceac" }}
                                 component="span"
                             >
                                 Upload CSV

@@ -11,11 +11,13 @@ import { NavLink } from "react-router-dom";
 import placeholder from '../../../assets/capstole.png';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import FormWithHeader from "../../../components/formheader/index.js";
+import { clearMessage } from "../../../app/authenticationSlice";
 
 const Login = () => {
     const { message } = useSelector((state) => state.authentication)
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
+
     const dispatch = useDispatch();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -106,11 +108,11 @@ const Login = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Don't have an account? Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/alumni">Alumni</NavLink>
+                        <NavLink to="/signup/alumni" onClick={() => dispatch(clearMessage())}>Alumni</NavLink>
                     </span>
                     or
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/company" onClick={() => dispatch(clearMessage())}>Company</NavLink>
                     </span>
                 </Typography>
             </form>

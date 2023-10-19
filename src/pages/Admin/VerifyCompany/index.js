@@ -1,14 +1,11 @@
 import React from "react";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
-import { tokens } from "../../../theme";
 import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
 import { applyVerificationCompanies } from "../../../data/mockAdminData";
 
 const VerifyCompany = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     const customLastColumn = {
         field: "action",
@@ -21,8 +18,8 @@ const VerifyCompany = () => {
                         variant="contained"
                         size="medium"
                         style={{
-                            backgroundColor: colors.greenAccent[500],
-                            color: colors.greenAccent[100],
+                            backgroundColor: "#4cceac",
+                            color: "#dbf5ee",
                         }}
                     >
                         Accept
@@ -31,8 +28,8 @@ const VerifyCompany = () => {
                         variant="contained"
                         size="medium"
                         style={{
-                            backgroundColor: colors.redAccent[500],
-                            color: colors.greenAccent[100],
+                            backgroundColor: "#db4f4a",
+                            color: "#dbf5ee",
                         }}
                     >
                         Decline

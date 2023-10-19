@@ -8,10 +8,8 @@ import {
     Collapse,
     Button,
     Typography,
-    useTheme,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { tokens } from "../../theme";
 import { useNavigate } from "react-router-dom";
 
 const JobCard = ({
@@ -24,22 +22,19 @@ const JobCard = ({
     isActive,
 }) => {
     const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <Card
             sx={{
                 backgroundImage: "none",
-                backgroundColor: colors.primary[400],
                 borderRadius: "0.55rem",
             }}
         >
             <CardContent>
                 <Typography
                     sx={{ fontSize: 14 }}
-                    color={colors.greenAccent[500]}
+                    color="#4cceac"
                     gutterBottom
                 >
                     {name}
@@ -47,7 +42,7 @@ const JobCard = ({
                 <Typography variant="h5" component="div">
                     {description}
                 </Typography>
-                <Typography sx={{ mb: "1.5rem" }} color={colors.greenAccent[400]}>
+                <Typography sx={{ mb: "1.5rem" }} color="#4cceac">
                     Expected Salary: ${Number(salary).toFixed(2)}
                 </Typography>
                 <Typography variant="body2">{skills.join(" ")}</Typography>
@@ -56,6 +51,9 @@ const JobCard = ({
                 <Button
                     variant="contained"
                     color="primary"
+                    sx={{
+                        my: "1rem", backgroundColor: "#221769"
+                    }}
                     size="small"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
@@ -66,9 +64,7 @@ const JobCard = ({
                 in={isExpanded}
                 timeout="auto"
                 unmountOnExit
-                sx={{
-                    color: colors.grey[300],
-                }}
+
             >
                 <CardContent>
                     <Typography>id: {_id}</Typography>
@@ -84,7 +80,7 @@ const JobCard = ({
                         <CheckCircleOutlineIcon
                             style={{
                                 marginLeft: "5px",
-                                color: colors.greenAccent[500],
+                                color: "#4cceac",
                                 fontSize: "1.3rem",
                             }}
                         />
@@ -94,9 +90,7 @@ const JobCard = ({
                         variant="contained"
                         color="primary"
                         sx={{
-                            my: "1rem", backgroundColor: colors.greenAccent[500], "&:hover": {
-                                backgroundColor: colors.primary[500]
-                            },
+                            my: "1rem", backgroundColor: "#4cceac"
                         }}
                         size="small"
                         onClick={() => navigate('/view_candidates')}
@@ -105,7 +99,7 @@ const JobCard = ({
                     </Button>
                 </CardContent>
             </Collapse>
-        </Card>
+        </Card >
     );
 };
 

@@ -10,6 +10,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { clearMessage } from "../../../app/authenticationSlice";
 
 const RegisterCompany = () => {
     const { message } = useSelector((state) => state.authentication)
@@ -214,10 +215,10 @@ const RegisterCompany = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?
                     <span className="text-second underline px-2">
-                        <NavLink to="/signin">Login</NavLink>
+                        <NavLink to="/signin" onClick={() => dispatch(clearMessage())}>Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/alumni">Alumni</NavLink>
+                        <NavLink to="/signup/alumni" onClick={() => dispatch(clearMessage())}>Alumni</NavLink>
                     </span>
                 </Typography>
             </form>

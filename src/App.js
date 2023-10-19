@@ -12,11 +12,10 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from './pages/Admin/Dashboard';
 import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
-import Companies from './pages/Admin/Company';
+import Companies from './pages/Admin/Companies';
 import Alumni from './pages/Admin/Alumni';
 import ViewCandidates from './pages/Admin/ViewCandidates';
 import PendingJobs from './pages/Admin/PendingJobs';
-import FAQ from './pages/Admin/FAQ';
 import Events from './pages/Admin/Events';
 import Announcements from './pages/Admin/Announcement';
 import UnprotectedRoute from './utils/unProtectedRoutes';
@@ -64,7 +63,6 @@ const App = () => {
         <CssBaseline />
         <div className="app">
           <BrowserRouter>
-            {/* <Navbar /> */}
 
             {/* 
         <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
@@ -74,6 +72,7 @@ const App = () => {
       */}
 
             <Routes>
+
               <Route path="*" element={<h2>Page not found!</h2>} />
 
               <Route element={<UnprotectedRoute />}>
@@ -95,7 +94,6 @@ const App = () => {
                   <Route path="/view_candidates" element={<ViewCandidates />} />
                   <Route path="/pending_jobs" element={<PendingJobs />} />
                   <Route path="/alumni" element={<Alumni />} />
-                  <Route path="/faq" element={<FAQ />} />
                   <Route path="/events" element={<Events />} />
                   <Route exact path="/addAnnouncement" element={<AnnouncementForm />} />
                   <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
@@ -106,7 +104,7 @@ const App = () => {
 
               {/* route for user create a layout for the alumni ang company */}
 
-              <Route element={<UnprotectedRoute userRole="ALUMNI" />}>
+              <Route element={<ProtectedRoute userRole="ALUMNI" />}>
                 <Route element={<LayoutAlumni />} >
                   <Route path="/alumni/dashboard" element={<AlumniEvents />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
