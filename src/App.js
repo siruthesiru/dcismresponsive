@@ -12,11 +12,10 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from './pages/Admin/Dashboard';
 import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
-import Companies from './pages/Admin/Company';
+import Companies from './pages/Admin/Companies';
 import Alumni from './pages/Admin/Alumni';
 import ViewCandidates from './pages/Admin/ViewCandidates';
 import PendingJobs from './pages/Admin/PendingJobs';
-import FAQ from './pages/Admin/FAQ';
 import Events from './pages/Admin/Events';
 import Announcements from './pages/Admin/Announcement';
 import UnprotectedRoute from './utils/unProtectedRoutes';
@@ -24,7 +23,6 @@ import ProtectedRoute from './utils/protectedRoute';
 import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
-import LayoutAlumni from './pages/Alumni/Layout';
 import LayoutAlumni from './pages/Alumni/Layout';
 import AlumniEvents from './pages/Alumni/LandingPage/A_Events.js';
 import AlumniFAQ from './pages/Alumni/A_Help.js';
@@ -66,7 +64,6 @@ const App = () => {
         <CssBaseline />
         <div className="app">
           <BrowserRouter>
-            {/* <Navbar /> */}
 
             {/* 
         <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
@@ -76,6 +73,7 @@ const App = () => {
       */}
 
             <Routes>
+
               <Route path="*" element={<h2>Page not found!</h2>} />
 
               <Route element={<UnprotectedRoute />}>
@@ -97,7 +95,6 @@ const App = () => {
                   <Route path="/view_candidates" element={<ViewCandidates />} />
                   <Route path="/pending_jobs" element={<PendingJobs />} />
                   <Route path="/alumni" element={<Alumni />} />
-                  <Route path="/faq" element={<FAQ />} />
                   <Route path="/events" element={<Events />} />
                   <Route exact path="/addAnnouncement" element={<AnnouncementForm />} />
                   <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
@@ -108,11 +105,8 @@ const App = () => {
 
               {/* route for user create a layout for the alumni ang company */}
 
-
-
-              {/* <Route element={<ProtectedRoute userRole="ALUMNI" />}> */}
               <Route element={<ProtectedRoute userRole="ALUMNI" />}>
-                <Route element={<LayoutUser />} >
+                <Route element={<LayoutAlumni />} >
                   <Route path="/alumni/dashboard" element={<AlumniEvents />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<AlumniJobs />} />
@@ -126,26 +120,23 @@ const App = () => {
               </Route>
 
               {/* route for company  */}
-              {/* <Route element={<ProtectedRoute userRole="COMPANY" />}> */}
               <Route element={<ProtectedRoute userRole="COMPANY" />}>
-
-                <Route path="/company/dashboard" element={<CompanyEvents />} />
-                <Route exact path="/company/faq" element={<CompanyFAQ />} />
-                <Route path="/company/jobs" element={<CompanyJobs />} />
-                <Route path="/company/notifications" element={<CompanyNotif />} />
-                <Route path="/company/profile" element={<CompanyProfile />} />
-                <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
-                <Route path="/company/add-posting" element={<CompanyAddPosting />} />
-                <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
-
-
+                <Route element={<LayoutCompany />} >
+                  <Route path="/company/dashboard" element={<CompanyEvents />} />
+                  <Route exact path="/company/faq" element={<CompanyFAQ />} />
+                  <Route path="/company/jobs" element={<CompanyJobs />} />
+                  <Route path="/company/notifications" element={<CompanyNotif />} />
+                  <Route path="/company/profile" element={<CompanyProfile />} />
+                  <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
+                  <Route path="/company/add-posting" element={<CompanyAddPosting />} />
+                  <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
+                </Route>
               </Route>
-            </Route>
 
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider >
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider >
     </ColorModeContext.Provider >
   );
 }

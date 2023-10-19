@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,13 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { tokens } from '../../theme';
 
 
 const Navbar = ({ user }) => {
 
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const { firstName, lastName } = useSelector(state => state.authentication)
     const dispatch = useDispatch();
 
@@ -137,7 +133,7 @@ const Navbar = ({ user }) => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar sx={{
                 position: "static",
-                background: colors.primary[500],
+                background: "#221769",
                 boxShadow: "none",
             }}>
                 <Toolbar>

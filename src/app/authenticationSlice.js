@@ -5,7 +5,7 @@ const initialState = {
     isSucceed: localStorage.getItem('isSucceed') || false,
     token: localStorage.getItem('token') || null,
     email: localStorage.getItem('email') || null,
-    message: localStorage.getItem('message') || null,
+    message: null,
     firstName: localStorage.getItem('firstName') || null,
     lastName: localStorage.getItem('lastName') || null,
     role: localStorage.getItem('role') || null,
@@ -20,16 +20,15 @@ export const authenticationSlice = createSlice({
             localStorage.setItem('isSucceed', action.payload.isSucceed);
             localStorage.setItem('token', action.payload.token);
             localStorage.setItem('email', action.payload.email);
-            localStorage.setItem('message', action.payload.message);
             localStorage.setItem('firstName', action.payload.firstName);
             localStorage.setItem('lastName', action.payload.lastName);
             localStorage.setItem('role', action.payload.role);
-            
+
             state.isAccess = action.payload.isAccess;
             state.token = action.payload.token;
             state.isSucceed = action.payload.isSucceed;
             state.email = action.payload.email;
-            state.message = action.payload.message;
+            state.message = action.payload.message; // this should not be stored in local storage because the messages keeps on changing in the public pages
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.role = action.payload.role;
@@ -64,9 +63,12 @@ export const authenticationSlice = createSlice({
             state.isSucceed = action.payload.isSucceed;
             state.message = action.payload.message;;
         },
+        clearMessage(state) {
+            state.message = null;
+        },
     },
 });
 
-export const { userAuthenticated, logout, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount } = authenticationSlice.actions;
+export const { userAuthenticated, logout, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount, clearMessage } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

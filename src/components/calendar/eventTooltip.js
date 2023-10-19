@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { DeleteOutline, Edit } from "@mui/icons-material";
-import { tokens } from "../../theme";
 import PopUp from "../popup";
 import EventForm from "../forms/EventForm";
 import { DeleteEvent } from "../../services/events";
@@ -9,8 +8,6 @@ import { useDispatch } from "react-redux";
 import ConfirmationDialog from "../popup/confirmationDialog";
 
 const EventWithTooltip = ({ event }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     const [openEditPopup, setOpenEditPopup] = useState(false);
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
@@ -60,7 +57,7 @@ const EventWithTooltip = ({ event }) => {
                         <Edit
                             style={{
                                 fontSize: "20px",
-                                color: colors.yellowAccent[400],
+                                color: "#ffef62",
                             }}
                         />
                     </IconButton>
@@ -68,7 +65,7 @@ const EventWithTooltip = ({ event }) => {
                         <DeleteOutline
                             style={{
                                 fontSize: "20px",
-                                color: colors.redAccent[400],
+                                color: "#e2726e",
                             }}
                         />
                     </IconButton>

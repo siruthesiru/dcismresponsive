@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, useTheme } from "@mui/material";
-import { tokens } from "../../../theme";
+import { Box, Button } from "@mui/material";
 import Header from "../../../components/header";
 import PopUp from "../../../components/popup";
 import Calendar from "../../../components/calendar";
@@ -13,8 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Events = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     const events = useSelector((state) => state.eventsSlice.events);
     const errorMessage = useSelector((state) => state.eventsSlice.errorMessage);
@@ -48,7 +45,7 @@ const Events = () => {
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: colors.primary[500] }}
+                            style={{ backgroundColor: "#221769" }}
                             onClick={() => {
                                 setOpenup(true);
                             }}
