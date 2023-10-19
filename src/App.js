@@ -25,6 +25,7 @@ import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
 import LayoutAlumni from './pages/Alumni/Layout';
+import LayoutAlumni from './pages/Alumni/Layout';
 import AlumniEvents from './pages/Alumni/LandingPage/A_Events.js';
 import AlumniFAQ from './pages/Alumni/A_Help.js';
 import AlumniJobs from './pages/Alumni/A_Jobs.js';
@@ -55,6 +56,7 @@ const App = () => {
     }),
     [toggleColorMode]
   );
+
 
 
 
