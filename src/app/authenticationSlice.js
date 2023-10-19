@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    isAlumni: localStorage.getItem('isAlumni') || false,
+    isAccess: localStorage.getItem('isAccess') || false,
     isSucceed: localStorage.getItem('isSucceed') || false,
     token: localStorage.getItem('token') || null,
     email: localStorage.getItem('email') || null,
@@ -16,7 +16,7 @@ export const authenticationSlice = createSlice({
     initialState,
     reducers: {
         userAuthenticated: (state, action) => {
-            localStorage.setItem('isAlumni', action.payload.isAlumni);
+            localStorage.setItem('isAccess', action.payload.isAccess);
             localStorage.setItem('isSucceed', action.payload.isSucceed);
             localStorage.setItem('token', action.payload.token);
             localStorage.setItem('email', action.payload.email);
@@ -25,7 +25,7 @@ export const authenticationSlice = createSlice({
             localStorage.setItem('lastName', action.payload.lastName);
             localStorage.setItem('role', action.payload.role);
             
-            state.isAlumni = action.payload.isAlumni;
+            state.isAccess = action.payload.isAccess;
             state.token = action.payload.token;
             state.isSucceed = action.payload.isSucceed;
             state.email = action.payload.email;
@@ -35,7 +35,7 @@ export const authenticationSlice = createSlice({
             state.role = action.payload.role;
         },
         authenticationError: (state, action) => {
-            state.isAlumni = false;
+            state.isAccess = false;
             state.isSucceed = false;
             state.message = action.payload.message;
             state.email = null;
@@ -50,17 +50,17 @@ export const authenticationSlice = createSlice({
             return initialState;
         },
         forgotPasswordRequestSuccess: (state, action) => {
-            state.isAlumni = action.payload.isAlumni;
+            state.isAccess = action.payload.isAccess;
             state.isSucceed = action.payload.isSucceed;
             state.message = action.payload.message;
         },
         clearForgotPasswordRequestStatus: (state) => {
-            state.isAlumni = false;
+            state.isAccess = false;
             state.isSucceed = false;
             state.message = null;
         },
         userChangePassword: (state, action) => {
-            state.isAlumni = action.payload.isAlumni;
+            state.isAccess = action.payload.isAccess;
             state.isSucceed = action.payload.isSucceed;
             state.message = action.payload.message;;
         },

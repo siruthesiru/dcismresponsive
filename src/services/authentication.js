@@ -13,7 +13,7 @@ export const SignUpCompany = async (dispatch, credentials) => {
 
             dispatch(
                 userAuthenticated({
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
                     message: response.data.message,
                     email: response.data.email,
@@ -47,7 +47,7 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 
             dispatch(
                 userAuthenticated({
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
                     message: response.data.message,
                     email: response.data.email,
@@ -77,11 +77,11 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
-
+        console.log(response);
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     isSucceed: response.data.isSucceed,
                     message: response.data.message,
                     email: response.data.email,
@@ -114,7 +114,7 @@ export const LoginGoogle = async (dispatch, token) => {
             dispatch(
                 userAuthenticated({
                     role: response.data.role,
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
@@ -137,7 +137,7 @@ export const SignUpGoogleAlumni = async (dispatch, token, role) => {
             dispatch(
                 userAuthenticated({
                     role: response.data.role,
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
@@ -160,7 +160,7 @@ export const SignUpGoogleCompany = async (dispatch, token, role) => {
             dispatch(
                 userAuthenticated({
                     role: response.data.role,
-                    isAlumni: response.data.isAlumni,
+                    isAccess: response.data.isAccess,
                     message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,

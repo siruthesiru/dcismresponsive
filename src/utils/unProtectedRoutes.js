@@ -4,8 +4,10 @@ import { Navigate, Outlet } from 'react-router-dom';
 import AccountVerify from '../components/accountverify/index';
 
 const UnprotectedRoute = () => {
-  const { isSucceed, role, isAlumni } = useSelector((state) => state.authentication);
-
+  const { isSucceed, role, isAccess } = useSelector((state) => state.authentication);
+  if(isAccess === false){
+    return isSucceed ? <AccountVerify /> : <Outlet />;
+  }else {
   let content;
   switch (role) {
     case 'ALUMNI':
@@ -23,6 +25,7 @@ const UnprotectedRoute = () => {
   }
 
   return isSucceed ? content : <Outlet />;
+}
 };
 
 export default UnprotectedRoute;
