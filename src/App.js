@@ -57,6 +57,7 @@ const App = () => {
 
 
 
+
   return (
     <ColorModeContext.Provider value={colorModeContextValue}>
       <ThemeProvider theme={theme}>
@@ -119,7 +120,7 @@ const App = () => {
               </Route>
 
               {/* route for company  */}
-              <Route element={<UnprotectedRoute userRole="COMPANY" />}>
+              <Route element={<ProtectedRoute userRole="COMPANY" />}>
                 <Route element={<LayoutCompany />} >
                   <Route path="/company/dashboard" element={<CompanyEvents />} />
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
@@ -129,8 +130,6 @@ const App = () => {
                   <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
                   <Route path="/company/add-posting" element={<CompanyAddPosting />} />
                   <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
-
-
                 </Route>
               </Route>
 
