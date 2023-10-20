@@ -24,14 +24,15 @@ const RegisterCompany = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    const isMoa = false;
+    const fileUpload = null;
 
     return (
         <FormWithHeader imageSrc={placeholder}>
             <form onSubmit={event => {
                 event.preventDefault();
                 if (Password === confirmPassword) {
-                    SignUpCompany(dispatch, { FirstName, LastName, Password, CompanyName, Email });
+                    SignUpCompany(dispatch, { FirstName, LastName, Password, CompanyName, Email, isMoa }, fileUpload);
                 }
             }}>
                 <div className="mb-3 flex items-center">

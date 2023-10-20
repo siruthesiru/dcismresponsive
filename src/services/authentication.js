@@ -5,9 +5,29 @@ const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
 });
 
-export const SignUpCompany = async (dispatch, credentials) => {
+export const SignUpCompany = async (dispatch, credentials, fileUpload) => {
     try {
-        const response = await axiosInstance.post('/signup/company', credentials);
+        const formData = new FormData();
+        formData.append('fileUpload', fileUpload);
+        formData.append('Email', credentials.Email);
+        formData.append('Password', credentials.Password);
+        // Ensure the other fields are added if they are not null
+        if (credentials.FirstName) {
+            formData.append('FirstName', credentials.FirstName);
+        }
+        if (credentials.LastName) {
+            formData.append('LastName', credentials.LastName);
+        }
+        if (credentials.CompanyName) {
+            formData.append('CompanyName', credentials.CompanyName);
+        }
+        // Add the isMoa field
+        formData.append('isMoa', credentials.isMoa);
+        const response = await axiosInstance.post('/signup/company', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
 
         if (response.data.isSucceed) {
 

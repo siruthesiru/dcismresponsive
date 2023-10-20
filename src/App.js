@@ -125,14 +125,14 @@ const App = () => {
               {/* route for company  */}
               {/* <Route element={<ProtectedRoute userRole="COMPANY" />}> */}
               <Route element={<ProtectedRoute userRole="COMPANY"/>}>
-
+              <Route element={<LayoutUser />} >
                   <Route path="/company/dashboard" element={<CompanyEvents />} />
 
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
                   <Route path="/company/jobs" element={<CompanyJobs />} />
                   <Route path="/company/notifications" element={<CompanyNotif />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-
+                  </Route>
                
               </Route>
 
