@@ -11,9 +11,12 @@ import {
     Typography,
 } from "@mui/material";
 import { Badge } from "@mui/icons-material";
+import { clearMessage } from "../../../app/authenticationSlice";
 
 const RegisterAlumni = () => {
-    const { message } = useSelector((state) => state.authentication)
+    const { message } = useSelector((state) => state.authentication);
+
+    const dispatch = useDispatch();
 
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
@@ -21,11 +24,9 @@ const RegisterAlumni = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [IdNum, setIdNum] = useState("");
     const [Email, setEmail] = useState("");
-    const dispatch = useDispatch();
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
 
 
     return (
@@ -217,10 +218,10 @@ const RegisterAlumni = () => {
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
                     Already have an account?
                     <span className="text-second underline px-2">
-                        <NavLink to="/signin">Login</NavLink>
+                        <NavLink to="/signin" onClick={() => dispatch(clearMessage())}>Login</NavLink>
                     </span> or Register as
                     <span className="text-second underline px-2">
-                        <NavLink to="/signup/company">Company</NavLink>
+                        <NavLink to="/signup/company" onClick={() => dispatch(clearMessage())}>Company</NavLink>
                     </span>
                 </Typography>
             </form>

@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
     Box,
     IconButton,
-    useTheme,
     AppBar,
     Toolbar,
     Button,
@@ -12,14 +11,11 @@ import {
 } from "@mui/material";
 
 import {
-    LightModeOutlined,
-    DarkModeOutlined,
     Menu as MenuIcon,
     NotificationsOutlined,
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
 import placeholder from "../../assets/placeholder.webp";
-import { ColorModeContext, tokens } from "../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
@@ -28,9 +24,6 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
     const dispatch = useDispatch();
 
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
@@ -53,13 +46,13 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-                    <IconButton onClick={colorMode.toggleColorMode}>
+                    {/* <IconButton onClick={colorMode.toggleColorMode}>
                         {theme.palette.mode === "light" ? (
                             <LightModeOutlined />
                         ) : (
                             <DarkModeOutlined />
                         )}
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton>
                         <NotificationsOutlined />
                     </IconButton>
@@ -84,13 +77,12 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             <Typography
                                 fontWeight="bold"
                                 fontSize="0.85rem"
-                                sx={{ color: colors.primary[100] }}
                             >
                                 {firstName} {lastName}
                             </Typography>
 
                             <ArrowDropDownOutlined
-                                sx={{ color: colors.primary[300], fontSize: "25px" }}
+                                sx={{ color: "#7a74a5", fontSize: "25px" }}
                             />
                         </Button>
                         <Menu
@@ -100,7 +92,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                         >
                             <MenuItem>
-                                <Button onClick={() => { dispatch(logout()) }} href="/" sx={{ fontSize: "0.65rem", color: colors.primary[100], fontWeight: "bold" }}> Log out</Button>
+                                <Button onClick={() => { dispatch(logout()) }} href="/" sx={{ fontSize: "0.65rem", fontWeight: "bold" }}> Log out</Button>
                             </MenuItem>
                         </Menu>
                     </Box>

@@ -7,6 +7,9 @@ import { AddAnnouncement, EditAnnouncement, GetAnnouncementByID } from '../../se
 import { useNavigate, useParams } from 'react-router-dom'; // Import useHistory
 import { editAnnouncementError } from '../../app/announcementsSlice';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const audiences = ["All", "Company", "Alumni"];
 
@@ -64,6 +67,8 @@ const AnnouncementForm = () => {
         <Box m="1rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title={id ? "Edit Announcement" : "Add Announcement"} subtitle="" />
+                <ToastContainer position="top-right" autoClose={3000} />
+
             </Box>
             <Paper elevation={3} sx={{ p: "1.5rem 2.5rem" }}>
                 <form onSubmit={handleFormSubmit}>

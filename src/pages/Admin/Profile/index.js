@@ -7,33 +7,28 @@ import {
     Card,
     CardContent,
     TextField,
-    InputAdornment,
-    IconButton,
     CardMedia,
 } from "@mui/material";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.webp";
 import { useSelector } from "react-redux";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Profile = () => {
-    const { firstName, lastName, email, role } = useSelector((state) => state.authentication);
+    const { firstName, lastName, email, position, role } = useSelector((state) => state.authentication);
     // Check if the user has an image; if not, display the placeholder
     const imgSrc = ""; // Replace with the user's image source if available
     const image = imgSrc || placeholder;
 
     // State to manage the editing mode
     const [isEditing, setIsEditing] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-
 
     // State to manage form data
     const [formData, setFormData] = useState({
         firstName,
         lastName,
         email,
+        position,
         role,
-        password: "",
         profilePicture: image,
     });
 
@@ -183,6 +178,18 @@ const Profile = () => {
                         <Grid spacing={2} sx={{ display: "flex" }}>
                             <Grid item sm={6} sx={{ flex: 1 }}>
                                 <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
+                                    Position:
+                                </Typography>
+                            </Grid>
+                            <Grid item sm={6} sx={{ flex: 1.5 }}>
+                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
+                                    {formData.position}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid spacing={2} sx={{ display: "flex" }}>
+                            <Grid item sm={6} sx={{ flex: 1 }}>
+                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
                                     Role:
                                 </Typography>
                             </Grid>
@@ -190,45 +197,6 @@ const Profile = () => {
                                 <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
                                     {formData.role}
                                 </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
-                                    Password:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                {isEditing ? (
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type={showPassword ? "text" : "password"}
-                                        value={formData.password}
-                                        onChange={handleInputChange}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        onClick={() => setShowPassword(!showPassword)}
-                                                        edge="end"
-                                                        size="large"
-                                                    >
-                                                        {showPassword ? (
-                                                            <Visibility />
-                                                        ) : (
-                                                            <VisibilityOff />
-                                                        )}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                        ********
-                                    </Typography>
-                                )}
                             </Grid>
                         </Grid>
                         <Grid item sm={6}>

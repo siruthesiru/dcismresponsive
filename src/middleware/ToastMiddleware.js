@@ -1,4 +1,14 @@
-import { addAAnnouncementError, addAnnouncement, deleteAnnouncement, deleteAnnouncementError, editAnnouncement, editAnnouncementError, getAllAnnouncementsError } from '../app/announcementsSlice';
+import { toast } from 'react-toastify';
+import {
+    addAnnouncement,
+    editAnnouncement,
+    deleteAnnouncement,
+    addAnnouncementError,
+    editAnnouncementError,
+    deleteAnnouncementError,
+    getAllAnnouncementsError
+} from '../app/announcementsSlice';
+
 import {
     addEvent,
     editEvent,
@@ -8,11 +18,10 @@ import {
     deleteEventError,
     getAllEventsError
 } from '../app/eventsSlice';
-import { toast } from 'react-toastify';
 
 const ToastMiddleware = () => (next) => (action) => {
-
     switch (action.type) {
+        // Events
         case addEvent.type:
             toast.success('New Event added successfully');
             break;
@@ -23,17 +32,15 @@ const ToastMiddleware = () => (next) => (action) => {
             toast.success('Event deleted successfully');
             break;
         case getAllEventsError.type:
-            toast.error('Error loading expenses');
+            toast.error('Error loading events');
             break;
         case addEventError.type:
-            toast.error(action.payload);
-            break;
         case editEventError.type:
-            toast.error(action.payload);
-            break;
         case deleteEventError.type:
             toast.error(action.payload);
             break;
+
+        // Announcements
         case addAnnouncement.type:
             toast.success('New Announcement added successfully');
             break;
@@ -44,14 +51,10 @@ const ToastMiddleware = () => (next) => (action) => {
             toast.success('Announcement deleted successfully');
             break;
         case getAllAnnouncementsError.type:
-            toast.error('Error loading expenses');
+            toast.error('Error loading announcements');
             break;
-        case addAAnnouncementError.type:
-            toast.error(action.payload);
-            break;
+        case addAnnouncementError.type:
         case editAnnouncementError.type:
-            toast.error(action.payload);
-            break;
         case deleteAnnouncementError.type:
             toast.error(action.payload);
             break;

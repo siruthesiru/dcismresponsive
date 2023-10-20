@@ -1,16 +1,13 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { EditNote, DeleteOutline } from "@mui/icons-material";
-import { tokens } from "../../theme";
 import ConfirmationDialog from "../popup/confirmationDialog";
 import { useDispatch } from "react-redux";
 
 
 const DataTable = (props) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
 
@@ -39,7 +36,7 @@ const DataTable = (props) => {
                         <EditNote
                             style={{
                                 fontSize: "20px",
-                                color: colors.yellowAccent[400],
+                                color: "#ffef62",
                             }}
                         />
 
@@ -51,7 +48,7 @@ const DataTable = (props) => {
                         <DeleteOutline
                             style={{
                                 fontSize: "20px",
-                                color: colors.redAccent[400],
+                                color: "#e2726e",
                             }}
                         />
                     </IconButton>
@@ -67,14 +64,13 @@ const DataTable = (props) => {
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "100%" }}>
                 <DataGrid
                     sx={{
-                        backgroundColor: colors.primary[400],
                         padding: "20px",
                         "& .MuiDataGrid-toolbarContainer": {
                             flexDirection: "row-reverse",
-                            color: colors.greenAccent[100],
+                            color: "#221769"
                         },
                         "& .MuiButtonBase-root": {
-                            color: colors.greenAccent[100],
+                            color: "#221769",
                         },
                     }}
                     rows={props.rows}

@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CompanyProfileContent({ data }) {
-    console.log(data,"sadasd")
+  const navigate = useNavigate();
+
+  console.log(data, "sadasd")
   return (
     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
       <div className="flex flex-col mx-auto justify-center items-center text-center">
@@ -25,8 +28,8 @@ export default function CompanyProfileContent({ data }) {
           <Content title="Contact Number" desc={data.contact_number} />
           <Content title="Contact Email" desc={data.contact_email} />
 
-          <div className="flex justify-center">
-            <div className="w-1/2 hover:cursor-pointer border-2 p-2 bg-[#284858] text-white uppercase mt-8 rounded-xl flex justify-center items-center ">
+          <div className="flex justify-center" onClick={() => navigate("/company/edit-profile")}>
+            <div className="w-1/2 hover:cursor-pointer border-2 p-2 bg-[#221769] text-white uppercase mt-8 rounded-xl flex justify-center items-center ">
               <p>Edit Profile</p>
             </div>
           </div>

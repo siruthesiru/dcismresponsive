@@ -12,7 +12,7 @@ import {
 } from '../app/eventsSlice'
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}/Events`,
+    baseURL: `${process.env.REACT_APP_BASE_URL}/Admin`,
 })
 
 axiosInstance.interceptors.request.use((config) => {
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllEvents = async (dispatch) => {
     try {
-        const { data } = await axiosInstance.get();
+        const { data } = await axiosInstance.get('/Events');
         dispatch(getAllEvents(data))
     } catch (error) {
         console.error('Error:', error);
@@ -32,7 +32,7 @@ export const GetAllEvents = async (dispatch) => {
 
 export const AddEvent = async (dispatch, event) => {
     try {
-        const response = await axiosInstance.post('', event);
+        const response = await axiosInstance.post('/Events/Create', event);
         dispatch(addEvent(response.data))
     } catch (error) {
         console.error('Error:', error);

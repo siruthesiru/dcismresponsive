@@ -1,6 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ data }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
       <div className="flex flex-col mx-auto justify-center items-center text-center">
@@ -18,7 +22,7 @@ export default function UserCard({ data }) {
         <Content title="Company" desc={data.Company} />
         <Content title="Location" desc={data.Location} />
         <Content title="Years of Exp" desc={data.Years} />
-        
+
         <Line />
         <Content title="Graduated" desc={data.Graduated} />
         <Content title="Program" desc={data.Program} />
@@ -27,7 +31,7 @@ export default function UserCard({ data }) {
 
         <div className="flex flex-col">
           <Content title="Skills" desc={data.Skills} />
-          <p className="flex justify-end text-[#0098FF]">View All</p>
+          <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={() => navigate("/alumni/profile")}>View All</p>
         </div>
       </div>
     </div>

@@ -239,7 +239,6 @@ export const faqColumns = [
         headerName: "UpdatedAt",
         flex: 1,
     },
-
 ];
 
 

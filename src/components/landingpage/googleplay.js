@@ -17,10 +17,10 @@ const GooglePlay = () => {
                     className="hidden lg:text-5xl md:text-3xl md:flex md:p-2 font-bold "
                     dangerouslySetInnerHTML={{ __html: data.title }}
                 />
-                <div
-                    className="hidden md:flex text-[18px] w-[260px] sm:flex text-[16px] w-[160px] xs:flex text-[16px] w-[160px]"
-                    dangerouslySetInnerHTML={{ __html: data.content }}
-                />
+                <div className="hidden md:flex text-[16px] w-[260px] sm:flex xs:flex">
+                    {data.content}
+                </div>
+
             </div>
         </div>
     );

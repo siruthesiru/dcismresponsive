@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, useTheme } from "@mui/material";
-import { tokens } from "../../../theme";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import Header from "../../../components/header";
 import { AlumniRows } from "../../../data/mockAdminData";
 import { ViewCandidatesColumns } from "../../../components/constant/adminColumnHeaders";
 
 
 const ViewCandidates = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
     const rows = AlumniRows;
     const columns = ViewCandidatesColumns
 
@@ -40,7 +36,7 @@ const ViewCandidates = () => {
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth, backgroundColor: colors.greenAccent[500] }}
+                                        style={{ minWidth: column.minWidth, backgroundColor: "#4cceac" }}
                                     >
                                         {column.label}
                                     </TableCell>
