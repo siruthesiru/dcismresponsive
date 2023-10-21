@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllAnnouncements = async (dispatch) => {
     try {
-        const response = await axiosInstance.get('/Announcements');
+        const response = await axiosInstance.get('/Annoucements');
         console.log(response)
         dispatch(getAllAnnouncements(response.data))
     } catch (error) {
