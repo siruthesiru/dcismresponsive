@@ -235,36 +235,7 @@ export const announcementColumn = [
 export const verifyColumns = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "img",
-        headerName: "avatar",
-        width: 100,
-        renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
-
-            return (
-                <img
-                    src={imgSrc}
-                    alt=""
-                    style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                    }}
-                />
-            );
-        },
-    },
-    {
-        field: "FullName",
-        type: "string",
-        headerName: "Full Name",
-        width: 200,
-        valueGetter: (params) =>
-            `${params.row["First Name"]} ${params.row["Last Name"]}`,
-    },
-    {
-        field: "company",
+        field: "name",
         type: "string",
         headerName: "Company Name",
         width: 200,
@@ -276,23 +247,36 @@ export const verifyColumns = [
         width: 200,
     },
     {
-        field: "moa_file",
-        headerName: "MOA File_Upload",
-        type: "string",
-        width: 100,
-    },
-    {
         field: "email",
         headerName: "Email ",
         type: "string",
         width: 200,
     },
     {
-        field: "createdAt",
-        headerName: "Created At",
+        field: "mobileNumber",
+        headerName: "Mobile Number ",
         type: "string",
         width: 200,
     },
+    {
+        //not yet included in the table
+        field: "active",
+        headerName: "Status",
+        width: 150,
+        type: "boolean",
+        renderCell: (params) => {
+            const isActive = params.value;
+            const style = {
+                color: isActive ? 'green' : 'red',
+            };
+
+            return (
+                <div style={style}>
+                    {isActive ? "Active" : "Inactive"}
+                </div>
+            )
+        }
+    }
 ];
 
 

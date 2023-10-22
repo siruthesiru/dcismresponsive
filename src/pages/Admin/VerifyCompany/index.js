@@ -1,11 +1,64 @@
-import React from "react";
-import { Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
-import { applyVerificationCompanies } from "../../../data/mockAdminData";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCompanies, RejectCompany, Verify_Company } from "../../../services/admin_company";
+import ConfirmationDialog from "../../../components/popup/confirmationDialog";
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyCompany = () => {
+
+    const companies = useSelector((state) => state.companiesSlice.companies);
+    console.log(companies);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        GetCompanies(dispatch)
+    }, [dispatch])
+
+    const [openDeletePopup, setOpenDeletePopup] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
+
+    const uniqueCompanies = companies.map((company, index) => {
+        return { ...company, id: company.id || index + 1 };
+    });
+
+    const handleDelete = (id) => {
+        RejectCompany(dispatch, id)
+            .then(() => {
+                setDeleteOccurred(true);
+            })
+            .catch((error) => {
+                console.error("Error deleting announcement:", error);
+            });
+
+        setOpenDeletePopup(false);
+    };
+
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetCompanies(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
+
+    const handleVerifyCompany = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                isPartnered: true
+            };
+            await Verify_Company(dispatch, credentials);
+            GetCompanies(dispatch);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const customLastColumn = {
         field: "action",
@@ -14,13 +67,16 @@ const VerifyCompany = () => {
         renderCell: (params) => {
             return (
                 <Box display="flex" gap="1rem">
+                    {/* disabling is temporary only */}
                     <Button
                         variant="contained"
                         size="medium"
                         style={{
-                            backgroundColor: "#4cceac",
+                            backgroundColor: params.row.isPartnered ? "#aaa" : "#4cceac",
                             color: "#dbf5ee",
                         }}
+                        onClick={() => handleVerifyCompany(params.row.id)}
+                        disabled={params.row.isPartnered}
                     >
                         Accept
                     </Button>
@@ -30,6 +86,10 @@ const VerifyCompany = () => {
                         style={{
                             backgroundColor: "#db4f4a",
                             color: "#dbf5ee",
+                        }}
+                        onClick={() => {
+                            setSelectedItemId(params.row.id);
+                            setOpenDeletePopup(true);
                         }}
                     >
                         Decline
@@ -46,12 +106,29 @@ const VerifyCompany = () => {
                     title="Verification List"
                     subtitle="Companies applying for partnership"
                 />
+                <ToastContainer position="top-right" autoClose={3000} />
+
             </Box>
-            <DataTable
-                slug="companies"
-                columns={verifyColumns}
-                rows={applyVerificationCompanies}
-                lastColumn={customLastColumn}
+            <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
+                {companies.length === 0 ? (
+                    <Typography>No Data Available</Typography>
+                ) : (
+                    <DataTable
+                        columns={verifyColumns}
+                        rows={uniqueCompanies}
+                        lastColumn={customLastColumn}
+                    />
+                )}
+            </Box>
+
+            <ConfirmationDialog
+                open={openDeletePopup}
+                onClose={() => setOpenDeletePopup(false)}
+                onConfirm={() => {
+                    if (selectedItemId) {
+                        handleDelete(selectedItemId);
+                    }
+                }}
             />
         </Box>
     );

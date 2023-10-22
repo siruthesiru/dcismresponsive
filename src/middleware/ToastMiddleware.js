@@ -19,6 +19,7 @@ import {
     getAllEventsError
 } from '../app/eventsSlice';
 import { addAlumni, addAlumniError, deleteAlumni, deleteAlumniError, editAlumni, editAlumniError, getAllAlumniError } from '../app/alumniSlice';
+import { rejectCompany, rejectCompanyError, verifyCompany, verifyCompanyError } from '../app/companiesSlice';
 
 const ToastMiddleware = () => (next) => (action) => {
     switch (action.type) {
@@ -77,6 +78,18 @@ const ToastMiddleware = () => (next) => (action) => {
         case addAlumniError.type:
         case editAlumniError.type:
         case deleteAlumniError.type:
+            toast.error(action.payload);
+            break;
+
+        // Company
+        case verifyCompany.type:
+            toast.success('Company updated successfully');
+            break;
+        case rejectCompany.type:
+            toast.success('Company deleted successfully');
+            break;
+        case rejectCompanyError.type:
+        case verifyCompanyError.type:
             toast.error(action.payload);
             break;
 

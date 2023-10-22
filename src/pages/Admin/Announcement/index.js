@@ -9,9 +9,9 @@ import { DeleteAnnouncement, GetAllAnnouncements } from "../../../services/annou
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { DeleteOutline, EditNote } from "@mui/icons-material";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
+import DataTable from "../../../components/dataTable";
 
 const Announcements = () => {
     const navigate = useNavigate();
@@ -102,38 +102,10 @@ const Announcements = () => {
                 {announcements.length === 0 ? (
                     <Typography>No Data Available</Typography>
                 ) : (
-                    <DataGrid
-                        sx={{
-                            padding: "20px",
-                            "& .MuiDataGrid-toolbarContainer": {
-                                flexDirection: "row-reverse",
-                                color: "#221769",
-                            },
-                            "& .MuiButtonBase-root": {
-                                color: "#221769",
-                            },
-                        }}
+                    <DataTable
+                        columns={announcementColumn}
                         rows={uniqueAnnouncements}
-                        getRowId={(row) => row.id}
-                        columns={[...announcementColumn, ActionColumn]}
-                        style={{ width: "100%" }}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 10,
-                                },
-                            },
-                        }}
-                        slots={{ toolbar: GridToolbar }}
-                        slotProps={{
-                            toolbar: {
-                                showQuickFilter: true,
-                                quickFilterProps: { debounceMs: 500 },
-                            },
-                        }}
-                        pageSizeOptions={[10]}
-                        checkboxSelection
-                        disableRowSelectionOnClick
+                        lastColumn={ActionColumn}
                     />
                 )}
             </Box>
