@@ -2,6 +2,7 @@ import React from "react";
 import placeholder from "../../assets/placeholder.webp";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import FileViewer from "../fileViewer";
 
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
@@ -67,9 +68,9 @@ export const companyColumn = [
             };
 
             return (
-                <di style={style}>
+                <div style={style}>
                     {isVerified ? <CheckIcon /> : <CloseIcon />}
-                </di>
+                </div>
             )
         }
     },
@@ -85,19 +86,21 @@ export const companyColumn = [
             };
 
             return (
-                <di style={style}>
+                <div style={style}>
                     {isActive ? "Active" : "Inactive"}
-                </di>
+                </div>
             )
         }
     }
 ];
 
 export const alumniColumns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "idNum", headerName: "ID Number", width: 130 },
+
     {
         field: "img",
-        headerName: "avatar",
+        headerName: "Profile",
         width: 100,
         renderCell: (params) => {
             const imgSrc = params.row.img || placeholder;
@@ -118,78 +121,79 @@ export const alumniColumns = [
     },
     {
         field: "firstName",
-        type: "string",
         headerName: "First name",
         width: 150,
     },
     {
         field: "lastName",
-        type: "string",
         headerName: "Last name",
         width: 150,
     },
     {
         field: "email",
-        type: "string",
         headerName: "Email",
-        width: 200,
+        width: 150,
     },
     {
         field: "phone",
         headerName: "Phone",
-        type: "string",
+        width: 130,
+    },
+    {
+        field: "course",
+        headerName: "Program",
         width: 150,
     },
     {
-        field: "createdAt",
-        headerName: "Created At",
-        type: "string",
-        width: 150,
+        field: "syGraduated",
+        headerName: "Year Graduated",
+        width: 100,
     },
     {
-        field: "verified",
+        field: "isAccess",
         headerName: "Verified",
-        width: 150,
+        width: 130,
         type: "boolean",
         renderCell: (params) => {
-            const isVerified = params.value;
+            const isAccess = params.value;
             const style = {
-                color: isVerified ? 'green' : 'red',
+                color: isAccess ? 'green' : 'red',
             };
 
             return (
-                <di style={style}>
-                    {isVerified ? <CheckIcon /> : <CloseIcon />}
-                </di>
+                <div style={style}>
+                    {isAccess ? <CheckIcon /> : <CloseIcon />}
+                </div>
             )
         }
     },
-    {
-        field: "active",
-        headerName: "Status",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isActive = params.value;
-            const style = {
-                color: isActive ? 'green' : 'red',
-            };
+    // {
+    //     //not yet included in the table
+    //     field: "active",
+    //     headerName: "Status",
+    //     width: 150,
+    //     type: "boolean",
+    //     renderCell: (params) => {
+    //         const isActive = params.value;
+    //         const style = {
+    //             color: isActive ? 'green' : 'red',
+    //         };
 
-            return (
-                <di style={style}>
-                    {isActive ? "Active" : "Inactive"}
-                </di>
-            )
-        }
-    }
+    //         return (
+    //             <div style={style}>
+    //                 {isActive ? "Active" : "Inactive"}
+    //             </div>
+    //         )
+    //     }
+    // }
 ];
 
 
-export const faqColumns = [
+export const announcementColumn = [
     {
         field: "id",
         headerName: "ID",
-        flex: 1,
+        width: 80,
     },
     {
         field: "title",
@@ -197,48 +201,34 @@ export const faqColumns = [
         flex: 1,
     },
     {
-        field: "content",
+        field: "description",
         headerName: "Content",
         flex: 2,
     },
     {
         field: "audience",
         headerName: "Audience",
-        flex: 1,
+        width: 100,
     },
     {
-        field: "File",
-        headerName: "File",
+        field: 'file',
+        headerName: 'File',
         flex: 1,
         renderCell: (params) => {
-            const { file } = params.row;
+            // const file = params.row.file;
 
-            // Check if a file is attached
-            if (file) {
-                return (
-                    <a
-                        href={file.url} // Replace with the actual URL to the file
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {file.name}
-                    </a>
-                );
-            } else {
-                return "No File";
-            }
+            // if (file) {
+            //     return (
+            //         <FileViewer fileData={file} />
+            //     );
+            // }
         },
     },
     {
-        field: "createdAt",
-        headerName: "CreatedAt",
+        field: "posted_Date",
+        headerName: "Posted Date",
         flex: 1,
-    },
-    {
-        field: "updatedAt",
-        headerName: "UpdatedAt",
-        flex: 1,
-    },
+    }
 ];
 
 

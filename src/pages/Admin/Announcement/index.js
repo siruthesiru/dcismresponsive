@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import Header from "../../../components/header";
-import { faqColumns } from "../../../components/constant/adminColumnHeaders";
+import { announcementColumn } from "../../../components/constant/adminColumnHeaders";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteAnnouncement, GetAllAnnouncements } from "../../../services/announcement";
@@ -17,15 +17,18 @@ const Announcements = () => {
     const navigate = useNavigate();
 
     const announcements = useSelector((state) => state.announcementsSlice.announcements);
-
     const dispatch = useDispatch();
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
 
-    // useEffect(() => {
-    //     GetAllAnnouncements(dispatch)
-    // }, [dispatch])
+    useEffect(() => {
+        GetAllAnnouncements(dispatch)
+    }, [dispatch])
+
+    const uniqueAnnouncements = announcements.map((announcement, index) => {
+        return { ...announcement, id: announcement.id || index + 1 };
+    });
 
     const handleDelete = (id) => {
         DeleteAnnouncement(dispatch, id)
@@ -83,9 +86,7 @@ const Announcements = () => {
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title="Announcement Section" subtitle="List of announcements" />
-
-                <ToastContainer position="top-right" autoClose={3000} />
-
+                <ToastContainer position="top-right" autoClose={5000} />
                 <Box display="flex" gap="15px">
                     <Button
                         variant="contained"
@@ -98,8 +99,9 @@ const Announcements = () => {
                 </Box>
             </Box>
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
-                <Typography>No Data Available</Typography>
-                {announcements.length > 0 && (
+                {announcements.length === 0 ? (
+                    <Typography>No Data Available</Typography>
+                ) : (
                     <DataGrid
                         sx={{
                             padding: "20px",
@@ -111,9 +113,9 @@ const Announcements = () => {
                                 color: "#221769",
                             },
                         }}
-                        rows={announcements}
+                        rows={uniqueAnnouncements}
                         getRowId={(row) => row.id}
-                        columns={[...faqColumns, ActionColumn]}
+                        columns={[...announcementColumn, ActionColumn]}
                         style={{ width: "100%" }}
                         initialState={{
                             pagination: {
@@ -135,6 +137,7 @@ const Announcements = () => {
                     />
                 )}
             </Box>
+
             <ConfirmationDialog
                 open={openDeletePopup}
                 onClose={() => setOpenDeletePopup(false)}
