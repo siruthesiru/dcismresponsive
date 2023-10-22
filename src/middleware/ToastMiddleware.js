@@ -18,6 +18,7 @@ import {
     deleteEventError,
     getAllEventsError
 } from '../app/eventsSlice';
+import { addAlumni, addAlumniError, deleteAlumni, deleteAlumniError, editAlumni, editAlumniError, getAllAlumniError } from '../app/alumniSlice';
 
 const ToastMiddleware = () => (next) => (action) => {
     switch (action.type) {
@@ -58,6 +59,28 @@ const ToastMiddleware = () => (next) => (action) => {
         case deleteAnnouncementError.type:
             toast.error(action.payload);
             break;
+
+
+        // alumni
+        case addAlumni.type:
+            toast.success('New Alumna added successfully');
+            break;
+        case editAlumni.type:
+            toast.success('Alumna updated successfully');
+            break;
+        case deleteAlumni.type:
+            toast.success('Alumna deleted successfully');
+            break;
+        case getAllAlumniError.type:
+            toast.error('Error loading announcements');
+            break;
+        case addAlumniError.type:
+        case editAlumniError.type:
+        case deleteAlumniError.type:
+            toast.error(action.payload);
+            break;
+
+
         default:
             break;
     }

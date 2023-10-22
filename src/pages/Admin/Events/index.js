@@ -14,9 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const Events = () => {
 
     const events = useSelector((state) => state.eventsSlice.events);
-    const errorMessage = useSelector((state) => state.eventsSlice.errorMessage);
-    console.log(errorMessage);
-
     const dispatch = useDispatch();
 
     useEffect(() => {

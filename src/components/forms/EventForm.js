@@ -20,12 +20,13 @@ const EventForm = ({ onSubmit, initialEvent }) => {
             };
         } else {
             return {
-                name: "",
+                title: "",
                 description: "",
-                venue: "",
                 audience: "All",
+                venue: "",
                 start: new Date(),
                 end: new Date(),
+                file: null,
             };
         }
     });
@@ -33,14 +34,14 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     const dispatch = useDispatch();
 
     const handleFormSubmit = async () => {
-        const isoStartDate = newEvent.start.toISOString();
-        const isoEndDate = newEvent.end.toISOString();
 
+        const formattedStartDate = newEvent.start.toISOString();
+        const formattedEndDate = newEvent.end.toISOString();
 
         if (initialEvent) {
-            await EditEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
+            await EditEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
         } else {
-            await AddEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
+            await AddEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
             console.log(newEvent);
         }
         onSubmit(newEvent);
@@ -68,10 +69,10 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <TextField
-                        label="Event Name"
+                        label="Event Title"
                         placeholder='Type the title of the event'
-                        value={newEvent.name}
-                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                        value={newEvent.title}
+                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required

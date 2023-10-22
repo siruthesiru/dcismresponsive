@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { FormControl, InputAdornment, TextField, Button, Select, MenuItem, InputLabel } from '@mui/material';
-import { FaUserAlt } from 'react-icons/fa';
+import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { MdCalendarMonth } from 'react-icons/md';
+import { FaUserAlt } from 'react-icons/fa';
 import { Badge } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { AddAlumni, EditAlumni, GetAllAlumni } from '../../services/admin_alumni';
 
 const courses = [
     'Bachelor of Science in Computer Science',
@@ -14,17 +16,48 @@ const courses = [
     'Bachelor of Science in Applied Mathematics',
 ];
 
-const AlumniForm = () => {
-    const [FirstName, setFirstName] = useState("");
-    const [LastName, setLastName] = useState("");
-    const [Course, setCourse] = useState(''); // Change the initial value to an empty string
-    const [YearGraduate, setYearGraduated] = useState("");
-    const [IdNum, setIdNum] = useState("");
+const AlumniForm = ({ onSubmit, initialAlumni }) => {
+    const [formData, setFormData] = useState(() => {
+        if (initialAlumni) {
 
-    const handleFormSubmit = (e) => {
+            return {
+                ...initialAlumni,
+            };
+        } else {
+            return {
+                firstName: "",
+                lastName: "",
+                idNum: "",
+                venue: "",
+                course: "",
+                syGraduated: ""
+            };
+        }
+    });
+
+    const [submitting, setSubmitting] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Add your form submission logic here
+
+        try {
+            setSubmitting(true);
+            if (initialAlumni) {
+                await EditAlumni(dispatch, formData);
+            } else {
+                await AddAlumni(dispatch, formData);
+                GetAllAlumni(dispatch);
+            }
+            onSubmit(formData);
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setSubmitting(false);
+        }
     };
+
 
     return (
         <form onSubmit={handleFormSubmit}>
@@ -33,42 +66,42 @@ const AlumniForm = () => {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <strong style={{ color: "black" }}>
+                                <strong style={{ color: 'black' }}>
                                     <FaUserAlt size={25} className="mx-2" />
                                 </strong>
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ outline: "none", flex: 1, marginRight: 2 }}
+                    sx={{ outline: 'none', flex: 1, marginRight: 2 }}
                     type="text"
                     label="First Name"
                     autoComplete="firstname"
                     variant="outlined"
                     fullWidth
                     required
-                    value={FirstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 />
 
                 <TextField
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <strong style={{ color: "black" }}>
+                                <strong style={{ color: 'black' }}>
                                     <FaUserAlt size={25} className="mx-2" />
                                 </strong>
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ outline: "none", flex: 1 }}
+                    sx={{ outline: 'none', flex: 1 }}
                     type="text"
                     label="Last Name"
                     autoComplete="lastname"
                     variant="outlined"
                     fullWidth
                     required
-                    value={LastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 />
             </div>
 
@@ -77,13 +110,13 @@ const AlumniForm = () => {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <strong style={{ color: "black" }}>
+                                <strong style={{ color: 'black' }}>
                                     <Badge size={25} className="mx-2" />
                                 </strong>
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ outline: "none", flex: 1 }}
+                    sx={{ outline: 'none', flex: 1 }}
                     type="text"
                     placeholder="USC ID Number"
                     label="USC ID Number"
@@ -91,20 +124,21 @@ const AlumniForm = () => {
                     autoComplete="IdNum"
                     fullWidth
                     required
-                    value={IdNum}
-                    onChange={(e) => setIdNum(e.target.value)}
+                    value={formData.idNum}
+                    onChange={(e) => setFormData({ ...formData, idNum: e.target.value })}
                 />
             </div>
 
             <div className="mb-3 flex items-center">
                 <FormControl style={{ flex: 1 }}>
-                    <InputLabel htmlFor="program-graduated-label">Program Graduated</InputLabel>
+                    <InputLabel htmlFor="course">Course</InputLabel>
                     <Select
-                        labelId="program-graduated-label"
-                        id="program-graduated"
-                        value={Course}
-                        onChange={(e) => setCourse(e.target.value)}
-                        style={{ maxHeight: '250px' }}
+                        id="course"
+                        value={formData.course}
+                        onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+                        variant="outlined"
+                        fullWidth
+                        required
                     >
                         {courses.map((course) => (
                             <MenuItem key={course} value={course}>
@@ -120,13 +154,13 @@ const AlumniForm = () => {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <strong style={{ color: "black" }}>
+                                <strong style={{ color: 'black' }}>
                                     <MdCalendarMonth size={25} className="mx-2" />
                                 </strong>
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ outline: "none", flex: 1 }}
+                    sx={{ outline: 'none', flex: 1 }}
                     type="number"
                     placeholder="Input a number only"
                     label="Year Graduated"
@@ -134,8 +168,8 @@ const AlumniForm = () => {
                     autoComplete="yearGraduate"
                     fullWidth
                     required
-                    value={YearGraduate}
-                    onChange={(e) => setYearGraduated(e.target.value)}
+                    value={formData.syGraduated}
+                    onChange={(e) => setFormData({ ...formData, syGraduated: e.target.value })}
                 />
             </div>
 
@@ -143,15 +177,15 @@ const AlumniForm = () => {
                 type="submit"
                 variant="contained"
                 style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "15px",
-                    marginTop: "2rem",
-                    backgroundColor: "#221769",
-                    color: "#FFFFFF",
+                    display: 'block',
+                    width: '100%',
+                    padding: '15px',
+                    marginTop: '2rem',
+                    backgroundColor: '#221769',
+                    color: '#FFFFFF',
                 }}
             >
-                Add Alumni
+                {submitting ? 'Submitting...' : (initialAlumni ? 'Update Alumni' : 'Add Alumni')}
             </Button>
         </form>
     );

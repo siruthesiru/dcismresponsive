@@ -23,8 +23,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 export const GetAllAnnouncements = async (dispatch) => {
     try {
-        const response = await axiosInstance.get('/Annoucements');
-        console.log(response)
+        const response = await axiosInstance.get('/Announcements');
         dispatch(getAllAnnouncements(response.data))
     } catch (error) {
         console.error('Error:', error);
@@ -34,19 +33,32 @@ export const GetAllAnnouncements = async (dispatch) => {
 
 export const GetAnnouncementByID = async (dispatch, id) => {
     try {
-        const { data } = await axiosInstance.get(`/Announcements/${id}`);
-        dispatch(getAnnouncementByID(data));
-        return data;
+        const response = await axiosInstance.get(`/Announcements/${id}`);
+        dispatch(getAnnouncementByID(response.data));
+        return response.data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(editAnnouncementError());
     }
 }
 
-export const AddAnnouncement = async (dispatch, Announcement) => {
+export const AddAnnouncement = async (dispatch, announcement) => {
     try {
-        const response = await axiosInstance.post('/Announcements/Create', Announcement);
-        dispatch(addAnnouncement(response.data))
+        const formData = new FormData();
+        for (const key in announcement) {
+            if (key === 'file' && announcement[key]) {
+                formData.append(key, announcement[key]);
+            } else {
+                formData.append(key, announcement[key]);
+            }
+        }
+        const response = await axiosInstance.post('/Announcements/Create', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        dispatch(addAnnouncement(response.data));
+        console.log(response.data);
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
@@ -54,13 +66,28 @@ export const AddAnnouncement = async (dispatch, Announcement) => {
     }
 }
 
-export const EditAnnouncement = async (dispatch, Announcement, id) => {
+
+export const EditAnnouncement = async (dispatch, announcement, id) => {
     try {
-        await axiosInstance.put(`Announcements/Update/${id}`, Announcement);
-        dispatch(editAnnouncement(Announcement))
+        const formData = new FormData();
+        for (const key in announcement) {
+            if (key === 'file' && announcement[key]) {
+                formData.append(key, announcement[key]);
+            } else {
+                formData.append(key, announcement[key]);
+            }
+        }
+        const response = await axiosInstance.put(`/Announcements/Update/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        dispatch(editAnnouncement(response.data));
+        console.log(response.data);
     } catch (error) {
         console.error('Error:', error);
-        dispatch(editAnnouncementError())
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(editAnnouncementError(error.response.data));
     }
 }
 
