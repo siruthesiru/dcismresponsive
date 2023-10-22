@@ -6,6 +6,8 @@ import authenticationSlice from './authenticationSlice';
 import expensesSlice from './expensesSlice';
 import eventsSlice from './eventsSlice';
 import announcementsSlice from './announcementsSlice';
+import alumniSlice from './alumniSlice';
+import companiesSlice from './companiesSlice';
 import adminDashboardSlice from './adminDashboardSlice';
 import alumniProfileSlice from './alumniProfileSlice';
 
@@ -14,8 +16,10 @@ export default configureStore({
     authentication: authenticationSlice,
     eventsSlice: eventsSlice,
     announcementsSlice: announcementsSlice,
-    adminDashboard: adminDashboardSlice,
-    alumniProfile: alumniProfileSlice,
+    expensesSlice: expensesSlice,
+    alumniSlice: alumniSlice,
+    companiesSlice: companiesSlice
+
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ToastMiddleware, thunk),
 });

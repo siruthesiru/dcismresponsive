@@ -3,8 +3,9 @@ import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/mate
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import { AddEvent, EditEvent } from '../../services/events';
+import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
 import { useDispatch } from 'react-redux';
+import RichTextEditor from './RichTextEditor';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
 
@@ -34,15 +35,14 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     const dispatch = useDispatch();
 
     const handleFormSubmit = async () => {
-
         const formattedStartDate = newEvent.start.toISOString();
         const formattedEndDate = newEvent.end.toISOString();
-
         if (initialEvent) {
             await EditEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
+            GetAllEvents(dispatch);
         } else {
             await AddEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
-            console.log(newEvent);
+            GetAllEvents(dispatch);
         }
         onSubmit(newEvent);
     }
@@ -80,23 +80,6 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <TextField
-                        label="Event Info"
-                        placeholder='Type the description of the event'
-                        multiline
-                        minRows={3}
-                        value={newEvent.description}
-                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                        variant='outlined'
-                        fullWidth
-                        required
-                    />
-                </Grid>
-                {/* <Grid item xs={12} sm={12}>
-                    <label>Description: </label>
-                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
-                </Grid> */}
-                <Grid item xs={12} sm={12}>
-                    <TextField
                         label="Venue"
                         placeholder='Venue of the event'
                         value={newEvent.venue}
@@ -131,14 +114,20 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         onChange={(end) => setNewEvent({ ...newEvent, end })}
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Grid item xs={12} sm={12}>
+                    <label>Description: </label>
+                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
+                </Grid>
+
+
+                {/* <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
                     <InputLabel htmlFor="program-graduated-label" >Add File: </InputLabel>
                     <input
                         type="file"
                         accept=".pdf, .doc, .docx"
                         onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={12}>
                     <Button
@@ -148,7 +137,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                             display: "block",
                             width: "100%",
                             padding: "10px",
-                            marginTop: "1rem",
+                            marginTop: "5rem",
                             backgroundColor: "#221769",
                             color: "#FFFFFF",
                         }}

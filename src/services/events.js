@@ -34,20 +34,21 @@ export const GetAllEvents = async (dispatch) => {
 export const AddEvent = async (dispatch, event) => {
     try {
         const formData = new FormData();
-        for (const key in event) {
-            if (event[key] instanceof File) {
-                formData.append(key, event[key]);
-            } else {
-                formData.append(key, JSON.stringify(event[key]));
-            }
-        }
+        formData.append('Title', event.title);
+        formData.append('Description', event.description);
+        formData.append('Audience', event.audience);
+        formData.append('Venue', event.venue);
+        formData.append('Start', event.start);
+        formData.append('End', event.end);
+
         const response = await axiosInstance.post('/Events/Create', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+                'Content-Type': 'multipart/form-data'
+            }
         });
-        dispatch(addEvent(response.data));
         console.log(response.data);
+
+        dispatch(addEvent(response.data));
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
@@ -57,8 +58,20 @@ export const AddEvent = async (dispatch, event) => {
 
 export const EditEvent = async (dispatch, event) => {
     try {
-        await axiosInstance.put('', event);
-        dispatch(editEvent(event));
+        const formData = new FormData();
+        formData.append('Title', event.title);
+        formData.append('Description', event.description);
+        formData.append('Audience', event.audience);
+        formData.append('Venue', event.venue);
+        formData.append('Start', event.start);
+        formData.append('End', event.end);
+
+        const response = await axiosInstance.put(`/Events/Update/${event.id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        dispatch(editEvent(response.data));
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));

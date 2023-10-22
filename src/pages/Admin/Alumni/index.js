@@ -4,14 +4,15 @@ import Header from "../../../components/header";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { DeleteOutline, EditNote, ThumbUpAlt } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteAlumni, GetAllAlumni, VerifyAlumni } from "../../../services/admin_alumni";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import DataTable from "../../../components/dataTable";
 
 const Alumni = () => {
     const alumni = useSelector((state) => state.alumniSlice.alumni);
@@ -167,38 +168,10 @@ const Alumni = () => {
                     {alumni.length === 0 ? (
                         <Typography>No Data Available</Typography>
                     ) : (
-                        <DataGrid
-                            sx={{
-                                padding: "20px",
-                                "& .MuiDataGrid-toolbarContainer": {
-                                    flexDirection: "row-reverse",
-                                    color: "#221769",
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: "#221769",
-                                },
-                            }}
+                        <DataTable
+                            columns={alumniColumns}
                             rows={uniqueAlumni}
-                            getRowId={(row) => row.id}
-                            columns={[...alumniColumns, ActionColumn]}
-                            style={{ width: "100%" }}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {
-                                        pageSize: 10,
-                                    },
-                                },
-                            }}
-                            slots={{ toolbar: GridToolbar }}
-                            slotProps={{
-                                toolbar: {
-                                    showQuickFilter: true,
-                                    quickFilterProps: { debounceMs: 500 },
-                                },
-                            }}
-                            pageSizeOptions={[10]}
-                            checkboxSelection
-                            disableRowSelectionOnClick
+                            lastColumn={ActionColumn}
                         />
                     )}
                 </Box>
