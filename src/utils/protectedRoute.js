@@ -21,7 +21,8 @@ const ProtectedRoute = ({ userRole  }) => {
     if(isAccess === true)
     {
       return <Outlet />;
-    }else {
+    }
+    else {
         dispatch(clearAccount());
         window.location.reload();
     }
