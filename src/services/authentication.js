@@ -97,7 +97,6 @@ export const SignUpAlumni = async (dispatch, credentials) => {
 export const SignIn = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.post('/signin', credentials);
-        console.log(response);
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
@@ -163,8 +162,8 @@ export const SignUpGoogleAlumni = async (dispatch, token, role) => {
                     token: response.data.token,
                 })
             );
-        } 
-    } catch(error) {
+        }
+    } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
         dispatch(authenticationError({ message: errorMessage }));
@@ -186,8 +185,8 @@ export const SignUpGoogleCompany = async (dispatch, token, role) => {
                     token: response.data.token,
                 })
             );
-        } 
-    } catch(error) {
+        }
+    } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
         dispatch(authenticationError({ message: errorMessage }));

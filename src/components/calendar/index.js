@@ -15,6 +15,7 @@ const localizer = dateFnsLocalizer({
     locales: {
         "en-US": require("date-fns/locale/en-US"),
     },
+    timeZone: "Asia/Manila",
 });
 
 const views = {

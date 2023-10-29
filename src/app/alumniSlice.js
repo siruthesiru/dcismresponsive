@@ -4,15 +4,23 @@ export const deleteAlumniError = createAction('deleteAlumniError');
 export const editAlumniError = createAction('editAlumniError');
 export const addAlumniError = createAction('addAlumniError');
 export const getAllAlumniError = createAction('getAllAlumniError');
+export const getProfileError = createAction('getProfileError');
+export const editProfileError = createAction('editProfileError');
+
+
 
 export const alumniSlice = createSlice({
     name: 'alumni',
     initialState: {
         alumni: [],
+        userProfile: null,
     },
     reducers: {
         getAlumni: (state, action) => {
             return { ...state, alumni: [...action.payload] };
+        },
+        getProfile: (state, action) => {
+            return { ...state, userProfile: { ...action.payload } };
         },
         getAlumnusByID: (state, action) => {
             const updatedAlumnus = state.alumni.map((alumnus) => {
@@ -39,7 +47,10 @@ export const alumniSlice = createSlice({
         deleteAlumni: (state, action) => {
             const alumni = state.alumni.filter(alumnus => alumnus.id !== action.payload.id);
             return { ...state, alumni: [...alumni] };
-        }
+        },
+        editProfile: (state, action) => {
+            return { ...state, userProfile: { ...action.payload } };
+        },
     }
 });
 
@@ -49,6 +60,8 @@ export const {
     addAlumni,
     editAlumni,
     deleteAlumni,
+    getProfile,
+    editProfile
 } = alumniSlice.actions;
 
 export default alumniSlice.reducer;

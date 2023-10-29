@@ -12,6 +12,9 @@ import {
     addAnnouncementError
 } from '../app/announcementsSlice'
 
+import { toast } from 'react-toastify';
+
+
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Admin`,
 })
@@ -57,12 +60,19 @@ export const AddAnnouncement = async (dispatch, announcement) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        dispatch(addAnnouncement(response.data));
-        console.log(response.data);
+
+        if (response.data.isPostSucceed) {
+            dispatch(addAnnouncement(response.data));
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
         dispatch(addAnnouncementError(error.response.data));
+        toast.error('An error occurred while adding the announcement');
     }
 }
 
@@ -82,8 +92,14 @@ export const EditAnnouncement = async (dispatch, announcement, id) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        dispatch(editAnnouncement(response.data));
         console.log(response.data);
+        if (response.data.isEditSucceed) {
+            dispatch(editAnnouncement(response.data));
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isEditSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
@@ -95,7 +111,9 @@ export const DeleteAnnouncement = async (dispatch, id) => {
     try {
         await axiosInstance.delete(`Announcements/Delete/${id}`);
         dispatch(deleteAnnouncement(id));
+        toast.success('Announcement deleted successfully');
     } catch {
         dispatch(deleteAnnouncementError());
+        toast.error('An error occurred while deleting the announcement');
     }
 }

@@ -146,23 +146,23 @@ export const alumniColumns = [
     },
     {
         field: "syGraduated",
-        headerName: "Year Graduated",
-        width: 100,
+        headerName: "Batch",
+        width: 70,
     },
     {
-        field: "isAccess",
+        field: "isVerified",
         headerName: "Verified",
         width: 130,
         type: "boolean",
         renderCell: (params) => {
-            const isAccess = params.value;
+            const isVerified = params.value;
             const style = {
-                color: isAccess ? 'green' : 'red',
+                color: isVerified ? 'green' : 'red',
             };
 
             return (
                 <div style={style}>
-                    {isAccess ? <CheckIcon /> : <CloseIcon />}
+                    {isVerified ? <CheckIcon /> : <CloseIcon />}
                 </div>
             )
         }
