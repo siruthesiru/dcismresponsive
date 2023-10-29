@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Grid,
     Typography,
@@ -11,236 +11,277 @@ import {
 } from "@mui/material";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.webp";
-import { useSelector } from "react-redux";
+import { EditProfile, GetProfile } from "../../../services/admin_alumni"; // Import an update profile service
+import { useDispatch, useSelector } from "react-redux";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { clearAccount } from "../../../app/authenticationSlice";
 
 const Profile = () => {
-    const { firstName, lastName, email, position, role } = useSelector((state) => state.authentication);
-    // Check if the user has an image; if not, display the placeholder
-    const imgSrc = ""; // Replace with the user's image source if available
-    const image = imgSrc || placeholder;
-
-    // State to manage the editing mode
+    const { email } = useSelector((state) => state.authentication)
+    const [userData, setUserData] = useState(null);
+    const [isEmailEdited, setIsEmailEdited] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const dispatch = useDispatch();
 
-    // State to manage form data
-    const [formData, setFormData] = useState({
-        firstName,
-        lastName,
-        email,
-        position,
-        role,
-        profilePicture: image,
-    });
 
-    // Function to handle form input changes
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            const profileData = await GetProfile(dispatch);
+            setUserData(profileData);
+        };
+
+        fetchProfileData();
+    }, [dispatch]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setUserData({ ...userData, [name]: value });
+        if (name === "email" && value !== email) {
+            setIsEmailEdited(true);
+        }
     };
 
-    // Function to toggle editing mode
     const toggleEditing = () => {
         setIsEditing(!isEditing);
     };
 
-    // Function to handle form submission (save changes)
-    const handleSubmit = () => {
-        // Implement your logic to save changes here
-        // You can send formData to your API or Redux action
-        // Remember to update the state accordingly after saving
-        // For now, we'll just toggle the editing mode
-        toggleEditing();
+    const handleSubmit = async () => {
+        try {
+            await EditProfile(dispatch, userData);
+            toast.success("Updated profile successfully");
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Error updating profile:", error);
+        }
+
+        if (isEmailEdited) {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            toast.success("Please sign in again for the new email");
+            dispatch(clearAccount(null));
+        }
     };
 
     return (
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title="Profile Page" subtitle="Please complete your profile" />
+                <ToastContainer position="top-right" autoClose={3000} />
             </Box>
 
-            <Box sx={{ width: "50%", marginTop: "2rem" }}>
-                <Card sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+
+            <Card sx={{ width: "80%", height: "50vh", display: "flex", alignItems: "center" }}>
+                <Box
+                    sx={{
+                        flex: "1 0 auto",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                    }}
+                >
                     {isEditing ? (
-                        <Box
-                            sx={{
-                                flex: "1 0 auto",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                textAlign: "center",
-                            }}
-                        >
+                        <label>
                             <input
                                 type="file"
                                 accept="image/*"
                                 style={{ display: "none" }}
-                                id="profile-picture-input"
                                 onChange={(e) => {
                                     const file = e.target.files[0];
                                     if (file) {
                                         const reader = new FileReader();
-                                        reader.onload = (e) => {
-                                            setFormData({ ...formData, profilePicture: e.target.result });
+                                        reader.onload = (event) => {
+                                            const imageData = event.target.result;
+                                            setUserData({ ...userData, profilePicture: imageData });
                                         };
                                         reader.readAsDataURL(file);
                                     }
                                 }}
                             />
-                            <label htmlFor="profile-picture-input">
-                                <CardMedia
-                                    component="img"
-                                    sx={{ marginLeft: "2rem", width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
-                                    image={formData.profilePicture}
-                                    alt="Profile picture"
-                                />
-                            </label>
-                            <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, marginLeft: "2rem" }}>
-                                Click the placeholder for adding profile.
-                            </Typography>
-                        </Box>
-                    ) : (
-                        <Box sx={{ flex: "1 0 auto", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
-                            <CardMedia
-                                component="img"
-                                sx={{ width: 200, height: 200, borderRadius: "50%" }}
-                                image={formData.profilePicture}
-                                alt="Profile picture"
+                            <img
+                                src={userData?.profilePicture || placeholder}
+                                alt="User Profile"
+                                style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
+                                onClick={() => {
+                                    const fileInput = document.querySelector('input[type="file"]');
+                                    fileInput.click();
+                                }}
                             />
-                        </Box>
+                        </label>
+                    ) : (
+                        <CardMedia
+                            component="img"
+                            sx={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
+                            image={userData?.profilePicture || placeholder}
+                            alt="Profile picture"
+                        />
                     )}
+                </Box>
 
 
-                    <CardContent sx={{ flex: "1 0 auto", display: "flex", flexDirection: "column", marginLeft: "1rem" }}>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
-                                    First Name:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                {isEditing ? (
-                                    <TextField
-                                        name="firstName"
-                                        value={formData.firstName}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                    />
-                                ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                        {formData.firstName}
-                                    </Typography>
-                                )}
-                            </Grid>
+                <CardContent sx={{ flex: "1 0 auto", display: "flex", flexDirection: "column", marginLeft: "1rem" }}>
+
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                First Name:
+                            </Typography>
                         </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
-                                    Last Name:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                {isEditing ? (
-                                    <TextField
-                                        name="lastName"
-                                        value={formData.lastName}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                    />
-                                ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                        {formData.lastName}
-                                    </Typography>
-                                )}
-                            </Grid>
-                        </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
-                                    Email:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                {isEditing ? (
-                                    <TextField
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                    />
-                                ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                        {formData.email}
-                                    </Typography>
-                                )}
-                            </Grid>
-                        </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
-                                    Position:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
-                                    {formData.position}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
-                                    Role:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
-                                    {formData.role}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item sm={6}>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
                             {isEditing ? (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    style={{
-                                        display: "block",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "#4cceac",
-                                        color: "#FFFFFF",
-                                    }}
-                                    onClick={handleSubmit}
-
-                                >
-                                    Submit
-                                </Button>
+                                <TextField
+                                    name="firstName"
+                                    value={userData?.firstName}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
                             ) : (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    onClick={toggleEditing}
-                                    style={{
-                                        display: "block",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "yellow",
-                                        color: "black",
-                                    }}
-                                >
-                                    Edit Profile
-                                </Button>
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.firstName}
+                                </Typography>
                             )}
                         </Grid>
-                    </CardContent>
-                </Card>
-            </Box >
-        </Box >
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Middle Name:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            {isEditing ? (
+                                <TextField
+                                    name="middleName"
+                                    value={userData?.middleName}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.middleName}
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Last Name:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            {isEditing ? (
+                                <TextField
+                                    name="lastName"
+                                    value={userData?.lastName}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.lastName}
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Email:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            {isEditing ? (
+                                <TextField
+                                    type="email"
+                                    name="email"
+                                    value={userData?.email}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.email}
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Position:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            {isEditing ? (
+                                <TextField
+                                    name="position"
+                                    value={userData?.position}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.position}
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Role:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+
+                            <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                {userData?.role}
+                            </Typography>
+
+                        </Grid>
+                    </Grid>
+
+                    <Grid item sm={6}>
+                        {isEditing ? (
+                            <Button
+                                type="button"
+                                variant="contained"
+                                style={{
+                                    display: "block",
+                                    width: "100%",
+                                    padding: "10px",
+                                    marginTop: "2rem",
+                                    backgroundColor: "#4cceac",
+                                    color: "#FFFFFF",
+                                }}
+                                onClick={handleSubmit}
+                            >
+                                Save Profile
+                            </Button>
+                        ) : (
+                            <Button
+                                type="button"
+                                variant="contained"
+                                onClick={toggleEditing}
+                                style={{
+                                    display: "block",
+                                    width: "100%",
+                                    padding: "10px",
+                                    marginTop: "2rem",
+                                    backgroundColor: "yellow",
+                                    color: "black",
+                                }}
+                            >
+                                Edit Profile
+                            </Button>
+                        )}
+                    </Grid>
+                </CardContent>
+            </Card>
+        </Box>
+
     );
 };
 
 export default Profile;
-

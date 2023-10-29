@@ -13,11 +13,16 @@ const EventForm = ({ onSubmit, initialEvent }) => {
 
     const [newEvent, setNewEvent] = useState(() => {
         if (initialEvent) {
+            const startUTC = new Date(initialEvent.start);
+            const endUTC = new Date(initialEvent.end);
+
+            startUTC.setHours(startUTC.getHours() + 8);
+            endUTC.setHours(endUTC.getHours() + 8);
 
             return {
                 ...initialEvent,
-                start: new Date(initialEvent.start),
-                end: new Date(initialEvent.end),
+                start: startUTC,
+                end: endUTC,
             };
         } else {
             return {
@@ -99,6 +104,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         dateFormat="MM/dd/yyyy h:mm aa"
                         selected={newEvent.start}
                         onChange={(start) => setNewEvent({ ...newEvent, start })}
+                        timeZone="Asia/Manila"
 
                     />
                 </Grid>
@@ -112,6 +118,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         dateFormat="MM/dd/yyyy h:mm aa"
                         selected={newEvent.end}
                         onChange={(end) => setNewEvent({ ...newEvent, end })}
+                        timeZone="Asia/Manila"
                     />
                 </Grid>
                 <Grid item xs={12} sm={12}>

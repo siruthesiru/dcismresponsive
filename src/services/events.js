@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 import {
     getAllEvents,
     getAllEventsError,
@@ -46,13 +48,22 @@ export const AddEvent = async (dispatch, event) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(response.data);
 
-        dispatch(addEvent(response.data));
+        if (response.data.isPostSucceed) {
+            dispatch(addEvent(response.data));
+            toast.success('Event added successfully');
+        } else {
+            console.log(response.data);
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+
+        }
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
         dispatch(addEventError(error.response.data));
+        toast.error('An error occurred while adding the event');
+
     }
 }
 
@@ -71,11 +82,19 @@ export const EditEvent = async (dispatch, event) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        dispatch(editEvent(response.data));
+        if (response.data.isEditSucceed) {
+            dispatch(editEvent(response.data));
+            toast.success('Event updated successfully');
+        } else {
+            console.log(response.data);
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
         dispatch(editEventError(error.response.data));
+        toast.error('An error occurred while adding the event');
     }
 };
 
@@ -83,7 +102,9 @@ export const DeleteEvent = async (dispatch, id) => {
     try {
         await axiosInstance.delete(`Events/Delete/${id}`);
         dispatch(deleteEvent(id));
+        toast.success('Event deleted successfully');
     } catch (error) {
         dispatch(deleteEventError());
+        toast.error('An error occurred while deleting the event');
     }
 }

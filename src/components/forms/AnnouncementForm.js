@@ -7,7 +7,7 @@ import { AddAnnouncement, EditAnnouncement, GetAnnouncementByID } from '../../se
 import { useNavigate, useParams } from 'react-router-dom'; // Import useHistory
 import { editAnnouncementError } from '../../app/announcementsSlice';
 
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const audiences = ["All", "Company", "Alumni"];
@@ -28,6 +28,7 @@ const AnnouncementForm = () => {
 
 
     const [announcementDataLoaded, setAnnouncementDataLoaded] = useState(false);
+
 
     useEffect(() => {
         const fetchAnnouncementData = async () => {
@@ -54,24 +55,21 @@ const AnnouncementForm = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        try {
-            if (id) {
-                await EditAnnouncement(dispatch, formData, id);
-                toast.success('Announcement updated successfully', {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                navigate('/announcements');
-            } else {
-                await AddAnnouncement(dispatch, formData);
-                toast.success('Announcement added successfully', {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
+        if (id) {
+
+            const editSuccess = await EditAnnouncement(dispatch, formData, id);
+            if (editSuccess) {
+                toast.success("Announcement edited successfully");
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
                 navigate('/announcements');
             }
-        } catch (error) {
-            toast.error('Error adding/updating announcement', {
-                position: toast.POSITION.TOP_RIGHT,
-            });
+        } else {
+            const addSuccess = await AddAnnouncement(dispatch, formData);
+            if (addSuccess) {
+                toast.success("Announcement added successfully");
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
+                navigate('/announcements');
+            }
         }
     };
 
@@ -80,6 +78,7 @@ const AnnouncementForm = () => {
         <Box m="1rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title={id ? "Edit Announcement" : "Add Announcement"} subtitle="" />
+                <ToastContainer position="top-right" autoClose={3000} />
             </Box>
             {announcementDataLoaded ? (
                 <Paper elevation={3} sx={{ p: "1.5rem 2.5rem" }}>

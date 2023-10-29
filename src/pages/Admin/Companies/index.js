@@ -18,7 +18,7 @@ const Companies = () => {
         <>
             <Box m="1.5rem 2.5rem">
                 <Box display="flex" alignItems="center" justifyContent="space-between">
-                    <Header title="Alumni" subtitle="List of Alumni" />
+                    <Header title="Companies" subtitle="List of Afflitiated Companies" />
                     <ToastContainer position="top-right" autoClose={3000} />
                 </Box>
                 <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>

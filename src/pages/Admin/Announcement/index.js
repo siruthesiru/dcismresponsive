@@ -86,7 +86,7 @@ const Announcements = () => {
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Header title="Announcement Section" subtitle="List of announcements" />
-                <ToastContainer position="top-right" autoClose={5000} />
+                <ToastContainer position="top-right" autoClose={3000} />
                 <Box display="flex" gap="15px">
                     <Button
                         variant="contained"

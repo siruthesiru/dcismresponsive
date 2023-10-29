@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteAlumni, GetAllAlumni, VerifyAlumni } from "../../../services/admin_alumni";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import DataTable from "../../../components/dataTable";
+import AlumniCSVUpload from "../../../components/forms/AlumniCSVUpload";
 
 const Alumni = () => {
     const alumni = useSelector((state) => state.alumniSlice.alumni);
@@ -20,10 +21,10 @@ const Alumni = () => {
 
     const [openPopup, setOpenup] = useState(false);
     const [openEditPopup, setOpenEditPopup] = useState(false);
+    const [openCSVUploadPopup, setOpenCSVUploadPopup] = useState(false);
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
-
 
     useEffect(() => {
         GetAllAlumni(dispatch)
@@ -43,6 +44,10 @@ const Alumni = () => {
     const handleAlumni = () => {
         setOpenup(false);
         setOpenEditPopup(false);
+    };
+
+    const handleCloseCSVUpload = () => {
+        setOpenCSVUploadPopup(false);
     };
 
     const handleDelete = (id) => {
@@ -68,7 +73,7 @@ const Alumni = () => {
         try {
             const credentials = {
                 id: id,
-                isAccess: true
+                isVerified: true
             };
             await VerifyAlumni(dispatch, credentials);
             GetAllAlumni(dispatch);
@@ -86,12 +91,12 @@ const Alumni = () => {
                 <Box display="flex" gap="10px">
                     <IconButton
                         onClick={() => handleVerifyAlumni(params.row.id)}
-                        disabled={params.row.isAccess}
+                        disabled={params.row.isVerified}
                     >
                         <ThumbUpAlt
                             style={{
                                 fontSize: "20px",
-                                color: params.row.isAccess ? "#aaa" : "#4cceac",
+                                color: params.row.isVerified ? "#aaa" : "#4cceac",
                             }}
                         />
                     </IconButton>
@@ -140,28 +145,14 @@ const Alumni = () => {
                         >
                             Add User
                         </Button>
-                        <input
-                            type="file"
-                            accept=".csv"
-                            style={{ display: "none" }}
-                            id="csv-upload-input"
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    console.log(`Uploaded CSV file: ${file.name}`);
-                                }
-                            }}
-                        />
-                        <label htmlFor="csv-upload-input">
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                style={{ backgroundColor: "#4cceac" }}
-                                component="span"
-                            >
-                                Upload CSV
-                            </Button>
-                        </label>
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            style={{ backgroundColor: "#4cceac" }}
+                            onClick={() => setOpenCSVUploadPopup(true)}
+                        >
+                            Upload CSV
+                        </Button>
                     </Box>
                 </Box>
                 <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
@@ -191,6 +182,14 @@ const Alumni = () => {
             >
                 <AlumniForm onSubmit={handleAlumni} />
             </PopUp>
+            <PopUp
+                title="UPLOAD CSV FILE"
+                openPopup={openCSVUploadPopup}
+                setOpenup={setOpenCSVUploadPopup}
+            >
+                <AlumniCSVUpload onSubmit={handleAlumni} onClose={handleCloseCSVUpload} />
+            </PopUp>
+
             <ConfirmationDialog open={openDeletePopup} onClose={handleDelete} onConfirm={() => {
                 if (selectedItemId) {
                     handleDelete(selectedItemId);
