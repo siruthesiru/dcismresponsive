@@ -2,7 +2,7 @@ import React from "react";
 import placeholder from "../../assets/placeholder.webp";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import FileViewer from "../fileViewer";
+// import FileViewer from "../fileViewer";
 
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
