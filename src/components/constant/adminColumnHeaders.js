@@ -7,11 +7,11 @@ import CheckIcon from '@mui/icons-material/Check';
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "img",
+        field: "profileImage",
         headerName: "avatar",
         width: 100,
         renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
+            const imgSrc = params.value || placeholder;
             return (
                 <img
                     src={imgSrc}
@@ -27,9 +27,9 @@ export const companyColumn = [
         },
     },
     {
-        field: "companyName",
+        field: "name",
         type: "string",
-        headerName: "Company name",
+        headerName: "Company Name",
         width: 150,
     },
     {
@@ -57,8 +57,8 @@ export const companyColumn = [
         width: 150,
     },
     {
-        field: "verified",
-        headerName: "Verified",
+        field: "isVerified",
+        headerName: "isPartnered",
         width: 150,
         type: "boolean",
         renderCell: (params) => {
@@ -74,24 +74,24 @@ export const companyColumn = [
             )
         }
     },
-    {
-        field: "active",
-        headerName: "Status",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isActive = params.value;
-            const style = {
-                color: isActive ? 'green' : 'red',
-            };
+    // {
+    //     field: "active",
+    //     headerName: "Status",
+    //     width: 150,
+    //     type: "boolean",
+    //     renderCell: (params) => {
+    //         const isActive = params.value;
+    //         const style = {
+    //             color: isActive ? 'green' : 'red',
+    //         };
 
-            return (
-                <div style={style}>
-                    {isActive ? "Active" : "Inactive"}
-                </div>
-            )
-        }
-    }
+    //         return (
+    //             <div style={style}>
+    //                 {isActive ? "Active" : "Inactive"}
+    //             </div>
+    //         )
+    //     }
+    // }
 ];
 
 export const alumniColumns = [
@@ -260,21 +260,17 @@ export const verifyColumns = [
     },
     {
         //not yet included in the table
-        field: "active",
-        headerName: "Status",
-        width: 150,
-        type: "boolean",
+        field: "moa",
+        headerName: "Uploaded Moa",
+        flex: 1,
         renderCell: (params) => {
-            const isActive = params.value;
-            const style = {
-                color: isActive ? 'green' : 'red',
-            };
+            // const file = params.row.file;
 
-            return (
-                <div style={style}>
-                    {isActive ? "Active" : "Inactive"}
-                </div>
-            )
+            // if (file) {
+            //     return (
+            //         <FileViewer fileData={file} />
+            //     );
+            // }
         }
     }
 ];

@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const VerifyCompany = () => {
 
     const companies = useSelector((state) => state.companiesSlice.companies);
-    console.log(companies);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -51,7 +50,7 @@ const VerifyCompany = () => {
         try {
             const credentials = {
                 id: id,
-                isPartnered: true
+                isVerified: true
             };
             await Verify_Company(dispatch, credentials);
             GetCompanies(dispatch);
@@ -72,11 +71,11 @@ const VerifyCompany = () => {
                         variant="contained"
                         size="medium"
                         style={{
-                            backgroundColor: params.row.isPartnered ? "#aaa" : "#4cceac",
+                            backgroundColor: params.row.isVerified ? "#aaa" : "#4cceac",
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleVerifyCompany(params.row.id)}
-                        disabled={params.row.isPartnered}
+                        disabled={params.row.isVerified}
                     >
                         Accept
                     </Button>
