@@ -30,7 +30,7 @@ export const GetCompanies = async (dispatch) => {
 
 export const RejectCompany = async (dispatch, id) => {
     try {
-        await axiosInstance.delete(`Company/Delete/${id}`);
+        await axiosInstance.delete(`Company/Reject-Company/${id}`);
         dispatch(rejectCompany(id));
     } catch {
         dispatch(rejectCompanyError());
@@ -39,7 +39,7 @@ export const RejectCompany = async (dispatch, id) => {
 
 export const Verify_Company = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.post('/Company/Verify-Company', credentials)
+        const response = await axiosInstance.put('/Company/Verify-Company', credentials)
         dispatch(verifyCompany(response.data));
     } catch (error) {
         console.error('Error:', error);
@@ -47,47 +47,4 @@ export const Verify_Company = async (dispatch, credentials) => {
     }
 }
 
-// export const GetAlumniByID = async (dispatch, id) => {
-//     try {
-//         const response = await axiosInstance.get(`/Alumni/${id}`);
-//         dispatch(getAlumnusByID(response.data));
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error:', error);
-//         dispatch(getAlumni());
-//     }
-// }
-
-// export const AddAlumni = async (dispatch, alumni) => {
-//     try {
-//         const response = await axiosInstance.post('/Alumni/Add-Alumni', alumni)
-//         console.log(response.data);
-//         dispatch(addAlumni(response.data));
-//     } catch (error) {
-//         console.error('Error:', error);
-//         dispatch(addAlumniError(error.response.data));
-//     }
-// }
-
-// export const EditAlumni = async (dispatch, alumni, id) => {
-//     try {
-//         const formData = new FormData();
-//         for (const key in alumni) {
-//             if (key === 'file' && alumni[key]) {
-//                 formData.append(key, alumni[key]);
-//             } else {
-//                 formData.append(key, alumni[key]);
-//             }
-//         }
-//         const response = await axiosInstance.put(`/Alumni/Update/${id}`, formData, {
-//             headers: {
-//                 'Content-Type': 'multipart/form-data',
-//             },
-//         });
-//         dispatch(editAlumni(response.data));
-//     } catch (error) {
-//         console.error('Error:', error);
-//         dispatch(editAlumniError(error.response.data));
-//     }
-// }
 
