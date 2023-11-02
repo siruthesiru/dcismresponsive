@@ -8,10 +8,14 @@ export const companiesSlice = createSlice({
     name: 'companies',
     initialState: {
         companies: [],
+        unverified_companies: [],
     },
     reducers: {
         getCompanies: (state, action) => {
-            return { ...state, companies: [...action.payload] };
+            state.companies = action.payload;
+        },
+        getUnverifiedCompanies: (state, action) => {
+            state.unverified_companies = action.payload;
         },
         getCompanyByID: (state, action) => {
             const updatedCompany = state.companies.map((company) => {
@@ -24,13 +28,13 @@ export const companiesSlice = createSlice({
             return { ...state, alumni: updatedCompany };
         },
         verifyCompany: (state, action) => {
-            const companies = state.companies.map(company => {
+            const unverified_companies = state.unverified_companies.map(company => {
                 if (company.id === action.payload.id) {
                     company = action.payload;
                 }
                 return company;
             });
-            return { ...state, companies: [...companies] };
+            return { ...state, unverified_companies: [...unverified_companies] };
         },
         rejectCompany: (state, action) => {
             const companies = state.companies.filter(company => company.id !== action.payload.id);
@@ -41,6 +45,7 @@ export const companiesSlice = createSlice({
 
 export const {
     getCompanies,
+    getUnverifiedCompanies,
     getCompanyByID,
     verifyCompany,
     rejectCompany

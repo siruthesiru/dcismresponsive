@@ -189,15 +189,15 @@ export const SignUpGoogleAlumniUpdate = async (dispatch, credentials) => {
                     token: response.data.token,
                 })
             );
-        }else {
+        } else {
             dispatch(
                 authenticationError({
                     message: response.data.message,
                 })
             );
         }
-        
-    } catch(error) {
+
+    } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at alumni.';
         dispatch(authenticationError({ message: errorMessage }));
@@ -245,8 +245,8 @@ export const SignUpGoogleCompanyUpdate = async (dispatch, credentials) => {
                     token: response.data.token,
                 })
             );
-        } 
-    } catch(error) {
+        }
+    } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at company.';
         dispatch(authenticationError({ message: errorMessage }));
@@ -331,3 +331,4 @@ export const changePassword = async (dispatch, credentials) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
+

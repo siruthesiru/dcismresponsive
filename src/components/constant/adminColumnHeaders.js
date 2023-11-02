@@ -57,6 +57,20 @@ export const companyColumn = [
         width: 150,
     },
     {
+        field: 'moa',
+        headerName: 'Uploaded MOA',
+        flex: 1,
+        renderCell: (params) => {
+            // const file = params.row.file;
+
+            // if (file) {
+            //     return (
+            //         <FileViewer fileData={file} />
+            //     );
+            // }
+        },
+    },
+    {
         field: "isVerified",
         headerName: "isPartnered",
         width: 150,
@@ -74,24 +88,7 @@ export const companyColumn = [
             )
         }
     },
-    // {
-    //     field: "active",
-    //     headerName: "Status",
-    //     width: 150,
-    //     type: "boolean",
-    //     renderCell: (params) => {
-    //         const isActive = params.value;
-    //         const style = {
-    //             color: isActive ? 'green' : 'red',
-    //         };
 
-    //         return (
-    //             <div style={style}>
-    //                 {isActive ? "Active" : "Inactive"}
-    //             </div>
-    //         )
-    //     }
-    // }
 ];
 
 export const alumniColumns = [
@@ -262,7 +259,7 @@ export const verifyColumns = [
         //not yet included in the table
         field: "moa",
         headerName: "Uploaded Moa",
-        flex: 1,
+        width: 300,
         renderCell: (params) => {
             // const file = params.row.file;
 
