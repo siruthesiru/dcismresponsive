@@ -6,7 +6,8 @@ import {
     verifyCompany,
     verifyCompanyError,
     rejectCompany,
-    rejectCompanyError
+    rejectCompanyError,
+    getUnverifiedCompanies
 } from '../app/companiesSlice'
 
 const axiosInstance = axios.create({
@@ -25,6 +26,19 @@ export const GetCompanies = async (dispatch) => {
     } catch (error) {
         console.error('Error:', error);
         dispatch(getCompaniesError())
+    }
+}
+
+export const GetUnverifiedCompanies = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Company');
+        const unverifiedCompanies = response.data.filter(company => {
+            return !company.isVerified && company.moa !== null;
+        });
+        dispatch(getUnverifiedCompanies(unverifiedCompanies));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getCompaniesError());
     }
 }
 

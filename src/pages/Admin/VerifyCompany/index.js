@@ -4,7 +4,7 @@ import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCompanies, RejectCompany, Verify_Company } from "../../../services/admin_company";
+import { GetUnverifiedCompanies, RejectCompany, Verify_Company } from "../../../services/admin_company";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
 import { ToastContainer } from 'react-toastify';
@@ -12,11 +12,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyCompany = () => {
 
-    const companies = useSelector((state) => state.companiesSlice.companies);
+    const companies = useSelector((state) => state.companiesSlice.unverified_companies);
     const dispatch = useDispatch();
 
+    console.log(companies);
+
     useEffect(() => {
-        GetCompanies(dispatch)
+        GetUnverifiedCompanies(dispatch)
     }, [dispatch])
 
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
@@ -41,7 +43,7 @@ const VerifyCompany = () => {
 
     useEffect(() => {
         if (deleteOccurred) {
-            GetCompanies(dispatch);
+            GetUnverifiedCompanies(dispatch);
             setDeleteOccurred(false);
         }
     }, [deleteOccurred, dispatch]);
@@ -53,7 +55,7 @@ const VerifyCompany = () => {
                 isVerified: true
             };
             await Verify_Company(dispatch, credentials);
-            GetCompanies(dispatch);
+            GetUnverifiedCompanies(dispatch);
         } catch (error) {
             console.error('Error:', error);
         }

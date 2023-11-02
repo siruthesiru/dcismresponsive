@@ -24,12 +24,10 @@ import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
 import LayoutAlumni from './pages/Alumni/Layout';
-import AlumniEvents from './pages/Alumni/LandingPage/A_Events.js';
 import AlumniFAQ from './pages/Alumni/A_Help.js';
 import AlumniJobs from './pages/Alumni/A_Jobs.js';
 import AlumniNotif from './pages/Alumni/A_Notif.js';
 import AlumniSearch from './pages/Alumni/A_SearchPage';
-import AlumniProfile from './pages/Alumni/A_Profile';
 import AlumniEditProfile from './pages/Alumni/A_EditProfile';
 import AlumniViewJob from './pages/Alumni/A_Job';
 import AlumniApplyJob from './pages/Alumni/A_ApplyJob'
@@ -43,6 +41,8 @@ import CompanyProfile from './pages/Company/C_Profile.js';
 import CompanyEditProfile from './pages/Company/C_EditProfile.js'
 import CompanyAddPosting from './pages/Company/C_CreatePost.js'
 import CompanyViewCandidates from './pages/Company/C_ViewCandidates.js'
+import LandingPageAlumni from './pages/Alumni/LandingPage';
+import AlumniProfile from './pages/Alumni/Profile';
 
 
 const App = () => {
@@ -107,7 +107,7 @@ const App = () => {
 
               <Route element={<ProtectedRoute userRole="ALUMNI" />}>
                 <Route element={<LayoutAlumni />} >
-                  <Route path="/alumni/dashboard" element={<AlumniEvents />} />
+                  <Route path="/alumni/dashboard" element={<LandingPageAlumni />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<AlumniJobs />} />
                   <Route path="/alumni/notifications" element={<AlumniNotif />} />

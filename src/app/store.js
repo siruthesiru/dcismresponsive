@@ -8,6 +8,7 @@ import eventsSlice from './eventsSlice';
 import announcementsSlice from './announcementsSlice';
 import alumniSlice from './alumniSlice';
 import companiesSlice from './companiesSlice';
+import alumniUserSlice from './alumniUserSlice';
 
 export default configureStore({
   reducer: {
@@ -16,7 +17,8 @@ export default configureStore({
     announcementsSlice: announcementsSlice,
     expensesSlice: expensesSlice,
     alumniSlice: alumniSlice,
-    companiesSlice: companiesSlice
+    companiesSlice: companiesSlice,
+    alumniUserSlice: alumniUserSlice,
 
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ToastMiddleware, thunk),

@@ -7,20 +7,18 @@ export const getAllAlumniError = createAction('getAllAlumniError');
 export const getProfileError = createAction('getProfileError');
 export const editProfileError = createAction('editProfileError');
 
-
-
 export const alumniSlice = createSlice({
     name: 'alumni',
     initialState: {
         alumni: [],
-        userProfile: null,
+        adminProfile: null,
     },
     reducers: {
         getAlumni: (state, action) => {
             return { ...state, alumni: [...action.payload] };
         },
         getProfile: (state, action) => {
-            return { ...state, userProfile: { ...action.payload } };
+            return { ...state, adminProfile: { ...action.payload } };
         },
         getAlumnusByID: (state, action) => {
             const updatedAlumnus = state.alumni.map((alumnus) => {

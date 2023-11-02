@@ -246,28 +246,3 @@ export const changePassword = async (dispatch, credentials) => {
     }
 }
 
-// export const userProfile = async (dispatch, token) => {
-//     try {
-//         const response = await axiosInstance.post('/changepassword', credentials);
-
-//         if (response.data.isSucceed) {
-//             dispatch(
-//                 userChangePassword({
-//                     isSucceed: response.data.isSucceed,
-//                     message: response.data.message,
-//                 })
-//             );
-//         } else {
-//             dispatch(
-//                 authenticationError({
-//                     message: response.data.message,
-//                 })
-//             );
-//         }
-
-//     } catch (error) {
-//         console.error('Error:', error);
-//         const errorMessage = error.response?.data || 'An error occurred while changing password.';
-//         dispatch(authenticationError({ message: errorMessage }));
-//     }
-// }

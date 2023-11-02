@@ -1,5 +1,5 @@
 import React from 'react'
-import EditCompanyProfileContent from '../../components/alumni-company/EditCompanyProfileContent';
+import EditCompanyProfileContent from '../../components/profileCard/EditCompanyProfileContent';
 
 
 const C_EditProfile = () => {
