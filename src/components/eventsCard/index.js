@@ -1,15 +1,14 @@
-import React from 'react';
+import React from 'react'
 import placeholder from "../../assets/placeholder.png";
 
 
-const AnnouncementCard = ({ announcement }) => {
-    const { title, admin, posted_Date, description, file } = announcement;
+const EventsCard = ({ events }) => {
+    const { title, start, end, venue, description } = events;
     const parser = new DOMParser();
     const doc = parser.parseFromString(description, 'text/html');
     const imgSrc = doc.querySelector('img')?.getAttribute('src');
     const videoSrc = doc.querySelector('video source')?.getAttribute('src');
     const noMediaAvailable = !imgSrc && !videoSrc;
-
 
     return (
         <div className='mx-4 sm:mx-0'>
@@ -17,7 +16,13 @@ const AnnouncementCard = ({ announcement }) => {
                 <div className='sm:w-[70%] flex flex-col'>
                     <h1 className='font-bold'>{title}</h1>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        Posted by <span className='font-bold'>{admin.firstName + admin.lastName}</span> on {posted_Date}
+                        Venue <span className='font-bold'>{venue}</span>
+                    </p>
+                    <p className='text-[10px] text-slate-500 mb-4'>
+                        Start <span className='font-bold'>{start}</span>
+                    </p>
+                    <p className='text-[10px] text-slate-500 mb-4'>
+                        End: <span className='font-bold'>{end}</span>
                     </p>
                     <div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
@@ -49,13 +54,9 @@ const AnnouncementCard = ({ announcement }) => {
                         </video>
                     </div>
                 )}
-
-                <div className='mx-auto mt-4 sm:mt-0 items-center sm:w-[30%]'>
-                    {file}
-                </div>
             </div>
         </div>
     );
-};
+}
 
-export default AnnouncementCard;
+export default EventsCard

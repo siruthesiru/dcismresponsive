@@ -31,6 +31,9 @@ import AlumniSearch from './pages/Alumni/A_SearchPage';
 import AlumniEditProfile from './pages/Alumni/A_EditProfile';
 import AlumniViewJob from './pages/Alumni/A_Job';
 import AlumniApplyJob from './pages/Alumni/A_ApplyJob'
+import LandingPageAlumni from './pages/Alumni/LandingPage';
+import AlumniProfile from './pages/Alumni/Profile';
+import AlumniEvents from './pages/Alumni/Events/index.js';
 
 import LayoutCompany from './pages/Company/Layout';
 import CompanyEvents from './pages/Company/LandingPage/C_Events.js';
@@ -41,8 +44,6 @@ import CompanyProfile from './pages/Company/C_Profile.js';
 import CompanyEditProfile from './pages/Company/C_EditProfile.js'
 import CompanyAddPosting from './pages/Company/C_CreatePost.js'
 import CompanyViewCandidates from './pages/Company/C_ViewCandidates.js'
-import LandingPageAlumni from './pages/Alumni/LandingPage';
-import AlumniProfile from './pages/Alumni/Profile';
 
 
 const App = () => {
@@ -64,14 +65,6 @@ const App = () => {
         <CssBaseline />
         <div className="app">
           <BrowserRouter>
-
-            {/* 
-        <Route path="/dashboard" element={isLoggedIn ? <ChangePassword /> : <Login />} />
-        <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <Login />} />
-        <Route path="/register" element={isLoggedIn ? <Navigate to='/dashboard' /> : <RegisterAlumni />} />
-        <Route path="*" element={<h2>Page not found!</h2>} />
-      */}
-
             <Routes>
 
               <Route path="*" element={<h2>Page not found!</h2>} />
@@ -116,6 +109,7 @@ const App = () => {
                   <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
                   <Route path="/alumni/job" element={<AlumniViewJob />} />
                   <Route path="/alumni/apply-job" element={<AlumniApplyJob />} />
+                  <Route path="/alumni/events" element={<AlumniEvents />} />
                 </Route>
               </Route>
 

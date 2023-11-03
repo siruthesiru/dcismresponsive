@@ -5,7 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import placeholder from "../../assets/placeholder.webp"
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAlumniProfile } from "../../services/alumni";
+import { EditProfile, GetAlumniProfile } from "../../services/alumni";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { clearAccount } from "../../app/authenticationSlice";
 
 
@@ -15,7 +18,6 @@ const AlumniProfilePage = () => {
     const [isEmailEdited, setIsEmailEdited] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -40,8 +42,10 @@ const AlumniProfilePage = () => {
 
     const handleSubmit = async () => {
         try {
-            //  await EditProfile(dispatch, userData);
-            //  toast.success("Updated profile successfully");
+            console.log(userData);
+
+            await EditProfile(dispatch, userData);
+            toast.success("Updated profile successfully");
             setIsEditing(false);
         } catch (error) {
             console.error("Error updating profile:", error);
@@ -49,7 +53,7 @@ const AlumniProfilePage = () => {
 
         if (isEmailEdited) {
             await new Promise(resolve => setTimeout(resolve, 5000));
-            //    toast.success("Please sign in again for the new email");
+            toast.success("Please sign in again for the new email");
             dispatch(clearAccount(null));
         }
     };
@@ -58,6 +62,7 @@ const AlumniProfilePage = () => {
 
     return (
         <form>
+            <ToastContainer position="top-right" autoClose={3000} />
             <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
                 <div className="flex flex-col mx-auto justify-center items-center text-center">
 
@@ -65,6 +70,7 @@ const AlumniProfilePage = () => {
                         <>
                             <input
                                 type="file"
+                                name="profileImage"
                                 accept="image/*"
                                 style={{ display: "none" }}
                                 id="profile-picture-input"
@@ -111,7 +117,8 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <input
                                     type="text"
-                                    placeholder='Input your Middle Name'
+                                    name="firstName"
+                                    placeholder='Input your First Name'
                                     value={userData?.firstName}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -126,6 +133,7 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <input
                                     type="text"
+                                    name="lastName"
                                     placeholder='Input your Middle Name'
                                     value={userData?.lastName}
                                     onChange={handleInputChange}
@@ -141,6 +149,7 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <input
                                     type="text"
+                                    name="middleName"
                                     placeholder='Input your Middle Name'
                                     value={userData?.middleName}
                                     onChange={handleInputChange}
@@ -158,7 +167,7 @@ const AlumniProfilePage = () => {
                                 <select
                                     className="h-[30px] w-[100%] border-slate-200 bg-white border rounded-sm "
                                     value={userData?.sex}
-                                    onChange={(e) => setUserData({ ...userData, sex: e.target.value })}
+                                    onChange={(e) => setUserData({ ...userData, sex: e.target.value })} name="sex"
                                 >
                                     <option value="Female">Female</option>
                                     <option value="Male">Male</option>
@@ -173,13 +182,15 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <DatePicker
                                     className='date-picker-start'
-                                    dateFormat="MM/dd/yyyy"
-                                    selected={userData?.birthDate}
-                                    onChange={(birthDate) => setUserData({ ...userData, birthDate })}
+                                    selected={userData?.birthdate}
+                                    onChange={(date) => handleInputChange({ target: { name: 'birthdate', value: date } })}
+                                    dateFormat="yyyy-MM-dd"
+                                    fullWidth
                                 />
                             ) : (
-                                <p className="font-bold "> {userData?.birthDate}</p>
+                                <p className="font-bold "> {userData?.birthdate ? userData.birthdate.toString() : 'N/A'}</p>
                             )}
+
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Address: </label>
@@ -187,6 +198,7 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <input
                                     type="text"
+                                    name="address"
                                     placeholder='Input your Current Address'
                                     value={userData?.address}
                                     onChange={handleInputChange}
@@ -203,12 +215,18 @@ const AlumniProfilePage = () => {
                         <p className="font-bold ">Account Information</p>
 
                         <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">USC ID: </label>
+                            <p className="font-bold "> {userData?.idNum}</p>
+                        </div>
+
+                        <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
 
                             {isEditing ? (
                                 <input
                                     type="text"
                                     placeholder='Input your Email Address'
+                                    name="email"
                                     value={userData?.email}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -223,14 +241,15 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <input
                                     type="text"
+                                    name="mobileNumber"
                                     placeholder='Input your contact Number'
-                                    value={userData?.contactNumber}
+                                    value={userData?.mobileNumber}
                                     onChange={handleInputChange}
                                     variant='outlined'
                                     className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
                                 />
                             ) : (
-                                <p className="font-bold "> {userData?.contactNumber}</p>
+                                <p className="font-bold "> {userData?.mobileNumber}</p>
                             )}
                         </div>
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
@@ -241,8 +260,8 @@ const AlumniProfilePage = () => {
                             {isEditing ? (
                                 <select
                                     className="h-[30px] w-[100%] border-slate-200 bg-white border rounded-sm"
-                                    value={userData?.courseProgram}
-                                    onChange={(e) => setUserData({ ...userData, courseProgram: e.target.value })}
+                                    value={userData?.course}
+                                    onChange={(e) => setUserData({ ...userData, course: e.target.value })} name="course"
                                 >
                                     <option value="BSIT">Bachelor of Science in Information Technology (BSIT)</option>
                                     <option value="BSCS">Bachelor of Science in Computer Science (BSCS)</option>
@@ -252,29 +271,32 @@ const AlumniProfilePage = () => {
                                     <option value="BSLIS">Bachelor of Science in Library Information Systems (BSLIS)</option>
                                 </select>
                             ) : (
-                                <p className="font-bold "> {userData?.courseProgram}</p>
+                                <p className="font-bold "> {userData?.course}</p>
                             )}
                         </div>
                         <div className="flex items-center my-2">
-                            <label className="text-[12px] w-[90px]">Date of Birth: </label>
+                            <label className="text-[12px] w-[90px]">Year Graduated: </label>
                             {isEditing ? (
-                                <DatePicker
-                                    className='date-picker-start'
-                                    dateFormat="MM/dd/yyyy"
-                                    selected={userData?.graduationDate}
-                                    onChange={(graduationDate) => setUserData({ ...userData, graduationDate })}
+                                <input
+                                    type="number"
+                                    placeholder='What class batch you graduated'
+                                    name="syGraduated"
+                                    value={userData?.syGraduated}
+                                    onChange={handleInputChange}
+                                    variant='outlined'
+                                    className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
                                 />
                             ) : (
-                                <p className="font-bold "> {userData?.graduationDate}</p>
+                                <p className="font-bold "> {userData?.syGraduated}</p>
                             )}
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Latin Honor: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
+                                    type="text"
+                                    placeholder='Graduated with flying colors'
+                                    name="honor"
                                     value={userData?.honor}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -295,7 +317,7 @@ const AlumniProfilePage = () => {
                                 <select
                                     className="h-[30px] w-[100%] border-slate-200 bg-white border rounded-sm"
                                     value={userData?.employmentStatus}
-                                    onChange={(e) => setUserData({ ...userData, employmentStatus: e.target.value })}
+                                    onChange={(e) => setUserData({ ...userData, employmentStatus: e.target.value })} name="employmentStatus"
                                 >
                                     <option value="Employed">Employed</option>
                                     <option value="Unemployed">Unemployed</option>
@@ -309,9 +331,9 @@ const AlumniProfilePage = () => {
                             <label className="text-[12px] w-[100px]">Company Name: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
+                                    type="text"
+                                    placeholder='Type the company name'
+                                    name="companyName"
                                     value={userData?.companyName}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -326,25 +348,25 @@ const AlumniProfilePage = () => {
                             <label className="text-[12px] w-[100px]">Company Address: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
-                                    value={userData?.address}
+                                    type="text"
+                                    placeholder='Type the company address'
+                                    name="companyAddress"
+                                    value={userData?.companyAddress}
                                     onChange={handleInputChange}
                                     variant='outlined'
                                     className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
                                 />
                             ) : (
-                                <p className="font-bold "> {userData?.address}</p>
+                                <p className="font-bold "> {userData?.companyAddress}</p>
                             )}
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Occupation: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
+                                    type="text"
+                                    placeholder='Type your position in the company'
+                                    name="occupation"
                                     value={userData?.occupation}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -358,9 +380,9 @@ const AlumniProfilePage = () => {
                             <label className="text-[12px] w-[100px]">Previous Company: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
+                                    type="text"
+                                    placeholder='Type the your previous company'
+                                    name="previousCompany"
                                     value={userData?.previousCompany}
                                     onChange={handleInputChange}
                                     variant='outlined'
@@ -374,9 +396,9 @@ const AlumniProfilePage = () => {
                             <label className="text-[12px] w-[100px]">Previous Occupation: </label>
                             {isEditing ? (
                                 <input
-                                    type="number"
-                                    placeholder='Input your years of experience'
-                                    name="years"
+                                    type="text"
+                                    placeholder='Type the your previous position'
+                                    name="previousOccupation"
                                     value={userData?.previousOccupation}
                                     onChange={handleInputChange}
                                     variant='outlined'
