@@ -96,7 +96,7 @@ const Navbar = ({ user }) => {
                 <p>Announcement</p>
             </MenuItem>
             <MenuItem>
-                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
+                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
                     <EventNote />
                 </IconButton>
                 <p>Events</p>
@@ -161,7 +161,7 @@ const Navbar = ({ user }) => {
                         <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
                             <Campaign />
                         </IconButton>
-                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
+                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
                             <EventNote />
                         </IconButton>
                         <IconButton

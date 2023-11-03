@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { toast } from 'react-toastify';
-import { getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError } from "../app/alumniUserSlice";
+import { editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, setErrorMessage } from "../app/alumniUserSlice";
 
 
 const axiosInstance = axios.create({
@@ -36,3 +36,46 @@ export const GetAllAnnouncements = async (dispatch) => {
     }
 }
 
+export const GetAllEvents = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Events');
+        const events = response.data.filter(event => {
+            return event.audience === "Alumni" || event.audience === "All";
+        });
+        dispatch(getAnnouncements(events));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getAnnouncementsError())
+    }
+}
+
+export const EditProfile = async (dispatch, credentials) => {
+    try {
+        const formData = new FormData();
+        for (const key in credentials) {
+            if (key === 'file' && credentials[key]) {
+                formData.append(key, credentials[key]);
+            } else {
+                formData.append(key, credentials[key]);
+            }
+        }
+        const response = await axiosInstance.put('/Profile-Edit', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        dispatch(editProfile(response.data));
+
+        //  if (response.data.isEditSucceed) {
+        //     dispatch(editProfile(response.data));
+        // } else {
+        //     dispatch(setErrorMessage(response.data.message));
+        //     toast.error(response.data.message);
+        // }
+        return response.data.isEditSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(editProfileError(error.response.data));
+    }
+}
