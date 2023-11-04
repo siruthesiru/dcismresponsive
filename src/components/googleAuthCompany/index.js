@@ -4,28 +4,33 @@ import { SignUpGoogleCompany } from '../../services/authentication'
 import { useDispatch } from 'react-redux'
 const role = "COMPANY";
 
-const GoogleAuthCompany = () => {
+
+const GoogleAuthAlumni = () => {
     const dispatch = useDispatch();
+
+    const handleSuccess = (credentialResponse) => {
+        const receivedCredential = credentialResponse.credential;
+        SignUpGoogleCompany(dispatch, receivedCredential, role);
+    }
+
+    const handleError = () => {
+        console.log('Login Failed');
+    }
+
+
     return (
         <div className='flex w-full rounded-md shadow-md justify-center border'>
-            <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
-                <div className='p-2'>
-                    
-                <GoogleLogin
-                     onSuccess={credentialResponse => SignUpGoogleCompany(dispatch, credentialResponse.credential, role)}
-                    // onSuccess={credentialResponse => {
-                    //     console.log(credentialResponse);
-                    //   }}
-                    onError={() => {
-                        console.log('Login Failed');
-                        
-                    }}
-                />
-                </div>
-            </GoogleOAuthProvider>
-        </div>
-
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+            <div className='p-2'>
+                
+            <GoogleLogin
+                    onSuccess={handleSuccess}
+                    onError={handleError}
+            />
+            </div>
+        </GoogleOAuthProvider>
+    </div>
     )
 }
 
-export default GoogleAuthCompany
+export default GoogleAuthAlumni

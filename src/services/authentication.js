@@ -1,4 +1,4 @@
-import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated, userChangePassword } from '../app/authenticationSlice';
+import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated, userChangePassword, verificationCodeRequestSuccess } from '../app/authenticationSlice';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -135,6 +135,7 @@ export const LoginGoogle = async (dispatch, token) => {
                 userAuthenticated({
                     role: response.data.role,
                     isAccess: response.data.isAccess,
+                    isSucceed: response.data.isSucceed,
                     message: response.data.message,
                     email: response.data.email,
                     token: response.data.token,
@@ -156,7 +157,9 @@ export const SignUpGoogleAlumni = async (dispatch, token, role) => {
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
+                    isAlumniGoogle: response.data.isAlumniGoogle,
                     role: response.data.role,
+                    isSucceed: response.data.isSucceed,
                     isAccess: response.data.isAccess,
                     message: response.data.message,
                     email: response.data.email,
@@ -166,7 +169,38 @@ export const SignUpGoogleAlumni = async (dispatch, token, role) => {
         } 
     } catch(error) {
         console.error('Error:', error);
-        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at alumni.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
+export const SignUpGoogleAlumniUpdate = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/google-alumni-update', credentials);
+        console.log(response);
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    isAlumniGoogle: response.data.isAlumniGoogle,
+                    role: response.data.role,
+                    isSucceed: response.data.isSucceed,
+                    isAccess: response.data.isAccess,
+                    message: response.data.message,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        }else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
+        
+    } catch(error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at alumni.';
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
@@ -179,7 +213,9 @@ export const SignUpGoogleCompany = async (dispatch, token, role) => {
         if (response.data.isSucceed) {
             dispatch(
                 userAuthenticated({
+                    isCompanyGoogle: response.data.isCompanyGoogle,
                     role: response.data.role,
+                    isSucceed: response.data.isSucceed,
                     isAccess: response.data.isAccess,
                     message: response.data.message,
                     email: response.data.email,
@@ -189,11 +225,34 @@ export const SignUpGoogleCompany = async (dispatch, token, role) => {
         } 
     } catch(error) {
         console.error('Error:', error);
-        const errorMessage = error.response?.data || 'This is google: An error occurred while signing in.';
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at company.';
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
 
+export const SignUpGoogleCompanyUpdate = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/google-company-update', credentials);
+        console.log(response);
+        if (response.data.isSucceed) {
+            dispatch(
+                userAuthenticated({
+                    isCompanyGoogle: response.data.isCompanyGoogle,
+                    role: response.data.role,
+                    isSucceed: response.data.isSucceed,
+                    isAccess: response.data.isAccess,
+                    message: response.data.message,
+                    email: response.data.email,
+                    token: response.data.token,
+                })
+            );
+        } 
+    } catch(error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'This is google: An error occurred while signing up at company.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
 
 export const resetPasswordRequest = async (dispatch, credentials) => {
     try {
@@ -204,6 +263,33 @@ export const resetPasswordRequest = async (dispatch, credentials) => {
                 forgotPasswordRequestSuccess({
                     isSucceed: response.data.isSucceed,
                     message: response.data.message,
+                })
+            );
+        } else {
+            dispatch(
+                authenticationError({
+                    message: response.data.message,
+                })
+            );
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while requesting to change password.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
+export const verificationCode = async (dispatch, credentials) => {
+    try {
+        const response = await axiosInstance.post('/verification-code', credentials);
+        console.log(response)
+        if (response.data.isSucceed) {
+            dispatch(
+                verificationCodeRequestSuccess({
+                    isSucceed: response.data.isSucceed,
+                    message: response.data.message,
+                    isSent: response.data.isSent,
                 })
             );
         } else {
@@ -246,29 +332,3 @@ export const changePassword = async (dispatch, credentials) => {
         dispatch(authenticationError({ message: errorMessage }));
     }
 }
-
-// export const userProfile = async (dispatch, token) => {
-//     try {
-//         const response = await axiosInstance.post('/changepassword', credentials);
-
-//         if (response.data.isSucceed) {
-//             dispatch(
-//                 userChangePassword({
-//                     isSucceed: response.data.isSucceed,
-//                     message: response.data.message,
-//                 })
-//             );
-//         } else {
-//             dispatch(
-//                 authenticationError({
-//                     message: response.data.message,
-//                 })
-//             );
-//         }
-
-//     } catch (error) {
-//         console.error('Error:', error);
-//         const errorMessage = error.response?.data || 'An error occurred while changing password.';
-//         dispatch(authenticationError({ message: errorMessage }));
-//     }
-// }

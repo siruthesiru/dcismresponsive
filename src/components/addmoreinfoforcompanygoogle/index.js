@@ -1,46 +1,46 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserAlt } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import placeholder from '../../../assets/capstole.png'
-import FormWithHeader from "../../../components/formheader/indexAlumni";
+import placeholder from '../../assets/capstole.png'
+import FormWithHeader from "../formheader/indexAfterGoogle";
 import { useDispatch, useSelector } from "react-redux";
-import { SignUpAlumni } from "../../../services/authentication";
+import {  SignUpGoogleCompanyUpdate } from "../../services/authentication";
 import {
+    Alert,
+    AlertTitle,
     Button, InputAdornment,
     TextField,
     Typography,
 } from "@mui/material";
 import { Badge } from "@mui/icons-material";
-import { clearMessage } from "../../../app/authenticationSlice";
+import { clearMessage } from "../../app/authenticationSlice";
 
-
-const RegisterAlumni = () => {
-    const { message } = useSelector((state) => state.authentication);
-
+const RegisterAlumniCompany = () => {
+    const { message, isSucceed } = useSelector((state) => state.authentication);
 
     const dispatch = useDispatch();
 
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
-    const [Password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [IdNum, setIdNum] = useState("");
-    const [Email, setEmail] = useState("");
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    const [CompanyName, setCompanyName] = useState("");
+    const [CompanyAddress, setCompanyAddress] = useState("");
+    const [MobileNumber, setMobileNumber] = useState("");
+    const [WebsiteLink, setWebsiteLink] = useState("");
 
     return (
         <FormWithHeader imageSrc={placeholder}>
+            {isSucceed && (
+                <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    {message} — <strong>check it out!</strong>
+                </Alert>
+            )}
             <form onSubmit={event => {
                 event.preventDefault();
-                if (Password === confirmPassword) {
-                    SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email });
-                }
+                SignUpGoogleCompanyUpdate(dispatch, { FirstName, LastName, CompanyName, CompanyAddress, MobileNumber, WebsiteLink });
+                
             }}>
                 <div className="mb-3 flex items-center">
-
                     <TextField
                         InputProps={{
                             startAdornment: (
@@ -83,27 +83,26 @@ const RegisterAlumni = () => {
                         onChange={(e) => setLastName(e.target.value)}
                     />
                 </div>
-
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{ color: "black" }}><FaEnvelope size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><Badge size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
-                        placeholder="Email"
-                        label="Email"
+                        placeholder="Company Name"
+                        label="Company Name"
                         variant="outlined"
-                        autoComplete="email"
+                        autoComplete="CompanyName"
                         fullWidth
                         required
-                        value={Email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={CompanyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
                     />
                 </div>
 
@@ -119,88 +118,63 @@ const RegisterAlumni = () => {
 
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
-                        placeholder="USC ID Number"
-                        label="USC ID Number"
+                        placeholder="Company Address"
+                        label="Company Address"
                         variant="outlined"
-                        autoComplete="IdNum"
+                        autoComplete="CompanyAddress"
                         fullWidth
                         required
-                        value={IdNum}
-                        onChange={(e) => setIdNum(e.target.value)}
+                        value={CompanyAddress}
+                        onChange={(e) => setCompanyAddress(e.target.value)}
                     />
-
                 </div>
+
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><Badge size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    {showPassword ? (
-                                        <FaEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
-
-                                    ) : (
-                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="cursor-pointer text-[18px]" />
-
-                                    )}
-                                </InputAdornment>
-                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        label="Password"
+                        type="text"
+                        placeholder="Mobile Number"
+                        label="Mobile Number"
                         variant="outlined"
-                        autoComplete="password"
+                        autoComplete="MobileNumber"
                         fullWidth
                         required
-                        value={Password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={MobileNumber}
+                        onChange={(e) => setMobileNumber(e.target.value)}
                     />
                 </div>
 
-
                 <div className="mb-3 flex items-center">
-
                     <TextField
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <strong style={{ color: "black" }}><FaLock size={25} className="mx-2" /></strong>
+                                    <strong style={{ color: "black" }}><Badge size={25} className="mx-2" /></strong>
                                 </InputAdornment>
                             ),
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    {showConfirmPassword ? (
-                                        <FaEye onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
-
-                                    ) : (
-                                        <FaEyeSlash onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="cursor-pointer text-[18px]" />
-
-                                    )}
-                                </InputAdornment>
-                            )
                         }}
 
                         sx={{ outline: "none", flex: 1 }}
-                        type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm Password"
-                        label="Confirm Password"
+                        type="text"
+                        placeholder="Website Link"
+                        label="Website Link"
                         variant="outlined"
-                        autoComplete="confirmPassword"
+                        autoComplete="WebsiteLink"
                         fullWidth
                         required
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={WebsiteLink}
+                        onChange={(e) => setWebsiteLink(e.target.value)}
                     />
                 </div>
 
-                {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
 
                 <Button
                     type="submit"
@@ -210,12 +184,11 @@ const RegisterAlumni = () => {
                         width: "100%",
                         padding: "15px",
                         marginTop: "2rem",
-                        backgroundColor: Password !== confirmPassword ? "#A9A9A9" : "#030F4B",
+                        backgroundColor: "#030F4B",
                         color: "#FFFFFF",
                     }}
-                    disabled={Password !== confirmPassword}
                 >
-                    Sign Up As Alumni
+                    Continue
                 </Button>
 
                 <Typography sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}>
@@ -229,8 +202,7 @@ const RegisterAlumni = () => {
                 </Typography>
             </form>
         </FormWithHeader>
-        
     );
 };
 
-export default RegisterAlumni;
+export default RegisterAlumniCompany;
