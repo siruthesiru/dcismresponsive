@@ -3,8 +3,9 @@ import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/mate
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import { AddEvent, EditEvent } from '../../services/events';
+import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
 import { useDispatch } from 'react-redux';
+import RichTextEditor from './RichTextEditor';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
 
@@ -12,20 +13,26 @@ const EventForm = ({ onSubmit, initialEvent }) => {
 
     const [newEvent, setNewEvent] = useState(() => {
         if (initialEvent) {
+            const startUTC = new Date(initialEvent.start);
+            const endUTC = new Date(initialEvent.end);
+
+            startUTC.setHours(startUTC.getHours() + 8);
+            endUTC.setHours(endUTC.getHours() + 8);
 
             return {
                 ...initialEvent,
-                start: new Date(initialEvent.start),
-                end: new Date(initialEvent.end),
+                start: startUTC,
+                end: endUTC,
             };
         } else {
             return {
-                name: "",
+                title: "",
                 description: "",
-                venue: "",
                 audience: "All",
+                venue: "",
                 start: new Date(),
                 end: new Date(),
+                file: null,
             };
         }
     });
@@ -33,15 +40,14 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     const dispatch = useDispatch();
 
     const handleFormSubmit = async () => {
-        const isoStartDate = newEvent.start.toISOString();
-        const isoEndDate = newEvent.end.toISOString();
-
-
+        const formattedStartDate = newEvent.start.toISOString();
+        const formattedEndDate = newEvent.end.toISOString();
         if (initialEvent) {
-            await EditEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
+            await EditEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
+            GetAllEvents(dispatch);
         } else {
-            await AddEvent(dispatch, { ...newEvent, start: isoStartDate, end: isoEndDate });
-            console.log(newEvent);
+            await AddEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
+            GetAllEvents(dispatch);
         }
         onSubmit(newEvent);
     }
@@ -68,32 +74,15 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <TextField
-                        label="Event Name"
+                        label="Event Title"
                         placeholder='Type the title of the event'
-                        value={newEvent.name}
-                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                        value={newEvent.title}
+                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
                         variant='outlined'
                         fullWidth
                         required
                     />
                 </Grid>
-                <Grid item xs={12} sm={12}>
-                    <TextField
-                        label="Event Info"
-                        placeholder='Type the description of the event'
-                        multiline
-                        minRows={3}
-                        value={newEvent.description}
-                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                        variant='outlined'
-                        fullWidth
-                        required
-                    />
-                </Grid>
-                {/* <Grid item xs={12} sm={12}>
-                    <label>Description: </label>
-                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
-                </Grid> */}
                 <Grid item xs={12} sm={12}>
                     <TextField
                         label="Venue"
@@ -115,6 +104,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         dateFormat="MM/dd/yyyy h:mm aa"
                         selected={newEvent.start}
                         onChange={(start) => setNewEvent({ ...newEvent, start })}
+                        timeZone="Asia/Manila"
 
                     />
                 </Grid>
@@ -128,16 +118,23 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         dateFormat="MM/dd/yyyy h:mm aa"
                         selected={newEvent.end}
                         onChange={(end) => setNewEvent({ ...newEvent, end })}
+                        timeZone="Asia/Manila"
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Grid item xs={12} sm={12}>
+                    <label>Description: </label>
+                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
+                </Grid>
+
+
+                {/* <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
                     <InputLabel htmlFor="program-graduated-label" >Add File: </InputLabel>
                     <input
                         type="file"
                         accept=".pdf, .doc, .docx"
                         onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={12}>
                     <Button
@@ -147,7 +144,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                             display: "block",
                             width: "100%",
                             padding: "10px",
-                            marginTop: "1rem",
+                            marginTop: "5rem",
                             backgroundColor: "#221769",
                             color: "#FFFFFF",
                         }}

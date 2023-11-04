@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { DeleteOutline, Edit } from "@mui/icons-material";
 import PopUp from "../popup";
 import EventForm from "../forms/EventForm";
-import { DeleteEvent } from "../../services/events";
+import { DeleteEvent, GetAllEvents } from "../../services/events";
 import { useDispatch } from "react-redux";
 import ConfirmationDialog from "../popup/confirmationDialog";
 
@@ -11,6 +11,10 @@ const EventWithTooltip = ({ event }) => {
 
     const [openEditPopup, setOpenEditPopup] = useState(false);
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
+
+
     const dispatch = useDispatch();
 
     const handleEditEvent = () => {
@@ -21,11 +25,24 @@ const EventWithTooltip = ({ event }) => {
         setOpenDeletePopup(false);
     };
 
+    const handleDelete = (id) => {
+        DeleteEvent(dispatch, id)
+            .then(() => {
+                setDeleteOccurred(true);
+            })
+            .catch((error) => {
+                console.error("Error deleting announcement:", error);
+            });
 
-    const handleDelete = () => {
-        DeleteEvent(dispatch, event);
         setOpenDeletePopup(false);
     };
+
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetAllEvents(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
 
 
     return (
@@ -49,8 +66,7 @@ const EventWithTooltip = ({ event }) => {
         >
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
-                    <div>{event.name}</div>
-                    <div>{event.audience}</div>
+                    <div>{event.title}</div>
                 </Box>
                 <Box display="flex">
                     <IconButton onClick={() => setOpenEditPopup(true)}>
@@ -61,7 +77,7 @@ const EventWithTooltip = ({ event }) => {
                             }}
                         />
                     </IconButton>
-                    <IconButton onClick={() => setOpenDeletePopup(true)}>
+                    <IconButton onClick={() => { setOpenDeletePopup(true); setSelectedItemId(event.id) }}>
                         <DeleteOutline
                             style={{
                                 fontSize: "20px",
@@ -77,7 +93,11 @@ const EventWithTooltip = ({ event }) => {
                 >
                     <EventForm onSubmit={handleEditEvent} initialEvent={event} />
                 </PopUp>
-                <ConfirmationDialog open={openDeletePopup} onClose={handleDeleteEvent} onConfirm={handleDelete} />
+                <ConfirmationDialog open={openDeletePopup} onClose={handleDeleteEvent} onConfirm={() => {
+                    if (selectedItemId) {
+                        handleDelete(selectedItemId);
+                    }
+                }} />
             </Box>
         </Tooltip >
     );

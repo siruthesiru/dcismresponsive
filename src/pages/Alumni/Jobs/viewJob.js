@@ -1,12 +1,9 @@
 import React from 'react'
-import ViewJob from '../../components/alumni-company/ViewJob'
-import { JobData } from '../../data/mockAlumniData';
+import { JobData } from '../../../data/mockAlumniData'
+import ViewJob from '../../../components/alumni-company/ViewJob'
 
-const A_Job = () => {
-
+const AlumniJob = () => {
     const job = JobData[0]
-
-
     return (
         <div className="bg-slate-100 min-h-screen">
             <div className="container mx-auto flex flex-col justify-center sm:flex-row py-4 gap-2">
@@ -18,4 +15,4 @@ const A_Job = () => {
     )
 }
 
-export default A_Job
+export default AlumniJob

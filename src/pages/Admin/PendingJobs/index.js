@@ -1,12 +1,37 @@
-import React from "react";
-import { Box, Button } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
-import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
-import { applyVerificationCompanies } from "../../../data/mockAdminData";
+import { verifyJobColumn } from "../../../components/constant/adminColumnHeaders";
+import { useDispatch, useSelector } from "react-redux";
+import { GetUnverifiedJobs, Verify_JobPost } from "../../../services/admin_company";
 
 
 const PendingJobs = () => {
+    const unverified_post = useSelector((state) => state.companiesSlice.unverified_post);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        GetUnverifiedJobs(dispatch)
+    }, [dispatch])
+
+    const uniquePost = unverified_post.map((job, index) => {
+        return { ...job, id: job.id || index + 1 };
+    });
+
+    const handleAcceptJobPost = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                status: true
+            };
+            await Verify_JobPost(dispatch, credentials);
+            GetUnverifiedJobs(dispatch);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     const customLastColumn = {
         field: "action",
         headerName: "Action",
@@ -21,6 +46,8 @@ const PendingJobs = () => {
                             backgroundColor: "#4cceac",
                             color: "#dbf5ee",
                         }}
+                        onClick={() => handleAcceptJobPost(params.row.id)}
+
                     >
                         Post
                     </Button>
@@ -47,12 +74,18 @@ const PendingJobs = () => {
                     subtitle="Companies wanted to post jobs"
                 />
             </Box>
-            <DataTable
-                slug="companies"
-                columns={verifyColumns}
-                rows={applyVerificationCompanies}
-                lastColumn={customLastColumn}
-            />
+            <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
+                {unverified_post.length === 0 ? (
+                    <Typography>No Data Available</Typography>
+                ) : (
+                    <DataTable
+                        columns={verifyJobColumn}
+                        rows={uniquePost}
+                        lastColumn={customLastColumn}
+                    />
+                )}
+            </Box>
+
         </Box>
     );
 };

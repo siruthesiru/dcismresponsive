@@ -77,6 +77,7 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             <Typography
                                 fontWeight="bold"
                                 fontSize="0.85rem"
+                                className="capitalize"
                             >
                                 {firstName} {lastName}
                             </Typography>

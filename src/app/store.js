@@ -1,19 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authenticationSlice from './authenticationSlice';
 import ToastMiddleware from '../middleware/ToastMiddleware';
 import thunk from 'redux-thunk';
+
+import authenticationSlice from './authenticationSlice';
 import eventsSlice from './eventsSlice';
 import announcementsSlice from './announcementsSlice';
+import alumniSlice from './alumniSlice';
+import companiesSlice from './companiesSlice';
+import alumniUserSlice from './alumniUserSlice';
 import adminDashboardSlice from './adminDashboardSlice';
 import alumniProfileSlice from './alumniProfileSlice';
+import companyUserSlice from './companyUserSlice';
 
 export default configureStore({
   reducer: {
     authentication: authenticationSlice,
     eventsSlice: eventsSlice,
     announcementsSlice: announcementsSlice,
-    adminDashboard : adminDashboardSlice,
-    alumniProfile : alumniProfileSlice,
+    alumniSlice: alumniSlice,
+    companiesSlice: companiesSlice,
+    alumniUserSlice: alumniUserSlice,
+    companyUserSlice: companyUserSlice,
+    adminDashboard: adminDashboardSlice,
+    alumniProfile: alumniProfileSlice,
+
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ToastMiddleware, thunk),
 });

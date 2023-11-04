@@ -7,11 +7,8 @@ import Typography from '@mui/material/Typography';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import applogo from "../../assets/applogowhite.png";
-import { BusinessCenter, Help, Newspaper } from '@mui/icons-material';
+import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign, EventNote } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
@@ -94,9 +91,15 @@ const Navbar = ({ user }) => {
         >
             <MenuItem>
                 <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
-                    <Newspaper />
+                    <Campaign />
                 </IconButton>
-                <p>Events and Announcement</p>
+                <p>Announcement</p>
+            </MenuItem>
+            <MenuItem>
+                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
+                    <EventNote />
+                </IconButton>
+                <p>Events</p>
             </MenuItem>
             <MenuItem>
                 <IconButton size="large" color="inherit">
@@ -109,7 +112,7 @@ const Navbar = ({ user }) => {
             <MenuItem>
                 <IconButton size="large" color="inherit">
                     <Badge badgeContent={17} color="error" onClick={() => navigate(`/${user}/notifications`)}>
-                        <NotificationsIcon />
+                        <Notifications />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
@@ -124,7 +127,7 @@ const Navbar = ({ user }) => {
                 <IconButton size="large" color="inherit">
                     <AccountCircle />
                 </IconButton>
-                <p>{firstName} {lastName}</p>
+                <p className="capitalize">{firstName} {lastName}</p>
             </MenuItem>
         </Menu >
     );
@@ -156,7 +159,10 @@ const Navbar = ({ user }) => {
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: "1rem" }}>
                         <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
-                            <Newspaper />
+                            <Campaign />
+                        </IconButton>
+                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
+                            <EventNote />
                         </IconButton>
                         <IconButton
                             size="large"
@@ -173,7 +179,7 @@ const Navbar = ({ user }) => {
                             color="inherit"
                         >
                             <Badge badgeContent={17} color="error" onClick={() => navigate(`/${user}/notifications`)}>
-                                <NotificationsIcon />
+                                <Notifications />
                             </Badge>
                         </IconButton>
                         <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/faq`)}>
@@ -207,7 +213,7 @@ const Navbar = ({ user }) => {
                             onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                            <MoreIcon />
+                            <MoreVert />
                         </IconButton>
                     </Box>
                 </Toolbar>

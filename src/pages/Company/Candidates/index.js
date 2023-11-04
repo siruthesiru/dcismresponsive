@@ -1,10 +1,10 @@
-import React from 'react'
-import { alumniColumns } from '../../components/constant/adminColumnHeaders'
-import { AlumniRows } from '../../data/mockAdminData'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import { Box } from '@mui/material'
+import React from 'react'
+import { alumniColumns } from '../../../components/constant/adminColumnHeaders'
+import { AlumniRows } from '../../../data/mockAdminData'
+import { Box } from '@mui/system'
 
-const C_ViewCandidates = () => {
+const CompanyCandidates = () => {
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
@@ -52,4 +52,4 @@ const C_ViewCandidates = () => {
     )
 }
 
-export default C_ViewCandidates
+export default CompanyCandidates

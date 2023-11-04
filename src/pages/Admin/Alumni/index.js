@@ -1,21 +1,141 @@
-import React, { useState } from "react";
-import { Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Header from "../../../components/header";
-import DataTable from "../../../components/dataTable";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
-import { AlumniRows } from "../../../data/mockAdminData";
 import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
+import { DeleteOutline, EditNote, ThumbUpAlt } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { DeleteAlumni, GetAllAlumni, VerifyAlumni } from "../../../services/admin_alumni";
+import ConfirmationDialog from "../../../components/popup/confirmationDialog";
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import DataTable from "../../../components/dataTable";
+import AlumniCSVUpload from "../../../components/forms/AlumniCSVUpload";
 
 const Alumni = () => {
-    const [openPopup, setOpenup] = useState(false);
+    const alumni = useSelector((state) => state.alumniSlice.alumni);
+    const dispatch = useDispatch();
 
+    const [openPopup, setOpenup] = useState(false);
+    const [openEditPopup, setOpenEditPopup] = useState(false);
+    const [openCSVUploadPopup, setOpenCSVUploadPopup] = useState(false);
+    const [openDeletePopup, setOpenDeletePopup] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
+
+    useEffect(() => {
+        GetAllAlumni(dispatch)
+    }, [dispatch])
+
+    const uniqueAlumni = alumni.map((alumnus, index) => {
+        return { ...alumnus, id: alumnus.id || index + 1 };
+    });
+
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetAllAlumni(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
+
+    const handleAlumni = () => {
+        setOpenup(false);
+        setOpenEditPopup(false);
+    };
+
+    const handleCloseCSVUpload = () => {
+        setOpenCSVUploadPopup(false);
+    };
+
+    const handleDelete = (id) => {
+        DeleteAlumni(dispatch, id)
+            .then(() => {
+                setDeleteOccurred(true);
+            })
+            .catch((error) => {
+                console.error("Error deleting alumni:", error);
+            });
+
+        setOpenDeletePopup(false);
+    };
+
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetAllAlumni(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
+
+    const handleVerifyAlumni = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                isVerified: true
+            };
+            await VerifyAlumni(dispatch, credentials);
+            GetAllAlumni(dispatch);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const ActionColumn = {
+        field: "action",
+        headerName: "Actions",
+        width: 150,
+        renderCell: (params) => {
+            return (
+                <Box display="flex" gap="10px">
+                    <IconButton
+                        onClick={() => handleVerifyAlumni(params.row.id)}
+                        disabled={params.row.isVerified}
+                    >
+                        <ThumbUpAlt
+                            style={{
+                                fontSize: "20px",
+                                color: params.row.isVerified ? "#aaa" : "#4cceac",
+                            }}
+                        />
+                    </IconButton>
+
+                    <IconButton onClick={() => {
+                        setSelectedItemId(params.row.id);
+                        setOpenEditPopup(true);
+                    }}>
+                        <EditNote
+                            style={{
+                                fontSize: "20px",
+                                color: "#ffef62",
+                            }}
+                        />
+
+                    </IconButton>
+                    <IconButton onClick={() => {
+                        setSelectedItemId(params.row.id);
+                        setOpenDeletePopup(true);
+                    }}>
+                        <DeleteOutline
+                            style={{
+                                fontSize: "20px",
+                                color: "#e2726e"
+                            }}
+                        />
+                    </IconButton>
+                </Box>
+            );
+        },
+    };
 
     return (
         <>
             <Box m="1.5rem 2.5rem">
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Header title="Alumni" subtitle="List of Alumni" />
+                    <ToastContainer position="top-right" autoClose={3000} />
+
                     <Box display="flex" gap="15px">
                         <Button
                             variant="contained"
@@ -25,40 +145,56 @@ const Alumni = () => {
                         >
                             Add User
                         </Button>
-                        <input
-                            type="file"
-                            accept=".csv"
-                            style={{ display: "none" }}
-                            id="csv-upload-input"
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    console.log(`Uploaded CSV file: ${file.name}`);
-                                }
-                            }}
-                        />
-                        <label htmlFor="csv-upload-input">
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                style={{ backgroundColor: "#4cceac" }}
-                                component="span"
-                            >
-                                Upload CSV
-                            </Button>
-                        </label>
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            style={{ backgroundColor: "#4cceac" }}
+                            onClick={() => setOpenCSVUploadPopup(true)}
+                        >
+                            Upload CSV
+                        </Button>
                     </Box>
                 </Box>
-                <DataTable slug="alumni" columns={alumniColumns} rows={AlumniRows} />
+                <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
+                    {alumni.length === 0 ? (
+                        <Typography>No Data Available</Typography>
+                    ) : (
+                        <DataTable
+                            columns={alumniColumns}
+                            rows={uniqueAlumni}
+                            lastColumn={ActionColumn}
+                        />
+                    )}
+                </Box>
+
             </Box>
             <PopUp
                 title="ALUMNI FORM"
                 openPopup={openPopup}
                 setOpenup={setOpenup}
-
             >
-                <AlumniForm />
+                <AlumniForm onSubmit={handleAlumni} />
             </PopUp>
+            <PopUp
+                title="EDIT ALUMNI FORM"
+                openPopup={openEditPopup}
+                setOpenup={setOpenEditPopup}
+            >
+                <AlumniForm onSubmit={handleAlumni} />
+            </PopUp>
+            <PopUp
+                title="UPLOAD CSV FILE"
+                openPopup={openCSVUploadPopup}
+                setOpenup={setOpenCSVUploadPopup}
+            >
+                <AlumniCSVUpload onSubmit={handleAlumni} onClose={handleCloseCSVUpload} />
+            </PopUp>
+
+            <ConfirmationDialog open={openDeletePopup} onClose={handleDelete} onConfirm={() => {
+                if (selectedItemId) {
+                    handleDelete(selectedItemId);
+                }
+            }} />
         </>
 
     );

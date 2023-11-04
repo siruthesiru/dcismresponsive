@@ -2,106 +2,16 @@ import React from "react";
 import placeholder from "../../assets/placeholder.webp";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+// import FileViewer from "../fileViewer";
 
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "img",
+        field: "profileImage",
         headerName: "avatar",
         width: 100,
         renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
-            return (
-                <img
-                    src={imgSrc}
-                    alt=""
-                    style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                    }}
-                />
-            );
-        },
-    },
-    {
-        field: "companyName",
-        type: "string",
-        headerName: "Company name",
-        width: 150,
-    },
-    {
-        field: "companyAddress",
-        type: "string",
-        headerName: "Company Address",
-        width: 150,
-    },
-    {
-        field: "email",
-        type: "string",
-        headerName: "Email",
-        width: 200,
-    },
-    {
-        field: "phone",
-        headerName: "Phone",
-        type: "string",
-        width: 150,
-    },
-    {
-        field: "createdAt",
-        headerName: "Created At",
-        type: "string",
-        width: 150,
-    },
-    {
-        field: "verified",
-        headerName: "Verified",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isVerified = params.value;
-            const style = {
-                color: isVerified ? 'green' : 'red',
-            };
-
-            return (
-                <di style={style}>
-                    {isVerified ? <CheckIcon /> : <CloseIcon />}
-                </di>
-            )
-        }
-    },
-    {
-        field: "active",
-        headerName: "Status",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isActive = params.value;
-            const style = {
-                color: isActive ? 'green' : 'red',
-            };
-
-            return (
-                <di style={style}>
-                    {isActive ? "Active" : "Inactive"}
-                </di>
-            )
-        }
-    }
-];
-
-export const alumniColumns = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-        field: "img",
-        headerName: "avatar",
-        width: 100,
-        renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
-
+            const imgSrc = params.row.profileImage ? `data:image/jpeg;base64,${params.row.profileImage}` : placeholder;
             return (
                 <img
                     src={imgSrc}
@@ -118,14 +28,34 @@ export const alumniColumns = [
     },
     {
         field: "firstName",
-        type: "string",
         headerName: "First name",
         width: 150,
     },
     {
         field: "lastName",
-        type: "string",
         headerName: "Last name",
+        width: 150,
+    },
+    {
+        field: "firstName",
+        headerName: "First name",
+        width: 150,
+    },
+    {
+        field: "lastName",
+        headerName: "Last name",
+        width: 150,
+    },
+    {
+        field: "name",
+        type: "string",
+        headerName: "Company Name",
+        width: 150,
+    },
+    {
+        field: "companyAddress",
+        type: "string",
+        headerName: "Company Address",
         width: 150,
     },
     {
@@ -135,122 +65,23 @@ export const alumniColumns = [
         width: 200,
     },
     {
-        field: "phone",
-        headerName: "Phone",
+        field: "mobileNumber",
+        headerName: "Contact Number",
         type: "string",
         width: 150,
     },
-    {
-        field: "createdAt",
-        headerName: "Created At",
-        type: "string",
-        width: 150,
-    },
-    {
-        field: "verified",
-        headerName: "Verified",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isVerified = params.value;
-            const style = {
-                color: isVerified ? 'green' : 'red',
-            };
-
-            return (
-                <di style={style}>
-                    {isVerified ? <CheckIcon /> : <CloseIcon />}
-                </di>
-            )
-        }
-    },
-    {
-        field: "active",
-        headerName: "Status",
-        width: 150,
-        type: "boolean",
-        renderCell: (params) => {
-            const isActive = params.value;
-            const style = {
-                color: isActive ? 'green' : 'red',
-            };
-
-            return (
-                <di style={style}>
-                    {isActive ? "Active" : "Inactive"}
-                </di>
-            )
-        }
-    }
 ];
 
+export const alumniColumns = [
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "idNum", headerName: "ID Number", width: 130 },
 
-export const faqColumns = [
-    {
-        field: "id",
-        headerName: "ID",
-        flex: 1,
-    },
-    {
-        field: "title",
-        headerName: "Title",
-        flex: 1,
-    },
-    {
-        field: "content",
-        headerName: "Content",
-        flex: 2,
-    },
-    {
-        field: "audience",
-        headerName: "Audience",
-        flex: 1,
-    },
-    {
-        field: "File",
-        headerName: "File",
-        flex: 1,
-        renderCell: (params) => {
-            const { file } = params.row;
-
-            // Check if a file is attached
-            if (file) {
-                return (
-                    <a
-                        href={file.url} // Replace with the actual URL to the file
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {file.name}
-                    </a>
-                );
-            } else {
-                return "No File";
-            }
-        },
-    },
-    {
-        field: "createdAt",
-        headerName: "CreatedAt",
-        flex: 1,
-    },
-    {
-        field: "updatedAt",
-        headerName: "UpdatedAt",
-        flex: 1,
-    },
-];
-
-
-export const verifyColumns = [
-    { field: "id", headerName: "ID", width: 90 },
     {
         field: "img",
-        headerName: "avatar",
+        headerName: "Profile",
         width: 100,
         renderCell: (params) => {
-            const imgSrc = params.row.img || placeholder;
-
+            const imgSrc = params.row.profileImage ? `data:image/jpeg;base64,${params.row.profileImage}` : placeholder;
             return (
                 <img
                     src={imgSrc}
@@ -266,44 +97,184 @@ export const verifyColumns = [
         },
     },
     {
-        field: "FullName",
-        type: "string",
-        headerName: "Full Name",
-        width: 200,
-        valueGetter: (params) =>
-            `${params.row["First Name"]} ${params.row["Last Name"]}`,
+        field: "firstName",
+        headerName: "First name",
+        width: 150,
     },
     {
-        field: "company",
-        type: "string",
+        field: "lastName",
+        headerName: "Last name",
+        width: 150,
+    },
+    {
+        field: "alumniAddress",
+        headerName: "Address",
+        width: 150,
+    },
+    {
+        field: "email",
+        headerName: "Email",
+        width: 150,
+    },
+    {
+        field: "mobileNumber",
+        headerName: "Phone",
+        width: 130,
+    },
+    {
+        field: "courses",
+        headerName: "Program",
+        width: 150,
+        renderCell: (params) => {
+            const program = params.row.courses ? params.row.courses.program : "No Program Indicated";
+            return (
+                <div>
+                    {program}
+                </div>
+            );
+        },
+    },
+    {
+        field: "syGraduated",
+        headerName: "Batch",
+        width: 70,
+    },
+    {
+        field: "isVerified",
+        headerName: "Verified",
+        width: 130,
+        type: "boolean",
+        renderCell: (params) => {
+            const isVerified = params.value;
+            const style = {
+                color: isVerified ? 'green' : 'red',
+            };
+
+            return (
+                <div style={style}>
+                    {isVerified ? <CheckIcon /> : <CloseIcon />}
+                </div>
+            )
+        }
+    },
+];
+
+
+export const announcementColumn = [
+    {
+        field: "id",
+        headerName: "ID",
+        width: 80,
+    },
+    {
+        field: "title",
+        headerName: "Title",
+        flex: 1,
+    },
+    {
+        field: "description",
+        headerName: "Content",
+        flex: 2,
+    },
+    {
+        field: "audience",
+        headerName: "Audience",
+        width: 100,
+    },
+
+    {
+        field: "posted_Date",
+        headerName: "Posted Date",
+        flex: 1,
+        renderCell: (params) => {
+            const postedDate = new Date(params.value);
+            const formattedDate = postedDate.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            });
+            return formattedDate;
+        },
+    },
+];
+
+
+export const verifyColumns = [
+    { field: "id", headerName: "ID", width: 90 },
+    {
+        field: "companyName",
         headerName: "Company Name",
         width: 200,
     },
     {
-        field: "addresss",
-        type: "string",
+        field: "companyAddress",
         headerName: "Address",
         width: 200,
     },
     {
-        field: "moa_file",
-        headerName: "MOA File_Upload",
-        type: "string",
-        width: 100,
+        field: "email",
+        headerName: "Email ",
+        width: 200,
+    },
+    {
+        field: "mobileNumber",
+        headerName: "Mobile Number ",
+        width: 200,
+    },
+];
+
+export const verifyJobColumn = [
+    { field: "id", headerName: "ID", width: 90 },
+    {
+        field: "companyName",
+        headerName: "Company Name",
+        width: 200,
     },
     {
         field: "email",
         headerName: "Email ",
-        type: "string",
         width: 200,
     },
     {
-        field: "createdAt",
-        headerName: "Created At",
-        type: "string",
+        field: "description",
+        headerName: "Description ",
         width: 200,
     },
+    {
+        field: "location",
+        headerName: "Location ",
+        width: 200,
+    },
+    {
+        field: "slots",
+        headerName: "Slots ",
+        width: 200,
+    },
+    {
+        field: "expiration_Date",
+        headerName: "End of Application ",
+        width: 200,
+    },
+    {
+        //not yet included in the table
+        field: "moa",
+        headerName: "Uploaded Moa",
+        width: 300,
+        renderCell: (params) => {
+            // const file = params.row.file;
+
+            // if (file) {
+            //     return (
+            //         <FileViewer fileData={file} />
+            //     );
+            // }
+        }
+    }
 ];
+
 
 
 export const ViewCandidatesColumns = [
