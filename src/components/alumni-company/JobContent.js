@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -8,9 +9,22 @@ export default function JobContent({ data }) {
 
   return (
     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
-      <h1 className="font-bold text-[15px] uppercase ">{data.Head}</h1>
-      <p className="text-slate-500 text-[12px]">{data.Desc}</p>
-
+      <div className="flex justify-between">
+        <span>
+          <h1 className="font-bold text-[15px] uppercase ">{data.Head}</h1>
+          <p className="text-slate-500 text-[12px]">{data.Desc}</p>
+        </span>
+        <span>
+          <Button
+            variant="contained"
+            size="small"
+            style={{ backgroundColor: "#221769" }}
+            onClick={() => navigate("/company/post_job")}
+          >
+            Add Post
+          </Button>
+        </span>
+      </div>
       <div className="flex flex-col text-[12px] space-y-2">
         {data.data.map((item, index) => (
           <div

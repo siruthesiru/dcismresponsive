@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import AnnouncementCard from '../../../components/announcementCard';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import EventsCard from '../../../components/eventsCard';
 import { GetCompanyProfile } from '../../../services/company';
 import CompanyUser from '../../../components/userCard/companyCard';
 
-const LandingPageCompany = () => {
-    const announcements = useSelector((state) => state.companyUserSlice.announcements);
+const CompanyEvents = () => {
+    const events = useSelector((state) => state.alumniUserSlice.events);
 
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
@@ -21,10 +21,9 @@ const LandingPageCompany = () => {
         };
 
         fetchUserData();
-        //  GetAllAnnouncements(dispatch);
+        //  GetAllEvents(dispatch);
     }, [dispatch]);
 
-    console.log(userData);
 
     return (
         <div className='bg-slate-100 min-h-screen'>
@@ -35,17 +34,17 @@ const LandingPageCompany = () => {
                     )}
                 </div>
                 <div className='sm:w-[75%]'>
-                    {announcements.length === 0 ? (
-                        <p className='mx-4 sm:mx-2'>No announcements available</p>
+                    {events.length === 0 ? (
+                        <p className='mx-4 sm:mx-2'>No scheduled events available</p>
                     ) : (
-                        announcements.map((announcement, index) => (
-                            <AnnouncementCard key={index} announcement={announcement} />
+                        events.map((event, index) => (
+                            <EventsCard key={index} events={event} />
                         ))
                     )}
                 </div>
             </div>
         </div>
     );
-}
+};
 
-export default LandingPageCompany
+export default CompanyEvents; 

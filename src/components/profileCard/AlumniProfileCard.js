@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { clearAccount } from "../../app/authenticationSlice";
 
 
-const AlumniProfilePage = () => {
+const AlumniProfile = () => {
     const { email } = useSelector((state) => state.authentication)
     const [userData, setUserData] = useState(null);
     const [isEmailEdited, setIsEmailEdited] = useState(false);
@@ -526,4 +526,4 @@ const AlumniProfilePage = () => {
     );
 }
 
-export default AlumniProfilePage;
+export default AlumniProfile;
