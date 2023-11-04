@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import {
   LineChart,
   XAxis,
@@ -12,57 +13,45 @@ import {
 
 import './index.scss';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+
 
 const LineChartBox = () => {
-
+  const { firstData, secondData, thirdData, fourthData, fifthData, sixData, sevenData } = useSelector((state) => state.adminDashboard);
+  
+  const data = [
+    {
+      name: '2003',
+      student: firstData,
+    },
+    {
+      name: '2006',
+      student: secondData,
+    },
+    {
+      name: '2009',
+      student: thirdData,
+    },
+    {
+      name: '2012',
+      student: fourthData,
+    },
+    {
+      name: '2015',
+      student: fifthData,
+    },
+    {
+      name: '2018',
+      student: sixData,
+    },
+    {
+      name: '2021',
+      student: sevenData,
+    },
+  ];
   return (
     <div className='lineChartBox'>
       <h1 className='text-xl font-semibold'>Alumni Report</h1>
-      <p>Number of Graduates per semester</p>
+      <p>Number of Graduates per 3 years</p>
       <div className='chart'>
         <ResponsiveContainer width='99%' height='100%'>
           <LineChart
@@ -81,8 +70,7 @@ const LineChartBox = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="student" stroke="#8884d8" activeDot={{ r: 8 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>

@@ -3,8 +3,6 @@ import alumniIcon from '../assets/alumniIcon.svg'
 import companyIcon from '../assets/companyIcon.svg'
 import jobIcon from '../assets/jobIcon.svg'
 
-
-
 export const TopJobs = [
     {
         id: 0,
@@ -73,10 +71,10 @@ export const chartBoxUsers = {
     color: "#8884d8",
     icon: userIcon,
     title: "Total Users",
-    number: "11,238",
+    number: "sumOfUsers",
     link: "/dashboard",
     dataKey: "users",
-    percentage: 45,
+    percentage: 100,
     chartData: [
         { name: "Sun", users: 400 },
         { name: "Mon", users: 600 },
