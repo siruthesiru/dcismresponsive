@@ -21,6 +21,7 @@ const AnnouncementForm = () => {
         description: "",
         audience: "All",
         fileUpload: null,
+        updatedTime: ""
     });
 
     const dispatch = useDispatch();
@@ -56,23 +57,29 @@ const AnnouncementForm = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         if (id) {
+            const currentDate = new Date();
+            const editedFormData = {
+                ...formData,
+                updatedTime: currentDate.toISOString(),
+            };
 
-            const editSuccess = await EditAnnouncement(dispatch, formData, id);
+            const editSuccess = await EditAnnouncement(dispatch, editedFormData, id);
             if (editSuccess) {
                 toast.success("Announcement edited successfully");
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
+                await new Promise(resolve => setTimeout(resolve, 3000));
                 navigate('/announcements');
             }
         } else {
             const addSuccess = await AddAnnouncement(dispatch, formData);
             if (addSuccess) {
                 toast.success("Announcement added successfully");
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
+                await new Promise(resolve => setTimeout(resolve, 3000));
                 navigate('/announcements');
             }
         }
     };
 
+    console.log(formData);
 
     return (
         <Box m="1rem 2.5rem">
@@ -98,7 +105,7 @@ const AnnouncementForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                <label>Add File: </label>
+                                <label> {id ? "Change File:" : "Add File:"}</label>
                                 <input
                                     type="file"
                                     accept=".pdf, .doc, .docx"

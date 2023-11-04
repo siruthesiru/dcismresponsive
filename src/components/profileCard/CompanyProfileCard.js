@@ -276,3 +276,4 @@ const CompanyProfileCard = () => {
 
 export default CompanyProfileCard
 
+

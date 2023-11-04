@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { DeleteOutline, EditNote } from "@mui/icons-material";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
-import DataTable from "../../../components/dataTable";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 const Announcements = () => {
     const navigate = useNavigate();
@@ -49,38 +49,73 @@ const Announcements = () => {
         }
     }, [deleteOccurred, dispatch]);
 
-    const ActionColumn = {
-        field: "action",
-        headerName: "Actions",
-        width: 100,
-        renderCell: (params) => {
-            return (
-                <Box display="flex" gap="10px">
-                    <IconButton onClick={() => navigate(`/editAnnouncement/${params.row.id}`)}>
 
-                        <EditNote
-                            style={{
-                                fontSize: "20px",
-                                color: "#ffef62",
-                            }}
-                        />
+    const handleDownload = (file) => {
+        const linkSource = `data:application/pdf;base64,${file}`;
+        const downloadLink = document.createElement('a');
+        const fileName = 'announcement.pdf';
 
-                    </IconButton>
-                    <IconButton onClick={() => {
-                        setSelectedItemId(params.row.id);
-                        setOpenDeletePopup(true);
-                    }}>
-                        <DeleteOutline
-                            style={{
-                                fontSize: "20px",
-                                color: "#e2726e"
-                            }}
-                        />
-                    </IconButton>
-                </Box >
-            );
-        },
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
     };
+
+    const columns = [
+        ...announcementColumn,
+        {
+            field: 'file',
+            headerName: 'File',
+            flex: 1,
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        {params.row.file ? (
+                            <button
+                                className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
+                                onClick={() => handleDownload(params.row.file)}
+                            >
+                                Download File
+                            </button>
+                        ) : (
+                            <span style={{ color: "gray" }}>No File Uploaded</span>
+                        )}
+                    </div>
+                );
+            },
+        },
+        {
+            field: "action",
+            headerName: "Actions",
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" gap="10px">
+                        <IconButton onClick={() => navigate(`/editAnnouncement/${params.row.id}`)}>
+
+                            <EditNote
+                                style={{
+                                    fontSize: "20px",
+                                    color: "#ffef62",
+                                }}
+                            />
+
+                        </IconButton>
+                        <IconButton onClick={() => {
+                            setSelectedItemId(params.row.id);
+                            setOpenDeletePopup(true);
+                        }}>
+                            <DeleteOutline
+                                style={{
+                                    fontSize: "20px",
+                                    color: "#e2726e"
+                                }}
+                            />
+                        </IconButton>
+                    </Box >
+                );
+            },
+        },
+    ];
 
     return (
         <Box m="1.5rem 2.5rem">
@@ -102,10 +137,38 @@ const Announcements = () => {
                 {announcements.length === 0 ? (
                     <Typography>No Data Available</Typography>
                 ) : (
-                    <DataTable
-                        columns={announcementColumn}
+                    <DataGrid
+                        sx={{
+                            padding: "20px",
+                            "& .MuiDataGrid-toolbarContainer": {
+                                flexDirection: "row-reverse",
+                                color: "#221769"
+                            },
+                            "& .MuiButtonBase-root": {
+                                color: "#221769",
+                            },
+                        }}
                         rows={uniqueAnnouncements}
-                        lastColumn={ActionColumn}
+                        getRowId={(row) => row.id}
+                        columns={columns}
+                        style={{ width: "100%" }}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10,
+                                },
+                            },
+                        }}
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                            toolbar: {
+                                showQuickFilter: true,
+                                quickFilterProps: { debounceMs: 500 },
+                            },
+                        }}
+                        pageSizeOptions={[10]}
+                        checkboxSelection
+                        disableRowSelectionOnClick
                     />
                 )}
             </Box>

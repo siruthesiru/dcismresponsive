@@ -26,7 +26,7 @@ import Profile from './pages/Admin/Profile';
 import LayoutAlumni from './pages/Alumni/Layout';
 import AlumniSearch from './pages/Alumni/A_SearchPage';
 import LandingPageAlumni from './pages/Alumni/LandingPage';
-import AlumniProfile from './pages/Alumni/Profile';
+import AlumniProfile from './pages/Alumni/A_Profile.js';
 import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
 import AlumniNotification from './pages/Alumni/Notification';

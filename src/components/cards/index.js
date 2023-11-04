@@ -11,18 +11,24 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate } from "react-router-dom";
+import { Dangerous } from "@mui/icons-material";
 
-const JobCard = ({
-    _id,
-    name,
-    description,
-    salary,
-    skills,
-    endDate,
-    isActive,
-}) => {
+const JobCard = ({ job }) => {
     const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
+    const currentDate = new Date();
+    const expirationDate = new Date(job.expiration_Date);
+
+    const formattedDate = expirationDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    });
+
+    const isStatus = expirationDate > currentDate ? "Active" : "Expired";
 
     return (
         <Card
@@ -37,15 +43,18 @@ const JobCard = ({
                     color="#4cceac"
                     gutterBottom
                 >
-                    {name}
+                    {job.position}
                 </Typography>
                 <Typography variant="h5" component="div">
-                    {description}
+                    {job.description}
                 </Typography>
                 <Typography sx={{ mb: "1.5rem" }} color="#4cceac">
-                    Expected Salary: ${Number(salary).toFixed(2)}
+                    Expected Salary: ${Number(job?.salary).toFixed(2)}
                 </Typography>
-                <Typography variant="body2">{skills.join(" ")}</Typography>
+                {job?.targetSkills.map((skill) => (
+                    <Typography variant="body2">{skill}</Typography>
+
+                ))}
             </CardContent>
             <CardActions>
                 <Button
@@ -67,25 +76,41 @@ const JobCard = ({
 
             >
                 <CardContent>
-                    <Typography>id: {_id}</Typography>
-                    <Typography>Status: {isActive ? "Active" : "Expired"}</Typography>
+                    <Typography>id: {job.id}</Typography>
+                    <Typography>Status: {isStatus}</Typography>
                     <Box
                         sx={{
                             display: "flex",
                             alignItems: "center",
                         }}
                     >
-                        <Typography>Posted By: Name of the Company</Typography>
-
-                        <CheckCircleOutlineIcon
-                            style={{
-                                marginLeft: "5px",
-                                color: "#4cceac",
-                                fontSize: "1.3rem",
-                            }}
-                        />
+                        <Typography>
+                            Posted By: {job.companyName}
+                            <span>
+                                {job?.company?.isVerified ? (
+                                    <CheckCircleOutlineIcon
+                                        style={{
+                                            marginLeft: "5px",
+                                            color: "#4cceac",
+                                            fontSize: "1.3rem",
+                                        }}
+                                    />
+                                ) : (
+                                    <Dangerous
+                                        style={{
+                                            marginLeft: "5px",
+                                            color: "#db4f4a",
+                                            fontSize: "1.3rem",
+                                        }}
+                                    />
+                                )}
+                            </span>
+                        </Typography>
                     </Box>
-                    <Typography>Application Ends: {endDate}</Typography>
+                    <Typography>Location: {job.location}</Typography>
+                    <Typography>Slots: {job.slots}</Typography>
+                    <Typography>Years Experience: {job.yearsofExp}</Typography>
+                    <Typography>Application Ends: {formattedDate}</Typography>
                     <Button
                         variant="contained"
                         color="primary"

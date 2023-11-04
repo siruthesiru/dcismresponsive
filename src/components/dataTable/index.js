@@ -18,7 +18,7 @@ const DataTable = (props) => {
                 }}
                 rows={props.rows}
                 getRowId={(row) => row.id}
-                columns={[...props.columns, props.lastColumn]}
+                columns={[...props.columns, props?.lastColumn]}
                 style={{ width: "100%" }}
                 initialState={{
                     pagination: {

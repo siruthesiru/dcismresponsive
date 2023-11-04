@@ -6,7 +6,7 @@ import { Badge } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { AddAlumni, EditAlumni, GetAllAlumni } from '../../services/admin_alumni';
 
-const courses = [
+const programs = [
     'Bachelor of Science in Computer Science',
     'Bachelor of Science in Information Science',
     'Bachelor of Science in Information Technology',
@@ -14,9 +14,16 @@ const courses = [
     'Bachelor of Science in Information Communication Technology',
     'Bachelor of Science in Library Science',
     'Bachelor of Science in Applied Mathematics',
+    'Master of Science in Mathematics'
+];
+const educationalLevels = [
+    'Tertiary',
+    'Masteral',
+    'Doctoriate'
 ];
 
 const AlumniForm = ({ onSubmit, initialAlumni }) => {
+
     const [formData, setFormData] = useState(() => {
         if (initialAlumni) {
 
@@ -29,7 +36,12 @@ const AlumniForm = ({ onSubmit, initialAlumni }) => {
                 lastName: "",
                 idNum: "",
                 venue: "",
-                course: "",
+                courses: [
+                    {
+                        program: "",
+                        educationalLevel: "",
+                    },
+                ],
                 syGraduated: ""
             };
         }
@@ -131,18 +143,37 @@ const AlumniForm = ({ onSubmit, initialAlumni }) => {
 
             <div className="mb-3 flex items-center">
                 <FormControl style={{ flex: 1 }}>
-                    <InputLabel htmlFor="course">Course</InputLabel>
+                    <InputLabel htmlFor="program">Program</InputLabel>
                     <Select
-                        id="course"
-                        value={formData.course}
-                        onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+                        id="program"
+                        value={formData.program}
+                        onChange={(e) => setFormData({ ...formData, program: e.target.value })}
                         variant="outlined"
                         fullWidth
                         required
                     >
-                        {courses.map((course) => (
-                            <MenuItem key={course} value={course}>
-                                {course}
+                        {programs.map((program) => (
+                            <MenuItem key={program} value={program}>
+                                {program}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </div>
+            <div className="mb-3 flex items-center">
+                <FormControl style={{ flex: 1 }}>
+                    <InputLabel htmlFor="educationalLevel">Educational Level</InputLabel>
+                    <Select
+                        id="educationalLevel"
+                        value={formData.course}
+                        onChange={(e) => setFormData({ ...formData, educationalLevel: e.target.value })}
+                        variant="outlined"
+                        fullWidth
+                        required
+                    >
+                        {educationalLevels.map((educationalLevel) => (
+                            <MenuItem key={educationalLevel} value={educationalLevel}>
+                                {educationalLevel}
                             </MenuItem>
                         ))}
                     </Select>

@@ -63,6 +63,8 @@ const Profile = () => {
         }
     };
 
+    const imgSrc = userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder;
+
     return (
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -99,7 +101,7 @@ const Profile = () => {
                                 }}
                             />
                             <img
-                                src={userData?.profilePicture || placeholder}
+                                src={imgSrc}
                                 alt="User Profile"
                                 style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
                                 onClick={() => {
@@ -112,7 +114,7 @@ const Profile = () => {
                         <CardMedia
                             component="img"
                             sx={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
-                            image={userData?.profilePicture || placeholder}
+                            image={imgSrc}
                             alt="Profile picture"
                         />
                     )}
