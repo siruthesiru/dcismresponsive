@@ -1,8 +1,7 @@
 import React from 'react'
-import { HelpData } from "../../data/mockAlumniData";
+import { HelpData } from '../../../data/mockAlumniData';
 
-
-function A_Help() {
+const CompanyFAQ = () => {
     const data = HelpData[0];
 
     return (
@@ -21,10 +20,8 @@ function A_Help() {
                     ))}
                 </div>
             </div>
-
         </div>
     )
 }
 
-export default A_Help
-
+export default CompanyFAQ

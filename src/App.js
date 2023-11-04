@@ -24,26 +24,25 @@ import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
 import LayoutAlumni from './pages/Alumni/Layout';
-import AlumniFAQ from './pages/Alumni/A_Help.js';
-import AlumniJobs from './pages/Alumni/A_Jobs.js';
-import AlumniNotif from './pages/Alumni/A_Notif.js';
 import AlumniSearch from './pages/Alumni/A_SearchPage';
-import AlumniEditProfile from './pages/Alumni/A_EditProfile';
-import AlumniViewJob from './pages/Alumni/A_Job';
-import AlumniApplyJob from './pages/Alumni/A_ApplyJob'
 import LandingPageAlumni from './pages/Alumni/LandingPage';
 import AlumniProfile from './pages/Alumni/Profile';
-import AlumniEvents from './pages/Alumni/Events/index.js';
+import AlumniEvents from './pages/Alumni/Events';
+import AlumniFAQ from './pages/Alumni/Help';
+import AlumniNotification from './pages/Alumni/Notification';
+import AlumniJob from './pages/Alumni/Jobs/viewJob.js';
+import ApplyJob from './pages/Alumni/ApplyJob';
+import JobList from './pages/Alumni/Jobs';
 
 import LayoutCompany from './pages/Company/Layout';
-import CompanyEvents from './pages/Company/LandingPage/C_Events.js';
-import CompanyFAQ from './pages/Company/C_Help.js';
-import CompanyJobs from './pages/Company/C_Jobs.js';
-import CompanyNotif from './pages/Company/C_Notifs.js';
-import CompanyProfile from './pages/Company/C_Profile.js';
-import CompanyEditProfile from './pages/Company/C_EditProfile.js'
-import CompanyAddPosting from './pages/Company/C_CreatePost.js'
-import CompanyViewCandidates from './pages/Company/C_ViewCandidates.js'
+import LandingPageCompany from './pages/Company/LandingPage';
+import CompanyFAQ from './pages/Company/Help';
+import CompanyJobs from './pages/Company/Jobs';
+import CompanyNotification from './pages/Company/Notification';
+import CompanyProfile from './pages/Company/Profile';
+import CompanyCandidates from './pages/Company/Candidates';
+import CompanyEvents from './pages/Company/Events';
+import PostJob from './pages/Company/PostJob';
 
 
 const App = () => {
@@ -102,13 +101,13 @@ const App = () => {
                 <Route element={<LayoutAlumni />} >
                   <Route path="/alumni/dashboard" element={<LandingPageAlumni />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
-                  <Route path="/alumni/jobs" element={<AlumniJobs />} />
-                  <Route path="/alumni/notifications" element={<AlumniNotif />} />
+                  <Route path="/alumni/jobs" element={<JobList />} />
+                  <Route path="/alumni/notifications" element={<AlumniNotification />} />
                   <Route path="/alumni/search" element={<AlumniSearch />} />
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
-                  <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
-                  <Route path="/alumni/job" element={<AlumniViewJob />} />
-                  <Route path="/alumni/apply-job" element={<AlumniApplyJob />} />
+                  <Route path="/alumni/edit-profile" element={<AlumniProfile />} />
+                  <Route path="/alumni/job" element={<AlumniJob />} />
+                  <Route path="/alumni/apply_job" element={<ApplyJob />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                 </Route>
               </Route>
@@ -116,14 +115,15 @@ const App = () => {
               {/* route for company  */}
               <Route element={<ProtectedRoute userRole="COMPANY" />}>
                 <Route element={<LayoutCompany />} >
-                  <Route path="/company/dashboard" element={<CompanyEvents />} />
+                  <Route path="/company/dashboard" element={<LandingPageCompany />} />
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
                   <Route path="/company/jobs" element={<CompanyJobs />} />
-                  <Route path="/company/notifications" element={<CompanyNotif />} />
+                  <Route path="/company/events" element={<CompanyEvents />} />
+                  <Route path="/company/notifications" element={<CompanyNotification />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-                  <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
-                  <Route path="/company/add-posting" element={<CompanyAddPosting />} />
-                  <Route path="/company/view-candidates" element={<CompanyViewCandidates />} />
+                  {/* <Route path="/company/edit-profile" element={<CompanyProfile />} /> */}
+                  <Route path="/company/post_job" element={<PostJob />} />
+                  <Route path="/company/view_candidates" element={<CompanyCandidates />} />
                 </Route>
               </Route>
 

@@ -1,24 +1,26 @@
 import React from 'react'
-import { PendingData, UserCardData } from '../../data/mockAlumniData';
-import UserCard from '../../components/alumni-company/UserCard';
-import JobContent from '../../components/alumni-company/JobContent';
-import CreateJobPost from '../../components/alumni-company/CreateJobPost';
+import { NotifData, PendingData, UserCardData } from '../../../data/mockAlumniData';
+import CompanyCard from '../../../components/alumni-company/CompanyCard';
+import JobContent from '../../../components/alumni-company/JobContent';
+import NotificationContent from '../../../components/alumni-company/NotificationContent';
 
-const C_CreatePost = () => {
+const CompanyNotification = () => {
     const user = UserCardData[0];
     const pending = PendingData[0];
+    const notif = NotifData[0];
+    console.log("data", notif);
+
 
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>
 
                 <div className="sm:w-[25%] gap-2">
-                    <UserCard data={user} />
+                    <CompanyCard data={user} />
                 </div>
 
                 <div className='sm:w-[50%] space-y-2'>
-                    <CreateJobPost />
-
+                    <NotificationContent data={notif} />
                 </div>
 
                 <div className='sm:w-[25%]'>
@@ -30,4 +32,4 @@ const C_CreatePost = () => {
     )
 }
 
-export default C_CreatePost
+export default CompanyNotification

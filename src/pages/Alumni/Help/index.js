@@ -1,8 +1,7 @@
 import React from 'react'
-import { HelpData } from "../../data/mockAlumniData";
+import { HelpData } from '../../../data/mockAlumniData';
 
-
-function C_Help() {
+const AlumniFAQ = () => {
     const data = HelpData[0];
 
     return (
@@ -20,13 +19,9 @@ function C_Help() {
                         </div>
                     ))}
                 </div>
-
-
             </div>
-
         </div>
     )
 }
 
-export default C_Help
-
+export default AlumniFAQ

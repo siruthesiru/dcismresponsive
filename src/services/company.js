@@ -1,10 +1,8 @@
 import axios from "axios";
-// import { toast } from 'react-toastify';
-import { editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getEvents, getEventsError, setErrorMessage } from "../app/alumniUserSlice";
-
+import { editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, setErrorMessage } from "../app/companyUserSlice";
 
 const axiosInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}/Alumni`,
+    baseURL: `${process.env.REACT_APP_BASE_URL}/Company`,
 })
 
 axiosInstance.interceptors.request.use((config) => {
@@ -12,14 +10,14 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-export const GetAlumniProfile = async (dispatch) => {
+export const GetCompanyProfile = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Profile');
-        dispatch(getAlumniProfile(response.data));
+        dispatch(getCompanyProfile(response.data));
         return response.data;
     } catch (error) {
         console.error('Error:', error);
-        dispatch(getAlumniProfileError())
+        dispatch(getCompanyProfileError())
     }
 }
 
@@ -27,7 +25,7 @@ export const GetAllAnnouncements = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Announcements');
         const announcements = response.data.filter(announcement => {
-            return announcement.audience === "Alumni" || announcement.audience === "All";
+            return announcement.audience === "Company" || announcement.audience === "All";
         });
         dispatch(getAnnouncements(announcements));
     } catch (error) {
@@ -40,7 +38,7 @@ export const GetAllEvents = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Events');
         const events = response.data.filter(event => {
-            return event.audience === "Alumni" || event.audience === "All";
+            return event.audience === "Company" || event.audience === "All";
         });
         dispatch(getEvents(events));
     } catch (error) {

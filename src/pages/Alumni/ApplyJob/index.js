@@ -1,30 +1,22 @@
 import React from 'react'
-import CompanyCard from '../../components/alumni-company/CompanyCard';
+import { PendingData, UserCardData } from '../../../data/mockAlumniData';
+import ApplyJobPage from '../../../components/alumni-company/ApplyJobPage';
+import JobContent from '../../../components/alumni-company/JobContent';
+import AlumniUser from '../../../components/userCard/alumniCard';
 
-import JobContent from '../../components/alumni-company/JobContent';
-import NotifContent from '../../components/alumni-company/NotificationContent';
-
-
-import { NotifData, UserCardData, PendingData } from "../../data/mockAlumniData";
-
-
-function Notif() {
+const ApplyJob = () => {
     const user = UserCardData[0];
     const pending = PendingData[0];
-    const notif = NotifData[0];
-    console.log("data", notif);
-
 
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>
-
                 <div className="sm:w-[25%] gap-2">
-                    <CompanyCard data={user} />
+                    <AlumniUser data={user} />
                 </div>
 
                 <div className='sm:w-[50%] space-y-2'>
-                    <NotifContent data={notif} />
+                    <ApplyJobPage />
                 </div>
 
                 <div className='sm:w-[25%]'>
@@ -36,4 +28,4 @@ function Notif() {
     )
 }
 
-export default Notif
+export default ApplyJob

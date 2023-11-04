@@ -1,15 +1,11 @@
 import React from 'react'
+import { NotifData, PendingData, UserCardData } from '../../../data/mockAlumniData';
+import Search from '../../../components/search';
+import JobContent from '../../../components/alumni-company/JobContent';
+import NotificationContent from '../../../components/alumni-company/NotificationContent';
+import AlumniUser from '../../../components/userCard/alumniCard';
 
-import UserCard from '../../components/alumni-company/UserCard';
-import JobContent from '../../components/alumni-company/JobContent';
-import NotifContent from '../../components/alumni-company/NotificationContent';
-
-
-import { NotifData, UserCardData, PendingData } from "../../data/mockAlumniData";
-import Search from '../../components/alumni-company/SearchBox';
-
-
-function A_Notif() {
+const AlumniNotification = () => {
     const user = UserCardData[0];
     const pending = PendingData[0];
     const notif = NotifData[0];
@@ -22,11 +18,11 @@ function A_Notif() {
 
                 <div className="sm:w-[25%] gap-2">
                     <Search />
-                    <UserCard data={user} />
+                    <AlumniUser data={user} />
                 </div>
 
                 <div className='sm:w-[50%] space-y-2'>
-                    <NotifContent data={notif} />
+                    <NotificationContent data={notif} />
                 </div>
 
                 <div className='sm:w-[25%]'>
@@ -38,4 +34,5 @@ function A_Notif() {
     )
 }
 
-export default A_Notif
+
+export default AlumniNotification
