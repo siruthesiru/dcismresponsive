@@ -50,7 +50,6 @@ export const companyColumn = [
         field: "name",
         type: "string",
         headerName: "Company Name",
-        headerName: "Company Name",
         width: 150,
     },
     {
