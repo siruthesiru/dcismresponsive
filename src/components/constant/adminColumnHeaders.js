@@ -7,7 +7,7 @@ import CheckIcon from '@mui/icons-material/Check';
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "img",
+        field: "profileImage",
         headerName: "avatar",
         width: 100,
         renderCell: (params) => {
@@ -37,8 +37,19 @@ export const companyColumn = [
         width: 150,
     },
     {
-        field: "companyName",
+        field: "firstName",
+        headerName: "First name",
+        width: 150,
+    },
+    {
+        field: "lastName",
+        headerName: "Last name",
+        width: 150,
+    },
+    {
+        field: "name",
         type: "string",
+        headerName: "Company Name",
         headerName: "Company Name",
         width: 150,
     },
@@ -248,6 +259,21 @@ export const verifyJobColumn = [
         headerName: "End of Application ",
         width: 200,
     },
+    {
+        //not yet included in the table
+        field: "moa",
+        headerName: "Uploaded Moa",
+        width: 300,
+        renderCell: (params) => {
+            // const file = params.row.file;
+
+            // if (file) {
+            //     return (
+            //         <FileViewer fileData={file} />
+            //     );
+            // }
+        }
+    }
 ];
 
 

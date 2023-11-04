@@ -20,6 +20,55 @@ const VerifyCompany = () => {
         GetUnverifiedCompanies(dispatch)
     }, [dispatch])
 
+    const [openDeletePopup, setOpenDeletePopup] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
+
+    const uniqueCompanies = companies.map((company, index) => {
+        return { ...company, id: company.id || index + 1 };
+    });
+
+    const handleDelete = (id) => {
+        RejectCompany(dispatch, id)
+            .then(() => {
+                setDeleteOccurred(true);
+            })
+            .catch((error) => {
+                console.error("Error deleting announcement:", error);
+            });
+
+        setOpenDeletePopup(false);
+    };
+
+    useEffect(() => {
+        if (deleteOccurred) {
+            GetUnverifiedCompanies(dispatch);
+            setDeleteOccurred(false);
+        }
+    }, [deleteOccurred, dispatch]);
+
+    const handleVerifyCompany = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                isVerified: true
+            };
+            await Verify_Company(dispatch, credentials);
+            GetUnverifiedCompanies(dispatch);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const companies = useSelector((state) => state.companiesSlice.unverified_companies);
+    const dispatch = useDispatch();
+
+    console.log(companies);
+
+    useEffect(() => {
+        GetUnverifiedCompanies(dispatch)
+    }, [dispatch])
+
     const [deleteOccurred, setDeleteOccurred] = useState(false);
 
     const uniqueCompanies = companies.map((company, index) => {
