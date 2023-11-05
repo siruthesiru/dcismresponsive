@@ -27,36 +27,36 @@ export const companyColumn = [
         },
     },
     {
-        field: "firstName",
-        headerName: "First name",
-        width: 150,
+        field: "companyPerson",
+        headerName: "Contact Person",
+        width: 200,
+        valueGetter: (params) => {
+            const firstName = params.row.firstName || "";
+            const lastName = params.row.lastName || "";
+
+            if (firstName.trim() === "" && lastName.trim() === "") {
+                return "Not Indicated";
+            } else {
+                return firstName + " " + lastName;
+            }
+        },
     },
+
     {
-        field: "lastName",
-        headerName: "Last name",
-        width: 150,
-    },
-    {
-        field: "firstName",
-        headerName: "First name",
-        width: 150,
-    },
-    {
-        field: "lastName",
-        headerName: "Last name",
-        width: 150,
-    },
-    {
-        field: "name",
-        type: "string",
+        field: "companyName",
         headerName: "Company Name",
-        width: 150,
+        width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "companyAddress",
-        type: "string",
         headerName: "Company Address",
-        width: 150,
+        width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "email",
@@ -67,8 +67,10 @@ export const companyColumn = [
     {
         field: "mobileNumber",
         headerName: "Contact Number",
-        type: "string",
-        width: 150,
+        width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
 ];
 
@@ -110,16 +112,25 @@ export const alumniColumns = [
         field: "alumniAddress",
         headerName: "Address",
         width: 150,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "email",
         headerName: "Email",
         width: 150,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "mobileNumber",
         headerName: "Phone",
         width: 130,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "courses",
@@ -138,6 +149,9 @@ export const alumniColumns = [
         field: "syGraduated",
         headerName: "Batch",
         width: 70,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "isVerified",
@@ -159,6 +173,27 @@ export const alumniColumns = [
     },
 ];
 
+export const alumniVerifyColumns = [
+    { field: "id", headerName: "ID", flex: 1 },
+    { field: "idNum", headerName: "ID Number", flex: 1 },
+
+    {
+        field: "firstName",
+        headerName: "First name",
+        flex: 1
+    },
+    {
+        field: "lastName",
+        headerName: "Last name",
+        flex: 1
+    },
+    {
+        field: "email",
+        headerName: "Email",
+        flex: 1,
+    },
+];
+
 
 export const announcementColumn = [
     {
@@ -175,11 +210,18 @@ export const announcementColumn = [
         field: "description",
         headerName: "Content",
         flex: 2,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
+
     },
     {
         field: "audience",
         headerName: "Audience",
         width: 100,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
 
     {
@@ -205,14 +247,35 @@ export const announcementColumn = [
 export const verifyColumns = [
     { field: "id", headerName: "ID", width: 90 },
     {
+        field: "companyPerson",
+        headerName: "Contact Person",
+        width: 200,
+        valueGetter: (params) => {
+            const firstName = params.row.firstName || "";
+            const lastName = params.row.lastName || "";
+
+            if (firstName.trim() === "" && lastName.trim() === "") {
+                return "Not Indicated";
+            } else {
+                return firstName + " " + lastName;
+            }
+        },
+    },
+    {
         field: "companyName",
         headerName: "Company Name",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "companyAddress",
-        headerName: "Address",
+        headerName: "Company Address",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "email",
@@ -221,8 +284,11 @@ export const verifyColumns = [
     },
     {
         field: "mobileNumber",
-        headerName: "Mobile Number ",
+        headerName: "Contact Number",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
 ];
 
@@ -232,26 +298,49 @@ export const verifyJobColumn = [
         field: "companyName",
         headerName: "Company Name",
         width: 200,
+        valueGetter: (params) => {
+            if (params.row.company && params.row.company.companyName) {
+                return params.row.company.companyName;
+            } else {
+                return "Not Indicated";
+            }
+        },
     },
     {
         field: "email",
-        headerName: "Email ",
+        headerName: "Company Name",
         width: 200,
+        valueGetter: (params) => {
+            if (params.row.company && params.row.company.email) {
+                return params.row.company.email;
+            } else {
+                return "Not Indicated";
+            }
+        },
     },
     {
         field: "description",
         headerName: "Description ",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "location",
         headerName: "Location ",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "slots",
         headerName: "Slots ",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
     },
     {
         field: "expiration_Date",

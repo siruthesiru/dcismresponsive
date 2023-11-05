@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { clearAccount } from "../../../app/authenticationSlice";
+import { logout } from "../../../app/authenticationSlice";
 
 const Profile = () => {
     const { email } = useSelector((state) => state.authentication)
@@ -68,7 +68,7 @@ const Profile = () => {
         if (isEmailEdited) {
             await new Promise(resolve => setTimeout(resolve, 5000));
             toast.success("Please sign in again for the new email");
-            dispatch(clearAccount(null));
+            dispatch(logout(null));
         }
     };
 
@@ -118,7 +118,7 @@ const Profile = () => {
                                 onChange={handleImageInputChange}
                             />
                             <img
-                                src={currentlySelectedImage}
+                                src={currentlySelectedImage || placeholder}
                                 alt="User Profile"
                                 style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
                             />

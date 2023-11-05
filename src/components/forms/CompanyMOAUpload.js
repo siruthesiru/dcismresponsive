@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { Button, Grid } from '@mui/material';
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { AddAlumniCSV, GetAlumni } from '../../services/admin_alumni';
+import { EditProfile, GetCompanyProfile } from '../../services/company';
+import { Button, Grid } from '@mui/material';
 
-const AlumniCSVUpload = ({ onSubmit, onClose }) => {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
+const CompanyMOAUpload = ({ onSubmit, onClose }) => {
     const [file, setFile] = useState(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -15,44 +21,54 @@ const AlumniCSVUpload = ({ onSubmit, onClose }) => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (file) {
             const formData = new FormData();
-            formData.append('fileUpload', file);
             console.log(formData);
+            formData.append('moa', file);
+            try {
+                toast.success("MOA file uploaded successfully");
 
-            AddAlumniCSV(dispatch, formData)
-                .then(() => {
-                    console.log('CSV file uploaded successfully');
-                    onSubmit(formData);
-                    onClose();
-                    GetAlumni(dispatch);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                await new Promise(resolve => setTimeout(resolve, 3000));
+
+                EditProfile(dispatch, formData)
+                    .then(() => {
+                        onSubmit(formData);
+                        onClose();
+                        GetCompanyProfile(dispatch);
+                        navigate('/company/profile');
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         } else {
-            console.log('No file selected. Please choose a CSV file.');
+            toast.error("No file selected. Please choose a PDF file.");
         }
     };
 
+
     return (
         <form onSubmit={handleSubmit}>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <Grid item xs={12} sm={12} container alignItems="center" gap={2}>
                 <input
                     type="file"
-                    accept=".csv"
-                    id="csv-upload-input"
+                    accept=".pdf"
+                    id="pdf-upload-input"
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
-                    name="fileUpload"
+                    name="pdf"
                 />
                 <Button
                     variant="contained"
                     size="medium"
                     style={{ backgroundColor: '#4cceac' }}
-                    onClick={() => document.getElementById('csv-upload-input').click()}
+                    onClick={() => document.getElementById('pdf-upload-input').click()}
                 >
                     Add File
                 </Button>
@@ -76,7 +92,6 @@ const AlumniCSVUpload = ({ onSubmit, onClose }) => {
         </form>
     );
 
-};
+}
 
-export default AlumniCSVUpload;
-
+export default CompanyMOAUpload

@@ -43,6 +43,7 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
+import VerifyAlumniPage from './pages/Admin/VerifyAlumni/index.js';
 
 
 const App = () => {
@@ -92,6 +93,7 @@ const App = () => {
                   <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
                   <Route path="/announcements" element={<Announcements />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/verify_alumni" element={<VerifyAlumniPage />} />
                 </Route>
               </Route>
 

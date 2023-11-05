@@ -77,3 +77,17 @@ export const EditProfile = async (dispatch, credentials) => {
         dispatch(editProfileError(error.response.data));
     }
 }
+
+export const AddMOAUpload = async (dispatch, formData) => {
+    try {
+        const response = await axiosInstance.put('/Profile-Edit', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        dispatch(editProfile(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(editProfileError(error.response.data));
+    }
+};

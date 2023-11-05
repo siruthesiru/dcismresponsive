@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate } from "react-router-dom";
-import { Dangerous } from "@mui/icons-material";
+import { ReportProblemOutlined } from "@mui/icons-material";
 
 const JobCard = ({ job }) => {
     const navigate = useNavigate();
@@ -43,18 +43,24 @@ const JobCard = ({ job }) => {
                     color="#4cceac"
                     gutterBottom
                 >
-                    {job.position}
+                    {job.position ? job.position : "Not Indicated"}
                 </Typography>
                 <Typography variant="h5" component="div">
-                    {job.description}
+                    {job.description ? job.description : "Not Indicated"}
                 </Typography>
                 <Typography sx={{ mb: "1.5rem" }} color="#4cceac">
-                    Expected Salary: ${Number(job?.salary).toFixed(2)}
+                    Expected Salary: ${job.salary ? Number(job.salary).toFixed(2) : "Not Indicated"}
                 </Typography>
-                {job?.targetSkills.map((skill) => (
-                    <Typography variant="body2">{skill}</Typography>
 
-                ))}
+                {job?.targetSkills.length > 0 ? (
+                    job?.targetSkills.map((id, skill) => (
+                        <Typography aphy key={id} variant="body2">
+                            {skill}
+                        </Typography>
+                    ))
+                ) : (
+                    <Typography variant="body2">Not Indicated</Typography>
+                )}
             </CardContent>
             <CardActions>
                 <Button
@@ -85,7 +91,7 @@ const JobCard = ({ job }) => {
                         }}
                     >
                         <Typography>
-                            Posted By: {job.companyName}
+                            Posted By: {job.company.companyName}
                             <span>
                                 {job?.company?.isVerified ? (
                                     <CheckCircleOutlineIcon
@@ -96,7 +102,7 @@ const JobCard = ({ job }) => {
                                         }}
                                     />
                                 ) : (
-                                    <Dangerous
+                                    <ReportProblemOutlined
                                         style={{
                                             marginLeft: "5px",
                                             color: "#db4f4a",
@@ -107,7 +113,10 @@ const JobCard = ({ job }) => {
                             </span>
                         </Typography>
                     </Box>
-                    <Typography>Location: {job.location}</Typography>
+                    <Typography >
+                        Company Address: {job.company.companyAddress ? job.company.companyAddress : "Not Indicated"}
+                    </Typography>
+                    <Typography>Job Location: {job.location}</Typography>
                     <Typography>Slots: {job.slots}</Typography>
                     <Typography>Years Experience: {job.yearsofExp}</Typography>
                     <Typography>Application Ends: {formattedDate}</Typography>

@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, InputAdornment, TextField } from '@mui/material';
 import { MdCalendarMonth } from 'react-icons/md';
 import { FaUserAlt } from 'react-icons/fa';
 import { Badge } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { AddAlumni, EditAlumni, GetAllAlumni, GetAlumniByID } from '../../services/admin_alumni';
+import { AddAlumni, EditAlumni, GetAlumni, GetAlumniByID, } from '../../services/admin_alumni';
 import { editAlumniError } from '../../app/alumniSlice';
 
-const programs = [
-    'Bachelor of Science in Computer Science',
-    'Bachelor of Science in Information Science',
-    'Bachelor of Science in Information Technology',
-    'Bachelor of Science in Mathematics',
-    'Bachelor of Science in Information Communication Technology',
-    'Bachelor of Science in Library Science',
-    'Bachelor of Science in Applied Mathematics',
-    'Master of Science in Mathematics'
-];
-const educationalLevels = [
-    'Tertiary',
-    'Masteral',
-    'Doctoriate'
-];
+// const programs = [
+//     'Bachelor of Science in Computer Science',
+//     'Bachelor of Science in Information Science',
+//     'Bachelor of Science in Information Technology',
+//     'Bachelor of Science in Mathematics',
+//     'Bachelor of Science in Information Communication Technology',
+//     'Bachelor of Science in Library Science',
+//     'Bachelor of Science in Applied Mathematics',
+//     'Master of Science in Mathematics'
+// ];
+// const educationalLevels = [
+//     'Tertiary',
+//     'Masteral',
+//     'Doctoriate'
+// ];
 
 const AlumniForm = ({ onSubmit, id }) => {
 
@@ -76,8 +76,9 @@ const AlumniForm = ({ onSubmit, id }) => {
                 await EditAlumni(dispatch, formData);
             } else {
                 await AddAlumni(dispatch, formData);
-                GetAllAlumni(dispatch);
             }
+            await GetAlumni(dispatch);
+
             onSubmit(formData);
         } catch (error) {
             console.error('Error:', error);
@@ -194,11 +195,11 @@ const AlumniForm = ({ onSubmit, id }) => {
                             placeholder="Program"
                             label="Program"
                             variant="outlined"
-                            autoComplete="program"
+                            autoComplete="Level"
                             fullWidth
                             required
-                            value={formData.program}
-                            onChange={(e) => setFormData({ ...formData, program: e.target.value })}
+                            value={formData.courses?.program || ''}
+                            onChange={(e) => setFormData({ ...formData, courses: { ...formData.courses, program: e.target.value } })}
                         />
                     </div>
                     <div className="mb-3 flex items-center">
@@ -238,8 +239,8 @@ const AlumniForm = ({ onSubmit, id }) => {
                             autoComplete="Level"
                             fullWidth
                             required
-                            value={formData.educationalLevel}
-                            onChange={(e) => setFormData({ ...formData, educationalLevel: e.target.value })}
+                            value={formData.courses?.educationalLevel || ''}
+                            onChange={(e) => setFormData({ ...formData, courses: { ...formData.courses, educationalLevel: e.target.value } })}
                         />
                     </div>
 

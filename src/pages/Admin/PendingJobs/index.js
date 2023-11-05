@@ -27,9 +27,11 @@ const PendingJobs = () => {
         try {
             const credentials = {
                 id: id,
-                status: true
+                status: true,
+                message: "true",
+                position: "true",
             };
-            await Verify_JobPost(dispatch, credentials, id);
+            await Verify_JobPost(dispatch, credentials);
             GetUnverifiedJobs(dispatch);
         } catch (error) {
             console.error('Error:', error);
