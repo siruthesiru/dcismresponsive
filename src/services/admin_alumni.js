@@ -47,7 +47,7 @@ export const GetAllAlumni = async (dispatch) => {
 
 export const GetAlumniByID = async (dispatch, id) => {
     try {
-        const response = await axiosInstance.get(`/Alumni/${id}`);
+        const response = await axiosInstance.get(`/Alumni/Get-Alumni/${id}`);
         dispatch(getAlumnusByID(response.data));
         return response.data;
     } catch (error) {

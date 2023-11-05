@@ -21,15 +21,24 @@ import { clearAccount } from "../../../app/authenticationSlice";
 const Profile = () => {
     const { email } = useSelector((state) => state.authentication)
     const [userData, setUserData] = useState(null);
+    const [imgSrc, setImgSrc] = useState(null);
+
     const [isEmailEdited, setIsEmailEdited] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const dispatch = useDispatch();
+    const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+
 
 
     useEffect(() => {
         const fetchProfileData = async () => {
             const profileData = await GetProfile(dispatch);
             setUserData(profileData);
+
+            if (profileData?.profileImage) {
+                const imgSrc = `data:image/jpeg;base64,${profileData.profileImage}`;
+                setCurrentlySelectedImage(imgSrc);
+            }
         };
 
         fetchProfileData();
@@ -63,7 +72,24 @@ const Profile = () => {
         }
     };
 
-    const imgSrc = userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder;
+    const handleImageInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const imageData = event.target.result;
+                setCurrentlySelectedImage(imageData);
+                setUserData({ ...userData, fileUpload: imageData });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    useEffect(() => {
+        const imgSrc = userData?.fileUpload ? userData.fileUpload : (userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder);
+        setImgSrc(imgSrc);
+    }, [userData]);
+
 
     return (
         <Box m="1.5rem 2.5rem">
@@ -83,31 +109,18 @@ const Profile = () => {
                     }}
                 >
                     {isEditing ? (
-                        <label>
+                        <label htmlFor="fileInput">
                             <input
                                 type="file"
+                                id="fileInput"
                                 accept="image/*"
                                 style={{ display: "none" }}
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        reader.onload = (event) => {
-                                            const imageData = event.target.result;
-                                            setUserData({ ...userData, profilePicture: imageData });
-                                        };
-                                        reader.readAsDataURL(file);
-                                    }
-                                }}
+                                onChange={handleImageInputChange}
                             />
                             <img
-                                src={imgSrc}
+                                src={currentlySelectedImage}
                                 alt="User Profile"
                                 style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
-                                onClick={() => {
-                                    const fileInput = document.querySelector('input[type="file"]');
-                                    fileInput.click();
-                                }}
                             />
                         </label>
                     ) : (

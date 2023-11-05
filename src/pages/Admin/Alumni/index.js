@@ -180,7 +180,7 @@ const Alumni = () => {
                 openPopup={openEditPopup}
                 setOpenup={setOpenEditPopup}
             >
-                <AlumniForm onSubmit={handleAlumni} />
+                <AlumniForm onSubmit={handleAlumni} id={selectedItemId} />
             </PopUp>
             <PopUp
                 title="UPLOAD CSV FILE"

@@ -45,7 +45,6 @@ export const companiesSlice = createSlice({
             });
             return { ...state, unverified_companies: [...unverified_companies] };
         },
-
         rejectCompany: (state, action) => {
             const unverified_companies = state.unverified_companies.map(company => {
                 if (company.id === action.payload.id) {

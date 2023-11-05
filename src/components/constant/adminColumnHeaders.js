@@ -258,21 +258,6 @@ export const verifyJobColumn = [
         headerName: "End of Application ",
         width: 200,
     },
-    {
-        //not yet included in the table
-        field: "moa",
-        headerName: "Uploaded Moa",
-        width: 300,
-        renderCell: (params) => {
-            // const file = params.row.file;
-
-            // if (file) {
-            //     return (
-            //         <FileViewer fileData={file} />
-            //     );
-            // }
-        }
-    }
 ];
 
 
