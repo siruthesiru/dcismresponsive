@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAlumniProfile } from '../../../services/alumni';
+import { GetAllEvents, GetAlumniProfile } from '../../../services/alumni';
 import AlumniUser from '../../../components/userCard/alumniCard';
 import EventsCard from '../../../components/eventsCard';
 
@@ -21,7 +21,7 @@ const AlumniEvents = () => {
         };
 
         fetchUserData();
-        //  GetAllEvents(dispatch);
+        GetAllEvents(dispatch);
     }, [dispatch]);
 
 

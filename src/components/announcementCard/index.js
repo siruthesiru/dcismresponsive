@@ -33,7 +33,7 @@ const AnnouncementCard = ({ announcement }) => {
                     <div className='text-[12px] text-justify mr-8'>
                         <label className='text-[12px] text-justify mr-8' >Announcement File:</label>
 
-                        {file ? (
+                        {file !== "NULL" ? (
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
                                 onClick={() => handleDownload(file)}

@@ -69,7 +69,7 @@ const Announcements = () => {
             renderCell: (params) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        {params.row.file ? (
+                        {params.row.file !== "NULL" ? (
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
                                 onClick={() => handleDownload(params.row.file)}

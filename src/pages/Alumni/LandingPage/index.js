@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
 import AnnouncementCard from '../../../components/announcementCard';
-import { GetAlumniProfile } from '../../../services/alumni';
+import { GetAllAnnouncements, GetAlumniProfile } from '../../../services/alumni';
 import AlumniUser from '../../../components/userCard/alumniCard';
 
 
@@ -22,7 +22,7 @@ const LandingPageAlumni = () => {
         };
 
         fetchUserData();
-        //  GetAllAnnouncements(dispatch);
+        GetAllAnnouncements(dispatch);
     }, [dispatch]);
 
 

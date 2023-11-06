@@ -51,7 +51,7 @@ const Dashboard = () => {
         number: totalAlumni,
         link: "/alumni",
         dataKey: "alumni",
-        percentage: totalAlumni / sumOfUsers * 100,
+        percentage: (totalAlumni / sumOfUsers * 100).toFixed(2),
         chartData: [
             { name: "Sun", alumni: 400 },
             { name: "Mon", alumni: 600 },
@@ -70,7 +70,7 @@ const Dashboard = () => {
         number: totalCompany,
         link: "/companies",
         dataKey: "companies",
-        percentage: totalCompany / sumOfUsers * 100,
+        percentage: (totalCompany / sumOfUsers * 100).toFixed(2),
         chartData: [
             { name: "Sun", companies: 400 },
             { name: "Mon", companies: 600 },
@@ -91,10 +91,10 @@ const Dashboard = () => {
 
     const pieGraphBox = {
         data: [
-            { course: 'Course A', employmentRate: totalBSCS },
-            { course: 'Course B', employmentRate: totalBSIT },
-            { course: 'Course C', employmentRate: totalBSIS },
-            { course: 'Course D', employmentRate: totalICT },
+            { course: 'Course BSCS', employmentRate: totalBSCS },
+            { course: 'Course BSIT', employmentRate: totalBSIT },
+            { course: 'Course BSIS', employmentRate: totalBSIS },
+            { course: 'Course BSICT', employmentRate: totalICT },
         ],
     };
 
