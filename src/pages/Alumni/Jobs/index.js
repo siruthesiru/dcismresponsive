@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { PendingData } from '../../../data/mockAlumniData';
 import Search from '../../../components/search';
-import JobContent from '../../../components/alumni-company/JobContent';
+// import JobContent from '../../../components/alumni-company/JobContent';
 import AlumniUser from '../../../components/userCard/alumniCard';
 import PendingApplication from '../../../components/alumni-company/pendingApplication';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { GetAlumniProfile } from '../../../services/alumni';
 
 const JobList = () => {
-    const jobs = useSelector((state) => state.alumniUserSlice.announcements);
+    // const jobs = useSelector((state) => state.alumniUserSlice.announcements);
 
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);

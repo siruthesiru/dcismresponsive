@@ -28,9 +28,8 @@ const Navbar = ({ user }) => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const [openUploadPopup, setOpenUploadPopup] = useState(false);
-    const [openPoup, setOpenup] = useState(false);
-    const [openEditPopup, setOpenEditPopup] = useState(false);
-
+    // const [openPoup, setOpenup] = useState(false);
+    // const [openEditPopup, setOpenEditPopup] = useState(false);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -54,10 +53,10 @@ const Navbar = ({ user }) => {
         handleMenuClose();
     };
 
-    const handleAlumni = () => {
-        setOpenup(false);
-        setOpenEditPopup(false);
-    };
+    // const handleAlumni = () => {
+    //     setOpenup(false);
+    //     setOpenEditPopup(false);
+    // };
 
     const navigate = useNavigate();
 
@@ -248,7 +247,7 @@ const Navbar = ({ user }) => {
                 openPopup={openUploadPopup}
                 setOpenup={setOpenUploadPopup}
             >
-                <CompanyMOAUpload onSubmit={handleAlumni} onClose={handleCloseUpload} />
+                <CompanyMOAUpload onClose={handleCloseUpload} />
             </PopUp>
         </Box>
     );
