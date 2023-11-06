@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
+import PopUp from '../popup';
+import CompanyMOAUpload from '../forms/CompanyMOAUpload';
 
 
 const Navbar = ({ user }) => {
@@ -25,6 +27,9 @@ const Navbar = ({ user }) => {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const [openUploadPopup, setOpenUploadPopup] = useState(false);
+    // const [openPoup, setOpenup] = useState(false);
+    // const [openEditPopup, setOpenEditPopup] = useState(false);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -42,6 +47,16 @@ const Navbar = ({ user }) => {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const handleCloseUpload = () => {
+        setOpenUploadPopup(false);
+        handleMenuClose();
+    };
+
+    // const handleAlumni = () => {
+    //     setOpenup(false);
+    //     setOpenEditPopup(false);
+    // };
 
     const navigate = useNavigate();
 
@@ -66,6 +81,12 @@ const Navbar = ({ user }) => {
             <MenuItem>
                 <Button onClick={() => navigate(`/${user}/profile`)}>My Profile</Button>
             </MenuItem>
+            {user === "company" && (
+                <MenuItem onClick={() => setOpenUploadPopup(true)}
+                >
+                    Apply Verification
+                </MenuItem>
+            )}
             <MenuItem>
                 <Button onClick={() => { dispatch(logout()) }} href="/" > Log out</Button>
             </MenuItem>
@@ -220,6 +241,14 @@ const Navbar = ({ user }) => {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
+
+            <PopUp
+                title="UPLOAD MOA FILE"
+                openPopup={openUploadPopup}
+                setOpenup={setOpenUploadPopup}
+            >
+                <CompanyMOAUpload onClose={handleCloseUpload} />
+            </PopUp>
         </Box>
     );
 };

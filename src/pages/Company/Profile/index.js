@@ -1,7 +1,7 @@
 import React from 'react'
-import JobContent from '../../../components/alumni-company/JobContent';
 import { PendingData } from '../../../data/mockAlumniData';
 import CompanyProfileCard from '../../../components/profileCard/CompanyProfileCard';
+import PendingApplication from '../../../components/alumni-company/pendingApplication';
 
 const CompanyProfile = () => {
     const pending = PendingData[0];
@@ -14,7 +14,7 @@ const CompanyProfile = () => {
 
                 </div>
                 <div className="sm:w-[40%]">
-                    <JobContent data={pending} />
+                    <PendingApplication data={pending} />
                 </div>
             </div>
         </div>

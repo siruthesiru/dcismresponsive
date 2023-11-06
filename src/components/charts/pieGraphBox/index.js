@@ -3,12 +3,6 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 import './index.scss'
 
-const data = [
-    { course: 'Course A', employmentRate: 80 },
-    { course: 'Course B', employmentRate: 70 },
-    { course: 'Course C', employmentRate: 65 },
-    { course: 'Course D', employmentRate: 90 },
-];
 
 const COLORS = ['#5164de', '#5A6ACF', '#8593ED', '#C7CEFF'];
 
@@ -25,7 +19,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-const PieGraphBox = () => {
+const PieGraphBox = ({ data }) => {
     return (
         <div className='pieGraphBox'>
             <div className='infoBox'>
@@ -67,7 +61,7 @@ const PieGraphBox = () => {
                 </div>
             </div>
             <div className='description'>
-                <p>Lorem ipsum this would be a text</p>
+                <p>This shows the employment rate of each program offered by the department</p>
             </div>
         </div>
     )

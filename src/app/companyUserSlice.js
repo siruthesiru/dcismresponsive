@@ -4,7 +4,9 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 export const getAnnouncementsError = createAction('getAnnouncementsError');
 export const getCompanyProfileError = createAction('getCompanyProfileError');
 export const getEventsError = createAction('getEventsError');
+export const getJobsError = createAction('getJobsError');
 export const editProfileError = createAction('editProfileError');
+export const addJobPostError = createAction('addJobPostError');
 
 
 export const companyUserSlice = createSlice({
@@ -14,6 +16,7 @@ export const companyUserSlice = createSlice({
         companyProfile: null,
         events: [],
         errorMessage: null,
+        jobPost: [],
     },
     reducers: {
         getAnnouncements: (state, action) => {
@@ -24,6 +27,12 @@ export const companyUserSlice = createSlice({
         },
         getCompanyProfile: (state, action) => {
             return { ...state, companyProfile: { ...action.payload } };
+        },
+        getJobs: (state, action) => {
+            return { ...state, jobPost: { ...action.payload } };
+        },
+        addJobPost: (state, action) => {
+            return { ...state, jobPost: [action.payload, ...state.jobPost] };
         },
         setErrorMessage: (state, action) => {
             return { ...state, errorMessage: action.payload };
@@ -43,6 +52,6 @@ export const companyUserSlice = createSlice({
     }
 });
 
-export const { getAnnouncements, setErrorMessage, clearErrorMessage, getCompanyProfile, getEvents, editProfile } = companyUserSlice.actions;
+export const { getAnnouncements, getJobs, setErrorMessage, clearErrorMessage, getCompanyProfile, getEvents, editProfile, addJobPost } = companyUserSlice.actions;
 
 export default companyUserSlice.reducer;

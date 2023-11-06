@@ -4,6 +4,30 @@ import placeholder from "../../assets/placeholder.png";
 
 const EventsCard = ({ events }) => {
     const { title, start, end, venue, description } = events;
+
+    const startUTC = new Date(start);
+    const endUTC = new Date(end);
+
+    startUTC.setHours(startUTC.getHours() + 8);
+    endUTC.setHours(endUTC.getHours() + 8);
+
+    const formattedStart = startUTC.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+    const formattedEnd = endUTC.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+
     const parser = new DOMParser();
     const doc = parser.parseFromString(description, 'text/html');
     const imgSrc = doc.querySelector('img')?.getAttribute('src');
@@ -19,12 +43,15 @@ const EventsCard = ({ events }) => {
                         Venue <span className='font-bold'>{venue}</span>
                     </p>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        Start <span className='font-bold'>{start}</span>
+                        Start <span className='font-bold'>{formattedStart}</span>
                     </p>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        End: <span className='font-bold'>{end}</span>
+                        End: <span className='font-bold'>{formattedEnd}</span>
                     </p>
-                    <div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />
+                    <p className='text-[10px] text-slate-500 mb-4'>
+                        Desciption: <span className='font-bold'><div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />
+                        </span>
+                    </p>
                 </div>
                 {noMediaAvailable && (
                     <div className='mx-auto mt-4 sm:mt-0 items-center sm:w-[30%]'>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import EventsCard from '../../../components/eventsCard';
-import { GetCompanyProfile } from '../../../services/company';
+import { GetAllEvents, GetCompanyProfile } from '../../../services/company';
 import CompanyUser from '../../../components/userCard/companyCard';
 
 const CompanyEvents = () => {
-    const events = useSelector((state) => state.alumniUserSlice.events);
+    const events = useSelector((state) => state.companyUserSlice.events);
 
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
@@ -21,7 +21,7 @@ const CompanyEvents = () => {
         };
 
         fetchUserData();
-        //  GetAllEvents(dispatch);
+        GetAllEvents(dispatch);
     }, [dispatch]);
 
 

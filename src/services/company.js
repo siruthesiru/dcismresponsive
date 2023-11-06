@@ -1,5 +1,5 @@
 import axios from "axios";
-import { editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, setErrorMessage } from "../app/companyUserSlice";
+import { addJobPost, addJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Company`,
@@ -47,6 +47,17 @@ export const GetAllEvents = async (dispatch) => {
     }
 }
 
+export const GetAllJobs = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Jobs');
+        dispatch(getJobs(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobsError())
+    }
+}
+
+
 export const EditProfile = async (dispatch, credentials) => {
     try {
         const formData = new FormData();
@@ -77,3 +88,28 @@ export const EditProfile = async (dispatch, credentials) => {
         dispatch(editProfileError(error.response.data));
     }
 }
+
+export const AddMOAUpload = async (dispatch, formData) => {
+    try {
+        const response = await axiosInstance.put('/Profile-Edit', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        dispatch(editProfile(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(editProfileError(error.response.data));
+    }
+};
+
+export const PostJob = async (dispatch, job) => {
+    try {
+        const response = await axiosInstance.post('/Jobs/Create-Job', job)
+        dispatch(addJobPost(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(addJobPostError(error.response.data));
+    }
+}
+

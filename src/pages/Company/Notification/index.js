@@ -1,8 +1,8 @@
 import React from 'react'
 import { NotifData, PendingData, UserCardData } from '../../../data/mockAlumniData';
 import CompanyCard from '../../../components/alumni-company/CompanyCard';
-import JobContent from '../../../components/alumni-company/JobContent';
 import NotificationContent from '../../../components/alumni-company/NotificationContent';
+import PendingApplication from '../../../components/alumni-company/pendingApplication';
 
 const CompanyNotification = () => {
     const user = UserCardData[0];
@@ -24,7 +24,7 @@ const CompanyNotification = () => {
                 </div>
 
                 <div className='sm:w-[25%]'>
-                    <JobContent data={pending} />
+                    <PendingApplication data={pending} />
                 </div>
 
             </div>

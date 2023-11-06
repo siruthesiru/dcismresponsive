@@ -32,7 +32,7 @@ const Companies = () => {
         {
             field: 'moa',
             headerName: 'Uploaded Moa',
-            flex: 1,
+            width: 150,
             renderCell: (params) => {
                 return (
                     <div style={{ display: "flex", alignItems: "center" }}>

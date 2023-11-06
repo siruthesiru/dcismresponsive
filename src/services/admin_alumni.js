@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-    getAlumni,
     getAlumnusByID,
     addAlumni,
     editAlumni,
@@ -13,6 +12,9 @@ import {
     getProfileError,
     editProfile,
     editProfileError,
+    getVerifiedAlumni,
+    deleteVerifyAlumni,
+    getUnVerifiedAlumni,
 } from '../app/alumniSlice'
 
 const axiosInstance = axios.create({
@@ -35,31 +37,32 @@ export const GetProfile = async (dispatch) => {
     }
 };
 
-export const GetAllAlumni = async (dispatch) => {
+export const GetAlumni = async (dispatch, isVerified) => {
     try {
         const response = await axiosInstance.get('/Alumni');
-        dispatch(getAlumni(response.data))
+        dispatch(getVerifiedAlumni(response.data.verifiedAlumni));
+        dispatch(getUnVerifiedAlumni(response.data.alumniToVerify));
+
     } catch (error) {
         console.error('Error:', error);
-        dispatch(getAllAlumniError())
+        dispatch(getAllAlumniError('Error fetching alumni data.'));
     }
 }
 
 export const GetAlumniByID = async (dispatch, id) => {
     try {
-        const response = await axiosInstance.get(`/Alumni/${id}`);
+        const response = await axiosInstance.get(`/Alumni/Get-Alumni/${id}`);
         dispatch(getAlumnusByID(response.data));
         return response.data;
     } catch (error) {
         console.error('Error:', error);
-        dispatch(getAlumni());
+        dispatch(getAllAlumniError());
     }
 }
 
 export const AddAlumni = async (dispatch, alumni) => {
     try {
         const response = await axiosInstance.post('/Alumni/Add-Alumni', alumni)
-        console.log(response.data);
         dispatch(addAlumni(response.data));
     } catch (error) {
         console.error('Error:', error);
@@ -92,21 +95,9 @@ export const VerifyAlumni = async (dispatch, credentials) => {
     }
 }
 
-export const EditAlumni = async (dispatch, alumni, id) => {
+export const EditAlumni = async (dispatch, alumni) => {
     try {
-        const formData = new FormData();
-        for (const key in alumni) {
-            if (key === 'file' && alumni[key]) {
-                formData.append(key, alumni[key]);
-            } else {
-                formData.append(key, alumni[key]);
-            }
-        }
-        const response = await axiosInstance.put(`/Alumni/Update/${id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+        const response = await axiosInstance.put('/Alumni/Edit-Alumni', alumni)
         dispatch(editAlumni(response.data));
     } catch (error) {
         console.error('Error:', error);
@@ -118,6 +109,16 @@ export const DeleteAlumni = async (dispatch, id) => {
     try {
         await axiosInstance.delete(`Alumni/Reject-Alumni/${id}`);
         dispatch(deleteAlumni(id));
+    } catch (error) {
+        console.error('Error deleting alumni:', error);
+        dispatch(deleteAlumniError());
+    }
+}
+
+export const DeleteAlumniVerify = async (dispatch, id) => {
+    try {
+        await axiosInstance.delete(`Alumni/Reject-Alumni/${id}`);
+        dispatch(deleteVerifyAlumni(id));
     } catch (error) {
         console.error('Error deleting alumni:', error);
         dispatch(deleteAlumniError());

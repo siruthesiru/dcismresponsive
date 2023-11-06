@@ -1,5 +1,5 @@
 import axios from "axios";
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import {
     getCompanies,
@@ -13,7 +13,7 @@ import {
     getPostError,
     getUnverifiedPost,
     verifyPost,
-    //  rejectPost
+    rejectPost
 } from '../app/companiesSlice'
 
 const axiosInstance = axios.create({
@@ -91,7 +91,7 @@ export const GetUnverifiedJobs = async (dispatch) => {
 
 export const Verify_JobPost = async (dispatch, credentials) => {
     try {
-        const response = await axiosInstance.put('/Company/Job-Posting', credentials)
+        const response = await axiosInstance.put('/Company/Verify-Job-Posting', credentials)
         dispatch(verifyPost(response.data));
     } catch (error) {
         console.error('Error:', error);
@@ -99,13 +99,13 @@ export const Verify_JobPost = async (dispatch, credentials) => {
     }
 }
 
-// export const RejectJobPost = async (dispatch, id) => {
-//     try {
-//         await axiosInstance.delete(`Company/Delete/${id}`);
-//         dispatch(rejectPost(id));
-//         toast.success('Announcement deleted successfully');
-//     } catch {
-//         dispatch(rejectCompanyError());
-//         toast.error('An error occurred while deleting the announcement');
-//     }
-// }
+export const RejectJobPost = async (dispatch, id) => {
+    try {
+        await axiosInstance.delete(`/Company/Reject-Job-Posting/${id}`);
+        dispatch(rejectPost(id));
+        toast.success('Announcement deleted successfully');
+    } catch {
+        dispatch(rejectCompanyError());
+        toast.error('An error occurred while deleting the announcement');
+    }
+}

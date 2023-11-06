@@ -1,4 +1,4 @@
-import React,  { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './index.scss'
 import TopBox from '../../../components/charts/topBox'
 import { Box, Button } from '@mui/material';
@@ -17,7 +17,10 @@ import companyIcon from '../../../assets/companyIcon.svg'
 
 const Dashboard = () => {
     const dispatch = useDispatch();
-    const { totalAlumni, totalCompany, sumOfUsers } = useSelector((state) => state.adminDashboard);
+    const { totalAlumni, totalCompany, sumOfUsers, totalEmployed, totalUnEmployed, commonJobs, totalBSIT, totalBSCS, totalBSIS, totalICT } = useSelector((state) => state.adminDashboard);
+
+    console.log(commonJobs);
+
     useEffect(() => {
         getStatistics(dispatch);
     }, [dispatch])
@@ -48,7 +51,7 @@ const Dashboard = () => {
         number: totalAlumni,
         link: "/alumni",
         dataKey: "alumni",
-        percentage: totalAlumni/sumOfUsers*100,
+        percentage: (totalAlumni / sumOfUsers * 100).toFixed(2),
         chartData: [
             { name: "Sun", alumni: 400 },
             { name: "Mon", alumni: 600 },
@@ -67,7 +70,7 @@ const Dashboard = () => {
         number: totalCompany,
         link: "/companies",
         dataKey: "companies",
-        percentage: totalCompany/sumOfUsers*100,
+        percentage: (totalCompany / sumOfUsers * 100).toFixed(2),
         chartData: [
             { name: "Sun", companies: 400 },
             { name: "Mon", companies: 600 },
@@ -76,6 +79,22 @@ const Dashboard = () => {
             { name: "Thu", companies: 400 },
             { name: "Fri", companies: 500 },
             { name: "Sat", companies: 450 },
+        ],
+    };
+
+    const pieChartBox = {
+        data: [
+            { name: "Employed", value: totalEmployed, color: "#5A6ACF" },
+            { name: "Unemployed", value: totalUnEmployed, color: "#8593ED" },
+        ],
+    };
+
+    const pieGraphBox = {
+        data: [
+            { course: 'Course BSCS', employmentRate: totalBSCS },
+            { course: 'Course BSIT', employmentRate: totalBSIT },
+            { course: 'Course BSIS', employmentRate: totalBSIS },
+            { course: 'Course BSICT', employmentRate: totalICT },
         ],
     };
 
@@ -103,13 +122,13 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className=' box box2'>
-                        <PieChartBox />
+                        <PieChartBox {...pieChartBox} />
                     </div>
                     <div className=' box box2'>
-                        <PieGraphBox />
+                        <PieGraphBox {...pieGraphBox} />
                     </div>
                     <div className=' box box2'>
-                        <TopBox />
+                        <TopBox data={commonJobs} />
                     </div>
                     <div className=' box box2'>
                         <LineChartBox />

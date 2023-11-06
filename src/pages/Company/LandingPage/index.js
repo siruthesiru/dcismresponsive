@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import AnnouncementCard from '../../../components/announcementCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCompanyProfile } from '../../../services/company';
+import { GetAllAnnouncements, GetCompanyProfile } from '../../../services/company';
 import CompanyUser from '../../../components/userCard/companyCard';
 
 const LandingPageCompany = () => {
     const announcements = useSelector((state) => state.companyUserSlice.announcements);
-
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
 
@@ -21,10 +20,8 @@ const LandingPageCompany = () => {
         };
 
         fetchUserData();
-        //  GetAllAnnouncements(dispatch);
+        GetAllAnnouncements(dispatch);
     }, [dispatch]);
-
-    console.log(userData);
 
     return (
         <div className='bg-slate-100 min-h-screen'>

@@ -36,6 +36,19 @@ export const GetAllAnnouncements = async (dispatch) => {
     }
 }
 
+export const GetAllJobs = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Announcements');
+        const announcements = response.data.filter(announcement => {
+            return announcement.audience === "Alumni" || announcement.audience === "All";
+        });
+        dispatch(getAnnouncements(announcements));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getAnnouncementsError())
+    }
+}
+
 export const GetAllEvents = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Events');

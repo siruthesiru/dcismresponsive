@@ -4,9 +4,9 @@ import Header from "../../../components/header";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
-import { DeleteOutline, EditNote, ThumbUpAlt } from "@mui/icons-material";
+import { DeleteOutline, EditNote } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteAlumni, GetAllAlumni, VerifyAlumni } from "../../../services/admin_alumni";
+import { DeleteAlumni, GetAlumni } from "../../../services/admin_alumni";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
 import { ToastContainer } from 'react-toastify';
@@ -16,7 +16,7 @@ import DataTable from "../../../components/dataTable";
 import AlumniCSVUpload from "../../../components/forms/AlumniCSVUpload";
 
 const Alumni = () => {
-    const alumni = useSelector((state) => state.alumniSlice.alumni);
+    const verifiedAlumni = useSelector((state) => state.alumniSlice.verifiedAlumni);
     const dispatch = useDispatch();
 
     const [openPopup, setOpenup] = useState(false);
@@ -27,16 +27,16 @@ const Alumni = () => {
     const [deleteOccurred, setDeleteOccurred] = useState(false);
 
     useEffect(() => {
-        GetAllAlumni(dispatch)
+        GetAlumni(dispatch)
     }, [dispatch])
 
-    const uniqueAlumni = alumni.map((alumnus, index) => {
+    const uniqueAlumni = verifiedAlumni.map((alumnus, index) => {
         return { ...alumnus, id: alumnus.id || index + 1 };
     });
 
     useEffect(() => {
         if (deleteOccurred) {
-            GetAllAlumni(dispatch);
+            GetAlumni(dispatch);
             setDeleteOccurred(false);
         }
     }, [deleteOccurred, dispatch]);
@@ -64,23 +64,11 @@ const Alumni = () => {
 
     useEffect(() => {
         if (deleteOccurred) {
-            GetAllAlumni(dispatch);
+            GetAlumni(dispatch);
             setDeleteOccurred(false);
         }
     }, [deleteOccurred, dispatch]);
 
-    const handleVerifyAlumni = async (id) => {
-        try {
-            const credentials = {
-                id: id,
-                isVerified: true
-            };
-            await VerifyAlumni(dispatch, credentials);
-            GetAllAlumni(dispatch);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
 
     const ActionColumn = {
         field: "action",
@@ -89,17 +77,6 @@ const Alumni = () => {
         renderCell: (params) => {
             return (
                 <Box display="flex" gap="10px">
-                    <IconButton
-                        onClick={() => handleVerifyAlumni(params.row.id)}
-                        disabled={params.row.isVerified}
-                    >
-                        <ThumbUpAlt
-                            style={{
-                                fontSize: "20px",
-                                color: params.row.isVerified ? "#aaa" : "#4cceac",
-                            }}
-                        />
-                    </IconButton>
 
                     <IconButton onClick={() => {
                         setSelectedItemId(params.row.id);
@@ -129,6 +106,7 @@ const Alumni = () => {
         },
     };
 
+
     return (
         <>
             <Box m="1.5rem 2.5rem">
@@ -156,7 +134,7 @@ const Alumni = () => {
                     </Box>
                 </Box>
                 <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
-                    {alumni.length === 0 ? (
+                    {verifiedAlumni.length === 0 ? (
                         <Typography>No Data Available</Typography>
                     ) : (
                         <DataTable
@@ -180,7 +158,7 @@ const Alumni = () => {
                 openPopup={openEditPopup}
                 setOpenup={setOpenEditPopup}
             >
-                <AlumniForm onSubmit={handleAlumni} />
+                <AlumniForm onSubmit={handleAlumni} id={selectedItemId} />
             </PopUp>
             <PopUp
                 title="UPLOAD CSV FILE"

@@ -92,7 +92,6 @@ export const EditAnnouncement = async (dispatch, announcement, id) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        console.log(response.data);
         if (response.data.isEditSucceed) {
             dispatch(editAnnouncement(response.data));
         } else {

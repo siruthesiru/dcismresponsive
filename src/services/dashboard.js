@@ -13,15 +13,15 @@ axiosInstance.interceptors.request.use((config) => {
 export const getStatistics = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Statistics');
-        console.log(response);
-        console.log(response.data);
         dispatch(
             adminDashboard({
                 totalAlumni: response.data.totalAlumni,
                 totalCompany: response.data.totalCompany,
+                totalEmployed: response.data.totalEmployed,
+                totalUnEmployed: response.data.totalUnEmployed,
                 sumOfUsers: response.data.sumOfUsers,
                 message: response.data.message,
-                
+
                 firstData: response.data.firstData,
                 secondData: response.data.secondData,
                 thirdData: response.data.thirdData,
@@ -29,6 +29,12 @@ export const getStatistics = async (dispatch) => {
                 fifthData: response.data.fifthData,
                 sixData: response.data.sixData,
                 sevenData: response.data.sevenData,
+                totalBSIT: response.data.totalBSIT,
+                totalBSCS: response.data.totalBSCS,
+                totalBSIS: response.data.totalBSIS,
+                totalICT: response.data.totalICT,
+                commonJobs: response.data.commonJobs
+
             })
         );
     } catch (error) {

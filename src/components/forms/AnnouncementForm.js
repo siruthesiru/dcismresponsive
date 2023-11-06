@@ -79,7 +79,6 @@ const AnnouncementForm = () => {
         }
     };
 
-    console.log(formData);
 
     return (
         <Box m="1rem 2.5rem">

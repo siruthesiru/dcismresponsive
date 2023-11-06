@@ -3,9 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     totalAlumni: localStorage.getItem('totalAlumni') || 0,
     totalCompany: localStorage.getItem('totalCompany') || 0,
+    totalEmployed: localStorage.getItem('totalEmployed') || 0,
+    totalUnemployed: localStorage.getItem('totalEmployed') || 0,
     screenTopumOfUsers: localStorage.getItem('sumOfUsers') || 0,
     message: localStorage.getItem('message') || null,
-    
+
     firstData: localStorage.getItem('firstData') || 0,
     secondData: localStorage.getItem('secondData') || 0,
     thirdData: localStorage.getItem('thirdData') || 0,
@@ -13,6 +15,11 @@ const initialState = {
     fifthData: localStorage.getItem('fifthData') || 0,
     sixData: localStorage.getItem('sixData') || 0,
     sevenData: localStorage.getItem('sevenData') || 0,
+    commonJobs: [],
+    totalBSIT: localStorage.getItem('totalBSIT') || 0,
+    totalBSCS: localStorage.getItem('totalBSCS') || 0,
+    totalBSIS: localStorage.getItem('totalBSIS') || 0,
+    totalICT: localStorage.getItem('totalICT') || 0,
 };
 
 export const adminDashboardSlice = createSlice({
@@ -22,6 +29,8 @@ export const adminDashboardSlice = createSlice({
         adminDashboard: (state, action) => {
             localStorage.setItem('totalAlumni', action.payload.totalAlumni);
             localStorage.setItem('totalCompany', action.payload.totalCompany);
+            localStorage.setItem('totalEmployed', action.payload.totalEmployed);
+            localStorage.setItem('totalUnemployed', action.payload.totalUnemployed);
             localStorage.setItem('sumOfUsers', action.payload.sumOfUsers);
             localStorage.setItem('message', action.payload.message);
 
@@ -32,10 +41,12 @@ export const adminDashboardSlice = createSlice({
             localStorage.setItem('fifthData', action.payload.fifthData);
             localStorage.setItem('sixData', action.payload.sixData);
             localStorage.setItem('sevenData', action.payload.sevenData);
-            
+
 
             state.totalAlumni = action.payload.totalAlumni;
             state.totalCompany = action.payload.totalCompany;
+            state.totalEmployed = action.payload.totalEmployed;
+            state.totalUnemployed = action.payload.totalUnemployed;
             state.sumOfUsers = action.payload.sumOfUsers
             state.message = action.payload.message;
 
@@ -46,6 +57,11 @@ export const adminDashboardSlice = createSlice({
             state.fifthData = action.payload.fifthData;
             state.sixData = action.payload.sixData;
             state.sevenData = action.payload.sevenData;
+            state.commonJobs = action.payload.commonJobs;
+            state.totalBSIT = action.payload.sevenData;
+            state.totalBSCS = action.payload.totalBSCS;
+            state.totalBSIS = action.payload.totalBSIS;
+            state.totalICT = action.payload.totalICT;
         },
         adminDashboardError: (state, action) => {
             state.message = action.payload.message;

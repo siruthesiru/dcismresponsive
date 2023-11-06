@@ -1,10 +1,9 @@
 import React from 'react';
-import { TopJobs } from '../../../data/mockDashboardData';
 
 import './index.scss';
 
-const TopBox = () => {
-    const top5Jobs = TopJobs.slice(0, 5); // Get the first 5 jobs
+const TopBox = ({ data }) => {
+    const top5Jobs = data ? data.slice(0, 5) : [];
 
     return (
         <div className='topBox'>
@@ -16,12 +15,12 @@ const TopBox = () => {
                     <div className='listItem' key={job.id}>
                         <span className='position'>{job.position}</span>
                         <div className='details'>
-                            <span className='hired'>{`${job.hired} Hired`}</span>
-                            <span className='slot'>{`${job.slot} Slot `}</span>
+                            <span className='invites'>{`${job?.totalNumberOfInvites ?? 0} Candidates`}</span>
+                            <span className='slots'>{`${job.slots} Slot `}</span>
                         </div>
                     </div>
                 ))}
-                {TopJobs.length > 5 && ( // Display "View All" link if more than 5 jobs
+                {top5Jobs.length > 5 && (
                     <div className='listItem'>
                         <a href="/jobs">View All</a>
                     </div>
