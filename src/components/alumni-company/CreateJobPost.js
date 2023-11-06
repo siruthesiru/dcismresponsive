@@ -1,44 +1,73 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import RichTextEditor from '../forms/RichTextEditor';
+import { useDispatch } from 'react-redux';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { PostJob } from '../../services/company';
 
 const CreateJobPost = () => {
     const [formData, setFormData] = useState({
         position: '',
+        description: '',
         location: '',
-        yearsExperience: '',
         salary: '',
+        yearsOfExp: '',
         slots: '',
-        address: '',
-        scheduledInterviewDate: '',
-        scheduledInterviewTime: '',
-        endDate: '',
-        content: '',
+        requiredResume: 'true',
+        expiration_Date: '',
+        targetSkills: [
+            {
+                skill: '',
+            },
+        ]
     });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const combineDateAndTime = () => {
-        if (formData.scheduledInterviewDate && formData.scheduledInterviewTime) {
-            const date = new Date(formData.scheduledInterviewDate);
-            const time = new Date(`1970-01-01T${formData.scheduledInterviewTime}`);
-            // Combine the date and time
-            const scheduledInterview = new Date(date.getTime() + time.getTime());
 
-            // Now 'scheduledInterview' is a valid datetime
-            setFormData({ ...formData, scheduledInterview });
-        }
+    const handleSkillChange = (e, index) => {
+        const { value } = e.target;
+        const updatedSkills = [...formData.targetSkills];
+        updatedSkills[index].skill = value;
+        setFormData({ ...formData, targetSkills: updatedSkills });
     };
 
-    const handleSubmit = () => {
-        combineDateAndTime();
-        // Now 'formData.scheduledInterview' contains the datetime value
-        // You can send this data to the backend
+    const removeSkill = (index) => {
+        const updatedSkills = [...formData.targetSkills];
+        updatedSkills.splice(index, 1);
+        setFormData({ ...formData, targetSkills: updatedSkills });
+    };
+
+    const addSkill = () => {
+        setFormData({
+            ...formData,
+            targetSkills: [
+                ...formData.targetSkills,
+                {
+                    skill: '',
+                },
+            ],
+        });
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        await PostJob(dispatch, formData);
+        toast.success("Job Post added successfully");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        navigate('/company/jobs');
     };
 
     return (
         <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
             <h1 className="font-bold text-[15px] uppercase ">CREATE NEW LISTING</h1>
             <p className="text-slate-500 text-[12px]">Post a new job offer for the Alumni of the University of San Carlos</p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleFormSubmit}>
+                <ToastContainer position="top-right" autoClose={3000} />
+
                 <div className="flex flex-col text-[12px] space-y-2">
                     <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
                         <div className="flex items-center">
@@ -66,10 +95,10 @@ const CreateJobPost = () => {
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Years of Experience: </label>
                             <input
-                                type="number"
+                                type="text"
                                 placeholder='2 years'
-                                value={formData.yearsExperience}
-                                onChange={(e) => setFormData({ ...formData, yearsExperience: e.target.value })}
+                                value={formData.yearsOfExp}
+                                onChange={(e) => setFormData({ ...formData, yearsOfExp: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
                             />
@@ -100,24 +129,69 @@ const CreateJobPost = () => {
                             <label className="text-[12px] w-[90px]">End of Posting: </label>
                             <input
                                 type="date"
-                                value={formData.endDate}
-                                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })
+                                value={formData.expiration_Date}
+                                onChange={(e) => setFormData({ ...formData, expiration_Date: e.target.value })
                                 }
                                 className="w-[100px] h-[30px] bg-white border border-slate-200 p-2 rounded-md"
                             />
                         </div>
+                        <div className="flex items-center my-2">
+                            <label className="text-[12px] w-[90px]">Required Resume: </label>
+                            <select
+                                value={formData.requiredResume}
+                                onChange={(e) => setFormData({ ...formData, requiredResume: e.target.value })}
+                                className="w-[100px] h-[30px] bg-white border border-slate-200  rounded-md"
+                            >
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+                        </div>
+
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[90px]">Target Skills: </label>
+                            <div className="flex flex-col my-2">
+                                {formData.targetSkills.map((skillObj, index) => (
+                                    <div key={index} className="flex items-center my-2">
+                                        <input
+                                            type="text"
+                                            placeholder="Enter a skill"
+                                            value={skillObj.skill}
+                                            onChange={(e) => handleSkillChange(e, index)}
+                                            className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                        />
+                                        {index > 0 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => removeSkill(index)}
+                                                className="text-red-600 ml-2"
+                                            >
+                                                Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={addSkill}
+                                    className="text-blue-600 mt-2"
+                                >
+                                    Add Skill
+                                </button>
+                            </div>
+                        </div>
+
 
                         <div className="flex items-center my-4">
                             <label className="text-[12px] w-[100px]">Description: </label>
                             <div style={{ flex: 1 }}>
-                                <RichTextEditor value={formData.content} onChange={(value) => setFormData({ ...formData, content: value })} />
+                                <RichTextEditor value={formData.description} onChange={(value) => setFormData({ ...formData, description: value })} />
                             </div>
                         </div>
 
                         <div className="flex items-center px-6 mt-20">
                             <div className='flex gap-10 flex-1 justify-end'>
                                 <Button
-                                    type="button"
+                                    type="submit"
                                     variant="contained"
                                     style={{
                                         display: "block",
@@ -126,9 +200,9 @@ const CreateJobPost = () => {
                                         color: "#FFFFFF",
                                     }}
                                 >
-                                    Submit Application
+                                    Submit Post
                                 </Button>
-                                <Button
+                                {/* <Button
                                     type="button"
                                     variant="contained"
                                     style={{
@@ -139,7 +213,7 @@ const CreateJobPost = () => {
                                     }}
                                 >
                                     Discard Application
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </div>

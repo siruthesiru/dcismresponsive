@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, CardMedia, Typography } from "@mui/material";
+import { Button, CardMedia } from "@mui/material";
 import placeholder from "../../assets/placeholder.webp";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
