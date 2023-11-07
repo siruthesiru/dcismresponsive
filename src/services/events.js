@@ -53,7 +53,6 @@ export const AddEvent = async (dispatch, event) => {
             dispatch(addEvent(response.data));
             toast.success('Event added successfully');
         } else {
-            console.log(response.data);
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
 

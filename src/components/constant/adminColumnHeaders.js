@@ -137,7 +137,7 @@ export const alumniColumns = [
         headerName: "Program",
         width: 150,
         renderCell: (params) => {
-            const program = params.row.courses ? params.row.courses.program : "No Program Indicated";
+            const program = params.row.courses ? params.row.courses.programCode : "No Program Indicated";
             return (
                 <div>
                     {program}
@@ -308,7 +308,7 @@ export const verifyJobColumn = [
     },
     {
         field: "email",
-        headerName: "Company Name",
+        headerName: "Email",
         width: 200,
         valueGetter: (params) => {
             if (params.row.company && params.row.company.email) {

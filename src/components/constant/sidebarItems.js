@@ -50,10 +50,6 @@ export const navItems = [
         icon: <Diversity3 />,
     },
     {
-        text: "Verify Alumni",
-        icon: <Diversity3 />,
-    },
-    {
         text: "Others",
         icon: null,
     },

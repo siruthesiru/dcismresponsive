@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 import {
     getAlumnusByID,
     addAlumni,
@@ -12,9 +14,9 @@ import {
     getProfileError,
     editProfile,
     editProfileError,
-    getVerifiedAlumni,
+    getAlumni,
     deleteVerifyAlumni,
-    getUnVerifiedAlumni,
+    setErrorMessage,
 } from '../app/alumniSlice'
 
 const axiosInstance = axios.create({
@@ -26,7 +28,7 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-export const GetProfile = async (dispatch) => {
+export const GetAdminProfile = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Profile');
         dispatch(getProfile(response.data));
@@ -37,17 +39,17 @@ export const GetProfile = async (dispatch) => {
     }
 };
 
-export const GetAlumni = async (dispatch, isVerified) => {
+export const GetAlumni = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Alumni');
-        dispatch(getVerifiedAlumni(response.data.verifiedAlumni));
-        dispatch(getUnVerifiedAlumni(response.data.alumniToVerify));
-
+        dispatch(getAlumni(response.data));
     } catch (error) {
         console.error('Error:', error);
         dispatch(getAllAlumniError('Error fetching alumni data.'));
     }
 }
+
+
 
 export const GetAlumniByID = async (dispatch, id) => {
     try {
@@ -63,7 +65,13 @@ export const GetAlumniByID = async (dispatch, id) => {
 export const AddAlumni = async (dispatch, alumni) => {
     try {
         const response = await axiosInstance.post('/Alumni/Add-Alumni', alumni)
-        dispatch(addAlumni(response.data));
+        if (response.data.isPostSucceed) {
+            dispatch(addAlumni(response.data));
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(addAlumniError(error.response.data));
@@ -125,7 +133,7 @@ export const DeleteAlumniVerify = async (dispatch, id) => {
     }
 }
 
-export const EditProfile = async (dispatch, credentials) => {
+export const EditAdminProfile = async (dispatch, credentials) => {
     try {
         const formData = new FormData();
         for (const key in credentials) {
@@ -140,7 +148,16 @@ export const EditProfile = async (dispatch, credentials) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        dispatch(editProfile(response.data));
+
+        if (response.data.isEditSucceed) {
+            dispatch(editProfile(response.data));
+            toast.success(response.data.message);
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+
+        return response.data.isEditSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(editProfileError(error.response.data));

@@ -16,12 +16,10 @@ import {
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
 import placeholder from "../../assets/placeholder.webp";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
-const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    const { firstName, lastName } = useSelector(state => state.authentication)
-
+const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
     const dispatch = useDispatch();
 
 
@@ -46,13 +44,6 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-                    {/* <IconButton onClick={colorMode.toggleColorMode}>
-                        {theme.palette.mode === "light" ? (
-                            <LightModeOutlined />
-                        ) : (
-                            <DarkModeOutlined />
-                        )}
-                    </IconButton> */}
                     <IconButton>
                         <NotificationsOutlined />
                     </IconButton>
@@ -67,19 +58,17 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             }}
                         >
                             <img
-                                alt="profile"
-                                src={placeholder}
-                                height="32px"
-                                width="32px"
-                                style={{ borderRadius: "50%", objectFit: "cover" }}
+                                src={user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : placeholder}
+                                alt="placeholder"
+                                className="w-[40px] h-[40px] rounded-full border border-slate-300 "
                             />
 
                             <Typography
                                 fontWeight="bold"
                                 fontSize="0.85rem"
-                                className="capitalize"
+                                padding="5px"
                             >
-                                {firstName} {lastName}
+                                {user?.firstName} {user?.lastName}
                             </Typography>
 
                             <ArrowDropDownOutlined

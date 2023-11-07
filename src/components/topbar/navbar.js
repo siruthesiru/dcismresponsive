@@ -12,14 +12,14 @@ import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign,
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router';
 import PopUp from '../popup';
 import CompanyMOAUpload from '../forms/CompanyMOAUpload';
+import placeholder from "../../assets/placeholder.webp";
+import { useNavigate } from "react-router-dom";
+
 
 
 const Navbar = ({ user }) => {
-
-    const { firstName, lastName } = useSelector(state => state.authentication)
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -28,8 +28,8 @@ const Navbar = ({ user }) => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const [openUploadPopup, setOpenUploadPopup] = useState(false);
-    // const [openPoup, setOpenup] = useState(false);
-    // const [openEditPopup, setOpenEditPopup] = useState(false);
+    const [openPoup, setOpenup] = useState(false);
+    const [openEditPopup, setOpenEditPopup] = useState(false);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -53,10 +53,10 @@ const Navbar = ({ user }) => {
         handleMenuClose();
     };
 
-    // const handleAlumni = () => {
-    //     setOpenup(false);
-    //     setOpenEditPopup(false);
-    // };
+    const handleAlumni = () => {
+        setOpenup(false);
+        setOpenEditPopup(false);
+    };
 
     const navigate = useNavigate();
 
@@ -148,7 +148,7 @@ const Navbar = ({ user }) => {
                 <IconButton size="large" color="inherit">
                     <AccountCircle />
                 </IconButton>
-                <p className="capitalize">{firstName} {lastName}</p>
+                <p className="capitalize">{user?.firstName} {user?.lastName}</p>
             </MenuItem>
         </Menu >
     );
@@ -215,13 +215,17 @@ const Navbar = ({ user }) => {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <img
+                                src={user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : placeholder}
+                                alt="placeholder"
+                                className="w-[40px] h-[40px] rounded-full border border-slate-300 "
+                            />
                             <Typography
                                 fontWeight="bold"
                                 fontSize="0.85rem"
                                 padding="5px"
                             >
-                                {firstName} {lastName}
+                                {user.firstName} {user.lastName}
                             </Typography>
                         </IconButton>
                     </Box>
@@ -247,7 +251,7 @@ const Navbar = ({ user }) => {
                 openPopup={openUploadPopup}
                 setOpenup={setOpenUploadPopup}
             >
-                <CompanyMOAUpload onClose={handleCloseUpload} />
+                <CompanyMOAUpload onSubmit={handleAlumni} onClose={handleCloseUpload} />
             </PopUp>
         </Box>
     );

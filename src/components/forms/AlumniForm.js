@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Button, InputAdornment, TextField } from '@mui/material';
+import { Button, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { MdCalendarMonth } from 'react-icons/md';
 import { FaUserAlt } from 'react-icons/fa';
 import { Badge } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { AddAlumni, EditAlumni, GetAlumni, GetAlumniByID, } from '../../services/admin_alumni';
+import { AddAlumni, EditAlumni, GetAlumni, GetAlumniByID } from '../../services/admin_alumni';
 import { editAlumniError } from '../../app/alumniSlice';
 
-// const programs = [
-//     'Bachelor of Science in Computer Science',
-//     'Bachelor of Science in Information Science',
-//     'Bachelor of Science in Information Technology',
-//     'Bachelor of Science in Mathematics',
-//     'Bachelor of Science in Information Communication Technology',
-//     'Bachelor of Science in Library Science',
-//     'Bachelor of Science in Applied Mathematics',
-//     'Master of Science in Mathematics'
-// ];
-// const educationalLevels = [
-//     'Tertiary',
-//     'Masteral',
-//     'Doctoriate'
-// ];
+const programs = [
+    { description: 'Bachelor of Science in Computer Science', code: 'BSCS' },
+    { description: 'Bachelor of Science in Information Science', code: 'BSIS' },
+    { description: 'Bachelor of Science in Information Technology', code: 'BSIT' },
+    { description: 'Bachelor of Science in Mathematics', code: 'BSMath' },
+    { description: 'Bachelor of Science in Information Communication Technology', code: 'BSICT' },
+    { description: 'Bachelor of Science in Library Science', code: 'BSLS' },
+    { description: 'Bachelor of Science in Applied Mathematics', code: 'BSAMath' },
+    { description: 'Master of Science in Mathematics', code: 'MSMath' },
+    { description: 'Doctor of Computer Science', code: 'DCS' },
+    { description: 'Doctor of Information Science', code: 'DIS' },
+    { description: 'Doctor of Information Technology', code: 'DIT' },
+    { description: 'Doctor of Mathematics', code: 'DMath' },
+    { description: 'Doctor of Information Communication Technology', code: 'DICT' },
+    { description: 'Doctor of Library Science', code: 'DLS' },
+    { description: 'Doctor of Applied Mathematics', code: 'DAMath' },
+];
 
 const AlumniForm = ({ onSubmit, id }) => {
 
@@ -29,14 +31,10 @@ const AlumniForm = ({ onSubmit, id }) => {
         firstName: "",
         lastName: "",
         idNum: "",
-        venue: "",
-        courses: [
-            {
-                program: "",
-                educationalLevel: "",
-            },
-        ],
-        syGraduated: ""
+        programCode: "",
+        programDescription: "",
+        educationLevel: "",
+        syGraduated: "",
     });
 
     const [submitting, setSubmitting] = useState(false);
@@ -75,18 +73,19 @@ const AlumniForm = ({ onSubmit, id }) => {
             if (id) {
                 await EditAlumni(dispatch, formData);
             } else {
-                await AddAlumni(dispatch, formData);
-            }
-            await GetAlumni(dispatch);
+                const data = await AddAlumni(dispatch, formData);
+                if (data) {
+                    await GetAlumni(dispatch);
+                    onSubmit(formData);
 
-            onSubmit(formData);
+                }
+            }
         } catch (error) {
             console.error('Error:', error);
         } finally {
             setSubmitting(false);
         }
     };
-    console.log(formData);
 
 
     return (
@@ -161,87 +160,40 @@ const AlumniForm = ({ onSubmit, id }) => {
                         />
                     </div>
 
-                    <div className="mb-3 flex items-center">
-                        {/* <FormControl style={{ flex: 1 }}>
-                            <InputLabel htmlFor="program">Program</InputLabel>
-                            <Select
-                                id="program"
-                                value={formData.program}
-                                onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-                                variant="outlined"
-                                fullWidth
-                                required
-                            >
-                                {programs.map((program) => (
-                                    <MenuItem key={program} value={program}>
-                                        {program}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl> */}
-
-                        <TextField
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <strong style={{ color: 'black' }}>
-                                            <Badge size={25} className="mx-2" />
-                                        </strong>
-                                    </InputAdornment>
-                                ),
+                    <div className="mb-3">
+                        <InputLabel htmlFor="program">Program</InputLabel>
+                        <Select
+                            id="program"
+                            value={formData.programDescription || ''}
+                            onChange={(e) => {
+                                const selectedProgramDescription = e.target.value;
+                                const selectedProgram = programs.find(program => program.description === selectedProgramDescription);
+                                if (selectedProgram) {
+                                    let educationalLevel = "Bachelor";
+                                    if (selectedProgramDescription.startsWith("Master")) {
+                                        educationalLevel = "Master";
+                                    } else if (selectedProgramDescription.startsWith("Doctor")) {
+                                        educationalLevel = "Doctor";
+                                    }
+                                    setFormData({
+                                        ...formData,
+                                        programDescription: selectedProgram.description,
+                                        programCode: selectedProgram.code,
+                                        educationLevel: educationalLevel,
+                                    });
+                                }
                             }}
-                            sx={{ outline: 'none', flex: 1 }}
-                            type="text"
-                            placeholder="Program"
-                            label="Program"
                             variant="outlined"
-                            autoComplete="Level"
                             fullWidth
                             required
-                            value={formData.courses?.program || ''}
-                            onChange={(e) => setFormData({ ...formData, courses: { ...formData.courses, program: e.target.value } })}
-                        />
-                    </div>
-                    <div className="mb-3 flex items-center">
-                        {/* <FormControl style={{ flex: 1 }}>
-                            <InputLabel htmlFor="educationalLevel">Educational Level</InputLabel>
-                            <Select
-                                id="educationalLevel"
-                                value={formData.course}
-                                onChange={(e) => setFormData({ ...formData, educationalLevel: e.target.value })}
-                                variant="outlined"
-                                fullWidth
-                                required
-                            >
-                                {educationalLevels.map((educationalLevel) => (
-                                    <MenuItem key={educationalLevel} value={educationalLevel}>
-                                        {educationalLevel}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl> */}
+                        >
+                            {programs.map((program) => (
+                                <MenuItem key={program.description} value={program.description}>
+                                    {program.description}
+                                </MenuItem>
+                            ))}
+                        </Select>
 
-                        <TextField
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <strong style={{ color: 'black' }}>
-                                            <Badge size={25} className="mx-2" />
-                                        </strong>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            sx={{ outline: 'none', flex: 1 }}
-                            type="text"
-                            placeholder="Educational Level"
-                            label="Level"
-                            variant="outlined"
-                            autoComplete="Level"
-                            fullWidth
-                            required
-                            value={formData.courses?.educationalLevel || ''}
-                            onChange={(e) => setFormData({ ...formData, courses: { ...formData.courses, educationalLevel: e.target.value } })}
-                        />
                     </div>
 
                     <div className="mb-3 flex items-center">

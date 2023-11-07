@@ -3,8 +3,11 @@ import { Outlet } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import Sidebar from "../../../components/sidebar";
 import Topbar from "../../../components/topbar";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
+    const user = useSelector(state => state.alumniSlice.adminProfile)
+
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -21,6 +24,7 @@ const Layout = () => {
                 <Topbar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
+                    user={user}
                 />
                 <Outlet />
             </Box>

@@ -125,17 +125,6 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <label>Description: </label>
                     <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
                 </Grid>
-
-
-                {/* <Grid item xs={12} sm={12} sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                    <InputLabel htmlFor="program-graduated-label" >Add File: </InputLabel>
-                    <input
-                        type="file"
-                        accept=".pdf, .doc, .docx"
-                        onChange={(e) => setNewEvent({ ...newEvent, file: e.target.files[0] })}
-                    />
-                </Grid> */}
-
                 <Grid item xs={12} sm={12}>
                     <Button
                         type="button"

@@ -10,7 +10,7 @@ const AlumniUser = ({ user }) => {
         <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
             <div className="flex flex-col mx-auto justify-center items-center text-center">
                 <img
-                    src={user?.profilePicture || placeholder}
+                    src={user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : placeholder}
                     alt="placeholder"
                     className="w-[90px] h-[90px] rounded-full border border-slate-300 "
                 />

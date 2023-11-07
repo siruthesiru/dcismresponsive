@@ -10,6 +10,7 @@ import { EditProfile, GetAlumniProfile } from "../../services/alumni";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { clearAccount } from "../../app/authenticationSlice";
+import { GetAdminProfile } from "../../services/admin_alumni";
 
 
 const AlumniProfileCard = () => {
@@ -18,6 +19,8 @@ const AlumniProfileCard = () => {
     const [isEmailEdited, setIsEmailEdited] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const dispatch = useDispatch();
+    const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+    const [imgSrc, setImgSrc] = useState(null);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -47,6 +50,7 @@ const AlumniProfileCard = () => {
             await EditProfile(dispatch, userData);
             toast.success("Updated profile successfully");
             setIsEditing(false);
+            await GetAdminProfile(dispatch);
         } catch (error) {
             console.error("Error updating profile:", error);
         }
@@ -60,6 +64,24 @@ const AlumniProfileCard = () => {
 
     const navigate = useNavigate();
 
+    const handleImageInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const imageData = event.target.result;
+                setCurrentlySelectedImage(imageData);
+                setUserData({ ...userData, fileUpload: imageData });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    useEffect(() => {
+        const imgSrc = userData?.fileUpload ? userData.fileUpload : (userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder);
+        setImgSrc(imgSrc);
+    }, [userData]);
+
     return (
         <form>
             <ToastContainer position="top-right" autoClose={3000} />
@@ -68,41 +90,32 @@ const AlumniProfileCard = () => {
 
                     {isEditing ? (
                         <>
-                            <input
-                                type="file"
-                                name="profileImage"
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                id="profile-picture-input"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        reader.onload = (e) => {
-                                            setUserData({ ...userData, profilePicture: e.target.result });
-                                        };
-                                        reader.readAsDataURL(file);
-                                    }
-                                }}
-                            />
-                            <label htmlFor="profile-picture-input">
-                                <CardMedia
-                                    component="img"
-                                    sx={{ marginLeft: "2rem", width: 90, height: 90, borderRadius: "50%", cursor: "pointer" }}
-                                    image={userData?.profilePicture}
-                                    alt="Profile picture"
+                            <label htmlFor="fileInput">
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={handleImageInputChange}
                                 />
+                                <img
+                                    src={currentlySelectedImage || placeholder}
+                                    alt="User Profile"
+                                    style={{ width: 100, height: 100, borderRadius: "50%", cursor: "pointer" }}
+                                />
+
                             </label>
                             <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, marginLeft: "2rem" }}>
-                                Click the placeholder for adding profile.
+                                Click the placeholder for adding image.
                             </Typography>
                         </>
                     ) : (
                         <>
-                            <img
-                                src={userData?.profilePicture || placeholder}
-                                alt="placeholder"
-                                className="w-[90px] h-[90px] rounded-full border border-slate-300 "
+                            <CardMedia
+                                component="img"
+                                sx={{ width: 100, height: 100, borderRadius: "50%", cursor: "pointer" }}
+                                image={imgSrc}
+                                alt="Profile picture"
                             />
                             <h1 className="font-bold py-2 capitalize">{userData?.firstName} {userData?.lastName}</h1>
                         </>
@@ -343,7 +356,6 @@ const AlumniProfileCard = () => {
                                 <p className="font-bold "> {userData?.companyName}</p>
                             )}
                         </div>
-                        {/* we will be using the google auto complete address */}
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Company Address: </label>
                             {isEditing ? (
