@@ -76,6 +76,22 @@ export const AddAlumni = async (dispatch, alumni) => {
     }
 }
 
+export const EditAlumni = async (dispatch, alumni) => {
+    try {
+        const response = await axiosInstance.put('/Alumni/Edit-Alumni', alumni)
+        if (response.data.isEditSucceed) {
+            dispatch(editAlumni(response.data));
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isEditSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(editAlumniError(error.response.data));
+    }
+}
+
 export const AddAlumniCSV = async (dispatch, formData) => {
     try {
         const response = await axiosInstance.post('/Alumni/Add-CSV', formData, {
@@ -101,15 +117,7 @@ export const VerifyAlumni = async (dispatch, credentials) => {
     }
 }
 
-export const EditAlumni = async (dispatch, alumni) => {
-    try {
-        const response = await axiosInstance.put('/Alumni/Edit-Alumni', alumni)
-        dispatch(editAlumni(response.data));
-    } catch (error) {
-        console.error('Error:', error);
-        dispatch(editAlumniError(error.response.data));
-    }
-}
+
 
 export const DeleteAlumni = async (dispatch, id) => {
     try {

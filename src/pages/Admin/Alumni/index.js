@@ -105,11 +105,14 @@ const Alumni = () => {
                     <IconButton onClick={() => {
                         setSelectedItemId(params.row.id);
                         setOpenEditPopup(true);
-                    }}>
+                    }}
+                        disabled={!params.row.isVerified}
+                    >
                         <EditNote
                             style={{
                                 fontSize: "20px",
-                                color: "#ffef62",
+                                color: !params.row.isVerified ? "#aaa" : "#ffef62",
+
                             }}
                         />
 

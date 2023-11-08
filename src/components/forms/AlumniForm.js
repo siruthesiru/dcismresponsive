@@ -48,9 +48,20 @@ const AlumniForm = ({ onSubmit, id }) => {
                 if (id) {
                     const alumniData = await GetAlumniByID(dispatch, id);
                     if (alumniData) {
-                        setFormData(alumniData);
+                        setFormData({
+                            id: id,
+                            firstName: alumniData.firstName,
+                            lastName: alumniData.firstName,
+                            idNum: alumniData.idNum,
+                            programCode: alumniData.courses.programCode,
+                            programDescription: alumniData.courses.programDescription,
+                            educationLevel: alumniData.educationLevel,
+                            syGraduated: alumniData.syGraduated
+                        });
                         setAlumniDataLoaded(true);
                     }
+                    console.log(alumniData)
+
                 }
             } catch (error) {
                 dispatch(editAlumniError());
@@ -71,7 +82,12 @@ const AlumniForm = ({ onSubmit, id }) => {
         try {
             setSubmitting(true);
             if (id) {
-                await EditAlumni(dispatch, formData);
+                const data = await EditAlumni(dispatch, formData);
+                if (data) {
+                    await GetAlumni(dispatch);
+                    onSubmit(formData);
+
+                }
             } else {
                 const data = await AddAlumni(dispatch, formData);
                 if (data) {
