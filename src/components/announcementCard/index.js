@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '../constant/helper';
 
 const AnnouncementCard = ({ announcement }) => {
     const { title, posted_Date, description, file } = announcement;
@@ -20,7 +21,7 @@ const AnnouncementCard = ({ announcement }) => {
                 <div className='sm:w-[70%] flex flex-col'>
                     <h1 className='font-bold'>{title}</h1>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        Posted by <span className='font-bold'>Name of the post:</span> on {posted_Date}
+                        Posted by <span className='font-bold'>Name of the post:</span> on {formatDate(posted_Date)}
                     </p>
                     <div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />
                     <div className='text-[12px] text-justify mr-8'>

@@ -9,11 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import applogo from "../../assets/applogowhite.png";
 import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign, EventNote } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
-import PopUp from '../popup';
-import CompanyMOAUpload from '../forms/CompanyMOAUpload';
 import placeholder from "../../assets/placeholder.webp";
 import { useNavigate } from "react-router-dom";
 
@@ -27,9 +25,6 @@ const Navbar = ({ user }) => {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const [openUploadPopup, setOpenUploadPopup] = useState(false);
-    const [openPoup, setOpenup] = useState(false);
-    const [openEditPopup, setOpenEditPopup] = useState(false);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -46,16 +41,6 @@ const Navbar = ({ user }) => {
 
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
-    };
-
-    const handleCloseUpload = () => {
-        setOpenUploadPopup(false);
-        handleMenuClose();
-    };
-
-    const handleAlumni = () => {
-        setOpenup(false);
-        setOpenEditPopup(false);
     };
 
     const navigate = useNavigate();
@@ -81,12 +66,6 @@ const Navbar = ({ user }) => {
             <MenuItem>
                 <Button onClick={() => navigate(`/${user}/profile`)}>My Profile</Button>
             </MenuItem>
-            {user === "company" && (
-                <MenuItem onClick={() => setOpenUploadPopup(true)}
-                >
-                    Apply Verification
-                </MenuItem>
-            )}
             <MenuItem>
                 <Button onClick={() => { dispatch(logout()) }} href="/" > Log out</Button>
             </MenuItem>
@@ -246,13 +225,6 @@ const Navbar = ({ user }) => {
             {renderMobileMenu}
             {renderMenu}
 
-            <PopUp
-                title="UPLOAD MOA FILE"
-                openPopup={openUploadPopup}
-                setOpenup={setOpenUploadPopup}
-            >
-                <CompanyMOAUpload onSubmit={handleAlumni} onClose={handleCloseUpload} />
-            </PopUp>
         </Box>
     );
 };

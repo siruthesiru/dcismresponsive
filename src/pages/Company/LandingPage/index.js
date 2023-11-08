@@ -5,23 +5,18 @@ import { GetAllAnnouncements, GetCompanyProfile } from '../../../services/compan
 import CompanyUser from '../../../components/userCard/companyCard';
 
 const LandingPageCompany = () => {
+
     const announcements = useSelector((state) => state.companyUserSlice.announcements);
+    const userData = useSelector((state) => state.companyUserSlice.companySlice);
+
     const dispatch = useDispatch();
-    const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const data = await GetCompanyProfile(dispatch);
-                setUserData(data);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        };
-
-        fetchUserData();
+        GetCompanyProfile(dispatch);
         GetAllAnnouncements(dispatch);
     }, [dispatch]);
+
+    console.log(userData);
 
     return (
         <div className='bg-slate-100 min-h-screen'>
