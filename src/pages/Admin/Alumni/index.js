@@ -4,9 +4,9 @@ import Header from "../../../components/header";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
-import { DeleteOutline, EditNote } from "@mui/icons-material";
+import { DeleteOutline, EditNote, ThumbUpAlt } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteAlumni, GetAlumni } from "../../../services/admin_alumni";
+import { DeleteAlumni, GetAlumni, VerifyAlumni } from "../../../services/admin_alumni";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 
 import { ToastContainer } from 'react-toastify';
@@ -16,7 +16,7 @@ import DataTable from "../../../components/dataTable";
 import AlumniCSVUpload from "../../../components/forms/AlumniCSVUpload";
 
 const Alumni = () => {
-    const verifiedAlumni = useSelector((state) => state.alumniSlice.verifiedAlumni);
+    const verifiedAlumni = useSelector((state) => state.alumniSlice.alumni);
     const dispatch = useDispatch();
 
     const [openPopup, setOpenup] = useState(false);
@@ -69,6 +69,18 @@ const Alumni = () => {
         }
     }, [deleteOccurred, dispatch]);
 
+    const handleVerifyAlumni = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                isVerified: true
+            };
+            await VerifyAlumni(dispatch, credentials);
+            GetAlumni(dispatch);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const ActionColumn = {
         field: "action",
@@ -78,14 +90,29 @@ const Alumni = () => {
             return (
                 <Box display="flex" gap="10px">
 
+                    <IconButton
+                        onClick={() => handleVerifyAlumni(params.row.id)}
+                        disabled={params.row.isVerified}
+                    >
+                        <ThumbUpAlt
+                            style={{
+                                fontSize: "20px",
+                                color: params.row.isVerified ? "#aaa" : "#4cceac",
+                            }}
+                        />
+                    </IconButton>
+
                     <IconButton onClick={() => {
                         setSelectedItemId(params.row.id);
                         setOpenEditPopup(true);
-                    }}>
+                    }}
+                        disabled={!params.row.isVerified}
+                    >
                         <EditNote
                             style={{
                                 fontSize: "20px",
-                                color: "#ffef62",
+                                color: !params.row.isVerified ? "#aaa" : "#ffef62",
+
                             }}
                         />
 

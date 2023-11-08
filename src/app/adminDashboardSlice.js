@@ -4,7 +4,7 @@ const initialState = {
     totalAlumni: localStorage.getItem('totalAlumni') || 0,
     totalCompany: localStorage.getItem('totalCompany') || 0,
     totalEmployed: localStorage.getItem('totalEmployed') || 0,
-    totalUnemployed: localStorage.getItem('totalEmployed') || 0,
+    totalUnEmployed: localStorage.getItem('totalUnEmployed') || 0,
     screenTopumOfUsers: localStorage.getItem('sumOfUsers') || 0,
     message: localStorage.getItem('message') || null,
 
@@ -30,7 +30,7 @@ export const adminDashboardSlice = createSlice({
             localStorage.setItem('totalAlumni', action.payload.totalAlumni);
             localStorage.setItem('totalCompany', action.payload.totalCompany);
             localStorage.setItem('totalEmployed', action.payload.totalEmployed);
-            localStorage.setItem('totalUnemployed', action.payload.totalUnemployed);
+            localStorage.setItem('totalUnEmployed', action.payload.totalUnEmployed);
             localStorage.setItem('sumOfUsers', action.payload.sumOfUsers);
             localStorage.setItem('message', action.payload.message);
 
@@ -46,7 +46,7 @@ export const adminDashboardSlice = createSlice({
             state.totalAlumni = action.payload.totalAlumni;
             state.totalCompany = action.payload.totalCompany;
             state.totalEmployed = action.payload.totalEmployed;
-            state.totalUnemployed = action.payload.totalUnemployed;
+            state.totalUnEmployed = action.payload.totalUnEmployed;
             state.sumOfUsers = action.payload.sumOfUsers
             state.message = action.payload.message;
 

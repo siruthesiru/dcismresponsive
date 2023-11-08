@@ -6,6 +6,8 @@ import { verifyJobColumn } from "../../../components/constant/adminColumnHeaders
 import { useDispatch, useSelector } from "react-redux";
 import { GetUnverifiedJobs, RejectJobPost, Verify_JobPost } from "../../../services/admin_company";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const PendingJobs = () => {
@@ -104,6 +106,8 @@ const PendingJobs = () => {
                     title="Pending Job Posting"
                     subtitle="Companies wanted to post jobs"
                 />
+                <ToastContainer position="top-right" autoClose={3000} />
+
             </Box>
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
                 {unverified_post.length === 0 ? (

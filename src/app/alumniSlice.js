@@ -10,75 +10,79 @@ export const editProfileError = createAction('editProfileError');
 export const alumniSlice = createSlice({
     name: 'alumni',
     initialState: {
-        verifiedAlumni: [],
-        unverifiedAlumni: [],
+        alumni: [],
         adminProfile: null,
+        errorMessage: null,
     },
     reducers: {
-        getVerifiedAlumni: (state, action) => {
-            return { ...state, verifiedAlumni: [...action.payload] };
-        },
-        getUnVerifiedAlumni: (state, action) => {
-            return { ...state, unverifiedAlumni: [...action.payload] };
+        getAlumni: (state, action) => {
+            return { ...state, alumni: [...action.payload] };
         },
         getProfile: (state, action) => {
             return { ...state, adminProfile: { ...action.payload } };
         },
         getAlumnusByID: (state, action) => {
-            const updatedAlumnus = state.verifiedAlumni.map((alumnus) => {
-                if (alumnus.id === action.payload.id) {
-                    return { ...alumnus, ...action.payload };
+            const updatedAlumna = state.alumni.map((alumna) => {
+                if (alumna.id === action.payload.id) {
+                    return { ...alumna, ...action.payload };
                 }
-                return alumnus;
+                return alumna;
             });
 
-            return { ...state, verifiedAlumni: updatedAlumnus };
+            return { ...state, alumni: updatedAlumna };
         },
         addAlumni: (state, action) => {
-            return { ...state, verifiedAlumni: [action.payload, ...state.alumni] };
+            return { ...state, alumni: [action.payload, ...state.alumni] };
         },
         editAlumni: (state, action) => {
-            const alumni = state.verifiedAlumni.map(alumnus => {
-                if (alumnus.id === action.payload.id) {
-                    alumnus = action.payload;
+            const alumni = state.alumni.map((alumna) => {
+                if (alumna.id === action.payload.id) {
+                    return { ...alumna, ...action.payload };
                 }
-                return alumnus;
+                return alumna;
             });
-            return { ...state, verifiedAlumni: [...alumni] };
+            return { ...state, alumni: [...alumni] };
         },
         verifyAlumni: (state, action) => {
-            const alumni = state.unverifiedAlumni.map(alumnus => {
-                if (alumnus.id === action.payload.id) {
-                    alumnus = action.payload;
+            const alumni = state.alumni.map((alumna) => {
+                if (alumna.id === action.payload.id) {
+                    return { ...alumna, ...action.payload };
                 }
-                return alumnus;
+                return alumna;
             });
-            return { ...state, unverifiedAlumni: [...alumni] };
+            return { ...state, alumni: [...alumni] };
         },
         deleteAlumni: (state, action) => {
-            const alumni = state.verifiedAlumni.filter(alumnus => alumnus.id !== action.payload.id);
-            return { ...state, verifiedAlumni: [...alumni] };
+            const alumni = state.alumni.filter(alumnus => alumnus.id !== action.payload.id);
+            return { ...state, alumni: [...alumni] };
         },
         deleteVerifyAlumni: (state, action) => {
-            const alumni = state.unverifiedAlumni.filter(alumnus => alumnus.id !== action.payload.id);
-            return { ...state, unverifiedAlumni: [...alumni] };
+            const alumni = state.alumni.filter(alumnus => alumnus.id !== action.payload.id);
+            return { ...state, alumni: [...alumni] };
         },
         editProfile: (state, action) => {
             return { ...state, userProfile: { ...action.payload } };
+        },
+        setErrorMessage: (state, action) => {
+            return { ...state, errorMessage: action.payload };
+        },
+        clearErrorMessage: (state) => {
+            return { ...state, errorMessage: null };
         },
     }
 });
 
 export const {
-    getVerifiedAlumni,
-    getUnVerifiedAlumni,
+    getAlumni,
     getAlumnusByID,
     addAlumni,
     editAlumni,
     deleteAlumni,
     getProfile,
     editProfile,
-    deleteVerifyAlumni
+    deleteVerifyAlumni,
+    setErrorMessage,
+    clearErrorMessage
 } = alumniSlice.actions;
 
 export default alumniSlice.reducer;

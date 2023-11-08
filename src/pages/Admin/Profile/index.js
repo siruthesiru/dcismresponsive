@@ -11,19 +11,17 @@ import {
 } from "@mui/material";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.webp";
-import { EditProfile, GetProfile } from "../../../services/admin_alumni"; // Import an update profile service
-import { useDispatch, useSelector } from "react-redux";
+import { EditAdminProfile, GetAdminProfile } from "../../../services/admin_alumni"; // Import an update profile service
+import { useDispatch } from "react-redux";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { logout } from "../../../app/authenticationSlice";
 
 const Profile = () => {
-    const { email } = useSelector((state) => state.authentication)
     const [userData, setUserData] = useState(null);
     const [imgSrc, setImgSrc] = useState(null);
 
-    const [isEmailEdited, setIsEmailEdited] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const dispatch = useDispatch();
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
@@ -32,7 +30,7 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchProfileData = async () => {
-            const profileData = await GetProfile(dispatch);
+            const profileData = await GetAdminProfile(dispatch);
             setUserData(profileData);
 
             if (profileData?.profileImage) {
@@ -47,29 +45,11 @@ const Profile = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
-        if (name === "email" && value !== email) {
-            setIsEmailEdited(true);
-        }
+
     };
 
     const toggleEditing = () => {
         setIsEditing(!isEditing);
-    };
-
-    const handleSubmit = async () => {
-        try {
-            await EditProfile(dispatch, userData);
-            toast.success("Updated profile successfully");
-            setIsEditing(false);
-        } catch (error) {
-            console.error("Error updating profile:", error);
-        }
-
-        if (isEmailEdited) {
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            toast.success("Please sign in again for the new email");
-            dispatch(logout(null));
-        }
     };
 
     const handleImageInputChange = (e) => {
@@ -90,6 +70,30 @@ const Profile = () => {
         setImgSrc(imgSrc);
     }, [userData]);
 
+
+    const handleSubmit = async () => {
+        const previousUserData = { ...userData };
+        if (userData.fileUpload && userData.fileUpload.startsWith('data:')) {
+            const [, base64Data] = userData.fileUpload.split(',');
+            userData.fileUpload = base64Data;
+        }
+        delete userData.profileImage;
+
+        const isEditSucceed = await EditAdminProfile(dispatch, userData);
+        if (isEditSucceed) {
+            const updatedProfileData = await GetAdminProfile(dispatch);
+            if (previousUserData.email !== updatedProfileData.email) {
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                toast.success("Please sign in again for the new email");
+                dispatch(logout(null));
+            } else {
+                setUserData(updatedProfileData);
+                setIsEditing(false);
+            }
+        }
+    };
+
+    console.log(userData);
 
     return (
         <Box m="1.5rem 2.5rem">
@@ -238,6 +242,27 @@ const Profile = () => {
                             ) : (
                                 <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
                                     {userData?.position}
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Grid spacing={2} sx={{ display: "flex" }}>
+                        <Grid item sm={6} sx={{ flex: 1 }}>
+                            <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                Contact Number:
+                            </Typography>
+                        </Grid>
+                        <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            {isEditing ? (
+                                <TextField
+                                    name="mobileNumber"
+                                    value={userData?.mobileNumber}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.mobileNumber ? userData.mobileNumber : "Not indicated"}
                                 </Typography>
                             )}
                         </Grid>

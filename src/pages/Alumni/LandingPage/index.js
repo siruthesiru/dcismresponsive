@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
 import AnnouncementCard from '../../../components/announcementCard';
 import { GetAllAnnouncements, GetAlumniProfile } from '../../../services/alumni';
@@ -7,25 +7,16 @@ import AlumniUser from '../../../components/userCard/alumniCard';
 
 const LandingPageAlumni = () => {
     const announcements = useSelector((state) => state.alumniUserSlice.announcements);
+    const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
 
     const dispatch = useDispatch();
-    const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const data = await GetAlumniProfile(dispatch);
-                setUserData(data);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        };
-
-        fetchUserData();
+        GetAlumniProfile(dispatch);
         GetAllAnnouncements(dispatch);
     }, [dispatch]);
 
-
+    console.log(announcements, userData);
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>

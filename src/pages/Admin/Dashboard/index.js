@@ -14,16 +14,29 @@ import { getStatistics } from '../../../services/dashboard';
 import userIcon from '../../../assets/userIcon.svg'
 import alumniIcon from '../../../assets/alumniIcon.svg'
 import companyIcon from '../../../assets/companyIcon.svg'
+import { GetAdminProfile } from '../../../services/admin_alumni';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
     const { totalAlumni, totalCompany, sumOfUsers, totalEmployed, totalUnEmployed, commonJobs, totalBSIT, totalBSCS, totalBSIS, totalICT } = useSelector((state) => state.adminDashboard);
 
-    console.log(commonJobs);
-
     useEffect(() => {
         getStatistics(dispatch);
+        GetAdminProfile(dispatch);
     }, [dispatch])
+
+    const generateChartData = (data) => {
+        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const averageUsersPerDay = data / 7;
+
+        const chartData = daysOfWeek.map((day) => ({
+            name: day,
+            users: Math.round(averageUsersPerDay),
+        }));
+
+        return chartData;
+    };
+
 
     const chartBoxUsers = {
         color: "#8884d8",
@@ -33,15 +46,8 @@ const Dashboard = () => {
         link: "/dashboard",
         dataKey: "users",
         percentage: 100,
-        chartData: [
-            { name: "Sun", users: 400 },
-            { name: "Mon", users: 600 },
-            { name: "Tue", users: 500 },
-            { name: "Wed", users: 700 },
-            { name: "Thu", users: 400 },
-            { name: "Fri", users: 500 },
-            { name: "Sat", users: 450 },
-        ],
+        chartData: generateChartData(sumOfUsers),
+
     };
 
     const chartBoxAlumni = {
@@ -51,16 +57,9 @@ const Dashboard = () => {
         number: totalAlumni,
         link: "/alumni",
         dataKey: "alumni",
-        percentage: (totalAlumni / sumOfUsers * 100).toFixed(2),
-        chartData: [
-            { name: "Sun", alumni: 400 },
-            { name: "Mon", alumni: 600 },
-            { name: "Tue", alumni: 500 },
-            { name: "Wed", alumni: 700 },
-            { name: "Thu", alumni: 400 },
-            { name: "Fri", alumni: 500 },
-            { name: "Sat", alumni: 450 },
-        ],
+        percentage: totalAlumni !== 0 ? (totalAlumni / sumOfUsers * 100).toFixed(2) : 0,
+        chartData: generateChartData(totalAlumni),
+
     };
 
     const chartBoxCompanies = {
@@ -70,22 +69,15 @@ const Dashboard = () => {
         number: totalCompany,
         link: "/companies",
         dataKey: "companies",
-        percentage: (totalCompany / sumOfUsers * 100).toFixed(2),
-        chartData: [
-            { name: "Sun", companies: 400 },
-            { name: "Mon", companies: 600 },
-            { name: "Tue", companies: 500 },
-            { name: "Wed", companies: 700 },
-            { name: "Thu", companies: 400 },
-            { name: "Fri", companies: 500 },
-            { name: "Sat", companies: 450 },
-        ],
+        percentage: totalCompany !== 0 ? (totalCompany / sumOfUsers * 100).toFixed(2) : 0,
+        chartData: generateChartData(totalCompany),
+
     };
 
     const pieChartBox = {
         data: [
             { name: "Employed", value: totalEmployed, color: "#5A6ACF" },
-            { name: "Unemployed", value: totalUnEmployed, color: "#8593ED" },
+            { name: "UnEmployed", value: totalUnEmployed, color: "#8593ED" },
         ],
     };
 

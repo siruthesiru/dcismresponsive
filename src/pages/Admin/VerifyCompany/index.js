@@ -14,7 +14,6 @@ const VerifyCompany = () => {
     const companies = useSelector((state) => state.companiesSlice.unverified_companies);
     const dispatch = useDispatch();
 
-    console.log(companies);
 
     useEffect(() => {
         GetUnverifiedCompanies(dispatch)

@@ -1,5 +1,6 @@
 import React from 'react'
 import placeholder from "../../assets/placeholder.png";
+import { formatDate } from '../constant/helper';
 
 
 const EventsCard = ({ events }) => {
@@ -10,23 +11,6 @@ const EventsCard = ({ events }) => {
 
     startUTC.setHours(startUTC.getHours() + 8);
     endUTC.setHours(endUTC.getHours() + 8);
-
-    const formattedStart = startUTC.toLocaleString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
-    const formattedEnd = endUTC.toLocaleString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(description, 'text/html');
@@ -43,10 +27,10 @@ const EventsCard = ({ events }) => {
                         Venue <span className='font-bold'>{venue}</span>
                     </p>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        Start <span className='font-bold'>{formattedStart}</span>
+                        Start <span className='font-bold'>{formatDate(startUTC)}</span>
                     </p>
                     <p className='text-[10px] text-slate-500 mb-4'>
-                        End: <span className='font-bold'>{formattedEnd}</span>
+                        End: <span className='font-bold'>{formatDate(endUTC)}</span>
                     </p>
                     <p className='text-[10px] text-slate-500 mb-4'>
                         Desciption: <span className='font-bold'><div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />

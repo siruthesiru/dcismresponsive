@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, CardMedia } from "@mui/material";
+import { Button, CardMedia, Typography } from "@mui/material";
 import placeholder from "../../assets/placeholder.webp";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -107,21 +107,28 @@ const CompanyProfileCard = () => {
             <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
                 <div className="flex flex-col mx-auto justify-center items-center text-center">
                     {isEditing ? (
-                        <label htmlFor="fileInput">
-                            <input
-                                type="file"
-                                id="fileInput"
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                onChange={handleImageInputChange}
-                            />
-                            <img
-                                src={currentlySelectedImage || placeholder}
-                                alt="User Profile"
-                                style={{ width: 100, height: 100, borderRadius: "50%", cursor: "pointer" }}
-                            />
+                        <>
+                            <label htmlFor="fileInput">
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={handleImageInputChange}
+                                />
+                                <img
+                                    src={currentlySelectedImage || placeholder}
+                                    alt="User Profile"
+                                    style={{ width: 100, height: 100, borderRadius: "50%", cursor: "pointer" }}
+                                />
 
-                        </label>
+                            </label>
+                            <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, marginLeft: "2rem" }}>
+                                Click the placeholder for adding image.
+                            </Typography>
+                        </>
+
+
                     ) : (
                         <CardMedia
                             component="img"

@@ -26,13 +26,14 @@ import Profile from './pages/Admin/Profile';
 import LayoutAlumni from './pages/Alumni/Layout';
 import AlumniSearch from './pages/Alumni/A_SearchPage';
 import LandingPageAlumni from './pages/Alumni/LandingPage';
-import AlumniProfile from './pages/Alumni/A_Profile.js';
 import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
 import AlumniNotification from './pages/Alumni/Notification';
 import AlumniJob from './pages/Alumni/Jobs/viewJob.js';
 import ApplyJob from './pages/Alumni/ApplyJob';
 import JobList from './pages/Alumni/Jobs';
+import AlumniProfile from './pages/Alumni/Profile';
+
 
 import LayoutCompany from './pages/Company/Layout';
 import LandingPageCompany from './pages/Company/LandingPage';
@@ -43,7 +44,6 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
-import VerifyAlumniPage from './pages/Admin/VerifyAlumni/index.js';
 
 
 const App = () => {
@@ -93,7 +93,6 @@ const App = () => {
                   <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
                   <Route path="/announcements" element={<Announcements />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/verify_alumni" element={<VerifyAlumniPage />} />
                 </Route>
               </Route>
 

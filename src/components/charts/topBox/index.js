@@ -10,22 +10,27 @@ const TopBox = ({ data }) => {
             <h1 className="title">
                 Most Common Jobs
             </h1>
-            <div className='list '>
-                {top5Jobs.map((job) => (
-                    <div className='listItem' key={job.id}>
-                        <span className='position'>{job.position}</span>
-                        <div className='details'>
-                            <span className='invites'>{`${job?.totalNumberOfInvites ?? 0} Candidates`}</span>
-                            <span className='slots'>{`${job.slots} Slot `}</span>
+            <div className='list'>
+                {data.length > 0 ? (
+                    top5Jobs.map((job) => (
+                        <div className='listItem' key={job.id}>
+                            <span className='position'>{job.position}</span>
+                            <div className='details'>
+                                <span className='invites'>{`${job?.totalNumberOfInvites ?? 0} Candidates`}</span>
+                                <span className='slots'>{`${job.slots} Slot`}</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p>No Jobs Available</p>
+                )}
                 {top5Jobs.length > 5 && (
                     <div className='listItem'>
                         <a href="/jobs">View All</a>
                     </div>
                 )}
             </div>
+
         </div>
     );
 };

@@ -14,6 +14,7 @@ export const alumniUserSlice = createSlice({
         alumniProfile: null,
         events: [],
         errorMessage: null,
+        jobs: []
     },
     reducers: {
         getAnnouncements: (state, action) => {
@@ -23,6 +24,9 @@ export const alumniUserSlice = createSlice({
             return { ...state, events: [...action.payload] };
         },
         getAlumniProfile: (state, action) => {
+            return { ...state, alumniProfile: { ...action.payload } };
+        },
+        getJobs: (state, action) => {
             return { ...state, alumniProfile: { ...action.payload } };
         },
         setErrorMessage: (state, action) => {

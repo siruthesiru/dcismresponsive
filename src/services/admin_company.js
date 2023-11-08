@@ -61,6 +61,7 @@ export const Verify_Company = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.put('/Company/Verify-Company', credentials)
         dispatch(verifyCompany(response.data));
+        toast.success('Verified the post successfully');
     } catch (error) {
         console.error('Error:', error);
         dispatch(verifyCompanyError(error.response.data));
@@ -72,6 +73,7 @@ export const GetVerifiedJobs = async (dispatch) => {
         const response = await axiosInstance.get('/Company/Jobs');
         const verifiedJobs = response.data.filter(job => job.status === true);
         dispatch(getVerifiedPost(verifiedJobs));
+
     } catch (error) {
         console.error('Error in GetVerifiedJobs:', error);
         dispatch(getPostError('Error fetching verified jobs.'));
@@ -80,7 +82,7 @@ export const GetVerifiedJobs = async (dispatch) => {
 
 export const GetUnverifiedJobs = async (dispatch) => {
     try {
-        const response = await axiosInstance.get('/Company/Jobs');
+        const response = await axiosInstance.get('/Company/Jobs-Unverified');
         const unverifiedJobs = response.data.filter(job => !job.status);
         dispatch(getUnverifiedPost(unverifiedJobs));
     } catch (error) {
@@ -93,6 +95,7 @@ export const Verify_JobPost = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.put('/Company/Verify-Job-Posting', credentials)
         dispatch(verifyPost(response.data));
+        toast.success('Verified the post successfully');
     } catch (error) {
         console.error('Error:', error);
         dispatch(verifyCompanyError(error.response.data));
@@ -103,7 +106,7 @@ export const RejectJobPost = async (dispatch, id) => {
     try {
         await axiosInstance.delete(`/Company/Reject-Job-Posting/${id}`);
         dispatch(rejectPost(id));
-        toast.success('Announcement deleted successfully');
+        toast.success('Job Post deleted successfully');
     } catch {
         dispatch(rejectCompanyError());
         toast.error('An error occurred while deleting the announcement');
