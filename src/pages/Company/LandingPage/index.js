@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import AnnouncementCard from '../../../components/announcementCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllAnnouncements, GetCompanyProfile } from '../../../services/company';
