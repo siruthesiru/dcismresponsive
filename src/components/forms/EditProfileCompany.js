@@ -25,11 +25,6 @@ const EditProfileCompany = () => {
     });
 
 
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setUserData({ ...userData, [name]: value });
-    // };
-
     const handleImageInputChange = (e) => {
         const file = e.target.files[0];
         if (file) {
