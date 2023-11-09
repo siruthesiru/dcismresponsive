@@ -17,6 +17,10 @@ const Companies = () => {
         GetCompanies(dispatch)
     }, [dispatch])
 
+    const uniqueCompanies = companies.map((company, index) => {
+        return { ...company, id: company.id || index + 1 };
+    });
+
     const handleDownload = (file) => {
         const linkSource = `data:application/pdf;base64,${file}`;
         const downloadLink = document.createElement('a');
@@ -94,7 +98,7 @@ const Companies = () => {
                                     color: "#221769",
                                 },
                             }}
-                            rows={companies}
+                            rows={uniqueCompanies}
                             getRowId={(row) => row.id}
                             columns={columns}
                             style={{ width: "100%" }}

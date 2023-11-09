@@ -4,17 +4,13 @@ import './index.scss';
 import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
 import { useDispatch } from 'react-redux';
 import RichTextEditor from './RichTextEditor';
-import { setErrorMessage } from '../../app/eventsSlice';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
 
     const audiences = ["All", "Company", "Alumni"];
-    const [isDescriptionFilled, setIsDescriptionFilled] = useState(false);
-
-
+    // const [isDescriptionFilled, setIsDescriptionFilled] = useState(false);
     const [newEvent, setNewEvent] = useState(() => {
         if (initialEvent) {
-
             return {
                 ...initialEvent
             };
@@ -32,28 +28,33 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     });
 
     const dispatch = useDispatch();
+    const [submitting, setSubmitting] = useState(false);
+
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        if (!isDescriptionFilled) {
-            setErrorMessage("Description is required.");
-            return;
+        try {
+            setSubmitting(true);
+            if (initialEvent) {
+                const data = await EditEvent(dispatch, newEvent);
+                if (data) {
+                    await GetAllEvents(dispatch);
+                    onSubmit(newEvent);
+                }
+            } else {
+                const data = await AddEvent(dispatch, newEvent);
+                if (data) {
+                    await GetAllEvents(dispatch);
+                    onSubmit(newEvent);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setSubmitting(false);
         }
+    };
 
-        if (initialEvent) {
-            const data = await EditEvent(dispatch, newEvent);
-            if (data) {
-                await GetAllEvents(dispatch);
-                onSubmit(newEvent);
-            }
-        } else {
-            const data = await AddEvent(dispatch, newEvent);
-            if (data) {
-                await GetAllEvents(dispatch);
-                onSubmit(newEvent);
-            }
-        }
-    }
 
 
     return (
@@ -122,7 +123,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <label>Description: </label>
                     <RichTextEditor value={newEvent.description} onChange={(value) => {
                         setNewEvent({ ...newEvent, description: value });
-                        setIsDescriptionFilled(!!value);
+                        // setIsDescriptionFilled(!!value);
                     }} />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -139,7 +140,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         }}
                         onClick={handleFormSubmit}
                     >
-                        {initialEvent ? 'Update Event' : 'Add Event'}
+                        {submitting ? 'Update Event' : 'Add Event'}
                     </Button>
                 </Grid>
             </Grid>

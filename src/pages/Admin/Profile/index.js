@@ -69,6 +69,7 @@ const Profile = () => {
         if (isEditSucceed) {
             const profileData = await GetAdminProfile(dispatch);
             setUserData(profileData);
+            setIsEditing(false);
         }
     };
 
@@ -109,16 +110,10 @@ const Profile = () => {
                             </label>
                         ) : (
                             <img
-                                src={userData?.fileUpload ? `data:image/jpeg;base64,${userData.fileUpload}` : placeholder}
+                                src={userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder}
                                 alt="placeholder"
                                 className="w-[200px] h-[200px] rounded-full border border-slate-300 "
                             />
-                            // <CardMedia
-                            //     component="img"
-                            //     sx={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer", objectFit: "cover" }}
-                            //     image={`data:image/jpeg;base64,${userData.fileUpload}` || placeholder}
-                            //     alt="Profile picture"
-                            // />
                         )}
                     </Box>
 

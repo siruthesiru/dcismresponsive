@@ -122,6 +122,8 @@ export const VerifyAlumni = async (dispatch, credentials) => {
     try {
         const response = await axiosInstance.put('/Alumni/Verify-Alumni', credentials)
         dispatch(editAlumni(response.data));
+        toast.success(response.data.message)
+
     } catch (error) {
         console.error('Error:', error);
         dispatch(editAlumni(error.response.data));
