@@ -27,7 +27,7 @@ const CreateJobPost = () => {
         ]
     });
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     const handleSkillChange = (e, index) => {
@@ -72,10 +72,10 @@ const CreateJobPost = () => {
         //     }
         // } else {
         const addSuccess = await PostJob(dispatch, formData);
-        // if (addSuccess) {
-        //     await new Promise(resolve => setTimeout(resolve, 3000));
-        //     navigate('/company/jobs');
-        // }
+        if (addSuccess) {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            navigate('/company/jobs');
+        }
     };
 
     return (
