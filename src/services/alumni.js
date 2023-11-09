@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getEvents, getEventsError, setErrorMessage } from "../app/alumniUserSlice";
 
 

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { addJobPost, addJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
+import { toast } from 'react-toastify';
+
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Company`,
@@ -73,14 +75,14 @@ export const EditProfile = async (dispatch, credentials) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        dispatch(editProfile(response.data));
 
-        //  if (response.data.isEditSucceed) {
-        //     dispatch(editProfile(response.data));
-        // } else {
-        //     dispatch(setErrorMessage(response.data.message));
-        //     toast.error(response.data.message);
-        // }
+        if (response.data.isEditSucceed) {
+            dispatch(editProfile(response.data));
+            toast.success(response.data.message);
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
         return response.data.isEditSucceed;
     } catch (error) {
         console.error('Error:', error);
@@ -106,7 +108,14 @@ export const AddMOAUpload = async (dispatch, formData) => {
 export const PostJob = async (dispatch, job) => {
     try {
         const response = await axiosInstance.post('/Jobs/Create-Job', job)
-        dispatch(addJobPost(response.data));
+        if (response.data.isPostSucceed) {
+            toast.success(response.data.message);
+            dispatch(addJobPost(response.data))
+            return true;
+        } else {
+            toast.error(response.data.message);
+            return false;
+        }
     } catch (error) {
         console.error('Error:', error);
         dispatch(addJobPostError(error.response.data));

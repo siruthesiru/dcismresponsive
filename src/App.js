@@ -44,6 +44,7 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
+import EditProfileCompany from './components/forms/EditProfileCompany.js';
 
 
 const App = () => {
@@ -122,7 +123,7 @@ const App = () => {
                   <Route path="/company/events" element={<CompanyEvents />} />
                   <Route path="/company/notifications" element={<CompanyNotification />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-                  {/* <Route path="/company/edit-profile" element={<CompanyProfile />} /> */}
+                  <Route path="/company/edit-profile" element={<EditProfileCompany />} />
                   <Route path="/company/post_job" element={<PostJob />} />
                   <Route path="/company/view_candidates" element={<CompanyCandidates />} />
                 </Route>

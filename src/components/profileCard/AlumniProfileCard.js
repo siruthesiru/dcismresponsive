@@ -46,6 +46,7 @@ const AlumniProfileCard = () => {
     const handleSubmit = async () => {
         try {
             console.log(userData);
+            // const base64Image = userData.picture.split(',')[1];
 
             await EditProfile(dispatch, userData);
             toast.success("Updated profile successfully");

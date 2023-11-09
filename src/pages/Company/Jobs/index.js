@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import JobContent from '../../../components/alumni-company/JobContent';
 import Search from '../../../components/search';
 import CompanyUser from '../../../components/userCard/companyCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllJobs, GetCompanyProfile } from '../../../services/company';
 import PendingApplication from '../../../components/alumni-company/pendingApplication';
 import { PendingData } from '../../../data/mockAlumniData';
-import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import JobContent from '../../../components/cards/JobContent';
 
 const CompanyJobs = () => {
-    const jobs = useSelector((state) => state.companyUserSlice.jobPost) || [];
+    const jobs = useSelector((state) => state.companyUserSlice.jobPost)
 
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
@@ -30,7 +28,6 @@ const CompanyJobs = () => {
     }, [dispatch]);
 
     const pending = PendingData[0];
-    const navigate = useNavigate();
 
     console.log(jobs);
 
@@ -44,20 +41,12 @@ const CompanyJobs = () => {
                     )}
                 </div>
                 <div className="sm:w-[50%] space-y-2">
-                    <Button
-                        variant="contained"
-                        size="small"
-                        style={{ backgroundColor: "#221769" }}
-                        onClick={() => navigate("/company/post_job")}
-                    >
-                        Add Post
-                    </Button>
                     <div className="space-y-2">
                         {Object.values(jobs).length === 0 ? (
                             <p className='mx-4 sm:mx-2'>No jobs available</p>
                         ) : (
                             Object.values(jobs).map((job, index) => (
-                                <JobContent key={index} data={job} />
+                                <JobContent key={index} data={job} user={userData} />
                             ))
                         )}
                     </div>

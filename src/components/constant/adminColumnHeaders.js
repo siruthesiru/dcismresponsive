@@ -2,6 +2,7 @@ import React from "react";
 import placeholder from "../../assets/placeholder.webp";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import { formatDate } from "./helper";
 // import FileViewer from "../fileViewer";
 
 export const companyColumn = [
@@ -346,6 +347,9 @@ export const verifyJobColumn = [
         field: "expiration_Date",
         headerName: "End of Application ",
         width: 200,
+        valueGetter: (params) => {
+            return params.value ? formatDate(params.value) : "Not Indicated";
+        },
     },
 ];
 

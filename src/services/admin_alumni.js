@@ -65,6 +65,7 @@ export const AddAlumni = async (dispatch, alumni) => {
         const response = await axiosInstance.post('/Alumni/Add-Alumni', alumni)
         if (response.data.isPostSucceed) {
             dispatch(addAlumni(response.data));
+            toast.success(response.data.message)
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
@@ -81,6 +82,7 @@ export const EditAlumni = async (dispatch, alumni) => {
         const response = await axiosInstance.put('/Alumni/Edit-Alumni', alumni)
         if (response.data.isEditSucceed) {
             dispatch(editAlumni(response.data));
+            toast.success(response.data.message);
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
@@ -99,6 +101,15 @@ export const AddAlumniCSV = async (dispatch, formData) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
+
+        if (response.data.id && response.data.id.length > 0) {
+            const errorMessage = `The following IDs already exist: ${response.data.id.join(', ')}. ${response.data.message}`;
+            dispatch(setErrorMessage(errorMessage));
+            toast.error(errorMessage);
+        } else {
+            toast.success(response.data.message)
+
+        }
         dispatch(addAlumni(response.data));
     } catch (error) {
         console.error('Error:', error);
