@@ -8,7 +8,7 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import applogo from "../../assets/applogowhite.png";
-import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign, EventNote } from '@mui/icons-material';
+import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign, EventNote, AddCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const Navbar = ({ user }) => {
+    const role = user && user.role ? user.role.toLowerCase() : '';
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -45,7 +46,6 @@ const Navbar = ({ user }) => {
 
     const navigate = useNavigate();
 
-
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -64,7 +64,7 @@ const Navbar = ({ user }) => {
             onClose={handleMenuClose}
         >
             <MenuItem>
-                <Button onClick={() => navigate(`/${user}/profile`)}>My Profile</Button>
+                <Button onClick={() => navigate(`/${role}/profile`)}>My Profile</Button>
             </MenuItem>
             <MenuItem>
                 <Button onClick={() => { dispatch(logout()) }} href="/" > Log out</Button>
@@ -90,35 +90,45 @@ const Navbar = ({ user }) => {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
+                <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/dashboard`)}>
                     <Campaign />
                 </IconButton>
                 <p>Announcement</p>
             </MenuItem>
             <MenuItem>
-                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
+                <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/events`)}>
                     <EventNote />
                 </IconButton>
                 <p>Events</p>
             </MenuItem>
             <MenuItem>
                 <IconButton size="large" color="inherit">
-                    <Badge badgeContent={10} color="error" onClick={() => navigate(`/${user}/jobs`)}>
+                    <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
                         <BusinessCenter />
                     </Badge>
                 </IconButton>
                 <p>Job Posts</p>
             </MenuItem>
+            {role === "company" && (
+                <MenuItem>
+                    <IconButton size="large" color="inherit">
+                        <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
+                            <AddCircle />
+                        </Badge>
+                    </IconButton>
+                    <p>Add Job Post</p>
+                </MenuItem>
+            )}
             <MenuItem>
                 <IconButton size="large" color="inherit">
-                    <Badge badgeContent={17} color="error" onClick={() => navigate(`/${user}/notifications`)}>
+                    <Badge color="error" onClick={() => navigate(`/${role}/notifications`)}>
                         <Notifications />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
             <MenuItem>
-                <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/faq`)}>
+                <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                     <Help />
                 </IconButton>
                 <p>FAQ</p>
@@ -158,10 +168,10 @@ const Navbar = ({ user }) => {
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: "1rem" }}>
-                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/dashboard`)}>
+                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/dashboard`)}>
                             <Campaign />
                         </IconButton>
-                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/events`)}>
+                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/events`)}>
                             <EventNote />
                         </IconButton>
                         <IconButton
@@ -169,20 +179,31 @@ const Navbar = ({ user }) => {
                             aria-label="show 10 jobs matches to the user"
                             color="inherit"
                         >
-                            <Badge badgeContent={10} color="error" onClick={() => navigate(`/${user}/jobs`)}>
+                            <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
                                 <BusinessCenter />
                             </Badge>
                         </IconButton>
+                        {role === "company" && (
+                            <IconButton
+                                size="large"
+                                aria-label="show 10 jobs matches to the user"
+                                color="inherit"
+                            >
+                                <Badge color="error" onClick={() => navigate("/company/post_job")}>
+                                    <AddCircle />
+                                </Badge>
+                            </IconButton>
+                        )}
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error" onClick={() => navigate(`/${user}/notifications`)}>
+                            <Badge badgeContent={1} color="error" onClick={() => navigate(`/${role}/notifications`)}>
                                 <Notifications />
                             </Badge>
                         </IconButton>
-                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${user}/faq`)}>
+                        <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                             <Help />
                         </IconButton>
                         <IconButton
@@ -197,14 +218,14 @@ const Navbar = ({ user }) => {
                             <img
                                 src={user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : placeholder}
                                 alt="placeholder"
-                                className="w-[40px] h-[40px] rounded-full border border-slate-300 "
+                                className="w-[30px] h-[30px] rounded-full border border-slate-300 "
                             />
                             <Typography
                                 fontWeight="bold"
                                 fontSize="0.85rem"
                                 padding="5px"
                             >
-                                {user.firstName} {user.lastName}
+                                {user?.firstName} {user?.lastName}
                             </Typography>
                         </IconButton>
                     </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateJobPost from '../../../components/alumni-company/CreateJobPost';
+import CreateJobPost from '../../../components/forms/createJobPost';
 
 const PostJob = () => {
     return (

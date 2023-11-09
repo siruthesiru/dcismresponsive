@@ -57,6 +57,7 @@ export const AddEvent = async (dispatch, event) => {
             toast.error(response.data.message);
 
         }
+        return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
@@ -89,6 +90,7 @@ export const EditEvent = async (dispatch, event) => {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
         }
+        return response.data.isEditSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));

@@ -1,12 +1,11 @@
-
-export const formatDate = (date) => {
-    const formattedDate = date.toLocaleString('en-US', {
+export const formatDate = (inputDate) => {
+    const eventDate = new Date(inputDate);
+    const options = {
         year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+        month: 'long',
+        day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
-    });
-    return formattedDate;
+    };
+    return eventDate.toLocaleString('en-US', options);
 }

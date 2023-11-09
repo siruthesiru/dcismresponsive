@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 const LayoutCompany = () => {
     const user = useSelector(state => state.companyUserSlice.companyProfile)
+    // const role = useSelector(state => state.authenticationSlice)
 
     return (
         <Box width="100%" height="100%">

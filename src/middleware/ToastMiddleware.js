@@ -1,17 +1,11 @@
 import { toast } from 'react-toastify';
 
-import { addAlumni, addAlumniError, deleteAlumni, deleteAlumniError, editAlumni, editAlumniError, getAllAlumniError } from '../app/alumniSlice';
+import { addAlumniError, deleteAlumni, deleteAlumniError, editAlumniError, getAllAlumniError } from '../app/alumniSlice';
 import { rejectCompany, rejectCompanyError, verifyCompany, verifyCompanyError } from '../app/companiesSlice';
 
 const ToastMiddleware = () => (next) => (action) => {
     switch (action.type) {
         // alumni
-        case addAlumni.type:
-            toast.success('New Alumni added successfully');
-            break;
-        case editAlumni.type:
-            toast.success('Alumna updated successfully');
-            break;
         case deleteAlumni.type:
             toast.success('Alumna deleted successfully');
             break;
@@ -35,7 +29,6 @@ const ToastMiddleware = () => (next) => (action) => {
         case verifyCompanyError.type:
             toast.error(action.payload);
             break;
-
 
         default:
             break;

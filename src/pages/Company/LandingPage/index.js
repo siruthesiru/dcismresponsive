@@ -7,7 +7,7 @@ import CompanyUser from '../../../components/userCard/companyCard';
 const LandingPageCompany = () => {
 
     const announcements = useSelector((state) => state.companyUserSlice.announcements);
-    const userData = useSelector((state) => state.companyUserSlice.companySlice);
+    const userData = useSelector((state) => state.companyUserSlice.companyProfile);
 
     const dispatch = useDispatch();
 
@@ -16,7 +16,6 @@ const LandingPageCompany = () => {
         GetAllAnnouncements(dispatch);
     }, [dispatch]);
 
-    console.log(userData);
 
     return (
         <div className='bg-slate-100 min-h-screen'>

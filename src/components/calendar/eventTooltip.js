@@ -6,6 +6,7 @@ import EventForm from "../forms/EventForm";
 import { DeleteEvent, GetAllEvents } from "../../services/events";
 import { useDispatch } from "react-redux";
 import ConfirmationDialog from "../popup/confirmationDialog";
+import { formatDate } from '../constant/helper';
 
 const EventWithTooltip = ({ event }) => {
 
@@ -54,10 +55,11 @@ const EventWithTooltip = ({ event }) => {
                             {`Venue: ${event.venue}`}
                         </Typography>
                         <Typography variant="h6">
-                            {`Start: ${event.start}`}
+                            Start {formatDate(event.start)}
                         </Typography>
+
                         <Typography variant="h6">
-                            {`End: ${event.end}`}
+                            Start {formatDate(event.end)}
                         </Typography>
                     </div>
                 )

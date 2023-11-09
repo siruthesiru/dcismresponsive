@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
 import { Button, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
 import { AddEvent, EditEvent, GetAllEvents } from '../../services/events';
 import { useDispatch } from 'react-redux';
 import RichTextEditor from './RichTextEditor';
+import { setErrorMessage } from '../../app/eventsSlice';
 
 const EventForm = ({ onSubmit, initialEvent }) => {
 
     const audiences = ["All", "Company", "Alumni"];
+    const [isDescriptionFilled, setIsDescriptionFilled] = useState(false);
+
 
     const [newEvent, setNewEvent] = useState(() => {
         if (initialEvent) {
-            const startUTC = new Date(initialEvent.start);
-            const endUTC = new Date(initialEvent.end);
-
-            startUTC.setHours(startUTC.getHours() + 8);
-            endUTC.setHours(endUTC.getHours() + 8);
 
             return {
-                ...initialEvent,
-                start: startUTC,
-                end: endUTC,
+                ...initialEvent
             };
         } else {
             return {
@@ -30,8 +24,8 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                 description: "",
                 audience: "All",
                 venue: "",
-                start: new Date(),
-                end: new Date(),
+                start: "",
+                end: "",
                 file: null,
             };
         }
@@ -39,17 +33,26 @@ const EventForm = ({ onSubmit, initialEvent }) => {
 
     const dispatch = useDispatch();
 
-    const handleFormSubmit = async () => {
-        const formattedStartDate = newEvent.start.toISOString();
-        const formattedEndDate = newEvent.end.toISOString();
-        if (initialEvent) {
-            await EditEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
-            GetAllEvents(dispatch);
-        } else {
-            await AddEvent(dispatch, { ...newEvent, start: formattedStartDate, end: formattedEndDate });
-            GetAllEvents(dispatch);
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        if (!isDescriptionFilled) {
+            setErrorMessage("Description is required.");
+            return;
         }
-        onSubmit(newEvent);
+
+        if (initialEvent) {
+            const data = await EditEvent(dispatch, newEvent);
+            if (data) {
+                await GetAllEvents(dispatch);
+                onSubmit(newEvent);
+            }
+        } else {
+            const data = await AddEvent(dispatch, newEvent);
+            if (data) {
+                await GetAllEvents(dispatch);
+                onSubmit(newEvent);
+            }
+        }
     }
 
 
@@ -95,35 +98,32 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <InputLabel htmlFor="program-graduated-label">Start: </InputLabel>
-                    <DatePicker
-                        className='date-picker-start'
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={60}
-                        dateFormat="MM/dd/yyyy h:mm aa"
-                        selected={newEvent.start}
-                        onChange={(start) => setNewEvent({ ...newEvent, start })}
-                        timeZone="Asia/Manila"
-
+                    <label className="text-[12px] w-[100px]">Start: </label>
+                    <input
+                        type="datetime-local"
+                        value={newEvent.start}
+                        onChange={(e) => setNewEvent({ ...newEvent, start: e.target.value })
+                        }
+                        className="w-[100%] h-[30px] bg-white border border-slate-200 p-2 rounded-md"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <InputLabel htmlFor="program-graduated-label" >End: </InputLabel>
-                    <DatePicker
-                        className='date-picker'
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={60}
-                        dateFormat="MM/dd/yyyy h:mm aa"
-                        selected={newEvent.end}
-                        onChange={(end) => setNewEvent({ ...newEvent, end })}
-                        timeZone="Asia/Manila"
+                    <label className="text-[12px] w-[100px]">End: </label>
+                    <input
+                        type="datetime-local"
+                        value={newEvent.end}
+                        onChange={(e) => setNewEvent({ ...newEvent, end: e.target.value })
+                        }
+                        className="w-[100%] h-[30px] bg-white border border-slate-200 p-5 rounded-md"
                     />
+
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <label>Description: </label>
-                    <RichTextEditor value={newEvent.description} onChange={(value) => setNewEvent({ ...newEvent, description: value })} />
+                    <RichTextEditor value={newEvent.description} onChange={(value) => {
+                        setNewEvent({ ...newEvent, description: value });
+                        setIsDescriptionFilled(!!value);
+                    }} />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <Button

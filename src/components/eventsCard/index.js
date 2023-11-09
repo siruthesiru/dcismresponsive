@@ -4,67 +4,38 @@ import { formatDate } from '../constant/helper';
 
 
 const EventsCard = ({ events }) => {
-    const { title, start, end, venue, description } = events;
-
-    const startUTC = new Date(start);
-    const endUTC = new Date(end);
-
-    startUTC.setHours(startUTC.getHours() + 8);
-    endUTC.setHours(endUTC.getHours() + 8);
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(description, 'text/html');
-    const imgSrc = doc.querySelector('img')?.getAttribute('src');
-    const videoSrc = doc.querySelector('video source')?.getAttribute('src');
-    const noMediaAvailable = !imgSrc && !videoSrc;
+    const { title, start, end, venue, description, admin } = events;
 
     return (
-        <div className='mx-4 sm:mx-0'>
-            <div className='flex flex-col sm:flex-row bg-white border border-slate-200 p-4 mb-2 rounded-lg'>
-                <div className='sm:w-[70%] flex flex-col'>
-                    <h1 className='font-bold'>{title}</h1>
-                    <p className='text-[10px] text-slate-500 mb-4'>
-                        Venue <span className='font-bold'>{venue}</span>
-                    </p>
-                    <p className='text-[10px] text-slate-500 mb-4'>
-                        Start <span className='font-bold'>{formatDate(startUTC)}</span>
-                    </p>
-                    <p className='text-[10px] text-slate-500 mb-4'>
-                        End: <span className='font-bold'>{formatDate(endUTC)}</span>
-                    </p>
-                    <p className='text-[10px] text-slate-500 mb-4'>
-                        Desciption: <span className='font-bold'><div className='text-[12px] text-justify mr-8' dangerouslySetInnerHTML={{ __html: description }} />
-                        </span>
-                    </p>
+        <div className="mx-4 sm:mx-0">
+            <div className="bg-white border border-slate-200 p-4 mb-2 rounded-lg flex">
+                <div className="flex-shrink-0 sm:w-1/9 md:w-1/7 lg:w-1/8 flex items-center justify-center">
+                    <img
+                        src={admin.profileImage ? `data:image/jpeg;base64,${admin.profileImage}` : placeholder}
+                        alt="Profile"
+                        className="w-12 h-12 rounded-full border border-slate-300"
+                    />
                 </div>
-                {noMediaAvailable && (
-                    <div className='mx-auto mt-4 sm:mt-0 items-center sm:w-[30%]'>
-                        <img
-                            src={placeholder}
-                            alt='Placeholder'
-                            className='w-full sm:w-[208px] sm:h-[140px] object-cover rounded-md'
-                        />
-                    </div>
-                )}
-
-                {imgSrc && (
-                    <div className='mx-auto mt-4 sm:mt-0 items-center sm:w-[30%]'>
-                        <img
-                            src={imgSrc}
-                            alt='description_image'
-                            className='w-full sm:w-[208px] sm:h-[140px] object-cover rounded-md'
-                        />
-                    </div>
-                )}
-
-                {videoSrc && (
-                    <div className='mx-auto mt-4 sm:mt-0 items-center sm:w-[30%]'>
-                        <video controls>
-                            <source src={videoSrc} type='video/mp4' />
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                )}
+                <div className="sm:w-8/9 md:w-6/7 lg:w-7/8 ml-4">
+                    <h1 className="font-bold">{title}</h1>
+                    <p className="flex items-center gap-2 text-[12px] text-slate-500 ">
+                        Posted By: <span className="font-bold">{admin.firstName} {admin.lastName}</span> {admin.position}
+                        {/* on {formatDate(posted_Date)} {announcement.admin.position} */}
+                    </p>
+                    <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-2">
+                        Position: <span className="font-bold">{admin.position} </span>
+                    </p>
+                    <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-2">
+                        Venue: <span className="font-bold">{venue}</span>
+                    </p>
+                    <p className="flex items-center gap-2 text-[12px] text-slate-500">
+                        Start: <span className="font-bold">{formatDate(start)}</span>
+                    </p>
+                    <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-4">
+                        End: <span className="font-bold">{formatDate(end)}</span>
+                    </p>
+                    <div className="text-[12px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: description }} />
+                </div>
             </div>
         </div>
     );
