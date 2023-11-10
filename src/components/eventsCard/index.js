@@ -4,7 +4,7 @@ import { formatDate } from '../constant/helper';
 
 
 const EventsCard = ({ events }) => {
-    const { title, start, end, venue, description, admin } = events;
+    const { title, start, end, venue, description, admin, posted_Date } = events;
 
     return (
         <div className="mx-4 sm:mx-0">
@@ -19,9 +19,10 @@ const EventsCard = ({ events }) => {
                 <div className="sm:w-8/9 md:w-6/7 lg:w-7/8 ml-4">
                     <h1 className="font-bold">{title}</h1>
                     <p className="flex items-center gap-2 text-[12px] text-slate-500 ">
-                        Posted By: <span className="font-bold">{admin.firstName} {admin.lastName}</span> {admin.position}
-                        {/* on {formatDate(posted_Date)} {announcement.admin.position} */}
+                        Posted By: <span className="font-bold">{admin.firstName} {admin.lastName}</span>
+                        on {formatDate(posted_Date)} {admin.position}
                     </p>
+
                     <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-2">
                         Position: <span className="font-bold">{admin.position} </span>
                     </p>

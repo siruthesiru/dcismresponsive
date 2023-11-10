@@ -28,11 +28,16 @@ const Navbar = () => {
         <div className="sticky top-0 w-full z-10 bg-primary ">
             <div className=" container mx-auto p-4 hidden md:flex">
                 <div className="flex flex-row justify-between items-center">
-                    <img src={applogo} alt="ACES Logo" width={40}/>
+                    <img src={applogo} alt="ACES Logo" width={40} />
                     <p className="text-white text-3xl font-bold pl-2">ACES</p>
                 </div>
                 <div className="hidden md:flex justify-center ml-auto">
                     <ul className="flex p-4 space-x-8 text-white text-bold">
+
+                        <li>
+                            Test
+                        </li>
+
                         <li>
                             <ScrollLink
                                 to="Home"
@@ -106,7 +111,7 @@ const Navbar = () => {
                 <div>
                     <div className="flex flex-row justify-between items-center sticky z-20">
                         <div className="flex">
-                            <img src={applogo} alt="ACES Logo" width={25}/>
+                            <img src={applogo} alt="ACES Logo" width={25} />
                             <p className="text-white text-base pl-2">ACES</p>
                         </div>
 

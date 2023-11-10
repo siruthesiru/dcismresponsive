@@ -5,6 +5,9 @@ export const getAnnouncementsError = createAction('getAnnouncementsError');
 export const getAlumniProfileError = createAction('getAlumniProfileError');
 export const getEventsError = createAction('getEventsError');
 export const editProfileError = createAction('editProfileError');
+export const getJobsError = createAction('getJobsError');
+export const getJobError = createAction('getJob');
+
 
 
 export const alumniUserSlice = createSlice({
@@ -14,7 +17,9 @@ export const alumniUserSlice = createSlice({
         alumniProfile: null,
         events: [],
         errorMessage: null,
-        jobs: []
+        jobList: [],
+        job: null,
+        appliedJobs: [],
     },
     reducers: {
         getAnnouncements: (state, action) => {
@@ -27,7 +32,16 @@ export const alumniUserSlice = createSlice({
             return { ...state, alumniProfile: { ...action.payload } };
         },
         getJobs: (state, action) => {
-            return { ...state, alumniProfile: { ...action.payload } };
+            return { ...state, jobList: { ...action.payload } };
+        },
+        getJob: (state, action) => {
+            return { ...state, job: action.payload.data };
+        },
+        applyJob: (state, action) => {
+            return { ...state, appliedJobs: action.payload.data };
+        },
+        getApplyJobs: (state, action) => {
+            return { ...state, appliedJobs: action.payload.data };
         },
         setErrorMessage: (state, action) => {
             return { ...state, errorMessage: action.payload };
@@ -47,6 +61,6 @@ export const alumniUserSlice = createSlice({
     }
 });
 
-export const { getAnnouncements, setErrorMessage, clearErrorMessage, getAlumniProfile, getEvents, editProfile } = alumniUserSlice.actions;
+export const { getAnnouncements, setErrorMessage, applyJob, getJobs, getApplyJobs, getJob, clearErrorMessage, getAlumniProfile, getEvents, editProfile } = alumniUserSlice.actions;
 
 export default alumniUserSlice.reducer;

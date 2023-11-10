@@ -42,8 +42,8 @@ const AlumniUser = ({ user }) => {
                     <p className="font-bold ">{user?.syGraduated}</p>
                 </div>
                 <div className="flex justify-between">
-                    <p>Degree</p>
-                    <p className="font-bold ">{user?.course}</p>
+                    <p>Program</p>
+                    <p className="font-bold ">{user?.course?.proogramCode}</p>
                 </div>
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
 
@@ -54,14 +54,13 @@ const AlumniUser = ({ user }) => {
                             user?.skills.length === 0 ? (
                                 <p>No skills indicated</p>
                             ) : (
-                                user.skills.map((skill, index) => (
-                                    <p key={index} className="font-bold">{skill}</p>
-                                ))
+                                <p>{user?.skills.map((skill) => skill.skill).join(', ')}</p>
                             )
                         ) : (
                             <p>No skills data available</p>
                         )}
                     </div>
+
                     <div className="flex justify-end">
                         <p className="text-[#0098FF] cursor-pointer" onClick={() => navigate("/alumni/profile")}>View All</p>
                     </div>

@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ColorModeContext, useMode } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+
 import Login from './pages/Public/Login';
 import LandingPage from './pages/Public/LandingPage';
 import RegisterAlumni from './pages/Public/RegisterAlumni';
 import RegisterCompany from './pages/Public/RegisterCompany';
 import ForgotPassword from './pages/Public/ForgotPassword';
 import ChangePassword from './pages/Public/ChangePassword';
+
 import Layout from './pages/Admin/Layout';
-import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from './pages/Admin/Dashboard';
 import Jobs from './pages/Admin/Jobs';
 import VerifyCompany from './pages/Admin/VerifyCompany';
@@ -45,6 +47,8 @@ import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
 import EditProfileCompany from './components/forms/EditProfileCompany.js';
+import ViewJobAlumni from './components/cards/ViewJobAlumni.js';
+import ViewJobCompany from './components/cards/ViewJobCompany.js';
 
 
 const App = () => {
@@ -109,8 +113,10 @@ const App = () => {
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
                   <Route path="/alumni/edit-profile" element={<AlumniProfile />} />
                   <Route path="/alumni/job" element={<AlumniJob />} />
-                  <Route path="/alumni/apply_job" element={<ApplyJob />} />
+                  <Route path="/alumni/job/apply/:id" element={<ApplyJob />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
+                  <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
+
                 </Route>
               </Route>
 
@@ -125,7 +131,9 @@ const App = () => {
                   <Route path="/company/profile" element={<CompanyProfile />} />
                   <Route path="/company/edit-profile" element={<EditProfileCompany />} />
                   <Route path="/company/post_job" element={<PostJob />} />
-                  <Route path="/company/view_candidates" element={<CompanyCandidates />} />
+                  <Route path="/company/job/candidates/:id" element={<CompanyCandidates />} />
+                  <Route path="/company/job/:id" element={<ViewJobCompany />} />
+
                 </Route>
               </Route>
 
