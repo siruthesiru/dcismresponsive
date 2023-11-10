@@ -12,7 +12,6 @@ import {
 
 import {
     Menu as MenuIcon,
-    NotificationsOutlined,
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
 import placeholder from "../../assets/placeholder.webp";
@@ -44,9 +43,9 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-                    <IconButton>
+                    {/* <IconButton>
                         <NotificationsOutlined />
-                    </IconButton>
+                    </IconButton> */}
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Button
                             onClick={handleClick}

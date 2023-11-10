@@ -1,13 +1,13 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
-import RichTextEditor from '../forms/RichTextEditor';
+import RichTextEditor from './RichTextEditor';
 import { useDispatch } from 'react-redux';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate } from 'react-router-dom';
-import { PostJob } from '../../services/company';
+import { GetAllJobs, PostJob } from '../../services/company';
 
 const CreateJobPost = () => {
     const [formData, setFormData] = useState({
@@ -71,11 +71,14 @@ const CreateJobPost = () => {
         //         navigate('/announcements');
         //     }
         // } else {
+        console.log(formData);
         const addSuccess = await PostJob(dispatch, formData);
         if (addSuccess) {
+            await GetAllJobs(dispatch);
             await new Promise(resolve => setTimeout(resolve, 3000));
             navigate('/company/jobs');
         }
+
     };
 
     return (
@@ -220,7 +223,7 @@ const CreateJobPost = () => {
                                 >
                                     Submit Post
                                 </Button>
-                                {/* <Button
+                                <Button
                                     type="button"
                                     variant="contained"
                                     style={{
@@ -229,9 +232,11 @@ const CreateJobPost = () => {
                                         backgroundColor: "#666666",
                                         color: "#FFFFFF",
                                     }}
+                                    onClick={() => navigate(-1)}
+
                                 >
                                     Discard Application
-                                </Button> */}
+                                </Button>
                             </div>
                         </div>
                     </div>

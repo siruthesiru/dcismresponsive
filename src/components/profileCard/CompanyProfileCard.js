@@ -28,7 +28,8 @@ const CompanyProfileCard = () => {
         websiteLink: profileData.websiteLink,
         picture: profileData.profileImage,
         email: profileData.email,
-        isVerified: profileData.isVerified
+        isVerified: profileData.isVerified,
+        moa: profileData.moa
     });
 
 
@@ -52,8 +53,6 @@ const CompanyProfileCard = () => {
             reader.readAsDataURL(file);
         }
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -126,7 +125,7 @@ const CompanyProfileCard = () => {
 
                     ) : (
                         <img
-                            src={userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder}
+                            src={userData?.picture ? `data:image/jpeg;base64,${userData.picture}` : placeholder}
                             alt="placeholder"
                             className="w-[100px] h-[100px] rounded-full border border-slate-300 "
                         />
@@ -191,20 +190,7 @@ const CompanyProfileCard = () => {
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
-
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    placeholder='Input your Email Address'
-                                    name="email"
-                                    value={userData?.email}
-                                    onChange={handleInputChange}
-                                    variant='outlined'
-                                    className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                />
-                            ) : (
-                                <p className="font-bold "> {userData?.email}</p>
-                            )}
+                            <p className="font-bold "> {userData?.email}</p>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
@@ -288,9 +274,9 @@ const CompanyProfileCard = () => {
                         </div>
 
                         <div className="flex items-center">
-                            {isEditing ? (
+                            {isEditing && !userData.isVerified ? (
                                 <>
-                                    <label className="flex gap-2">Change MOA File:</label>
+                                    <label className="flex gap-2">{userData?.moa ? "Change MOA File" : "Apply Verification Upload MOA"}</label>
                                     <input
                                         type="file"
                                         accept=".pdf"
@@ -305,7 +291,7 @@ const CompanyProfileCard = () => {
                                     </Document>
                                     <p>Page 1 of {numPages}</p>
                                     <button className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100" onClick={handleDownload}>
-                                        Download Resume
+                                        Download MOA
                                     </button>
                                 </div>
                             ) : (
@@ -314,8 +300,6 @@ const CompanyProfileCard = () => {
                                 </div>
                             )}
                         </div>
-
-
 
 
                         <div className="flex items-center px-6 mt-6">
@@ -370,8 +354,8 @@ const CompanyProfileCard = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </div >
+        </form >
     );
 }
 

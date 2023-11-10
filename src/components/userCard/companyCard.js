@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import placeholder from "../../assets/placeholder.webp";
+import { CheckCircle } from '@mui/icons-material';
 
 const CompanyUser = ({ user }) => {
     const navigate = useNavigate();
@@ -15,7 +16,12 @@ const CompanyUser = ({ user }) => {
                     alt="placeholder"
                     className="w-[90px] h-[90px] rounded-full border border-slate-300"
                 />
-                <h1 className="font-bold py-2 capitalize">{user?.firstName} {user?.lastName}</h1>
+                <div className='flex justify-center items-center gap-1'>
+                    <h1 className="font-bold py-2 capitalize">{user?.firstName} {user?.lastName}</h1>
+                    {user?.isVerified && (
+                        <CheckCircle fontSize='12px' style={{ color: "green" }} />
+                    )}
+                </div>
                 <h1 className="text-[12px]">{user?.companyName}</h1>
             </div>
 

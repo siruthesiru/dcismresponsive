@@ -18,7 +18,6 @@ const AnnouncementCard = ({ announcement }) => {
 
 
     return (
-
         <div className="mx-4 sm:mx-0">
             <div className="bg-white border border-slate-200 p-4 mb-2 rounded-lg flex">
                 <div className="flex-shrink-0 sm:w-1/9 md:w-1/7 lg:w-1/8 ">

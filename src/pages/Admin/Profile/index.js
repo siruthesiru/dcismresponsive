@@ -189,19 +189,9 @@ const Profile = () => {
                                 </Typography>
                             </Grid>
                             <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                {isEditing ? (
-                                    <TextField
-                                        type="email"
-                                        name="email"
-                                        value={userData?.email}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                    />
-                                ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                        {userData?.email}
-                                    </Typography>
-                                )}
+                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    {userData?.email}
+                                </Typography>
                             </Grid>
                         </Grid>
                         <Grid spacing={2} sx={{ display: "flex" }}>

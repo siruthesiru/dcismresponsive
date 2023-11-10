@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 import { addAlumniError, deleteAlumni, deleteAlumniError, editAlumniError, getAllAlumniError } from '../app/alumniSlice';
-import { rejectCompany, rejectCompanyError, verifyCompany, verifyCompanyError } from '../app/companiesSlice';
+import { rejectCompany, rejectCompanyError, verifyCompanyError } from '../app/companiesSlice';
 
 const ToastMiddleware = () => (next) => (action) => {
     switch (action.type) {
@@ -19,9 +19,9 @@ const ToastMiddleware = () => (next) => (action) => {
             break;
 
         // Company
-        case verifyCompany.type:
-            toast.success('Company updated successfully');
-            break;
+        // case verifyCompany.type:
+        //     toast.success('Company updated successfully');
+        //     break;
         case rejectCompany.type:
             toast.success('Company deleted successfully');
             break;

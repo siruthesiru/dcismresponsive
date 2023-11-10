@@ -5,6 +5,7 @@ export const getAnnouncementsError = createAction('getAnnouncementsError');
 export const getCompanyProfileError = createAction('getCompanyProfileError');
 export const getEventsError = createAction('getEventsError');
 export const getJobsError = createAction('getJobsError');
+export const getJobError = createAction('getJobError');
 export const editProfileError = createAction('editProfileError');
 export const addJobPostError = createAction('addJobPostError');
 
@@ -17,6 +18,8 @@ export const companyUserSlice = createSlice({
         events: [],
         errorMessage: null,
         jobPost: [],
+        job: null,
+        candidates: [],
     },
     reducers: {
         getAnnouncements: (state, action) => {
@@ -31,8 +34,14 @@ export const companyUserSlice = createSlice({
         getJobs: (state, action) => {
             return { ...state, jobPost: { ...action.payload } };
         },
+        getJob: (state, action) => {
+            return { ...state, job: action.payload.data };
+        },
+        getCandidates: (state, action) => {
+            return { ...state, candidates: action.payload.data };
+        },
         addJobPost: (state, action) => {
-            return { ...state, jobPost: [action.payload, ...state.jobPost] };
+            return { ...state, job: action.payload.data };
         },
         setErrorMessage: (state, action) => {
             return { ...state, errorMessage: action.payload };
@@ -52,6 +61,6 @@ export const companyUserSlice = createSlice({
     }
 });
 
-export const { getAnnouncements, getJobs, setErrorMessage, clearErrorMessage, getCompanyProfile, getEvents, editProfile, addJobPost } = companyUserSlice.actions;
+export const { getAnnouncements, getJobs, getJob, setErrorMessage, getCandidates, clearErrorMessage, getCompanyProfile, getEvents, editProfile, addJobPost } = companyUserSlice.actions;
 
 export default companyUserSlice.reducer;

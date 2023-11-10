@@ -11,7 +11,7 @@ const TopBox = ({ data }) => {
                 Most Common Jobs
             </h1>
             <div className='list'>
-                {data.length > 0 ? (
+                {data && data.length > 0 ? (
                     top5Jobs.map((job) => (
                         <div className='listItem' key={job.id}>
                             <span className='position'>{job.position}</span>
@@ -24,7 +24,7 @@ const TopBox = ({ data }) => {
                 ) : (
                     <p>No Jobs Available</p>
                 )}
-                {top5Jobs.length > 5 && (
+                {data && data.length > 5 && (
                     <div className='listItem'>
                         <a href="/jobs">View All</a>
                     </div>

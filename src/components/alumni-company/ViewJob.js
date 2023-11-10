@@ -12,7 +12,6 @@ export default function ViewJob({ data }) {
         <div className="flex flex-col text-[12px] space-y-2">
             <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
                 <h1 className='font-bold text-xl p-6'>{data.title}</h1>
-
                 <div className="flex items-center px-6">
                     <label className="w-[100px] text-base font-regular">Job Title: </label>
                     <span className='font-bold text-base'>{data.position}</span>

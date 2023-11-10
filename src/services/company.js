@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addJobPost, addJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
+import { addJobPost, addJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCandidates, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJob, getJobError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
 import { toast } from 'react-toastify';
 
 
@@ -91,19 +91,6 @@ export const EditProfile = async (dispatch, credentials) => {
     }
 }
 
-export const AddMOAUpload = async (dispatch, formData) => {
-    try {
-        const response = await axiosInstance.put('/Profile-Edit', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        dispatch(editProfile(response.data));
-    } catch (error) {
-        console.error('Error:', error);
-        dispatch(editProfileError(error.response.data));
-    }
-};
 
 export const PostJob = async (dispatch, job) => {
     try {
@@ -111,14 +98,36 @@ export const PostJob = async (dispatch, job) => {
         if (response.data.isPostSucceed) {
             toast.success(response.data.message);
             dispatch(addJobPost(response.data))
-            return true;
         } else {
             toast.error(response.data.message);
-            return false;
         }
+        return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);
         dispatch(addJobPostError(error.response.data));
     }
 }
 
+export const GetJob = async (dispatch, id) => {
+    try {
+        const response = await axiosInstance.get(`/Jobs/Get-Job/${id}`, id)
+        console.log(response.data);
+        dispatch(getJob(response.data));
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}
+
+export const ViewAllCandidates = async (dispatch, id) => {
+    try {
+        const response = await axiosInstance.get(`/Jobs/Get-Job/${id}/View-Candidates`, id)
+        console.log(response.data);
+        dispatch(getCandidates(response.data));
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}

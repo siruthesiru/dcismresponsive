@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import './index.scss'
 import TopBox from '../../../components/charts/topBox'
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import ChartBox from '../../../components/charts/chartBox';
-//import { chartBoxAlumni, chartBoxCompanies, chartBoxUsers } from '../../../data/mockDashboardData';
 import PieChartBox from '../../../components/charts/pieChartBox';
 import PieGraphBox from '../../../components/charts/pieGraphBox';
 import Header from '../../../components/header';
 import LineChartBox from '../../../components/charts/lineChartBox';
 import { useDispatch, useSelector } from "react-redux";
 import { getStatistics } from '../../../services/dashboard';
-//import jobIcon from '../../../assets/jobIcon.svg'
 import userIcon from '../../../assets/userIcon.svg'
 import alumniIcon from '../../../assets/alumniIcon.svg'
 import companyIcon from '../../../assets/companyIcon.svg'
@@ -95,7 +93,7 @@ const Dashboard = () => {
             <Box m="1.5rem 2.5rem">
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Header title="Dashboard" subtitle="Graphs and Charts" />
-                    <Box display="flex" gap="15px">
+                    {/* <Box display="flex" gap="15px">
                         <Button
                             variant="contained"
                             size="medium"
@@ -103,7 +101,7 @@ const Dashboard = () => {
                         >
                             Export Report
                         </Button>
-                    </Box>
+                    </Box> */}
                 </Box>
                 <div className='dashboard'>
                     <div className='box1' >

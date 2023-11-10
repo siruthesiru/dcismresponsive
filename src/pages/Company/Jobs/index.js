@@ -3,33 +3,32 @@ import Search from '../../../components/search';
 import CompanyUser from '../../../components/userCard/companyCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllJobs, GetCompanyProfile } from '../../../services/company';
-import PendingApplication from '../../../components/alumni-company/pendingApplication';
-import { PendingData } from '../../../data/mockAlumniData';
 import JobContent from '../../../components/cards/JobContent';
+import PendingApplication from '../../../components/cards/PendingApplication';
 
 const CompanyJobs = () => {
-    const jobs = useSelector((state) => state.companyUserSlice.jobPost)
-
+    const jobs = useSelector((state) => state.companyUserSlice.jobPost);
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchData = async () => {
             try {
-                const data = await GetCompanyProfile(dispatch);
-                setUserData(data);
+                const userData = await GetCompanyProfile(dispatch);
+                setUserData(userData);
             } catch (error) {
-                console.error('Error fetching user profile:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
-        fetchUserData();
+        fetchData();
         GetAllJobs(dispatch);
     }, [dispatch]);
 
-    const pending = PendingData[0];
+    const activeJobs = Object.values(jobs).filter((job) => job.status);
+    const pending_jobs = Object.values(jobs).filter((job) => !job.status);
 
-    console.log(jobs);
+
 
     return (
         <div className="bg-slate-100 min-h-screen">
@@ -42,17 +41,48 @@ const CompanyJobs = () => {
                 </div>
                 <div className="sm:w-[50%] space-y-2">
                     <div className="space-y-2">
-                        {Object.values(jobs).length === 0 ? (
+                        {activeJobs.length === 0 ? (
                             <p className='mx-4 sm:mx-2'>No jobs available</p>
                         ) : (
-                            Object.values(jobs).map((job, index) => (
-                                <JobContent key={index} data={job} user={userData} />
-                            ))
+                            <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
+                                <div className="flex justify-between">
+                                    <span>
+                                        <h1 className="font-bold text-[15px] uppercase ">
+                                            YOUR VERIFIED POST
+                                        </h1>
+                                        <p className="text-slate-500 text-[12px]">
+                                            All your job placements
+                                        </p>
+                                    </span>
+                                </div>
+                                {activeJobs.map((job, index) => (
+                                    <div key={index} className="flex flex-col text-[12px] space-y-2">
+                                        <JobContent data={job} user={userData} />
+                                    </div>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>
                 <div className="flex flex-col sm:w-[25%] gap-2">
-                    <PendingApplication data={pending} />
+                    <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
+                        <h1 className="font-bold text-[15px] uppercase ">List of Pending Job Post</h1>
+                        <p className="text-slate-500 text-[12px]">All your placement</p>
+                        {pending_jobs.length === 0 ? (
+                            <p className='mx-4 sm:mx-2'>No pending jobs available</p>
+                        ) : (
+                            <div className="flex flex-col text-[12px] space-y-2">
+                                {pending_jobs.map((job, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg"
+                                    >
+                                        <PendingApplication data={job} user={userData} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

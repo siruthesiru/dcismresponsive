@@ -8,7 +8,7 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import applogo from "../../assets/applogowhite.png";
-import { BusinessCenter, Help, Notifications, AccountCircle, MoreVert, Campaign, EventNote, AddCircle } from '@mui/icons-material';
+import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, AddCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
@@ -119,14 +119,14 @@ const Navbar = ({ user }) => {
                     <p>Add Job Post</p>
                 </MenuItem>
             )}
-            <MenuItem>
+            {/* <MenuItem>
                 <IconButton size="large" color="inherit">
                     <Badge color="error" onClick={() => navigate(`/${role}/notifications`)}>
                         <Notifications />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem>
                 <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                     <Help />
@@ -194,15 +194,15 @@ const Navbar = ({ user }) => {
                                 </Badge>
                             </IconButton>
                         )}
-                        <IconButton
+                        {/* <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={1} color="error" onClick={() => navigate(`/${role}/notifications`)}>
+                            <Badge color="error" onClick={() => navigate(`/${role}/notifications`)}>
                                 <Notifications />
                             </Badge>
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                             <Help />
                         </IconButton>
