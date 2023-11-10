@@ -1,20 +1,27 @@
 import { Button, CardMedia, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import placeholder from "../../assets/placeholder.webp";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { EditProfile, GetAlumniProfile } from "../../services/alumni";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Document, Page, pdfjs } from "react-pdf";
 
 const AlumniProfileCard = () => {
     const profileData = useSelector(
         (state) => state.alumniUserSlice.alumniProfile
     );
     const [userData, setUserData] = useState({
+        email: profileData.email,
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        middleName: profileData.middleName,
+        idNum: profileData.idNum,
         skills: profileData.skills.map((skill) => ({
             ...skill,
         })),
+        resume: profileData.resume,
         picture: profileData.profileImage,
     });
     const [isEditing, setIsEditing] = useState(false);
@@ -79,6 +86,25 @@ const AlumniProfileCard = () => {
 
     const navigate = useNavigate();
 
+    const [numPages, setNumPages] = useState(null);
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
+
+    const handleDownload = () => {
+        const linkSource = `data:application/pdf;base64,${userData.moa}`;
+        const downloadLink = document.createElement("a");
+        const fileName = "moa.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    };
+
+    pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+        "pdfjs-dist/build/pdf.worker.min.js",
+        import.meta.url
+    ).toString();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -97,33 +123,14 @@ const AlumniProfileCard = () => {
         );
 
         if (isEditSucceed) {
-            // Fetch the updated profile data after successful edit
-            const updatedProfileData = await GetAlumniProfile(dispatch);
-
-            // Update the state with the fetched data
+            const profileData = await GetAlumniProfile(dispatch);
             setUserData({
-                ...userDataWithFormattedSkills,
-                skills: updatedProfileData.skills.map((skill) => ({ ...skill })),
+                ...userData,
+                skills: profileData.skills.map((skill) => ({ ...skill })),
             });
-
             setIsEditing(false);
         }
     };
-
-    useEffect(() => {
-        if (!isEditing) {
-            const fetchData = async () => {
-                const profileData = await GetAlumniProfile(dispatch);
-                setUserData({
-                    ...userData,
-                    picture: profileData.profileImage,
-                });
-            };
-
-            fetchData();
-        }
-    }, [isEditing, dispatch, userData]);
-
 
     return (
         <form>
@@ -184,8 +191,65 @@ const AlumniProfileCard = () => {
 
                 <div className="flex flex-col text-[12px] space-y-2">
                     <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
+                        <p className="font-bold ">Personal Information</p>
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">First Name: </label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    placeholder="Input your First Name"
+                                    value={userData?.firstName}
+                                    onChange={handleInputChange}
+                                    className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                />
+                            ) : (
+                                <p className="font-bold "> {userData?.firstName}</p>
+                            )}
+                        </div>
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">Last Name: </label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    placeholder="Input your Middle Name"
+                                    value={userData?.lastName}
+                                    onChange={handleInputChange}
+                                    className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                />
+                            ) : (
+                                <p className="font-bold "> {userData?.lastName}</p>
+                            )}
+                        </div>
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">Middle Name: </label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="middleName"
+                                    placeholder="Input your Middle Name"
+                                    value={userData?.middleName}
+                                    onChange={handleInputChange}
+                                    className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                />
+                            ) : (
+                                <p className="font-bold "> {userData?.middleName}</p>
+                            )}
+                        </div>
 
+                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
+                        <p className="font-bold ">Account Information</p>
 
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">USC ID: </label>
+                            <p className="font-bold "> {userData?.idNum}</p>
+                        </div>
+
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">Email Address: </label>
+                            <p className="font-bold "> {userData?.email}</p>
+                        </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Contact Number: </label>
                             {isEditing ? (
@@ -248,7 +312,47 @@ const AlumniProfileCard = () => {
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-
+                        <div className="flex items-center">
+                            {isEditing ? (
+                                <>
+                                    <label className="flex gap-2">
+                                        {userData?.resume
+                                            ? "Change Resume File"
+                                            : "Add Resume"}
+                                    </label>
+                                    <input
+                                        type="file"
+                                        accept=".pdf"
+                                        onChange={(e) =>
+                                            setUserData({ ...userData, resume: e.target.files[0] })
+                                        }
+                                    />
+                                </>
+                            ) : userData?.resume ? (
+                                <div style={{ flex: 1 }}>
+                                    <label className="text-[12px] w-[100px]">
+                                        Uploaded Resume:{" "}
+                                    </label>
+                                    <Document
+                                        file={{ data: atob(userData?.resume) }}
+                                        onLoadSuccess={onDocumentLoadSuccess}
+                                    >
+                                        <Page pageNumber={1} />
+                                    </Document>
+                                    <p>Page 1 of {numPages}</p>
+                                    <button
+                                        className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
+                                        onClick={handleDownload}
+                                    >
+                                        Download Resume
+                                    </button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <span style={{ color: "gray" }}>No Resume Uploaded</span>
+                                </div>
+                            )}
+                        </div>
 
                         <div className="flex items-center px-6 mt-6">
                             <div className="flex gap-10 flex-1 justify-end">

@@ -32,7 +32,6 @@ import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
 import AlumniNotification from './pages/Alumni/Notification';
 import AlumniJob from './pages/Alumni/Jobs/viewJob.js';
-import ApplyJob from './pages/Alumni/ApplyJob';
 import JobList from './pages/Alumni/Jobs';
 import AlumniProfile from './pages/Alumni/Profile';
 
@@ -113,7 +112,6 @@ const App = () => {
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
                   <Route path="/alumni/edit-profile" element={<AlumniProfile />} />
                   <Route path="/alumni/job" element={<AlumniJob />} />
-                  <Route path="/alumni/job/apply/:id" element={<ApplyJob />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                   <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
 

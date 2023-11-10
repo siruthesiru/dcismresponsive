@@ -26,6 +26,12 @@ export default function PendingApplication({ data, user }) {
                         Cancel Posting
                     </p>
                 )}
+
+                {role === "alumni" && (
+                    <p className="flex justify-end text-[#aa3636]">
+                        Delete Application
+                    </p>
+                )}
             </div>
         </div>
 

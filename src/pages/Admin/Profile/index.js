@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Grid,
     Typography,
@@ -22,6 +22,7 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const profileData = useSelector(state => state.alumniSlice.adminProfile);
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+
     const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
@@ -59,8 +60,6 @@ const Profile = () => {
         }
     };
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData);
@@ -70,13 +69,27 @@ const Profile = () => {
             const profileData = await GetAdminProfile(dispatch);
             setUserData(profileData);
             setIsEditing(false);
+
         }
     };
+
+    useEffect(() => {
+        if (!isEditing) {
+            const fetchData = async () => {
+                const profileData = await GetAdminProfile(dispatch);
+                setUserData({
+                    ...userData,
+                    fileUpload: profileData.profileImage,
+                });
+            };
+
+            fetchData();
+        }
+    }, [isEditing, dispatch, userData]);
 
 
     return (
         <form onSubmit={handleSubmit}>
-
             <Box m="1.5rem 2.5rem">
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Header title="Profile Page" subtitle="Please complete your profile" />
@@ -110,9 +123,9 @@ const Profile = () => {
                             </label>
                         ) : (
                             <img
-                                src={userData?.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder}
-                                alt="placeholder"
-                                className="w-[200px] h-[200px] rounded-full border border-slate-300 "
+                                src={userData?.fileUpload ? `data:image/jpeg;base64,${userData.fileUpload}` : placeholder}
+                                alt="User Profile"
+                                style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
                             />
                         )}
                     </Box>

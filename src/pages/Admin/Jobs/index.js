@@ -3,24 +3,24 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import Header from "../../../components/header";
 import JobCard from "../../../components/cards";
 import { useDispatch, useSelector } from "react-redux";
-import { GetVerifiedJobs } from "../../../services/admin_company";
+import { GetJobPosts } from "../../../services/admin_company";
 
 const Jobs = () => {
 
     const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
-    const verified_post = useSelector((state) => state.companiesSlice.verified_post);
+    const posts = useSelector((state) => state.companiesSlice.posts);
     const dispatch = useDispatch();
     useEffect(() => {
-        GetVerifiedJobs(dispatch)
+        GetJobPosts(dispatch)
     }, [dispatch])
 
-
+    const verifiedPost = posts.filter((post) => post.status);
 
     return (
         <Box m="1.5rem 2.5rem">
             <Header title="JOB LIST" subtitle="See the diffirent job postings." />
-            {verified_post.length === 0 ? (
+            {verifiedPost.length === 0 ? (
                 <Typography>No Data Available</Typography>
             ) : (
                 <Box
@@ -34,7 +34,7 @@ const Jobs = () => {
                         "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
                     }}
                 >
-                    {verified_post.map((job, key) => (
+                    {verifiedPost.map((job, key) => (
                         <JobCard
                             key={key}
                             job={job}

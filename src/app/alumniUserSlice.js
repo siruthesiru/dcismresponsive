@@ -8,8 +8,6 @@ export const editProfileError = createAction('editProfileError');
 export const getJobsError = createAction('getJobsError');
 export const getJobError = createAction('getJob');
 
-
-
 export const alumniUserSlice = createSlice({
     name: 'alumni',
     initialState: {
@@ -32,13 +30,13 @@ export const alumniUserSlice = createSlice({
             return { ...state, alumniProfile: { ...action.payload } };
         },
         getJobs: (state, action) => {
-            return { ...state, jobList: { ...action.payload } };
+            return { ...state, jobList: [...action.payload] };
         },
         getJob: (state, action) => {
             return { ...state, job: action.payload.data };
         },
         applyJob: (state, action) => {
-            return { ...state, appliedJobs: action.payload.data };
+            return { ...state, appliedJobs: [...state.appliedJobs, action.payload] };
         },
         getApplyJobs: (state, action) => {
             return { ...state, appliedJobs: action.payload.data };

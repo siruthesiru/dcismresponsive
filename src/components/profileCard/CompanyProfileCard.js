@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import placeholder from "../../assets/placeholder.webp";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ const CompanyProfileCard = () => {
     const profileData = useSelector(state => state.companyUserSlice.companyProfile);
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
     const dispatch = useDispatch();
-
 
     const [userData, setUserData] = useState({
         firstName: profileData.firstName,
@@ -65,6 +64,21 @@ const CompanyProfileCard = () => {
             setIsEditing(false);
         }
     };
+
+    useEffect(() => {
+        if (!isEditing) {
+            const fetchData = async () => {
+                const profileData = await GetCompanyProfile(dispatch);
+                setUserData({
+                    ...userData,
+                    picture: profileData.profileImage,
+                });
+            };
+
+            fetchData();
+        }
+    }, [isEditing, dispatch, userData]);
+
 
 
     const toggleEditing = () => {

@@ -40,7 +40,6 @@ export const GetAllJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs');
         dispatch(getJobs(response.data));
-        console.log(response.data);
     } catch (error) {
         console.error('Error:', error);
         dispatch(getAnnouncementsError())
@@ -93,7 +92,6 @@ export const EditProfile = async (dispatch, credentials) => {
 export const GetJob = async (dispatch, id) => {
     try {
         const response = await axiosInstance.get(`/Jobs/Get-Job/${id}`, id)
-        console.log(response.data);
         dispatch(getJob(response.data));
         return response.data;
     } catch (error) {
@@ -106,6 +104,7 @@ export const GetAllAppliedJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs/Get-All-Applied-Jobs');
         dispatch(getApplyJobs(response.data));
+        return response.data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));
@@ -123,6 +122,7 @@ export const ApplyJob = async (dispatch, job) => {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
         }
+
         return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);

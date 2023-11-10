@@ -8,7 +8,7 @@ export const getProfileError = createAction('getProfileError');
 export const editProfileError = createAction('editProfileError');
 
 export const alumniSlice = createSlice({
-    name: 'alumni',
+    name: 'admin_alumni',
     initialState: {
         alumni: [],
         adminProfile: null,

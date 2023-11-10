@@ -9,7 +9,7 @@ export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
     {
         field: "profileImage",
-        headerName: "avatar",
+        headerName: "Avatar",
         width: 100,
         renderCell: (params) => {
             const imgSrc = params.row.profileImage ? `data:image/jpeg;base64,${params.row.profileImage}` : placeholder;
@@ -56,7 +56,7 @@ export const companyColumn = [
         headerName: "Company Address",
         width: 200,
         valueGetter: (params) => {
-            return params.value ? params.value : "Not Indicated";
+            return params.row.companyAddress ? params.row.companyAddress : "Not Indicated";
         },
     },
     {
@@ -296,32 +296,8 @@ export const verifyColumns = [
 export const verifyJobColumn = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "companyName",
-        headerName: "Company Name",
-        width: 200,
-        valueGetter: (params) => {
-            if (params.row.company && params.row.company.companyName) {
-                return params.row.company.companyName;
-            } else {
-                return "Not Indicated";
-            }
-        },
-    },
-    {
-        field: "email",
-        headerName: "Email",
-        width: 200,
-        valueGetter: (params) => {
-            if (params.row.company && params.row.company.email) {
-                return params.row.company.email;
-            } else {
-                return "Not Indicated";
-            }
-        },
-    },
-    {
-        field: "description",
-        headerName: "Description ",
+        field: "position",
+        headerName: "Title",
         width: 200,
         valueGetter: (params) => {
             return params.value ? params.value : "Not Indicated";
@@ -329,7 +305,15 @@ export const verifyJobColumn = [
     },
     {
         field: "location",
-        headerName: "Location ",
+        headerName: "Job Location",
+        width: 200,
+        valueGetter: (params) => {
+            return params.value ? params.value : "Not Indicated";
+        },
+    },
+    {
+        field: "salary",
+        headerName: "Expected Salary",
         width: 200,
         valueGetter: (params) => {
             return params.value ? params.value : "Not Indicated";
@@ -341,6 +325,18 @@ export const verifyJobColumn = [
         width: 200,
         valueGetter: (params) => {
             return params.value ? params.value : "Not Indicated";
+        },
+    },
+    {
+        field: "companyName",
+        headerName: "Posted by",
+        width: 200,
+        valueGetter: (params) => {
+            if (params.row.company && params.row.company.companyName) {
+                return params.row.company.companyName;
+            } else {
+                return "Not Indicated";
+            }
         },
     },
     {
