@@ -37,15 +37,16 @@ export default function JobContent({ data, user }) {
         }
     };
 
+
     return (
         <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
             <ToastContainer position="top-right" autoClose={3000} />
             <div className="flex flex-col">
-                <h1 className="flex font-bold">{data?.position}</h1>
-                <Content title="Company" desc={data?.company?.companyName} />
-                <Content title="Location" desc={data?.location} />
-                <Content title="Years of Exp" desc={data?.yearsOfExp} />
-                <Content title="Salary" desc={data?.salary} />
+                <h1 className="flex font-bold">{data.position}</h1>
+                <Content title="Company" desc={data.company.companyName} />
+                <Content title="Location" desc={data.location} />
+                <Content title="Years of Exp" desc={data.yearsOfExp} />
+                <Content title="Salary" desc={data.salary} />
                 <div className="flex justify-between">
                     <p>Skills Required:</p>
                     <p className="font-bold">
@@ -62,9 +63,6 @@ export default function JobContent({ data, user }) {
                     >
                         View Details
                     </p>
-                    {role === "company" && (
-                        <p className="flex justify-end text-[#aa3636]">Close Job Posting</p>
-                    )}
                     {role === "alumni" && (
                         <p
                             className="flex justify-end text-[#317f6a] cursor-pointer"

@@ -3,7 +3,6 @@ import placeholder from "../../assets/placeholder.webp";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import { formatDate } from "./helper";
-// import FileViewer from "../fileViewer";
 
 export const companyColumn = [
     { field: "id", headerName: "ID", width: 90 },
@@ -78,7 +77,6 @@ export const companyColumn = [
 export const alumniColumns = [
     { field: "id", headerName: "ID", width: 80 },
     { field: "idNum", headerName: "ID Number", width: 130 },
-
     {
         field: "img",
         headerName: "Profile",
@@ -352,25 +350,118 @@ export const verifyJobColumn = [
 
 
 export const ViewCandidatesColumns = [
-    { id: 'id', label: 'ID', minWidth: 100 },
-    { id: 'firstName', label: 'First Name', minWidth: 170 },
-    { id: 'lastName', label: 'Last Name', minWidth: 170 },
     {
-        id: 'email',
-        label: 'Email',
-        minWidth: 250,
-        align: 'left',
+        field: "id",
+        headerName: "ID",
+        flex: 1,
     },
     {
-        id: 'phone',
-        label: 'Phone Number',
-        minWidth: 150,
-        align: 'left',
+        field: "img",
+        headerName: "Profile",
+        width: 100,
+        renderCell: (params) => {
+            const imgSrc = params.row.profileImage ? `data:image/jpeg;base64,${params.row.profileImage}` : placeholder;
+            return (
+                <img
+                    src={imgSrc}
+                    alt=""
+                    style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                    }}
+                />
+            );
+        },
     },
     {
-        id: 'createdAt',
-        label: 'CreatedAt',
-        minWidth: 250,
-        align: 'left',
+        field: "firstName",
+        headerName: "First name",
+        flex: 1,
+        valueGetter: (params) => {
+            return params.row.alumni.firstName;
+        },
+    },
+    {
+        field: "lastName",
+        headerName: "Last name",
+        flex: 1,
+        valueGetter: (params) => {
+            return params.row.alumni.lastName;
+        },
+    },
+    {
+        field: "alumniAddress",
+        headerName: "Address",
+        flex: 1,
+        valueGetter: (params) => {
+            return params.row.alumni.alumniAddress ? params.row.alumni.alumniAddress : "Not indicated";
+        },
+    },
+    {
+        field: "email",
+        headerName: "Email",
+        flex: 2,
+        valueGetter: (params) => {
+            return params.row.alumni.email;
+        },
+    },
+    {
+        field: "mobileNumber",
+        headerName: "Contact Number",
+        flex: 1,
+        valueGetter: (params) => {
+            return params.row.alumni.mobileNumber ? params.row.alumni.mobileNumber : "Not indicated";
+        },
+    },
+    {
+        field: "isEmployed",
+        headerName: "Employment Status",
+        width: 130,
+        type: "boolean",
+        renderCell: (params) => {
+            const isVerified = params.row.alumni.isisEmployed
+            return (
+                <div >
+                    {isVerified ? "Employed" : "Unemployed"}
+                </div>
+            )
+        }
+    },
+    {
+        field: "occupation",
+        headerName: "Current Occupation",
+        flex: 1,
+        valueGetter: (params) => {
+            return params.row.alumni.occupation ? params.row.alumni.occupation : "Not indicated";
+        },
+    },
+    {
+        field: "candidateDate",
+        headerName: "Date Match",
+        flex: 1,
+        renderCell: (params) => (
+            <div title={formatDate(params.value)}>
+                {formatDate(params.value)}
+            </div>
+        ),
+    },
+    {
+        field: "score",
+        headerName: "Percentage Match",
+        flex: 1,
+        renderCell: (params) => (
+            <div style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                {params.value}
+            </div>
+        ),
+
+    },
+    {
+        field: "explanation",
+        headerName: "Match Analyzation",
+        flex: 2,
     },
 ];
+

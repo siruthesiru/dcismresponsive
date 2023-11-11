@@ -45,9 +45,12 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
-import EditProfileCompany from './components/forms/EditProfileCompany.js';
 import ViewJobAlumni from './components/cards/ViewJobAlumni.js';
-import ViewJobCompany from './components/cards/ViewJobCompany.js';
+import CompanyEditProfile from './pages/Company/Profile/editProfile.js';
+import CompanyInactiveJobs from './pages/Company/Jobs/inActiveJob.js';
+import ViewJobCompany from './pages/Company/Job';
+import EditJobPost from './pages/Company/PostJob/editPost.js';
+import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
 
 
 const App = () => {
@@ -110,7 +113,7 @@ const App = () => {
                   <Route path="/alumni/notifications" element={<AlumniNotification />} />
                   <Route path="/alumni/search" element={<AlumniSearch />} />
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
-                  <Route path="/alumni/edit-profile" element={<AlumniProfile />} />
+                  <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
                   <Route path="/alumni/job" element={<AlumniJob />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                   <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
@@ -127,11 +130,12 @@ const App = () => {
                   <Route path="/company/events" element={<CompanyEvents />} />
                   <Route path="/company/notifications" element={<CompanyNotification />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-                  <Route path="/company/edit-profile" element={<EditProfileCompany />} />
-                  <Route path="/company/post_job" element={<PostJob />} />
+                  <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
+                  <Route path="/company/post-job" element={<PostJob />} />
+                  <Route path="/company/edit-job/:id" element={<EditJobPost />} />
+                  <Route path="/company/inactive/jobs" element={< CompanyInactiveJobs />} />
                   <Route path="/company/job/candidates/:id" element={<CompanyCandidates />} />
                   <Route path="/company/job/:id" element={<ViewJobCompany />} />
-
                 </Route>
               </Route>
 

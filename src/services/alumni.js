@@ -122,7 +122,6 @@ export const ApplyJob = async (dispatch, job) => {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
         }
-
         return response.data.isPostSucceed;
     } catch (error) {
         console.error('Error:', error);

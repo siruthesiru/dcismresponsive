@@ -1,20 +1,24 @@
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-
 import { useNavigate, useParams } from "react-router-dom";
-import { GetJob } from '../../services/company';
 import { useDispatch } from 'react-redux';
-import { getJobError } from '../../app/companyUserSlice';
-import placeholder from "../../assets/placeholder.png";
-import { formatDate } from '../constant/helper';
-import { JobsData } from '../../data/mockAlumniData';
+import placeholder from "../../../assets/placeholder.webp";
+import { CloseJobPost, DeleteJob, GetAllJobs, GetJob } from '../../../services/company';
+import { getJobError } from '../../../app/companyUserSlice';
+import { formatDate } from '../../../components/constant/helper';
+import ConfirmationDialog from '../../../components/popup/confirmationDialog';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ViewJobCompany() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [jobData, setJobData] = useState(null);
+    const [openDeletePopup, setOpenDeletePopup] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [deleteOccurred, setDeleteOccurred] = useState(false);
 
     useEffect(() => {
         const fetchJobPosting = async () => {
@@ -34,14 +38,54 @@ export default function ViewJobCompany() {
         fetchJobPosting();
     }, [id, dispatch]);
 
-    console.log(jobData);
+    const handleDelete = async (id) => {
+        try {
+            console.log(id);
+            await DeleteJob(dispatch, id);
+            setDeleteOccurred(true);
+        } catch (error) {
+            console.error("Error deleting job:", error);
+        }
+        setOpenDeletePopup(false);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (deleteOccurred) {
+                await GetAllJobs(dispatch);
+                setDeleteOccurred(false);
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                navigate('/company/jobs');
+            }
+        };
+        fetchData();
+    }, [deleteOccurred, dispatch, navigate]);
+
 
     if (!jobData) {
         return <p>Loading...</p>;
     }
 
+    const handlCloseJobPost = async (id) => {
+        try {
+            const credentials = {
+                id: id,
+                isVerified: false
+            };
+            await CloseJobPost(dispatch, credentials);
+            await GetAllJobs(dispatch);
+            toast.success("Close the Job Application successfully");
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            navigate('/company/inactive/jobs');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <div className="bg-slate-100 min-h-screen flex items-start justify-center mt-2">
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="container mx-auto">
                 <div className="bg-white border border-slate-200 p-4 md:p-6 rounded-lg shadow-lg">
                     <div className="flex flex-col md:flex-row items-center md:items-start mb-4">
@@ -88,7 +132,9 @@ export default function ViewJobCompany() {
                                     To apply for this position, you can reach out to {jobData.company.companyName}, located at {''}
                                     <span className="font-bold">{jobData.company.companyAddress}</span>. Feel free to contact them via phone at {''}
                                     <span className="font-bold">{jobData.company.mobileNumber}</span> or send an email to {''}
-                                    <span className="font-bold">{jobData.company.email}</span>. Additionally, you can find more information and explore opportunities on their website at {''}<span className="font-bold">{jobData.company.websiteLink}</span>.
+                                    <span className="font-bold">{jobData.company.email}</span>. Additionally, you can find more information and explore opportunities on their website at {''}<span className="font-bold"> <a href={jobData.company.websiteLink} target="_blank" rel="noopener noreferrer">
+                                        {jobData.company.websiteLink}
+                                    </a></span>.
                                 </p>
                             )}
 
@@ -101,16 +147,29 @@ export default function ViewJobCompany() {
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    className="w-full md:w-auto bg-indigo-700 text-white px-4 py-2"
-                                    onClick={() => navigate('/company/view_candidates')}
+                                    size='medium'
+                                    style={{
+                                        backgroundColor: "#ffeb3b",
+                                        color: "#dbf5ee",
+
+                                    }}
+                                    onClick={() => navigate(`/company/edit-job/${jobData.id}`)}
                                 >
                                     Edit Job Post
                                 </Button>
                                 <Button
                                     type="button"
                                     variant="contained"
-                                    className="w-full md:w-auto bg-gray-600 text-white px-4 py-2"
-                                    onClick={() => navigate(-1)}
+                                    size='medium'
+                                    style={{
+                                        backgroundColor: "#db4f4a",
+                                        color: "#dbf5ee",
+
+                                    }}
+                                    onClick={() => {
+                                        setSelectedItemId(jobData.id);
+                                        setOpenDeletePopup(true);
+                                    }}
                                 >
                                     Delete Job Post
                                 </Button>
@@ -132,27 +191,34 @@ export default function ViewJobCompany() {
                                 >
                                     View Candidates
                                 </Button>
+                                {jobData.isActive && (
+                                    <Button
+                                        type="button"
+                                        variant="contained"
+                                        style={{
+                                            backgroundColor: "#db4f4a",
+                                            color: "#dbf5ee",
+
+                                        }}
+                                        onClick={() => handlCloseJobPost(jobData.id)}
+                                    >
+                                        Close Job Post
+                                    </Button>
+                                )}
+
+                            </>
+                        )}
+                        {jobData.status && !jobData.company.isVerified && (
+                            <>
                                 <Button
-                                    type="button"
+                                    type="submit"
                                     variant="contained"
                                     style={{
                                         backgroundColor: "#db4f4a",
                                         color: "#dbf5ee",
 
                                     }}
-                                    onClick={() => navigate(-1)}
-                                >
-                                    Close Application
-                                </Button>
-                            </>
-                        )}
-                        {JobsData.status && !jobData.company.isVerified && (
-                            <>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    className="w-full md:w-auto bg-indigo-700 text-white px-4 py-2"
-                                    onClick={() => navigate('/company/view_candidates')}
+                                    onClick={() => handlCloseJobPost(jobData.id)}
                                 >
                                     Close Job Post
                                 </Button>
@@ -169,6 +235,15 @@ export default function ViewJobCompany() {
                     </div>
                 </div>
             </div>
+            <ConfirmationDialog
+                open={openDeletePopup}
+                onClose={() => setOpenDeletePopup(false)}
+                onConfirm={() => {
+                    if (selectedItemId) {
+                        handleDelete(selectedItemId);
+                    }
+                }}
+            />
         </div>
 
     );

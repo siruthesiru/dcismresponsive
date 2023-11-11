@@ -7,20 +7,20 @@ import {
     Card,
     CardContent,
     TextField,
+    IconButton,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.webp";
-import {
-    EditAdminProfile,
-    GetAdminProfile,
-} from "../../../services/admin_alumni";
+import { EditAdminProfile, GetAdminProfile } from "../../../services/admin_alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
-    const profileData = useSelector(state => state.alumniSlice.adminProfile);
+    const profileData = useSelector((state) => state.alumniSlice.adminProfile);
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
 
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Profile = () => {
         position: profileData.position,
         fileUpload: profileData.profileImage,
         email: profileData.email,
-        role: profileData.role
+        role: profileData.role,
     });
 
     const toggleEditing = () => {
@@ -69,7 +69,6 @@ const Profile = () => {
             const profileData = await GetAdminProfile(dispatch);
             setUserData(profileData);
             setIsEditing(false);
-
         }
     };
 
@@ -87,7 +86,6 @@ const Profile = () => {
         }
     }, [isEditing, dispatch, userData]);
 
-
     return (
         <form onSubmit={handleSubmit}>
             <Box m="1.5rem 2.5rem">
@@ -96,48 +94,101 @@ const Profile = () => {
                     <ToastContainer position="top-right" autoClose={3000} />
                 </Box>
 
-                <Card sx={{ width: "80%", height: "50vh", display: "flex", alignItems: "center" }}>
+                <Card
+                    sx={{
+                        width: "100",
+                        height: "100",
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
                     <Box
                         sx={{
                             flex: "1 0 auto",
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
+                            alignItems: "flex-center",
+                            flexDirection: "columrn",
+                            padding: "1rem",
                         }}
                     >
                         {isEditing ? (
-                            <label htmlFor="fileInput">
-                                <input
-                                    type="file"
-                                    id="fileInput"
-                                    accept="image/*"
-                                    style={{ display: "none" }}
-                                    onChange={handleImageInputChange}
-                                    name="fileUpload"
-                                />
-                                <img
-                                    src={currentlySelectedImage || `data:image/jpeg;base64,${userData.fileUpload}` || placeholder}
-                                    alt="User Profile"
-                                    style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
-                                />
-                            </label>
+                            <>
+                                <label htmlFor="fileInput" style={{ position: "relative", display: "inline-block" }}>
+                                    <input
+                                        type="file"
+                                        id="fileInput"
+                                        accept="image/*"
+                                        style={{ display: "none" }}
+                                        onChange={handleImageInputChange}
+                                        name="fileUpload"
+                                    />
+                                    <img
+                                        src={
+                                            currentlySelectedImage ||
+                                            `data:image/jpeg;base64,${userData.fileUpload}` ||
+                                            placeholder
+                                        }
+                                        alt="User Profile"
+                                        style={{
+                                            width: 200,
+                                            height: 200,
+                                            borderRadius: "50%",
+                                            cursor: "pointer",
+                                        }}
+                                    />
+                                    <IconButton
+                                        component="span"
+                                        sx={{
+                                            position: "absolute",
+                                            bottom: 0,
+                                            right: 0,
+                                            "&::before": {
+                                                content: '""',
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                bottom: 0,
+                                                borderRadius: "50%",
+                                                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                                pointerEvents: "none",
+                                            },
+                                        }}
+                                    >
+                                        <EditIcon
+                                            color="primary"
+                                            sx={{ fontSize: 30, cursor: "pointer" }}
+                                        />
+                                    </IconButton>
+                                </label>
+                            </>
                         ) : (
                             <img
-                                src={userData?.fileUpload ? `data:image/jpeg;base64,${userData.fileUpload}` : placeholder}
+                                src={
+                                    userData?.fileUpload
+                                        ? `data:image/jpeg;base64,${userData.fileUpload}`
+                                        : placeholder
+                                }
                                 alt="User Profile"
-                                style={{ width: 200, height: 200, borderRadius: "50%", cursor: "pointer" }}
+                                style={{
+                                    width: 200,
+                                    height: 200,
+                                    borderRadius: "50%",
+                                    cursor: "pointer",
+                                }}
                             />
                         )}
                     </Box>
 
-                    <CardContent sx={{ flex: "1 0 auto", display: "flex", flexDirection: "column", padding: "1rem" }}>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                    <CardContent sx={{ flex: "1 0 auto", padding: "1rem" }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
                                     First Name:
                                 </Typography>
                             </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            <Grid item xs={6}>
                                 {isEditing ? (
                                     <TextField
                                         name="firstName"
@@ -146,20 +197,22 @@ const Profile = () => {
                                         fullWidth
                                     />
                                 ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                    >
                                         {userData?.firstName}
                                     </Typography>
                                 )}
                             </Grid>
                         </Grid>
-
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
                                     Middle Name:
                                 </Typography>
                             </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            <Grid item xs={6}>
                                 {isEditing ? (
                                     <TextField
                                         name="middleName"
@@ -168,19 +221,22 @@ const Profile = () => {
                                         fullWidth
                                     />
                                 ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                    >
                                         {userData?.middleName}
                                     </Typography>
                                 )}
                             </Grid>
                         </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
                                     Last Name:
                                 </Typography>
                             </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            <Grid item xs={6}>
                                 {isEditing ? (
                                     <TextField
                                         name="lastName"
@@ -189,31 +245,22 @@ const Profile = () => {
                                         fullWidth
                                     />
                                 ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                    >
                                         {userData?.lastName}
                                     </Typography>
                                 )}
                             </Grid>
                         </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
-                                    Email:
-                                </Typography>
-                            </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem" }}>
-                                    {userData?.email}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
                                     Position:
                                 </Typography>
                             </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
+                            <Grid item xs={6}>
                                 {isEditing ? (
                                     <TextField
                                         name="position"
@@ -222,36 +269,66 @@ const Profile = () => {
                                         fullWidth
                                     />
                                 ) : (
-                                    <Typography variant="h3" component="div" sx={{ marginBottom: "0.5rem" }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                    >
                                         {userData?.position}
                                     </Typography>
                                 )}
                             </Grid>
                         </Grid>
-                        <Grid spacing={2} sx={{ display: "flex" }}>
-                            <Grid item sm={6} sx={{ flex: 1 }}>
-                                <Typography component="div" variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
+                                    Email:
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography
+                                    variant="h3"
+                                    sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                >
+                                    {userData?.email}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="h4" sx={{ marginBottom: "0.5rem" }}>
                                     Role:
                                 </Typography>
                             </Grid>
-                            <Grid item sm={6} sx={{ flex: 1.5 }}>
-                                <Typography variant="h4" component="div" sx={{ marginBottom: "0.5rem" }}>
+                            <Grid item xs={6}>
+                                <Typography
+                                    variant="h3"
+                                    sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
+                                >
                                     {userData?.role}
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid item sm={6}>
+                        <Grid item xs={6}>
                             {isEditing ? (
                                 <Button
                                     type="button"
                                     variant="contained"
-                                    style={{
-                                        display: "block",
+                                    startIcon={<SaveIcon />}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
                                         width: "100%",
                                         padding: "10px",
                                         marginTop: "2rem",
                                         backgroundColor: "#4cceac",
                                         color: "#FFFFFF",
+                                        "& .MuiSvgIcon-root": {
+                                            marginRight: "0.5rem",
+                                        },
+                                        "&:hover": {
+                                            backgroundColor: "yellow",
+                                        },
                                     }}
                                     onClick={handleSubmit}
                                 >
@@ -261,14 +338,23 @@ const Profile = () => {
                                 <Button
                                     type="button"
                                     variant="contained"
+                                    startIcon={<EditIcon />}
                                     onClick={toggleEditing}
-                                    style={{
-                                        display: "block",
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
                                         width: "100%",
                                         padding: "10px",
                                         marginTop: "2rem",
                                         backgroundColor: "yellow",
                                         color: "black",
+                                        "& .MuiSvgIcon-root": {
+                                            marginRight: "0.5rem",
+                                        },
+                                        "&:hover": {
+                                            backgroundColor: "#4cceac",
+                                        },
                                     }}
                                 >
                                     Edit Profile
@@ -279,7 +365,6 @@ const Profile = () => {
                 </Card>
             </Box>
         </form>
-
     );
 };
 

@@ -8,6 +8,10 @@ export const getJobsError = createAction('getJobsError');
 export const getJobError = createAction('getJobError');
 export const editProfileError = createAction('editProfileError');
 export const addJobPostError = createAction('addJobPostError');
+export const deleteJobPostError = createAction('deleteJobPostError');
+export const editJobPostError = createAction('editJobPostError');
+
+
 
 
 export const companyUserSlice = createSlice({
@@ -58,9 +62,39 @@ export const companyUserSlice = createSlice({
             }
             return { ...state, companyProfile: updatedCompanyProfile };
         },
+        deleteJobPost: (state, action) => {
+            if (!Array.isArray(state.jobPost)) {
+                console.error('state.jobPost is not an array:', state.jobPost);
+                return state;
+            }
+
+            const postIdToDelete = action.payload.id;
+            const updatedJobPosts = state.jobPost.filter(job => job.id !== postIdToDelete);
+
+            return {
+                ...state,
+                jobPost: updatedJobPosts,
+            };
+        },
+        editJobPost: (state, action) => {
+            if (Array.isArray(state.jobPost)) {
+                const updatedJobPost = state.jobPost.map(post => {
+                    if (post.id === action.payload.id) {
+                        return { ...post, ...action.payload };
+                    }
+                    return post;
+                });
+
+                return { ...state, jobPost: updatedJobPost };
+            } else {
+                console.error('state.jobPost is not an array:', state.jobPost);
+                return state;
+            }
+        },
+
     }
 });
 
-export const { getAnnouncements, getJobs, getJob, setErrorMessage, getCandidates, clearErrorMessage, getCompanyProfile, getEvents, editProfile, addJobPost } = companyUserSlice.actions;
+export const { getAnnouncements, deleteJobPost, editJobPost, getJobs, getJob, setErrorMessage, getCandidates, clearErrorMessage, getCompanyProfile, getEvents, editProfile, addJobPost } = companyUserSlice.actions;
 
 export default companyUserSlice.reducer;

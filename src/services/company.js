@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addJobPost, addJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCandidates, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJob, getJobError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
+import { addJobPost, addJobPostError, deleteJobPost, deleteJobPostError, editJobPost, editJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCandidates, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJob, getJobError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
 import { toast } from 'react-toastify';
 
 
@@ -96,8 +96,8 @@ export const PostJob = async (dispatch, job) => {
     try {
         const response = await axiosInstance.post('/Jobs/Create-Job', job)
         if (response.data.isPostSucceed) {
-            toast.success(response.data.message);
             dispatch(addJobPost(response.data))
+            toast.success(response.data.message);
         } else {
             toast.error(response.data.message);
         }
@@ -111,7 +111,6 @@ export const PostJob = async (dispatch, job) => {
 export const GetJob = async (dispatch, id) => {
     try {
         const response = await axiosInstance.get(`/Jobs/Get-Job/${id}`, id)
-        console.log(response.data);
         dispatch(getJob(response.data));
         return response.data;
     } catch (error) {
@@ -123,11 +122,52 @@ export const GetJob = async (dispatch, id) => {
 export const ViewAllCandidates = async (dispatch, id) => {
     try {
         const response = await axiosInstance.get(`/Jobs/Get-Job/${id}/View-Candidates`, id)
-        console.log(response.data);
         dispatch(getCandidates(response.data));
         return response.data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));
+    }
+}
+
+export const DeleteJob = async (dispatch, id) => {
+    try {
+        await axiosInstance.delete(`/Jobs/Delete-Job-Post/${id}`, id);
+        dispatch(deleteJobPost(id));
+        toast.success('Job Post deleted successfully');
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(deleteJobPostError(error.response.data));
+    }
+}
+
+export const UpateJobPost = async (dispatch, job) => {
+    try {
+        const response = await axiosInstance.put('/Jobs/Edit-Job-Post', job)
+        console.log(response.data);
+        if (response.data.isEditSucceed) {
+            dispatch(editJobPost(response.data))
+            toast.success(response.data.message);
+        } else {
+            toast.error(response.data.message);
+        }
+        return response.data.isEditSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(editJobPostError(error.response.data));
+    }
+}
+
+export const CloseJobPost = async (dispatch, job) => {
+    try {
+        const response = await axiosInstance.put('/Jobs/Close-Job-Post', job)
+        if (response.data.isEditSucceed) {
+            dispatch(editJobPost(response.data))
+        } else {
+            toast.error(response.data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(editJobPostError(error.response.data));
     }
 }
