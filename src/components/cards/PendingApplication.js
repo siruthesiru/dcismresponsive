@@ -22,11 +22,6 @@ export default function PendingApplication({ data, user }) {
                 <Content title="Slots" desc={data?.slots} />
                 <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={handleViewDetails}>View Details</p>
 
-                {role === "alumni" && (
-                    <p className="flex justify-end text-[#aa3636]">
-                        Delete Application
-                    </p>
-                )}
             </div>
         </div>
 

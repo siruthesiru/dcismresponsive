@@ -26,12 +26,10 @@ import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
 import LayoutAlumni from './pages/Alumni/Layout';
-import AlumniSearch from './pages/Alumni/A_SearchPage';
 import LandingPageAlumni from './pages/Alumni/LandingPage';
 import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
 import AlumniNotification from './pages/Alumni/Notification';
-import AlumniJob from './pages/Alumni/Jobs/viewJob.js';
 import JobList from './pages/Alumni/Jobs';
 import AlumniProfile from './pages/Alumni/Profile';
 
@@ -45,12 +43,12 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
-import ViewJobAlumni from './components/cards/ViewJobAlumni.js';
 import CompanyEditProfile from './pages/Company/Profile/editProfile.js';
 import CompanyInactiveJobs from './pages/Company/Jobs/inActiveJob.js';
 import ViewJobCompany from './pages/Company/Job';
 import EditJobPost from './pages/Company/PostJob/editPost.js';
 import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
+import ViewJobAlumni from './pages/Alumni/Job';
 
 
 const App = () => {
@@ -111,10 +109,8 @@ const App = () => {
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<JobList />} />
                   <Route path="/alumni/notifications" element={<AlumniNotification />} />
-                  <Route path="/alumni/search" element={<AlumniSearch />} />
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
                   <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
-                  <Route path="/alumni/job" element={<AlumniJob />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                   <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
 

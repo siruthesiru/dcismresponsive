@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import AlumniProfileCard from "../../../components/profileCard/AlumniProfileCard";
 import {
     GetAllAppliedJobs,
 } from "../../../services/alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import EditAlumniProfile from "../../../components/forms/EditAlumniProfile";
 
 const AlumniEditProfile = () => {
     const profileData = useSelector((state) => state.alumniUserSlice.alumniProfile);
@@ -33,7 +33,7 @@ const AlumniEditProfile = () => {
         <div className="bg-slate-100 min-h-screen">
             <div className="container mx-auto flex flex-col sm:flex-row py-4 gap-2">
                 <div className="flex flex-col sm:w-[60%]">
-                    <EditCompanyProfile profileData={profileData} />
+                    <EditAlumniProfile profileData={profileData} />
                 </div>
                 <div className="sm:w-[40%]">
                     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">

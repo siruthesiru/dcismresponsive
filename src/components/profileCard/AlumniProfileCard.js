@@ -27,7 +27,7 @@ const AlumniProfileCard = () => {
     };
 
     const handleDownload = () => {
-        const linkSource = `data:application/pdf;base64,${userData.moa}`;
+        const linkSource = `data:application/pdf;base64,${userData.resume}`;
         const downloadLink = document.createElement("a");
         const fileName = "moa.pdf";
 
@@ -49,11 +49,7 @@ const AlumniProfileCard = () => {
                                 borderRadius: "50%",
                                 cursor: "pointer",
                             }}
-                            src={
-                                userData?.picture
-                                    ? `data:image/jpeg;base64,${userData.picture}`
-                                    : placeholder
-                            }
+                            src={userData.profileImage ? `data:image/jpeg;base64,${userData.profileImage}` : placeholder}
                             alt="Profile picture"
                         />
                         <h1 className="font-bold py-2 capitalize">
@@ -169,22 +165,20 @@ const AlumniProfileCard = () => {
 
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Add Skills: </label>
-
                             <div>
-                                {userData?.skills?.map((skill, index) => (
-                                    <div
-                                        key={index}
-                                        className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                    >
-                                        <div>{skill}</div>
-                                    </div>
-                                ))}
+                                <div
+
+                                    className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
+                                >
+                                    <div>{userData.skills.map((skill) => skill.skill).join(", ")}</div>
+                                </div>
+
                             </div>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <div className="flex items-center">
-                            {userData.resume && userData.moa.resume > 0 && (
+                            {userData.resume && userData.resume.length > 0 && (
                                 <div style={{ flex: 1 }}>
                                     <label className="text-[12px] w-[100px]">
                                         Uploaded Moa:{" "}
@@ -216,6 +210,7 @@ const AlumniProfileCard = () => {
                                 <Button
                                     type="button"
                                     variant="contained"
+                                    onClick={() => navigate('/alumni/edit-profile')}
                                     startIcon={<EditIcon />}
                                     sx={{
                                         display: "flex",

@@ -6,7 +6,9 @@ export const getAlumniProfileError = createAction('getAlumniProfileError');
 export const getEventsError = createAction('getEventsError');
 export const editProfileError = createAction('editProfileError');
 export const getJobsError = createAction('getJobsError');
-export const getJobError = createAction('getJob');
+export const getJobError = createAction('getJobError');
+export const deleteApplyJobError = createAction('deleteApplyJobError');
+
 
 export const alumniUserSlice = createSlice({
     name: 'alumni',
@@ -36,8 +38,9 @@ export const alumniUserSlice = createSlice({
             return { ...state, job: action.payload.data };
         },
         applyJob: (state, action) => {
-            return { ...state, appliedJobs: [...state.appliedJobs, action.payload] };
+            return { ...state, appliedJobs: action.payload.data };
         },
+
         getApplyJobs: (state, action) => {
             return { ...state, appliedJobs: action.payload.data };
         },
@@ -56,9 +59,23 @@ export const alumniUserSlice = createSlice({
             }
             return { ...state, alumniProfile: updatedAlumniProfile };
         },
+
+        deleteApplyJob: (state, action) => {
+            if (!Array.isArray(state.appliedJobs)) {
+                console.error('state.jobPost is not an array:', state.appliedJobs);
+                return state;
+            }
+            const postIdToDelete = action.payload.id;
+            const updatedJobPosts = state.appliedJobs.filter(job => job.id !== postIdToDelete);
+
+            return {
+                ...state,
+                appliedJobs: updatedJobPosts,
+            };
+        },
     }
 });
 
-export const { getAnnouncements, setErrorMessage, applyJob, getJobs, getApplyJobs, getJob, clearErrorMessage, getAlumniProfile, getEvents, editProfile } = alumniUserSlice.actions;
+export const { getAnnouncements, deleteApplyJob, setErrorMessage, applyJob, getJobs, getApplyJobs, getJob, clearErrorMessage, getAlumniProfile, getEvents, editProfile } = alumniUserSlice.actions;
 
 export default alumniUserSlice.reducer;

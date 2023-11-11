@@ -1,5 +1,5 @@
 import axios from "axios";
-import { applyJob, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, setErrorMessage } from "../app/alumniUserSlice";
+import { applyJob, deleteApplyJob, deleteApplyJobError, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, setErrorMessage } from "../app/alumniUserSlice";
 import { toast } from 'react-toastify';
 
 
@@ -117,7 +117,6 @@ export const ApplyJob = async (dispatch, job) => {
         const response = await axiosInstance.post('/Jobs/Apply-Job', job)
         if (response.data.isPostSucceed) {
             dispatch(applyJob(response.data));
-            toast.success(response.data.message)
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
@@ -126,5 +125,16 @@ export const ApplyJob = async (dispatch, job) => {
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));
+    }
+}
+
+export const DeleteAppliedJob = async (dispatch, id) => {
+    try {
+        await axiosInstance.delete(`/Jobs/Delete-Applied-Jobs/${id}`);
+        dispatch(deleteApplyJob(id));
+        toast.success('Application deleted successfully');
+    } catch {
+        dispatch(deleteApplyJobError());
+        toast.error('An error occurred while deleting the application');
     }
 }

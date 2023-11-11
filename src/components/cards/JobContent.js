@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ApplyJob, GetAllAppliedJobs } from "../../services/alumni";
-import { useDispatch } from "react-redux";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,33 +8,12 @@ import { formatDate } from "../constant/helper";
 export default function JobContent({ data, user }) {
     const navigate = useNavigate();
     const role = user?.role.toLowerCase();
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
 
 
     const handleViewDetails = () => {
         const jobId = data.id;
         navigate(`/${role}/job/${jobId}`);
     };
-
-    const handleApplyJob = async () => {
-        try {
-            setLoading(true);
-
-            const credentials = {
-                jobId: data.id,
-            };
-
-            await ApplyJob(dispatch, credentials);
-            await GetAllAppliedJobs(dispatch);
-
-            setLoading(false);
-        } catch (error) {
-            console.error("Error:", error);
-            setLoading(false);
-        }
-    };
-
 
     return (
         <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
@@ -63,14 +40,6 @@ export default function JobContent({ data, user }) {
                     >
                         View Details
                     </p>
-                    {role === "alumni" && (
-                        <p
-                            className="flex justify-end text-[#317f6a] cursor-pointer"
-                            onClick={handleApplyJob}
-                        >
-                            Apply Job
-                        </p>
-                    )}
                 </div>
             </div>
         </div>
