@@ -1,30 +1,13 @@
 import { Button, MenuItem, Select, Typography } from "@mui/material";
 import React, { useState } from "react";
-import placeholder from "../../assets/placeholder.webp"
+import placeholder from "../../assets/placeholder.png"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { EditProfile, GetAlumniProfile } from "../../services/alumni";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const programs = [
-    { description: 'Bachelor of Science in Computer Science', code: 'BSCS' },
-    { description: 'Bachelor of Science in Information Science', code: 'BSIS' },
-    { description: 'Bachelor of Science in Information Technology', code: 'BSIT' },
-    { description: 'Bachelor of Science in Mathematics', code: 'BSMath' },
-    { description: 'Bachelor of Science in Information Communication Technology', code: 'BSICT' },
-    { description: 'Bachelor of Science in Library Science', code: 'BSLS' },
-    { description: 'Bachelor of Science in Applied Mathematics', code: 'BSAMath' },
-    { description: 'Master of Science in Mathematics', code: 'MSMath' },
-    { description: 'Doctor of Computer Science', code: 'DCS' },
-    { description: 'Doctor of Information Science', code: 'DIS' },
-    { description: 'Doctor of Information Technology', code: 'DIT' },
-    { description: 'Doctor of Mathematics', code: 'DMath' },
-    { description: 'Doctor of Information Communication Technology', code: 'DICT' },
-    { description: 'Doctor of Library Science', code: 'DLS' },
-    { description: 'Doctor of Applied Mathematics', code: 'DAMath' },
-];
+import { programs } from '../constant/helper';
 
 
 const EditAlumniProfile = ({ profileData }) => {

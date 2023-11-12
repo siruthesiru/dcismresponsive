@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 

@@ -12,7 +12,7 @@ import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, Add
 import { useDispatch } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
 
 

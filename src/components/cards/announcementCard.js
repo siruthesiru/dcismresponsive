@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatDate } from '../constant/helper';
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 
 
 const AnnouncementCard = ({ announcement }) => {

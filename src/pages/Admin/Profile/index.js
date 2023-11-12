@@ -12,7 +12,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import Header from "../../../components/header";
-import placeholder from "../../../assets/placeholder.webp";
+import placeholder from "../../../assets/placeholder.png";
 import { EditAdminProfile, GetAdminProfile } from "../../../services/admin_alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";

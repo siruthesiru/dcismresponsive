@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import placeholder from "../../../assets/placeholder.webp";
+import placeholder from "../../../assets/placeholder.png";
 import { CloseJobPost, DeleteJob, GetAllJobs, GetJob } from '../../../services/company';
 import { getJobError } from '../../../app/companyUserSlice';
 import { formatDate } from '../../../components/constant/helper';
