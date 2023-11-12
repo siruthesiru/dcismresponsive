@@ -1,8 +1,8 @@
 import React from 'react'
-import { HelpData } from '../../../data/mockAlumniData';
+import { CompanyFAQData } from '../../../data/faqData';
 
 const CompanyFAQ = () => {
-    const data = HelpData[0];
+    const data = CompanyFAQData[0];
 
     return (
         <div className='bg-slate-100 min-h-screen'>

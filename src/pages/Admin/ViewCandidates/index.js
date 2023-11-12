@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useParams } from 'react-router-dom';
-import { Button, CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { ViewAllCandidates } from '../../../services/admin_company';
 import { getCandidatesError } from '../../../app/companiesSlice';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
@@ -31,36 +31,7 @@ const ViewCandidates = () => {
         fetchData();
     }, [dispatch, id]);
 
-    const columns = [
-        ...ViewCandidatesColumns,
-        {
-            field: "action",
-            headerName: "Actions",
-            width: 100,
-            renderCell: (params) => {
-                return (
-
-                    <Button
-                        variant="contained"
-                        size="small"
-                        style={{
-                            backgroundColor: params.row.status ? "#aaa" : "#221769",
-                            color: "#dbf5ee",
-
-                        }}
-                        disabled={params.row.status}
-                    >
-                        Sent Invite
-                    </Button>
-
-                );
-            },
-        },
-
-    ];
-
-    const filtered_candidates = candidates.filter((candidate) => candidate.jobId === Number(id));
-    console.log(filtered_candidates)
+    const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
 
     return (
         <div className='bg-slate-100 min-h-screen'>
@@ -90,7 +61,7 @@ const ViewCandidates = () => {
                                         },
                                     }}
                                     rows={filtered_candidates}
-                                    columns={columns}
+                                    columns={ViewCandidatesColumns}
                                     initialState={{
                                         pagination: {
                                             paginationModel: {

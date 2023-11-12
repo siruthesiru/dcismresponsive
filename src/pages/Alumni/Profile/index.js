@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const AlumniProfile = () => {
     const [appliedJobsLoaded, setAppliedJobsLoaded] = useState(null);
     const [loadingAppliedJobs, setLoadingAppliedJobs] = useState(true);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -35,13 +36,14 @@ const AlumniProfile = () => {
                 </div>
                 <div className="sm:w-[40%]">
                     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
+
                         <h1 className="font-bold text-[15px] uppercase">
                             List of Applied Jobs
                         </h1>
                         <p className="text-slate-500 text-[12px]">All your placements</p>
                         {loadingAppliedJobs ? (
                             <p>Loading applied jobs...</p>
-                        ) : appliedJobsLoaded.length ? (
+                        ) : appliedJobsLoaded && appliedJobsLoaded.length ? (
                             <div className="flex flex-col text-[12px] space-y-2">
                                 {appliedJobsLoaded.map((appliedJob, index) => (
                                     <div
@@ -70,9 +72,6 @@ const AlumniProfile = () => {
                                                     }
                                                 >
                                                     View Details
-                                                </p>
-                                                <p className="flex justify-end text-[#aa3636]">
-                                                    Delete Application
                                                 </p>
                                             </div>
                                         </div>

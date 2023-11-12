@@ -7,8 +7,6 @@ export const getPostError = createAction('getPostError');
 export const getCandidatesError = createAction('getCandidatesError');
 export const getApplicantsError = createAction('getApplicantsError');
 
-
-
 export const companiesSlice = createSlice({
     name: 'companies',
     initialState: {

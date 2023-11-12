@@ -71,14 +71,13 @@ const CompanyApplicants = () => {
 
     ];
 
-    const filtered_candidates = candidates.filter((candidate) => candidate.jobId === Number(id));
-    console.log(filtered_candidates)
+    const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
 
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
                 <div className='mx-4 sm:mx-0 bg-white p-4 space-y-2 w-full'>
-                    <h1 className='Uppercase text-xl font-bold'>List of Candidates</h1>
+                    <h1 className='Uppercase text-xl font-bold'>List of Applicants</h1>
                     <p>These are the list of alumni that applied your post.</p>
 
                     {loading ? (

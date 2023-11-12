@@ -153,39 +153,37 @@ export default function ViewJobAlumni() {
                     <div className="flex flex-col md:flex-row items-center justify-end mt-4 md:mt-6 space-y-4 md:space-y-0 md:space-x-4">
                         {loading ? (
                             <CircularProgress color="primary" />
+                        ) : jobData.isActive ? (
+                            <>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: '#4cceac',
+                                        color: '#dbf5ee',
+                                    }}
+                                    onClick={() => handleApplyJob(jobData.id)}
+                                >
+                                    Apply Job Post
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: "#db4f4a",
+                                        color: "#dbf5ee",
+                                    }}
+                                    onClick={() => {
+                                        setSelectedItemId(jobData.id);
+                                        setOpenDeletePopup(true);
+                                    }}
+                                >
+                                    Delete Application
+                                </Button>
+                            </>
                         ) : (
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                size="medium"
-                                style={{
-                                    backgroundColor: '#4cceac',
-                                    color: '#dbf5ee',
-                                }}
-                                onClick={() => handleApplyJob(jobData.id)}
-                            >
-                                Apply Job Post
-                            </Button>
-                        )}
-                        <Button
-                            type="button"
-                            variant="contained"
-                            size='medium'
-                            style={{
-                                backgroundColor: "#db4f4a",
-                                color: "#dbf5ee",
-
-                            }}
-                            onClick={() => {
-                                setSelectedItemId(jobData.id);
-                                setOpenDeletePopup(true);
-                            }}
-
-                        >
-                            Delete Application
-                        </Button>
-
-                        {!jobData.isActive && (
                             <Button
                                 type="button"
                                 variant="contained"

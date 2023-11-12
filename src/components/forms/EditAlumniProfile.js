@@ -24,9 +24,9 @@ const EditAlumniProfile = ({ profileData }) => {
         alumniAddress: profileData.alumniAddress,
         idNum: profileData.idNum,
         companyAddress: profileData.companyAddress,
-        programCode: profileData.courses[0].programCode,
-        programDescription: profileData.courses[0].programDescription,
-        educationLevel: profileData.courses[0].educationalLevel,
+        programCode: profileData?.courses[0]?.programCode,
+        programDescription: profileData?.courses[0]?.programDescription,
+        educationLevel: profileData?.courses[0]?.educationalLevel,
         companyName: profileData.companyName,
         skills: profileData.skills,
         resume: profileData.resume,
@@ -34,6 +34,7 @@ const EditAlumniProfile = ({ profileData }) => {
         syGraduated: profileData.syGraduated,
         isEmployed: profileData.isEmployed,
         mobileNumber: profileData.mobileNumber,
+        occupation: profileData.occupation
     });
 
     console.log(userData);

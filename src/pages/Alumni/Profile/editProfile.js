@@ -43,7 +43,7 @@ const AlumniEditProfile = () => {
                         <p className="text-slate-500 text-[12px]">All your placements</p>
                         {loadingAppliedJobs ? (
                             <p>Loading applied jobs...</p>
-                        ) : appliedJobsLoaded.length ? (
+                        ) : appliedJobsLoaded && appliedJobsLoaded.length ? (
                             <div className="flex flex-col text-[12px] space-y-2">
                                 {appliedJobsLoaded.map((appliedJob, index) => (
                                     <div
