@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import AlumniProfileCard from "../../../components/profileCard/AlumniProfileCard";
 import {
     GetAllAppliedJobs,
 } from "../../../services/alumni";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import EditAlumniProfile from "../../../components/forms/EditAlumniProfile";
 
-const AlumniProfile = () => {
+const AlumniEditProfile = () => {
+    const profileData = useSelector((state) => state.alumniUserSlice.alumniProfile);
+
     const [appliedJobsLoaded, setAppliedJobsLoaded] = useState(null);
     const [loadingAppliedJobs, setLoadingAppliedJobs] = useState(true);
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ const AlumniProfile = () => {
         <div className="bg-slate-100 min-h-screen">
             <div className="container mx-auto flex flex-col sm:flex-row py-4 gap-2">
                 <div className="flex flex-col sm:w-[60%]">
-                    <AlumniProfileCard />
+                    <EditAlumniProfile profileData={profileData} />
                 </div>
                 <div className="sm:w-[40%]">
                     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
@@ -89,7 +91,7 @@ const AlumniProfile = () => {
     );
 };
 
-export default AlumniProfile;
+export default AlumniEditProfile;
 
 const Content = ({ title = "", desc = "" }) => {
     return (

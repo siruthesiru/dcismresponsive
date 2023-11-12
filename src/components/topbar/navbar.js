@@ -8,7 +8,7 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import applogo from "../../assets/applogowhite.png";
-import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, AddCircle } from '@mui/icons-material';
+import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, AddCircle, StopCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
@@ -112,11 +112,21 @@ const Navbar = ({ user }) => {
             {role === "company" && (
                 <MenuItem>
                     <IconButton size="large" color="inherit">
-                        <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
+                        <Badge color="error" onClick={() => navigate("/company/post-job")}>
                             <AddCircle />
                         </Badge>
                     </IconButton>
                     <p>Add Job Post</p>
+                </MenuItem>
+            )}
+            {role === "company" && (
+                <MenuItem>
+                    <IconButton size="large" color="inherit">
+                        <Badge color="error" onClick={() => navigate(`/${role}/inactive/jobs`)}>
+                            <StopCircle />
+                        </Badge>
+                    </IconButton>
+                    <p>View Inactive Post</p>
                 </MenuItem>
             )}
             {/* <MenuItem>
@@ -189,8 +199,19 @@ const Navbar = ({ user }) => {
                                 aria-label="show 10 jobs matches to the user"
                                 color="inherit"
                             >
-                                <Badge color="error" onClick={() => navigate("/company/post_job")}>
+                                <Badge color="error" onClick={() => navigate("/company/post-job")}>
                                     <AddCircle />
+                                </Badge>
+                            </IconButton>
+                        )}
+                        {role === "company" && (
+                            <IconButton
+                                size="large"
+                                aria-label="show 10 jobs matches to the user"
+                                color="inherit"
+                            >
+                                <Badge color="error" onClick={() => navigate(`/${role}/inactive/jobs`)}>
+                                    <StopCircle />
                                 </Badge>
                             </IconButton>
                         )}

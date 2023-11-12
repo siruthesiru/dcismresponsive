@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllEvents, GetAlumniProfile } from '../../../services/alumni';
 import AlumniUser from '../../../components/userCard/alumniCard';
-import EventsCard from '../../../components/eventsCard';
+import EventsCard from '../../../components/cards/eventCard';
 
 const AlumniEvents = () => {
     const events = useSelector((state) => state.alumniUserSlice.events);

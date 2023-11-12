@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import EventsCard from '../../../components/eventsCard';
 import { GetAllEvents, GetCompanyProfile } from '../../../services/company';
 import CompanyUser from '../../../components/userCard/companyCard';
+import EventsCard from '../../../components/cards/eventCard';
 
 const CompanyEvents = () => {
     const events = useSelector((state) => state.companyUserSlice.events);

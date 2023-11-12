@@ -16,7 +16,7 @@ import { GetAdminProfile } from '../../../services/admin_alumni';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
-    const { totalAlumni, totalCompany, sumOfUsers, totalEmployed, totalUnEmployed, commonJobs, totalBSIT, totalBSCS, totalBSIS, totalICT } = useSelector((state) => state.adminDashboard);
+    const { totalAlumni, totalCompany, sumOfUsers, totalEmployed, totalUnEmployed, commonJobs, totalEmployedByProgram } = useSelector((state) => state.adminDashboard);
 
     useEffect(() => {
         getStatistics(dispatch);
@@ -79,13 +79,12 @@ const Dashboard = () => {
         ],
     };
 
+
     const pieGraphBox = {
-        data: [
-            { course: 'Course BSCS', employmentRate: totalBSCS },
-            { course: 'Course BSIT', employmentRate: totalBSIT },
-            { course: 'Course BSIS', employmentRate: totalBSIS },
-            { course: 'Course BSICT', employmentRate: totalICT },
-        ],
+        data: totalEmployedByProgram.map(({ programCode, totalCount }) => ({
+            course: `Course ${programCode}`,
+            employmentRate: totalCount,
+        })),
     };
 
     return (

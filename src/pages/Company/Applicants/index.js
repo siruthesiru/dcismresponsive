@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useParams } from 'react-router-dom';
-import { SendInviteCandidate, ViewAllCandidates } from '../../../services/company';
+import { SendInviteApplicant, ViewAllCandidates } from '../../../services/company';
 import { getJobsError } from '../../../app/companyUserSlice';
 import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
 
 
-const CompanyCandidates = () => {
+const CompanyApplicants = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
@@ -31,9 +31,10 @@ const CompanyCandidates = () => {
         fetchData();
     }, [dispatch, id]);
 
+
     const handleSendInvite = async (jobId, alumniId) => {
         try {
-            const isSuccess = await SendInviteCandidate(dispatch, jobId, alumniId);
+            const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
             if (isSuccess) {
                 console.log('Invitation sent successfully!');
             }
@@ -41,6 +42,7 @@ const CompanyCandidates = () => {
             console.error('Error sending invite:', error);
         }
     };
+
 
     const columns = [
         ...ViewCandidatesColumns,
@@ -57,14 +59,12 @@ const CompanyCandidates = () => {
                         style={{
                             backgroundColor: params.row.status ? "#aaa" : "#221769",
                             color: "#dbf5ee",
-
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
                         disabled={!params.row.job.isActive}
                     >
                         Sent Invite
                     </Button>
-
                 );
             },
         },
@@ -79,7 +79,7 @@ const CompanyCandidates = () => {
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
                 <div className='mx-4 sm:mx-0 bg-white p-4 space-y-2 w-full'>
                     <h1 className='Uppercase text-xl font-bold'>List of Candidates</h1>
-                    <p>These are the list of alumni that matches your post.</p>
+                    <p>These are the list of alumni that applied your post.</p>
 
                     {loading ? (
                         <div className="flex items-center justify-center">
@@ -126,4 +126,4 @@ const CompanyCandidates = () => {
     );
 };
 
-export default CompanyCandidates;
+export default CompanyApplicants;

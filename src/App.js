@@ -26,13 +26,10 @@ import AnnouncementForm from './components/forms/AnnouncementForm';
 import Profile from './pages/Admin/Profile';
 
 import LayoutAlumni from './pages/Alumni/Layout';
-import AlumniSearch from './pages/Alumni/A_SearchPage';
 import LandingPageAlumni from './pages/Alumni/LandingPage';
 import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
 import AlumniNotification from './pages/Alumni/Notification';
-import AlumniJob from './pages/Alumni/Jobs/viewJob.js';
-import ApplyJob from './pages/Alumni/ApplyJob';
 import JobList from './pages/Alumni/Jobs';
 import AlumniProfile from './pages/Alumni/Profile';
 
@@ -46,9 +43,13 @@ import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
 import PostJob from './pages/Company/PostJob';
-import EditProfileCompany from './components/forms/EditProfileCompany.js';
-import ViewJobAlumni from './components/cards/ViewJobAlumni.js';
-import ViewJobCompany from './components/cards/ViewJobCompany.js';
+import CompanyEditProfile from './pages/Company/Profile/editProfile.js';
+import CompanyInactiveJobs from './pages/Company/Jobs/inActiveJob.js';
+import ViewJobCompany from './pages/Company/Job';
+import EditJobPost from './pages/Company/PostJob/editPost.js';
+import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
+import ViewJobAlumni from './pages/Alumni/Job';
+import CompanyApplicants from './pages/Company/Applicants/index.js';
 
 
 const App = () => {
@@ -90,7 +91,7 @@ const App = () => {
                   <Route path="/verification_company" element={<VerifyCompany />} />
                   <Route path="/companies" element={<Companies />} />
                   <Route path="/jobs" element={<Jobs />} />
-                  <Route path="/view_candidates" element={<ViewCandidates />} />
+                  <Route path="/job/candidates/:id" element={<ViewCandidates />} />
                   <Route path="/pending_jobs" element={<PendingJobs />} />
                   <Route path="/alumni" element={<Alumni />} />
                   <Route path="/events" element={<Events />} />
@@ -109,11 +110,8 @@ const App = () => {
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<JobList />} />
                   <Route path="/alumni/notifications" element={<AlumniNotification />} />
-                  <Route path="/alumni/search" element={<AlumniSearch />} />
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
-                  <Route path="/alumni/edit-profile" element={<AlumniProfile />} />
-                  <Route path="/alumni/job" element={<AlumniJob />} />
-                  <Route path="/alumni/job/apply/:id" element={<ApplyJob />} />
+                  <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                   <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
 
@@ -129,11 +127,13 @@ const App = () => {
                   <Route path="/company/events" element={<CompanyEvents />} />
                   <Route path="/company/notifications" element={<CompanyNotification />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
-                  <Route path="/company/edit-profile" element={<EditProfileCompany />} />
-                  <Route path="/company/post_job" element={<PostJob />} />
+                  <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
+                  <Route path="/company/post-job" element={<PostJob />} />
+                  <Route path="/company/edit-job/:id" element={<EditJobPost />} />
+                  <Route path="/company/inactive/jobs" element={< CompanyInactiveJobs />} />
                   <Route path="/company/job/candidates/:id" element={<CompanyCandidates />} />
                   <Route path="/company/job/:id" element={<ViewJobCompany />} />
-
+                  <Route path="/company/job/applicants/:id" element={<CompanyApplicants />} />
                 </Route>
               </Route>
 

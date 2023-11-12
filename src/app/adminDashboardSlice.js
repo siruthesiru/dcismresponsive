@@ -16,6 +16,7 @@ const initialState = {
     sixData: localStorage.getItem('sixData') || 0,
     sevenData: localStorage.getItem('sevenData') || 0,
     commonJobs: [],
+    totalEmployedByProgram: [],
     totalBSIT: localStorage.getItem('totalBSIT') || 0,
     totalBSCS: localStorage.getItem('totalBSCS') || 0,
     totalBSIS: localStorage.getItem('totalBSIS') || 0,
@@ -58,6 +59,7 @@ export const adminDashboardSlice = createSlice({
             state.sixData = action.payload.sixData;
             state.sevenData = action.payload.sevenData;
             state.commonJobs = action.payload.commonJobs;
+            state.totalEmployedByProgram = action.payload.totalEmployedByProgram;
             state.totalBSIT = action.payload.sevenData;
             state.totalBSCS = action.payload.totalBSCS;
             state.totalBSIS = action.payload.totalBSIS;

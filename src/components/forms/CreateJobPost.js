@@ -57,21 +57,6 @@ const CreateJobPost = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // if (id) {
-        //     const currentDate = new Date();
-        //     const editedFormData = {
-        //         ...formData,
-        //         updatedTime: currentDate.toISOString(),
-        //     };
-
-        //     const editSuccess = await EditAnnouncement(dispatch, editedFormData, id);
-        //     if (editSuccess) {
-        //         toast.success("Announcement edited successfully");
-        //         await new Promise(resolve => setTimeout(resolve, 3000));
-        //         navigate('/announcements');
-        //     }
-        // } else {
-        console.log(formData);
         const addSuccess = await PostJob(dispatch, formData);
         if (addSuccess) {
             await GetAllJobs(dispatch);
@@ -100,6 +85,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center">
@@ -111,6 +97,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center">
@@ -122,6 +109,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, yearsOfExp: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center">
@@ -133,6 +121,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, slots: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center">
@@ -144,6 +133,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center my-2">
@@ -154,6 +144,7 @@ const CreateJobPost = () => {
                                 onChange={(e) => setFormData({ ...formData, expiration_Date: e.target.value })
                                 }
                                 className="w-[200px] h-[30px] bg-white border border-slate-200 p-2 rounded-md"
+                                required
                             />
                         </div>
                         <div className="flex items-center my-2">
@@ -179,6 +170,7 @@ const CreateJobPost = () => {
                                             value={skillObj.skill}
                                             onChange={(e) => handleSkillChange(e, index)}
                                             className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                            required
                                         />
                                         {index > 0 && (
                                             <button
@@ -235,7 +227,7 @@ const CreateJobPost = () => {
                                     onClick={() => navigate(-1)}
 
                                 >
-                                    Discard Application
+                                    Discard Changes
                                 </Button>
                             </div>
                         </div>

@@ -4,27 +4,25 @@ export const rejectCompanyError = createAction('rejectCompanyError');
 export const verifyCompanyError = createAction('verifyCompanyError');
 export const getCompaniesError = createAction('getCompaniesError');
 export const getPostError = createAction('getPostError');
+export const getCandidatesError = createAction('getCandidatesError');
+export const getApplicantsError = createAction('getApplicantsError');
+
+
 
 export const companiesSlice = createSlice({
     name: 'companies',
     initialState: {
         companies: [],
-        unverified_companies: [],
-        verified_post: [],
-        unverified_post: [],
+        posts: [],
+        candidates: [],
+        applicants: [],
     },
     reducers: {
         getCompanies: (state, action) => {
             state.companies = action.payload;
         },
-        getUnverifiedCompanies: (state, action) => {
-            state.unverified_companies = action.payload;
-        },
-        getVerifiedPost: (state, action) => {
-            state.verified_post = action.payload;
-        },
-        getUnverifiedPost: (state, action) => {
-            state.unverified_post = action.payload;
+        getPosts: (state, action) => {
+            state.posts = action.payload;
         },
         getCompanyByID: (state, action) => {
             const updatedCompany = state.companies.map((company) => {
@@ -34,53 +32,48 @@ export const companiesSlice = createSlice({
                 return company;
             });
 
-            return { ...state, alumni: updatedCompany };
+            return { ...state, companies: updatedCompany };
         },
-        verifyCompany: (state, action) => {
-            const unverified_companies = state.unverified_companies.map(company => {
+        getCandidates: (state, action) => {
+            return { ...state, candidates: action.payload.data };
+        },
+        getApplicants: (state, action) => {
+            return { ...state, applicants: action.payload.data };
+        },
+        updateCompany: (state, action) => {
+            const unverified_companies = state.companies.map(company => {
                 if (company.id === action.payload.id) {
                     company = action.payload;
                 }
                 return company;
             });
-            return { ...state, unverified_companies: [...unverified_companies] };
+            return { ...state, companies: [...unverified_companies] };
         },
-        rejectCompany: (state, action) => {
-            const unverified_companies = state.unverified_companies.map(company => {
-                if (company.id === action.payload.id) {
-                    company = action.payload;
-                }
-                return company;
-            });
-            return { ...state, unverified_companies: [...unverified_companies] };
-        },
-        verifyPost: (state, action) => {
-            const unverified_post = state.unverified_post.map(post => {
+        updatePost: (state, action) => {
+            const unverified_post = state.posts.map(post => {
                 if (post.id === action.payload.id) {
                     post = action.payload;
                 }
                 return post;
             });
-            return { ...state, unverified_post: [...unverified_post] };
+            return { ...state, posts: [...unverified_post] };
         },
         rejectPost: (state, action) => {
-            const unverified_post = state.unverified_post.filter(post =>
+            const unverified_post = state.posts.filter(post =>
                 post.id !== action.payload.id);
-            return { ...state, unverified_post: [...unverified_post] }
+            return { ...state, posts: [...unverified_post] }
         },
     }
 });
 
 export const {
     getCompanies,
-    getUnverifiedCompanies,
-    getVerifiedPost,
-    getUnverifiedPost,
+    getPosts,
     getCompanyByID,
-    verifyCompany,
-    rejectCompany,
-    verifyPost,
-    rejectPost
+    updateCompany,
+    updatePost,
+    rejectPost,
+    getCandidates
 } = companiesSlice.actions;
 
 export default companiesSlice.reducer;

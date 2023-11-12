@@ -133,6 +133,7 @@ const Alumni = () => {
         },
     };
 
+    console.log(selectedItemId);
 
     return (
         <>

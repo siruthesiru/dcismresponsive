@@ -1,81 +1,121 @@
-import React, { useState } from "react";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import Header from "../../../components/header";
-import { AlumniRows } from "../../../data/mockAdminData";
-import { ViewCandidatesColumns } from "../../../components/constant/adminColumnHeaders";
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { useParams } from 'react-router-dom';
+import { Button, CircularProgress } from '@mui/material';
+import { ViewAllCandidates } from '../../../services/admin_company';
+import { getCandidatesError } from '../../../app/companiesSlice';
+import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
 
 
 const ViewCandidates = () => {
-    const rows = AlumniRows;
-    const columns = ViewCandidatesColumns
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [candidates, setCandidates] = useState([]);
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await ViewAllCandidates(dispatch, id);
+                console.log(data);
+                setCandidates(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error:', error);
+                setLoading(false);
+                dispatch(getCandidatesError(error.response?.data));
+            }
+        };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+        fetchData();
+    }, [dispatch, id]);
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+    const columns = [
+        ...ViewCandidatesColumns,
+        {
+            field: "action",
+            headerName: "Actions",
+            width: 100,
+            renderCell: (params) => {
+                return (
 
+                    <Button
+                        variant="contained"
+                        size="small"
+                        style={{
+                            backgroundColor: params.row.status ? "#aaa" : "#221769",
+                            color: "#dbf5ee",
+
+                        }}
+                        disabled={params.row.status}
+                    >
+                        Sent Invite
+                    </Button>
+
+                );
+            },
+        },
+
+    ];
+
+    const filtered_candidates = candidates.filter((candidate) => candidate.jobId === Number(id));
+    console.log(filtered_candidates)
 
     return (
-        <Box m="1.5rem 2.5rem">
-            <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Header title="List of Candidates" subtitle="Candidates for data scientist" />
-            </Box>
-            <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: "2rem" }}>
-                <TableContainer sx={{ height: 600 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth, backgroundColor: "#4cceac" }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
-                                                const value = row[column.id];
-                                                return (
-                                                    <TableCell key={column.id} align={column.align}>
-                                                        {column.format && typeof value === 'number'
-                                                            ? column.format(value)
-                                                            : value}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </Box>
+        <div className='bg-slate-100 min-h-screen'>
+            <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
+                <div className='mx-4 sm:mx-0 bg-white p-4 space-y-2 w-full'>
+                    <h1 className='Uppercase text-xl font-bold'>List of Candidates</h1>
+                    <p>These are the list of alumni that matches this job post.</p>
+
+                    {loading ? (
+                        <div className="flex items-center justify-center">
+                            <CircularProgress color="primary" />
+                        </div>
+                    ) : (
+                        <div style={{ width: '100%', overflowX: 'auto' }}>
+                            {filtered_candidates.length === 0 ? (
+                                <p>No candidates available.</p>
+                            ) : (
+                                <DataGrid
+                                    sx={{
+                                        padding: "20px",
+                                        "& .MuiDataGrid-toolbarContainer": {
+                                            flexDirection: "row-reverse",
+                                            color: "#221769"
+                                        },
+                                        "& .MuiButtonBase-root": {
+                                            color: "#221769",
+                                        },
+                                    }}
+                                    rows={filtered_candidates}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: {
+                                                pageSize: 10,
+                                            },
+                                        },
+                                    }}
+                                    slots={{ toolbar: GridToolbar }}
+                                    slotProps={{
+                                        toolbar: {
+                                            showQuickFilter: true,
+                                            quickFilterProps: { debounceMs: 500 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[10]}
+                                    checkboxSelection
+                                    disableRowSelectionOnClick
+                                />
+                            )}
+
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 };
 

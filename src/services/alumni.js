@@ -1,5 +1,5 @@
 import axios from "axios";
-import { applyJob, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, setErrorMessage } from "../app/alumniUserSlice";
+import { applyJob, deleteApplyJob, deleteApplyJobError, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, setErrorMessage } from "../app/alumniUserSlice";
 import { toast } from 'react-toastify';
 
 
@@ -40,7 +40,6 @@ export const GetAllJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs');
         dispatch(getJobs(response.data));
-        console.log(response.data);
     } catch (error) {
         console.error('Error:', error);
         dispatch(getAnnouncementsError())
@@ -66,6 +65,10 @@ export const EditProfile = async (dispatch, credentials) => {
         for (const key in credentials) {
             if (key === 'file' && credentials[key]) {
                 formData.append(key, credentials[key]);
+            } else if (key === 'skills') {
+                for (const skillKey in credentials[key]) {
+                    formData.append(`skills[${skillKey}][skill]`, credentials[key][skillKey].skill);
+                }
             } else {
                 formData.append(key, credentials[key]);
             }
@@ -93,7 +96,6 @@ export const EditProfile = async (dispatch, credentials) => {
 export const GetJob = async (dispatch, id) => {
     try {
         const response = await axiosInstance.get(`/Jobs/Get-Job/${id}`, id)
-        console.log(response.data);
         dispatch(getJob(response.data));
         return response.data;
     } catch (error) {
@@ -106,6 +108,7 @@ export const GetAllAppliedJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs/Get-All-Applied-Jobs');
         dispatch(getApplyJobs(response.data));
+        return response.data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));
@@ -118,7 +121,6 @@ export const ApplyJob = async (dispatch, job) => {
         const response = await axiosInstance.post('/Jobs/Apply-Job', job)
         if (response.data.isPostSucceed) {
             dispatch(applyJob(response.data));
-            toast.success(response.data.message)
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
@@ -127,5 +129,16 @@ export const ApplyJob = async (dispatch, job) => {
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));
+    }
+}
+
+export const DeleteAppliedJob = async (dispatch, id) => {
+    try {
+        await axiosInstance.delete(`/Jobs/Delete-Applied-Jobs/${id}`);
+        dispatch(deleteApplyJob(id));
+        toast.success('Application deleted successfully');
+    } catch {
+        dispatch(deleteApplyJobError());
+        toast.error('An error occurred while deleting the application');
     }
 }

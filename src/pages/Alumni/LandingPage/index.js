@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
-import AnnouncementCard from '../../../components/announcementCard';
 import { GetAllAnnouncements, GetAlumniProfile } from '../../../services/alumni';
 import AlumniUser from '../../../components/userCard/alumniCard';
+import AnnouncementCard from '../../../components/cards/announcementCard';
 
 
 const LandingPageAlumni = () => {
@@ -16,7 +16,6 @@ const LandingPageAlumni = () => {
         GetAllAnnouncements(dispatch);
     }, [dispatch]);
 
-    console.log(announcements, userData);
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2'>

@@ -4,37 +4,37 @@ import Header from "../../../components/header";
 import DataTable from "../../../components/dataTable";
 import { verifyJobColumn } from "../../../components/constant/adminColumnHeaders";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUnverifiedJobs, RejectJobPost, Verify_JobPost } from "../../../services/admin_company";
+import { GetJobPosts, RejectJobPost, Verify_JobPost } from "../../../services/admin_company";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const PendingJobs = () => {
-    const unverified_post = useSelector((state) => state.companiesSlice.unverified_post);
+    const posts = useSelector((state) => state.companiesSlice.posts);
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        GetUnverifiedJobs(dispatch)
+        GetJobPosts(dispatch)
     }, [dispatch])
 
-    const uniquePost = unverified_post.map((job, index) => {
+    const uniquePost = posts.map((job, index) => {
         return { ...job, id: job.id || index + 1 };
     });
+
+    const verifiedPost = uniquePost.filter((post) => !post.status);
 
     const handleAcceptJobPost = async (id) => {
         try {
             const credentials = {
                 id: id,
                 status: true,
-                message: "true",
-                position: "true",
             };
             await Verify_JobPost(dispatch, credentials);
-            GetUnverifiedJobs(dispatch);
+            await GetJobPosts(dispatch);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -54,7 +54,7 @@ const PendingJobs = () => {
 
     useEffect(() => {
         if (deleteOccurred) {
-            GetUnverifiedJobs(dispatch);
+            GetJobPosts(dispatch);
             setDeleteOccurred(false);
         }
     }, [deleteOccurred, dispatch]);
@@ -110,12 +110,12 @@ const PendingJobs = () => {
 
             </Box>
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
-                {unverified_post.length === 0 ? (
+                {verifiedPost.length === 0 ? (
                     <Typography>No Data Available</Typography>
                 ) : (
                     <DataTable
                         columns={verifyJobColumn}
-                        rows={uniquePost}
+                        rows={verifiedPost}
                         lastColumn={customLastColumn}
                     />
 

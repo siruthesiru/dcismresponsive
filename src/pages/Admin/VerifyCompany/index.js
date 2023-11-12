@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import Header from "../../../components/header";
 import { verifyColumns } from "../../../components/constant/adminColumnHeaders";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUnverifiedCompanies, RejectCompany, Verify_Company } from "../../../services/admin_company";
+import { GetCompanies, RejectCompany, Verify_Company } from "../../../services/admin_company";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,12 +11,11 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 const VerifyCompany = () => {
 
-    const companies = useSelector((state) => state.companiesSlice.unverified_companies);
+    const companies = useSelector((state) => state.companiesSlice.companies);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
-        GetUnverifiedCompanies(dispatch)
+        GetCompanies(dispatch)
     }, [dispatch])
 
     const [deleteOccurred, setDeleteOccurred] = useState(false);
@@ -25,9 +24,10 @@ const VerifyCompany = () => {
         return { ...company, id: company.id || index + 1 };
     });
 
+
     useEffect(() => {
         if (deleteOccurred) {
-            GetUnverifiedCompanies(dispatch);
+            GetCompanies(dispatch);
             setDeleteOccurred(false);
         }
     }, [deleteOccurred, dispatch]);
@@ -39,7 +39,7 @@ const VerifyCompany = () => {
                 isVerified: true
             };
             await Verify_Company(dispatch, credentials);
-            GetUnverifiedCompanies(dispatch);
+            await GetCompanies(dispatch);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -49,10 +49,10 @@ const VerifyCompany = () => {
         try {
             const credentials = {
                 id: id,
-                moa: null
+                isVerified: false
             };
             await RejectCompany(dispatch, credentials);
-            GetUnverifiedCompanies(dispatch);
+            await GetCompanies(dispatch);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -130,6 +130,8 @@ const VerifyCompany = () => {
 
     ];
 
+    const isVerifiedCompanies = uniqueCompanies.filter((company) => !company.isVerified && (company.moa !== null && company.moa !== ""));
+
     return (
         <Box m="1.5rem 2.5rem">
             <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -141,7 +143,7 @@ const VerifyCompany = () => {
 
             </Box>
             <Box sx={{ marginTop: "1.5rem", width: "100%", height: "70vh" }}>
-                {companies.length === 0 ? (
+                {isVerifiedCompanies.length === 0 ? (
                     <Typography>No Data Available</Typography>
                 ) : (
                     <DataGrid
@@ -155,7 +157,7 @@ const VerifyCompany = () => {
                                 color: "#221769",
                             },
                         }}
-                        rows={uniqueCompanies}
+                        rows={isVerifiedCompanies}
                         getRowId={(row) => row.id}
                         columns={columns}
                         style={{ width: "100%" }}

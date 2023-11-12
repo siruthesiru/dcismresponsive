@@ -21,11 +21,7 @@ export default function PendingApplication({ data, user }) {
             <div className="flex flex-col">
                 <Content title="Slots" desc={data?.slots} />
                 <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={handleViewDetails}>View Details</p>
-                {role === "company" && (
-                    <p className="flex justify-end text-[#aa3636]">
-                        Cancel Posting
-                    </p>
-                )}
+
             </div>
         </div>
 

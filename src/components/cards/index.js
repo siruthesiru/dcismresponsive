@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import {
-    Box,
     Card,
     CardActions,
     CardContent,
@@ -12,23 +11,11 @@ import {
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate } from "react-router-dom";
 import { ReportProblemOutlined } from "@mui/icons-material";
+import { formatDate } from "../constant/helper";
 
 const JobCard = ({ job }) => {
     const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
-    const currentDate = new Date();
-    const expirationDate = new Date(job.expiration_Date);
-
-    const formattedDate = expirationDate.toLocaleString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-    });
-
-    const isStatus = expirationDate > currentDate ? "Active" : "Expired";
 
     return (
         <Card
@@ -45,22 +32,23 @@ const JobCard = ({ job }) => {
                 >
                     {job.position ? job.position : "Not Indicated"}
                 </Typography>
-                <Typography variant="h5" component="div">
-                    {job.description ? job.description : "Not Indicated"}
-                </Typography>
-                <Typography sx={{ mb: "1.5rem" }} color="#4cceac">
-                    Expected Salary: ${job.salary ? Number(job.salary).toFixed(2) : "Not Indicated"}
-                </Typography>
+                <div className="text-[20px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: job.description }} />
 
-                {job?.targetSkills.length > 0 ? (
-                    job?.targetSkills.map((id, skill) => (
-                        <Typography aphy key={id} variant="body2">
-                            {skill}
-                        </Typography>
-                    ))
-                ) : (
-                    <Typography variant="body2">Not Indicated</Typography>
-                )}
+                <Typography sx={{ mb: "1rem" }} color="#4cceac">
+                    Expected Salary:{job.salary ? job.salary : "Not Indicated"}
+                </Typography>
+                <Typography color="#4cceac">
+                    Skills Required:
+                    {job?.targetSkills ? (
+                        job?.targetSkills.length === 0 ? (
+                            <p>No skills indicated</p>
+                        ) : (
+                            <p>{job?.targetSkills.map((skill) => skill.skill).join(', ')}</p>
+                        )
+                    ) : (
+                        <p>No skills data available</p>
+                    )}
+                </Typography>
             </CardContent>
             <CardActions>
                 <Button
@@ -82,44 +70,36 @@ const JobCard = ({ job }) => {
 
             >
                 <CardContent>
-                    <Typography>id: {job.id}</Typography>
-                    <Typography>Status: {isStatus}</Typography>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
+                    <Typography>Status: {job.status ? "Active" : "Inactive"}</Typography>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Typography>Posted by: </Typography>
                         <Typography>
-                            Posted By: {job.company.companyName}
-                            <span>
-                                {job?.company?.isVerified ? (
-                                    <CheckCircleOutlineIcon
-                                        style={{
-                                            marginLeft: "5px",
-                                            color: "#4cceac",
-                                            fontSize: "1.3rem",
-                                        }}
-                                    />
-                                ) : (
-                                    <ReportProblemOutlined
-                                        style={{
-                                            marginLeft: "5px",
-                                            color: "#db4f4a",
-                                            fontSize: "1.3rem",
-                                        }}
-                                    />
-                                )}
-                            </span>
+                            {job.company.companyName}
                         </Typography>
-                    </Box>
-                    <Typography >
-                        Company Address: {job.company.companyAddress ? job.company.companyAddress : "Not Indicated"}
-                    </Typography>
+                        {job?.company?.isVerified ? (
+                            <CheckCircleOutlineIcon
+                                style={{
+                                    marginLeft: "5px",
+                                    color: "#4cceac",
+                                    fontSize: "1.3rem",
+                                }}
+                            />
+                        ) : (
+                            <ReportProblemOutlined
+                                style={{
+                                    marginLeft: "5px",
+                                    color: "#db4f4a",
+                                    fontSize: "1.3rem",
+                                }}
+                            />
+                        )}
+                    </div>
+
                     <Typography>Job Location: {job.location}</Typography>
                     <Typography>Slots: {job.slots}</Typography>
                     <Typography>Years Experience: {job.yearsofExp}</Typography>
-                    <Typography>Application Ends: {formattedDate}</Typography>
+                    <Typography>Application Ends: {formatDate(job.expiration_Date)}</Typography>
                     <Button
                         variant="contained"
                         color="primary"
@@ -127,7 +107,7 @@ const JobCard = ({ job }) => {
                             my: "1rem", backgroundColor: "#4cceac"
                         }}
                         size="small"
-                        onClick={() => navigate('/view_candidates')}
+                        onClick={() => navigate(`/job/candidates/${job.id}`)}
                     >
                         View Candidates
                     </Button>
