@@ -1,4 +1,3 @@
-// import placeholder from "../assets/placeholder.png";
 import heroimage from "../assets/graduate2hero.png";
 
 import alliance from "../assets/company-alliance.png";

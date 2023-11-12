@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 
 
 const AlumniUser = ({ user }) => {
@@ -25,7 +25,8 @@ const AlumniUser = ({ user }) => {
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                 <div className="flex justify-between">
                     <p>Birthday</p>
-                    <p className="font-bold ">{user?.birthday.split("T")[0]}</p>
+                    <p className="font-bold ">{user && user.birthday ? user.birthday.split("T")[0] : 'N/A'}
+                    </p>
                 </div>
                 <div className="flex justify-between">
                     <p>Company</p>

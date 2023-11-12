@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { CheckCircle } from '@mui/icons-material';
 
 const CompanyUser = ({ user }) => {

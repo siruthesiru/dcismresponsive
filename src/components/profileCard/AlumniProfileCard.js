@@ -2,7 +2,7 @@ import { Button, CardMedia } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 import React, { useState } from "react";
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 

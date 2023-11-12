@@ -14,7 +14,7 @@ import {
     Menu as MenuIcon,
     ArrowDropDownOutlined,
 } from "@mui/icons-material";
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.png";
 import { useDispatch, } from "react-redux";
 import { logout } from "../../app/authenticationSlice";
 
