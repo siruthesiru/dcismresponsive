@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import EditCompanyProfile from '../../../components/forms/EditCompanyProfile';
-import PendingApplication from '../../../components/alumni-company/pendingApplication';
+import PendingApplication from '../../../components/cards/PendingApplication';
 
 
 const CompanyEditProfile = () => {

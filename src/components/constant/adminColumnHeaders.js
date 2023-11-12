@@ -360,7 +360,7 @@ export const ViewCandidatesColumns = [
         headerName: "Profile",
         width: 100,
         renderCell: (params) => {
-            const imgSrc = params.row.profileImage ? `data:image/jpeg;base64,${params.row.profileImage}` : placeholder;
+            const imgSrc = params.row.alumni.profileImage ? `data:image/jpeg;base64,${params.row.alumni.profileImage}` : placeholder;
             return (
                 <img
                     src={imgSrc}

@@ -181,3 +181,49 @@ export const CloseJobPost = async (dispatch, job) => {
         dispatch(editJobPostError(error.response.data));
     }
 }
+
+export const SendInviteCandidate = async (dispatch, jobId, alumniId) => {
+    try {
+        const response = await axiosInstance.put(`/Job/Get-Job/${jobId}/Candidates/${alumniId}`, null, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.data.isEditSucceed) {
+            dispatch(editJobPost(response.data));
+            toast.success(response.data.message);
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isEditSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(editProfileError(error.response.data));
+    }
+};
+
+export const SendInviteApplicant = async (dispatch, jobId, alumniId) => {
+    try {
+        const response = await axiosInstance.put(`/Job/Get-Job/${jobId}/Application/${alumniId}`, null, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.data.isEditSucceed) {
+            dispatch(editJobPost(response.data));
+            toast.success(response.data.message);
+        } else {
+            dispatch(setErrorMessage(response.data.message));
+            toast.error(response.data.message);
+        }
+        return response.data.isEditSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(setErrorMessage(error.response.data || 'An error occurred on the server.'));
+        dispatch(editProfileError(error.response.data));
+    }
+};

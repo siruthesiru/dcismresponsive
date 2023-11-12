@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useParams } from 'react-router-dom';
-import { ViewAllCandidates } from '../../../services/company';
+import { SendInviteApplicant, ViewAllCandidates } from '../../../services/company';
 import { getJobsError } from '../../../app/companyUserSlice';
 import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
@@ -31,6 +31,19 @@ const CompanyApplicants = () => {
         fetchData();
     }, [dispatch, id]);
 
+
+    const handleSendInvite = async (jobId, alumniId) => {
+        try {
+            const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
+            if (isSuccess) {
+                console.log('Invitation sent successfully!');
+            }
+        } catch (error) {
+            console.error('Error sending invite:', error);
+        }
+    };
+
+
     const columns = [
         ...ViewCandidatesColumns,
         {
@@ -46,13 +59,12 @@ const CompanyApplicants = () => {
                         style={{
                             backgroundColor: params.row.status ? "#aaa" : "#221769",
                             color: "#dbf5ee",
-
                         }}
-                        disabled={params.row.status}
+                        onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
+                        disabled={!params.row.job.isActive}
                     >
                         Sent Invite
                     </Button>
-
                 );
             },
         },
