@@ -100,7 +100,6 @@ const AlumniProfileCard = () => {
                             <label className="text-[12px] w-[100px]">USC ID: </label>
                             <p className="font-bold "> {userData?.idNum}</p>
                         </div>
-
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
                             <p className="font-bold "> {userData?.email}</p>

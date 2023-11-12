@@ -41,7 +41,6 @@ const JobList = () => {
         .filter((job) => job.status && job.isActive)
         .filter((job) => job.position.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    console.log(appliedJobsLoaded);
 
     return (
         <div className='bg-slate-100 min-h-screen'>

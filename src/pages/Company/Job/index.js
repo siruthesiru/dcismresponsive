@@ -42,6 +42,7 @@ export default function ViewJobCompany() {
         try {
             console.log(id);
             await DeleteJob(dispatch, id);
+            toast.success("Sucessfully deleted the job post.");
             setDeleteOccurred(true);
         } catch (error) {
             console.error("Error deleting job:", error);
