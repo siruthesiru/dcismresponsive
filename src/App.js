@@ -49,6 +49,7 @@ import ViewJobCompany from './pages/Company/Job';
 import EditJobPost from './pages/Company/PostJob/editPost.js';
 import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
 import ViewJobAlumni from './pages/Alumni/Job';
+import CompanyApplicants from './pages/Company/Applicants/index.js';
 
 
 const App = () => {
@@ -90,7 +91,7 @@ const App = () => {
                   <Route path="/verification_company" element={<VerifyCompany />} />
                   <Route path="/companies" element={<Companies />} />
                   <Route path="/jobs" element={<Jobs />} />
-                  <Route path="/view_candidates" element={<ViewCandidates />} />
+                  <Route path="/job/candidates/:id" element={<ViewCandidates />} />
                   <Route path="/pending_jobs" element={<PendingJobs />} />
                   <Route path="/alumni" element={<Alumni />} />
                   <Route path="/events" element={<Events />} />
@@ -132,6 +133,7 @@ const App = () => {
                   <Route path="/company/inactive/jobs" element={< CompanyInactiveJobs />} />
                   <Route path="/company/job/candidates/:id" element={<CompanyCandidates />} />
                   <Route path="/company/job/:id" element={<ViewJobCompany />} />
+                  <Route path="/company/job/applicants/:id" element={<CompanyApplicants />} />
                 </Route>
               </Route>
 

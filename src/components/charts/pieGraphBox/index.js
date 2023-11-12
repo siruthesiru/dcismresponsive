@@ -59,6 +59,7 @@ const PieGraphBox = ({ data }) => {
                         </div>
                     ))}
                 </div>
+
             </div>
             <div className='description'>
                 <p>This shows the employment rate of each program offered by the department</p>

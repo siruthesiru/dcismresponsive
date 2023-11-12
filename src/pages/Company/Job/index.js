@@ -191,6 +191,19 @@ export default function ViewJobCompany() {
                                 >
                                     View Candidates
                                 </Button>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size='medium'
+                                    style={{
+                                        backgroundColor: "#4cceac",
+                                        color: "#dbf5ee",
+
+                                    }}
+                                    onClick={() => navigate(`/company/job/applicants/${id}`)}
+                                >
+                                    View Applicants
+                                </Button>
                                 {jobData.isActive && (
                                     <Button
                                         type="button"
@@ -210,6 +223,9 @@ export default function ViewJobCompany() {
                         )}
                         {jobData.status && !jobData.company.isVerified && (
                             <>
+                                <p className="text-xs md:text-sm text-slate-500 mt-3">
+                                    Apply for partnership to view candidates of this job and the applicants.
+                                </p>
                                 <Button
                                     type="submit"
                                     variant="contained"

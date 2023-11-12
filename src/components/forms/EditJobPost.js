@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import RichTextEditor from './RichTextEditor';
 import { useDispatch } from 'react-redux';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,19 +7,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetAllJobs, GetJob, UpateJobPost } from '../../services/company';
+import RichTextEditor from './RichTextEditor';
 
 const EditJobPostForm = () => {
     const { id } = useParams();
     const [formData, setFormData] = useState({
         position: '',
+        requiredResume: 'true',
+        expiration_Date: '',
         description: '',
         location: '',
         salary: '',
         yearsOfExp: '',
         slots: '',
-        requiredResume: 'true',
-        status: false,
-        expiration_Date: '',
         targetSkills: [{ skill: '' }],
     });
     const dispatch = useDispatch();
@@ -36,16 +35,14 @@ const EditJobPostForm = () => {
                         setFormData({
                             id: jobData.id,
                             position: jobData.position,
-                            location: jobData.location,
-                            yearsOfExp: jobData.yearsOfExp,
-                            slots: jobData.slots,
-                            salary: jobData.salary,
                             expiration_Date: jobData.expiration_Date,
                             requiredResume: jobData.requiredResume,
+                            location: jobData.location,
+                            salary: jobData.salary,
                             description: jobData.description,
-                            targetSkills: jobData.targetSkills.map((skill) => ({
-                                ...skill,
-                            })),
+                            targetSkills: jobData.targetSkills,
+                            yearsOfExp: jobData.yearsOfExp,
+                            slots: jobData.slots
 
                         });
                         setPostDataLoaded(true);
@@ -69,13 +66,24 @@ const EditJobPostForm = () => {
         try {
             if (id) {
                 console.log(formData);
+                const formattedTargetSkills = formData.targetSkills.map((skillObj) => ({
+                    skill: skillObj.skill,
+                }));
                 const updateSuccess = await UpateJobPost(dispatch, {
-                    ...formData,
-                    requireResume: formData.requiredResume,
+                    id: formData.id,
+                    position: formData.position,
+                    description: formData.description,
+                    location: formData.location,
+                    salary: formData.salary,
+                    expiration_Date: formData.expiration_Date,
+                    slots: formData.slots,
+                    yearsOfExp: formData.yearsOfExp,
+                    targetSkills: formattedTargetSkills,
+                    status: formData.status,
                 });
                 if (updateSuccess) {
                     await GetAllJobs(dispatch);
-                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
                     navigate('/company/jobs');
                 }
             }
@@ -88,7 +96,7 @@ const EditJobPostForm = () => {
     const handleSkillChange = (e, index) => {
         const { value } = e.target;
         const updatedSkills = [...formData.targetSkills];
-        updatedSkills[index].skill = value;
+        updatedSkills[index] = { skill: value };
         setFormData({ ...formData, targetSkills: updatedSkills });
     };
 
@@ -99,16 +107,10 @@ const EditJobPostForm = () => {
     };
 
     const addSkill = () => {
-        const firstSkill = formData.targetSkills[0];
-        const newSkill = { skill: firstSkill.skill || 'New Skill' };
-
-        setFormData({
-            ...formData,
-            targetSkills: [
-                ...formData.targetSkills,
-                newSkill,
-            ],
-        });
+        setFormData((prevUserData) => ({
+            ...prevUserData,
+            targetSkills: [...prevUserData.targetSkills, { skill: '' }],
+        }));
     };
 
 
@@ -188,9 +190,8 @@ const EditJobPostForm = () => {
                                 <label className="text-[12px] w-[90px]">End of Posting: </label>
                                 <input
                                     type="datetime-local"
-                                    value={formData.expiration_Date}
-                                    onChange={(e) => setFormData({ ...formData, expiration_Date: e.target.value })
-                                    }
+                                    value={formData.expiration_Date ? formData.expiration_Date.slice(0, 16) : ''}
+                                    onChange={(e) => setFormData({ ...formData, expiration_Date: e.target.value })}
                                     className="w-[200px] h-[30px] bg-white border border-slate-200 p-2 rounded-md"
                                     required
                                 />
@@ -218,7 +219,6 @@ const EditJobPostForm = () => {
                                                 value={skillObj.skill}
                                                 onChange={(e) => handleSkillChange(e, index)}
                                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                                required
                                             />
                                             {index > 0 && (
                                                 <button
@@ -240,7 +240,6 @@ const EditJobPostForm = () => {
                                     </button>
                                 </div>
                             </div>
-
 
                             <div className="flex items-center my-4">
                                 <label className="text-[12px] w-[100px]">Description: </label>

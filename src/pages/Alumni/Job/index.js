@@ -80,7 +80,7 @@ export default function ViewJobAlumni() {
                 await GetAllAppliedJobs(dispatch);
                 setDeleteOccurred(false);
                 await new Promise(resolve => setTimeout(resolve, 3000));
-                navigate('/company/jobs');
+                navigate('/alumni/jobs');
             }
         };
         fetchData();
@@ -182,7 +182,7 @@ export default function ViewJobAlumni() {
                             }}
 
                         >
-                            Delete Job Post
+                            Delete Application
                         </Button>
 
                         {!jobData.isActive && (

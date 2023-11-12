@@ -107,7 +107,7 @@ const JobCard = ({ job }) => {
                             my: "1rem", backgroundColor: "#4cceac"
                         }}
                         size="small"
-                        onClick={() => navigate('/view_candidates')}
+                        onClick={() => navigate(`/job/candidates/${job.id}`)}
                     >
                         View Candidates
                     </Button>

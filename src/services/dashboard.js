@@ -33,7 +33,8 @@ export const getStatistics = async (dispatch) => {
                 totalBSCS: response.data.totalBSCS,
                 totalBSIS: response.data.totalBSIS,
                 totalICT: response.data.totalICT,
-                commonJobs: response.data.commonJobs
+                commonJobs: response.data.commonJobs,
+                totalEmployedByProgram: response.data.totalEmployedByProgram
 
             })
         );

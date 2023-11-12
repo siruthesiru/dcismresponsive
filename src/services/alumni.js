@@ -65,6 +65,10 @@ export const EditProfile = async (dispatch, credentials) => {
         for (const key in credentials) {
             if (key === 'file' && credentials[key]) {
                 formData.append(key, credentials[key]);
+            } else if (key === 'skills') {
+                for (const skillKey in credentials[key]) {
+                    formData.append(`skills[${skillKey}][skill]`, credentials[key][skillKey].skill);
+                }
             } else {
                 formData.append(key, credentials[key]);
             }

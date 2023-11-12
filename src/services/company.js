@@ -130,11 +130,21 @@ export const ViewAllCandidates = async (dispatch, id) => {
     }
 }
 
+export const ViewAllApplicants = async (dispatch, id) => {
+    try {
+        const response = await axiosInstance.get(`/Jobs/Get-Job/${id}/View-Applicants`, id)
+        dispatch(getCandidates(response.data));
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}
+
 export const DeleteJob = async (dispatch, id) => {
     try {
         await axiosInstance.delete(`/Jobs/Delete-Job-Post/${id}`, id);
         dispatch(deleteJobPost(id));
-        toast.success('Job Post deleted successfully');
     } catch (error) {
         console.error('Error:', error);
         dispatch(deleteJobPostError(error.response.data));

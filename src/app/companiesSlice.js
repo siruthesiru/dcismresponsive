@@ -4,12 +4,18 @@ export const rejectCompanyError = createAction('rejectCompanyError');
 export const verifyCompanyError = createAction('verifyCompanyError');
 export const getCompaniesError = createAction('getCompaniesError');
 export const getPostError = createAction('getPostError');
+export const getCandidatesError = createAction('getCandidatesError');
+export const getApplicantsError = createAction('getApplicantsError');
+
+
 
 export const companiesSlice = createSlice({
     name: 'companies',
     initialState: {
         companies: [],
         posts: [],
+        candidates: [],
+        applicants: [],
     },
     reducers: {
         getCompanies: (state, action) => {
@@ -27,6 +33,12 @@ export const companiesSlice = createSlice({
             });
 
             return { ...state, companies: updatedCompany };
+        },
+        getCandidates: (state, action) => {
+            return { ...state, candidates: action.payload.data };
+        },
+        getApplicants: (state, action) => {
+            return { ...state, applicants: action.payload.data };
         },
         updateCompany: (state, action) => {
             const unverified_companies = state.companies.map(company => {
@@ -60,7 +72,8 @@ export const {
     getCompanyByID,
     updateCompany,
     updatePost,
-    rejectPost
+    rejectPost,
+    getCandidates
 } = companiesSlice.actions;
 
 export default companiesSlice.reducer;

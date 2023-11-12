@@ -10,7 +10,9 @@ import {
     rejectPost,
     updateCompany,
     getPosts,
-    updatePost
+    updatePost,
+    getCandidates,
+    getCandidatesError
 } from '../app/companiesSlice'
 
 const axiosInstance = axios.create({
@@ -81,6 +83,17 @@ export const RejectJobPost = async (dispatch, id) => {
         toast.success('Job Post deleted successfully');
     } catch {
         dispatch(rejectCompanyError());
+        toast.error('An error occurred while deleting the announcement');
+    }
+}
+
+export const ViewAllCandidates = async (dispatch, id) => {
+    try {
+        const response = await axiosInstance.get(`/Company/Jobs/Get-Job/${id}/View-Candidates`, id);
+        dispatch(getCandidates(response.data));
+        return response.data;
+    } catch {
+        dispatch(getCandidatesError());
         toast.error('An error occurred while deleting the announcement');
     }
 }

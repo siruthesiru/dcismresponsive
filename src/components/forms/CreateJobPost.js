@@ -227,7 +227,7 @@ const CreateJobPost = () => {
                                     onClick={() => navigate(-1)}
 
                                 >
-                                    Discard Application
+                                    Discard Changes
                                 </Button>
                             </div>
                         </div>

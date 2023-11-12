@@ -85,7 +85,7 @@ const AlumniProfileCard = () => {
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Date of Birth: </label>
 
-                            <p className="font-bold ">{userData?.birthday ? userData.birthday.toString() : "N/A"}</p>
+                            <p className="font-bold ">{userData?.birthday ? userData.birthday.split("T")[0] : "N/A"}</p>
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Address: </label>
@@ -112,13 +112,15 @@ const AlumniProfileCard = () => {
                         </div>
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Academic Information</p>
-                        <div className="flex items-center">
-                            <label className="text-[12px] w-[100px]">Course Program: </label>
+                        {userData?.courses?.map((course, index) => (
+                            <div className="flex items-center" key={index}>
+                                <label className="text-[12px] w-[100px]"> Program Graduated: </label>
+                                <p className="font-bold">
+                                    {course.programDescription}
+                                </p>
+                            </div>
+                        ))}
 
-                            <p className="font-bold">
-                                {userData?.courses.programDescription}
-                            </p>
-                        </div>
                         <div className="flex items-center my-2">
                             <label className="text-[12px] w-[90px]">Year Graduated: </label>
 
@@ -153,13 +155,13 @@ const AlumniProfileCard = () => {
                             <p className="font-bold "> {userData?.occupation}</p>
                         </div>
 
-                        <div className="flex items-center">
+                        {/* <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">
                                 Years of Experience:{" "}
                             </label>
 
                             <p className="font-bold "> {userData?.years}</p>
-                        </div>
+                        </div> */}
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Skills</p>
 
@@ -181,7 +183,7 @@ const AlumniProfileCard = () => {
                             {userData.resume && userData.resume.length > 0 && (
                                 <div style={{ flex: 1 }}>
                                     <label className="text-[12px] w-[100px]">
-                                        Uploaded Moa:{" "}
+                                        Uploaded Resume:{" "}
                                     </label>
                                     <Document
                                         file={{ data: atob(userData.resume) }}
@@ -194,7 +196,7 @@ const AlumniProfileCard = () => {
                                         className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
                                         onClick={handleDownload}
                                     >
-                                        Download MOA
+                                        Download Resume
                                     </button>
                                 </div>
                             )}

@@ -6,6 +6,9 @@ import placeholder from "../../assets/placeholder.webp";
 const AlumniUser = ({ user }) => {
     const navigate = useNavigate();
 
+    console.log(user);
+    console.log(user?.courses?.programCode);
+
     return (
         <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
             <div className="flex flex-col mx-auto justify-center items-center text-center">
@@ -21,16 +24,16 @@ const AlumniUser = ({ user }) => {
             <div className="flex flex-col text-[12px] space-y-2">
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                 <div className="flex justify-between">
+                    <p>Birthday</p>
+                    <p className="font-bold ">{user?.birthday.split("T")[0]}</p>
+                </div>
+                <div className="flex justify-between">
                     <p>Company</p>
                     <p className="font-bold ">{user?.companyName}</p>
                 </div>
                 <div className="flex justify-between">
                     <p>Location</p>
                     <p className="font-bold ">{user?.companyAddress}</p>
-                </div>
-                <div className="flex justify-between">
-                    <p>Years of Experience</p>
-                    <p className="font-bold ">{user?.yearsOfExperience}</p>
                 </div>
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                 <div className="flex justify-between">
@@ -43,7 +46,11 @@ const AlumniUser = ({ user }) => {
                 </div>
                 <div className="flex justify-between">
                     <p>Program</p>
-                    <p className="font-bold ">{user?.course?.proogramCode}</p>
+                    <div className="font-bold">
+                        {user?.courses?.map((course, index) => (
+                            <span key={index}>{course.programCode} </span>
+                        ))}
+                    </div>
                 </div>
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
 

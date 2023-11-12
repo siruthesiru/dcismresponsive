@@ -46,7 +46,7 @@ const CompanyJobs = () => {
                 <div className="sm:w-[50%] space-y-2">
                     <div className="space-y-2">
                         {filteredActiveJobs.length === 0 ? (
-                            <p className='mx-4 sm:mx-2'>No jobs available</p>
+                            <p className='mx-4 sm:mx-2'>No active jobs available</p>
                         ) : (
                             <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
                                 <div className="flex justify-between">
