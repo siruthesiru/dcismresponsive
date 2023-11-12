@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import Header from "../../../components/header";
-import JobCard from "../../../components/cards";
 import { useDispatch, useSelector } from "react-redux";
 import { GetJobPosts } from "../../../services/admin_company";
+import JobCard from "../../../components/cards";
 
 const Jobs = () => {
 

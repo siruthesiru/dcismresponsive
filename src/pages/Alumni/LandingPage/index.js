@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
-import AnnouncementCard from '../../../components/announcementCard';
 import { GetAllAnnouncements, GetAlumniProfile } from '../../../services/alumni';
 import AlumniUser from '../../../components/userCard/alumniCard';
+import AnnouncementCard from '../../../components/cards/announcementCard';
 
 
 const LandingPageAlumni = () => {
