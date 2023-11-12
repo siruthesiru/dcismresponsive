@@ -34,6 +34,7 @@ const EditAlumniProfile = ({ profileData }) => {
         syGraduated: profileData.syGraduated,
         isEmployed: profileData.isEmployed,
         mobileNumber: profileData.mobileNumber,
+        occupation: profileData.occupation
     });
 
     console.log(userData);

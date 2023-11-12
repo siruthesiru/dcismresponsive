@@ -71,8 +71,7 @@ const CompanyCandidates = () => {
 
     ];
 
-    const filtered_candidates = candidates.filter((candidate) => candidate.jobId === Number(id));
-    console.log(filtered_candidates)
+    const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
 
     return (
         <div className='bg-slate-100 min-h-screen'>
