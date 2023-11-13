@@ -50,6 +50,7 @@ import EditJobPost from './pages/Company/PostJob/editPost.js';
 import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
 import ViewJobAlumni from './pages/Alumni/Job';
 import CompanyApplicants from './pages/Company/Applicants/index.js';
+import AddAdminForm from './components/forms/AddAdminForm.js';
 
 
 const App = () => {
@@ -99,6 +100,8 @@ const App = () => {
                   <Route exact path="/editAnnouncement/:id" element={<AnnouncementForm />} />
                   <Route path="/announcements" element={<Announcements />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/add_admin" element={<AddAdminForm />} />
+
                 </Route>
               </Route>
 

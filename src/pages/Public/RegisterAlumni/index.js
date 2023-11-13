@@ -7,17 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { SignUpAlumni } from "../../../services/authentication";
 import {
     Button, InputAdornment,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
     Typography,
 } from "@mui/material";
 import { Badge } from "@mui/icons-material";
 import { clearMessage } from "../../../app/authenticationSlice";
-
+import { programs } from "../../../components/constant/helper";
 
 const RegisterAlumni = () => {
     const { message } = useSelector((state) => state.authentication);
-
-
     const dispatch = useDispatch();
 
     const [FirstName, setFirstName] = useState("");
@@ -26,19 +27,38 @@ const RegisterAlumni = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [IdNum, setIdNum] = useState("");
     const [Email, setEmail] = useState("");
+    const [ProgramCode, setProgramCode] = useState("");
+    const [ProgramDescription, setProgramDescription] = useState("");
+    const [EducationalLevel, setEducationalLevel] = useState("");
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [passwordError, setPasswordError] = useState("");
 
+
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        // Check if the password meets the required pattern
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordPattern.test(Password)) {
+            setPasswordError(
+                "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character"
+            );
+            return;
+        } else {
+            setPasswordError("");
+        }
+        if (Password === confirmPassword) {
+            console.log(FirstName, LastName, Password, IdNum, Email, ProgramCode, ProgramDescription, EducationalLevel)
+            SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email, ProgramCode, ProgramDescription, EducationalLevel });
+        }
+    };
 
     return (
         <FormWithHeader imageSrc={placeholder}>
-            <form onSubmit={event => {
-                event.preventDefault();
-                if (Password === confirmPassword) {
-                    SignUpAlumni(dispatch, { FirstName, LastName, Password, IdNum, Email });
-                }
-            }}>
+            <form onSubmit={handleFormSubmit}>
                 <div className="mb-3 flex items-center">
 
                     <TextField
@@ -130,6 +150,39 @@ const RegisterAlumni = () => {
                     />
 
                 </div>
+                <div className="mb-3 flex-col items-center">
+                    <InputLabel htmlFor="program">Program</InputLabel>
+
+                    <Select
+                        id="program"
+                        value={ProgramDescription || ''}
+                        onChange={(e) => {
+                            const selectedProgramDescription = e.target.value;
+                            const selectedProgram = programs.find(program => program.description === selectedProgramDescription);
+                            if (selectedProgram) {
+                                let educationalLevel = "Bachelor";
+                                if (selectedProgramDescription.startsWith("Master")) {
+                                    educationalLevel = "Master";
+                                } else if (selectedProgramDescription.startsWith("Doctor")) {
+                                    educationalLevel = "Doctor";
+                                }
+                                setProgramDescription(selectedProgram.description);
+                                setProgramCode(selectedProgram.code);
+                                setEducationalLevel(educationalLevel);
+                            }
+                        }}
+                        variant="outlined"
+                        fullWidth
+                        required
+                    >
+                        {programs.map((program) => (
+                            <MenuItem key={program.description} value={program.description}>
+                                {program.description}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
+                </div>
                 <div className="mb-3 flex items-center">
                     <TextField
                         InputProps={{
@@ -201,6 +254,9 @@ const RegisterAlumni = () => {
                 </div>
 
                 {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
+                {passwordError && (
+                    <Typography className="text-red-500 mx-4">{passwordError}</Typography>
+                )}
 
                 <Button
                     type="submit"
@@ -229,7 +285,7 @@ const RegisterAlumni = () => {
                 </Typography>
             </form>
         </FormWithHeader>
-        
+
     );
 };
 

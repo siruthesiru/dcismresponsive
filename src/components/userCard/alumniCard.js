@@ -30,11 +30,11 @@ const AlumniUser = ({ user }) => {
                 </div>
                 <div className="flex justify-between">
                     <p>Company</p>
-                    <p className="font-bold ">{user?.companyName}</p>
+                    <p className="font-bold ">{user && user.companyName ? user.companyName : 'Not indicated'}</p>
                 </div>
                 <div className="flex justify-between">
                     <p>Location</p>
-                    <p className="font-bold ">{user?.companyAddress}</p>
+                    <p className="font-bold ">{user && user.companyAddress ? user.companyAddress : 'Not indicated'}</p>
                 </div>
                 <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                 <div className="flex justify-between">

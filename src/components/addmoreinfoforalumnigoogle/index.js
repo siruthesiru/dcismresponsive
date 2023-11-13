@@ -4,16 +4,20 @@ import { NavLink } from "react-router-dom";
 import placeholder from '../../assets/capstole.png'
 import FormWithHeader from "../formheader/indexAfterGoogle";
 import { useDispatch, useSelector } from "react-redux";
-import {  SignUpGoogleAlumniUpdate } from "../../services/authentication";
+import { SignUpGoogleAlumniUpdate } from "../../services/authentication";
 import {
     Alert,
     AlertTitle,
     Button, InputAdornment,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
     Typography,
 } from "@mui/material";
 import { Badge } from "@mui/icons-material";
 import { clearMessage } from "../../app/authenticationSlice";
+import { programs } from "../constant/helper";
 
 const RegisterAlumniGoogle = () => {
     const { message, isSucceed } = useSelector((state) => state.authentication);
@@ -23,6 +27,11 @@ const RegisterAlumniGoogle = () => {
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
     const [IdNum, setIdNum] = useState("");
+    const [ProgramCode, setProgramCode] = useState("");
+    const [ProgramDescription, setProgramDescription] = useState("");
+    const [EducationalLevel, setEducationalLevel] = useState("");
+
+
 
     return (
         <FormWithHeader imageSrc={placeholder}>
@@ -34,8 +43,8 @@ const RegisterAlumniGoogle = () => {
             )}
             <form onSubmit={event => {
                 event.preventDefault();
-                SignUpGoogleAlumniUpdate(dispatch, { FirstName, LastName, IdNum });
-                
+                SignUpGoogleAlumniUpdate(dispatch, { FirstName, LastName, IdNum, ProgramCode, ProgramDescription, EducationalLevel });
+
             }}>
                 <div className="mb-3 flex items-center">
 
@@ -103,6 +112,40 @@ const RegisterAlumniGoogle = () => {
                         value={IdNum}
                         onChange={(e) => setIdNum(e.target.value)}
                     />
+
+                </div>
+
+                <div className="mb-3 flex-col items-center">
+                    <InputLabel htmlFor="program">Program</InputLabel>
+
+                    <Select
+                        id="program"
+                        value={ProgramDescription || ''}
+                        onChange={(e) => {
+                            const selectedProgramDescription = e.target.value;
+                            const selectedProgram = programs.find(program => program.description === selectedProgramDescription);
+                            if (selectedProgram) {
+                                let educationalLevel = "Bachelor";
+                                if (selectedProgramDescription.startsWith("Master")) {
+                                    educationalLevel = "Master";
+                                } else if (selectedProgramDescription.startsWith("Doctor")) {
+                                    educationalLevel = "Doctor";
+                                }
+                                setProgramDescription(selectedProgram.description);
+                                setProgramCode(selectedProgram.code);
+                                setEducationalLevel(educationalLevel);
+                            }
+                        }}
+                        variant="outlined"
+                        fullWidth
+                        required
+                    >
+                        {programs.map((program) => (
+                            <MenuItem key={program.description} value={program.description}>
+                                {program.description}
+                            </MenuItem>
+                        ))}
+                    </Select>
 
                 </div>
 

@@ -25,6 +25,7 @@ const Sidebar = ({
     drawerWidth,
     isSidebarOpen,
     setIsSidebarOpen,
+    user
 }) => {
     const { pathname } = useLocation();
     const [active, setActive] = useState("");
@@ -103,7 +104,16 @@ const Sidebar = ({
                                     </Typography>
                                 );
                             }
+
+                            if (
+                                (text === "Add Admin") &&
+                                user?.email !== "dcismaces2@outlook.com"
+                            ) {
+                                return null;
+                            }
+
                             const path = text.replace(/\s+/g, "_").toLowerCase();
+
                             return (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton
