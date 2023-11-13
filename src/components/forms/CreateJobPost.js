@@ -151,7 +151,7 @@ const CreateJobPost = () => {
                             <label className="text-[12px] w-[90px]">Required Resume: </label>
                             <select
                                 value={formData.requiredResume}
-                                onChange={(e) => setFormData({ ...formData, requiredResume: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, requiredResume: e.target.value === 'true' })}
                                 className="w-[100px] h-[30px] bg-white border border-slate-200  rounded-md"
                             >
                                 <option value="true">True</option>

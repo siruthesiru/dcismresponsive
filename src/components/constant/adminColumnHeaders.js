@@ -421,7 +421,7 @@ export const ViewCandidatesColumns = [
         width: 130,
         type: "boolean",
         renderCell: (params) => {
-            const isVerified = params.row.alumni.isisEmployed
+            const isVerified = params.row.alumni.isEmployed
             return (
                 <div >
                     {isVerified ? "Employed" : "Unemployed"}

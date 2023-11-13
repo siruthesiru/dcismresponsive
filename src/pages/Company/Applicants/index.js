@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useParams } from 'react-router-dom';
-import { SendInviteApplicant, ViewAllCandidates } from '../../../services/company';
+import { SendInviteApplicant, ViewAllApplicants } from '../../../services/company';
 import { getJobsError } from '../../../app/companyUserSlice';
 import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
@@ -17,7 +17,7 @@ const CompanyApplicants = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await ViewAllCandidates(dispatch, id);
+                const data = await ViewAllApplicants(dispatch, id);
                 console.log(data);
                 setCandidates(data);
                 setLoading(false);
@@ -72,6 +72,8 @@ const CompanyApplicants = () => {
     ];
 
     const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
+
+    console.log(filtered_candidates);
 
     return (
         <div className='bg-slate-100 min-h-screen'>
