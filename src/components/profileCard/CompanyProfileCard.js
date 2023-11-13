@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
@@ -6,23 +6,11 @@ import { useSelector } from "react-redux";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Document, Page, pdfjs } from 'react-pdf';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.js',
-    import.meta.url,
-).toString();
 
 
 const CompanyProfileCard = () => {
     const userData = useSelector(state => state.companyUserSlice.companyProfile);
     const navigate = useNavigate();
-
-    const [numPages, setNumPages] = useState(null);
-
-    const onDocumentLoadSuccess = ({ numPages }) => {
-        setNumPages(numPages);
-    };
 
     const handleDownload = () => {
         const linkSource = `data:application/pdf;base64,${userData.moa}`;
@@ -117,10 +105,6 @@ const CompanyProfileCard = () => {
                             {userData.moa && userData.moa.length > 0 && (
                                 <div style={{ flex: 1 }}>
                                     <label className="text-[12px] w-[100px]">Uploaded Moa: </label>
-                                    <Document file={{ data: atob(userData.moa) }} onLoadSuccess={onDocumentLoadSuccess}>
-                                        <Page pageNumber={1} />
-                                    </Document>
-                                    <p>Page 1 of {numPages}</p>
                                     <button className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100" onClick={handleDownload}>
                                         Download MOA
                                     </button>
