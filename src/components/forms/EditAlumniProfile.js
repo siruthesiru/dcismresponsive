@@ -186,6 +186,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                     value="Female"
                                     checked={userData?.gender === "Female"}
                                     onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+                                    required
                                 />
                                 <label htmlFor="female">Female</label>
 
@@ -196,6 +197,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                     value="Male"
                                     checked={userData?.gender === "Male"}
                                     onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+                                    required
                                 />
                                 <label htmlFor="male">Male</label>
                             </div>
@@ -222,6 +224,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                 onChange={handleInputChange}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
 
                         </div>
@@ -248,6 +251,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                 onChange={handleInputChange}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
 
                         </div>
@@ -335,6 +339,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                     value="false"
                                     checked={userData?.isEmployed === false}
                                     onChange={(e) => setUserData({ ...userData, isEmployed: e.target.value === "true" })}
+                                    required
                                 />
                                 <label htmlFor="unemployed">Unemployed</label>
                             </div>
