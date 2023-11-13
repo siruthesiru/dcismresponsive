@@ -16,7 +16,7 @@ const AlumniProfileCard = () => {
     const handleDownload = () => {
         const linkSource = `data:application/pdf;base64,${userData.resume}`;
         const downloadLink = document.createElement("a");
-        const fileName = "moa.pdf";
+        const fileName = `resume-${userData.firstName}-${userData.lastName}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
