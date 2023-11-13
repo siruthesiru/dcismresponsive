@@ -73,6 +73,8 @@ const CompanyCandidates = () => {
 
     const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
 
+    console.log(filtered_candidates);
+
     return (
         <div className='bg-slate-100 min-h-screen'>
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>

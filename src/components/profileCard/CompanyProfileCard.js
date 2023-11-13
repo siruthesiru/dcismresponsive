@@ -15,7 +15,7 @@ const CompanyProfileCard = () => {
     const handleDownload = () => {
         const linkSource = `data:application/pdf;base64,${userData.moa}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'moa.pdf';
+        const fileName = `moa-${userData.companyName}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
