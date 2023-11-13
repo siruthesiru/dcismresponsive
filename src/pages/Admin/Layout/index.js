@@ -18,6 +18,7 @@ const Layout = () => {
                 drawerWidth="280px"
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
+                user={user}
 
             />
             <Box flexGrow={1}>

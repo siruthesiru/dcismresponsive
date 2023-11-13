@@ -184,7 +184,7 @@ export const CloseJobPost = async (dispatch, job) => {
 
 export const SendInviteCandidate = async (dispatch, jobId, alumniId) => {
     try {
-        const response = await axiosInstance.put(`/Job/Get-Job/${jobId}/Candidates/${alumniId}`, null, {
+        const response = await axiosInstance.put(`/Jobs/Get-Job/${jobId}/Candidates/${alumniId}`, null, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -192,7 +192,6 @@ export const SendInviteCandidate = async (dispatch, jobId, alumniId) => {
 
         if (response.data.isEditSucceed) {
             dispatch(editJobPost(response.data));
-            toast.success(response.data.message);
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);
@@ -207,7 +206,7 @@ export const SendInviteCandidate = async (dispatch, jobId, alumniId) => {
 
 export const SendInviteApplicant = async (dispatch, jobId, alumniId) => {
     try {
-        const response = await axiosInstance.put(`/Job/Get-Job/${jobId}/Application/${alumniId}`, null, {
+        const response = await axiosInstance.put(`/Jobs/Get-Job/${jobId}/Application/${alumniId}`, null, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -215,7 +214,6 @@ export const SendInviteApplicant = async (dispatch, jobId, alumniId) => {
 
         if (response.data.isEditSucceed) {
             dispatch(editJobPost(response.data));
-            toast.success(response.data.message);
         } else {
             dispatch(setErrorMessage(response.data.message));
             toast.error(response.data.message);

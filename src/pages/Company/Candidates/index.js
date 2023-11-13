@@ -7,6 +7,8 @@ import { getJobsError } from '../../../app/companyUserSlice';
 import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CompanyCandidates = () => {
     const { id } = useParams();
@@ -18,7 +20,6 @@ const CompanyCandidates = () => {
         const fetchData = async () => {
             try {
                 const data = await ViewAllCandidates(dispatch, id);
-                console.log(data);
                 setCandidates(data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +36,7 @@ const CompanyCandidates = () => {
         try {
             const isSuccess = await SendInviteCandidate(dispatch, jobId, alumniId);
             if (isSuccess) {
-                console.log('Invitation sent successfully!');
+                toast.success('Invitation sent successfully!');
             }
         } catch (error) {
             console.error('Error sending invite:', error);
@@ -55,14 +56,14 @@ const CompanyCandidates = () => {
                         variant="contained"
                         size="small"
                         style={{
-                            backgroundColor: params.row.status ? "#aaa" : "#221769",
+                            backgroundColor: !params.row.status ? "#221769" : "#aaa",
                             color: "#dbf5ee",
 
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={!params.row.job.isActive}
+                        disabled={!params.row.job.status}
                     >
-                        Sent Invite
+                        Send Invite
                     </Button>
 
                 );
@@ -73,10 +74,10 @@ const CompanyCandidates = () => {
 
     const filtered_candidates = candidates ? candidates.filter((candidate) => candidate.jobId === Number(id)) : [];
 
-    console.log(filtered_candidates);
-
     return (
         <div className='bg-slate-100 min-h-screen'>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
                 <div className='mx-4 sm:mx-0 bg-white p-4 space-y-2 w-full'>
                     <h1 className='Uppercase text-xl font-bold'>List of Candidates</h1>
@@ -87,38 +88,44 @@ const CompanyCandidates = () => {
                             <CircularProgress color="primary" />
                         </div>
                     ) : (
+
                         <div style={{ width: '100%', overflowX: 'auto' }}>
-                            <DataGrid
-                                sx={{
-                                    padding: "20px",
-                                    "& .MuiDataGrid-toolbarContainer": {
-                                        flexDirection: "row-reverse",
-                                        color: "#221769"
-                                    },
-                                    "& .MuiButtonBase-root": {
-                                        color: "#221769",
-                                    },
-                                }}
-                                rows={filtered_candidates}
-                                columns={columns}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {
-                                            pageSize: 10,
+                            {filtered_candidates.length === 0 ? (
+                                <p>No candidates available.</p>
+                            ) : (
+                                <DataGrid
+                                    sx={{
+                                        padding: "20px",
+                                        "& .MuiDataGrid-toolbarContainer": {
+                                            flexDirection: "row-reverse",
+                                            color: "#221769"
                                         },
-                                    },
-                                }}
-                                slots={{ toolbar: GridToolbar }}
-                                slotProps={{
-                                    toolbar: {
-                                        showQuickFilter: true,
-                                        quickFilterProps: { debounceMs: 500 },
-                                    },
-                                }}
-                                pageSizeOptions={[10]}
-                                checkboxSelection
-                                disableRowSelectionOnClick
-                            />
+                                        "& .MuiButtonBase-root": {
+                                            color: "#221769",
+                                        },
+                                    }}
+                                    rows={filtered_candidates}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: {
+                                                pageSize: 10,
+                                            },
+                                        },
+                                    }}
+                                    slots={{ toolbar: GridToolbar }}
+                                    slotProps={{
+                                        toolbar: {
+                                            showQuickFilter: true,
+                                            quickFilterProps: { debounceMs: 500 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[10]}
+                                    checkboxSelection
+                                    disableRowSelectionOnClick
+                                />
+                            )}
+
                         </div>
                     )}
                 </div>
