@@ -209,6 +209,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                 onChange={(e) => setUserData({ ...userData, birthday: e.target.value })}
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-5 rounded-md"
                                 name="birthday"
+                                required
                             />
                         </div>
                         <div className="flex items-center">
@@ -323,6 +324,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                     value="true"
                                     checked={userData?.isEmployed === true}
                                     onChange={(e) => setUserData({ ...userData, isEmployed: e.target.value === "true" })}
+                                    required
                                 />
                                 <label htmlFor="employed">Employed</label>
 
