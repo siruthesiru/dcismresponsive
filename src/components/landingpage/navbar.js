@@ -35,10 +35,6 @@ const Navbar = () => {
                     <ul className="flex p-4 space-x-8 text-white text-bold">
 
                         <li>
-                            Test
-                        </li>
-
-                        <li>
                             <ScrollLink
                                 to="Home"
                                 spy={true}
@@ -189,13 +185,13 @@ const Navbar = () => {
 
                     <div className="flex flex-col gap-4">
                         <NavLink
-                            to="/login"
+                            to="/signin"
                             className="flex items-center justify-center border border-[#2E2376] rounded-lg w-[120px] text-main text-bold"
                         >
                             Login
                         </NavLink>
                         <Nav
-                            to="/login"
+                            to="/signup/alumni"
                             className="flex items-center justify-center border  rounded-lg w-[120px] bg-[#2E2376] text-bold text-white"
                         >
                             Register
