@@ -99,9 +99,6 @@ export const authenticationSlice = createSlice({
         addAdmin: (state, action) => {
             return { ...state, admins: [action.payload, ...state.admins] };
         },
-        addAdmin: (state, action) => {
-            return { ...state, admins: [action.payload, ...state.admins] };
-        },
     },
 });
 
