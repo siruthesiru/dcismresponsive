@@ -59,10 +59,10 @@ const VerifyCompany = () => {
     };
 
 
-    const handleDownload = (file) => {
+    const handleDownload = (file, name) => {
         const linkSource = `data:application/pdf;base64,${file}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'moa.pdf';
+        const fileName = `moa-${name}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -81,7 +81,7 @@ const VerifyCompany = () => {
                         {params.row.moa ? (
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                onClick={() => handleDownload(params.row.moa)}
+                                onClick={() => handleDownload(params.row.moa, params.row.companyName)}
                             >
                                 Download File
                             </button>
@@ -103,7 +103,7 @@ const VerifyCompany = () => {
                             variant="contained"
                             size="medium"
                             style={{
-                                backgroundColor: params.row.isVerified ? "#aaa" : "#4cceac",
+                                backgroundColor: "#4cceac",
                                 color: "#dbf5ee",
                             }}
                             onClick={() => handleVerifyCompany(params.row.id)}

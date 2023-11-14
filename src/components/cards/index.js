@@ -13,31 +13,41 @@ import { useNavigate } from "react-router-dom";
 import { ReportProblemOutlined } from "@mui/icons-material";
 import { formatDate } from "../constant/helper";
 
+
+
 const JobCard = ({ job }) => {
     const navigate = useNavigate();
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const statusColor = job.isActive ? "#4cceac" : "#666666";
+
     return (
         <Card
             sx={{
-                backgroundImage: "none",
+                display: "flex",
+                borderLeft: `5px solid ${statusColor}`,
                 borderRadius: "0.55rem",
+                boxShadow: "none",
+                marginBottom: "1rem",
+                flexDirection: "column",
+                borderTop: '0.5px solid #e0e0e0',
+                borderBottom: '0.5px solid #e0e0e0',
+                borderRight: '0.5px solid #e0e0e0',
             }}
         >
             <CardContent>
                 <Typography
-                    sx={{ fontSize: 14 }}
-                    color="#4cceac"
+                    sx={{ fontSize: 20 }}
+                    color="#221769"
                     gutterBottom
                 >
                     {job.position ? job.position : "Not Indicated"}
                 </Typography>
-                <div className="text-[20px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: job.description }} />
 
-                <Typography sx={{ mb: "1rem" }} color="#4cceac">
+                <Typography>
                     Expected Salary:{job.salary ? job.salary : "Not Indicated"}
                 </Typography>
-                <Typography color="#4cceac">
+                <Typography>
                     Skills Required:
                     {job?.targetSkills ? (
                         job?.targetSkills.length === 0 ? (
@@ -49,13 +59,19 @@ const JobCard = ({ job }) => {
                         <p>No skills data available</p>
                     )}
                 </Typography>
+                <Typography>Slots: {job.slots}</Typography>
+
             </CardContent>
             <CardActions>
                 <Button
                     variant="contained"
                     color="primary"
                     sx={{
-                        my: "1rem", backgroundColor: "#221769"
+                        my: "1rem",
+                        backgroundColor: "#4cceac",
+                        "&:hover": {
+                            backgroundColor: "#4cceac",
+                        },
                     }}
                     size="small"
                     onClick={() => setIsExpanded(!isExpanded)}
@@ -97,14 +113,13 @@ const JobCard = ({ job }) => {
                     </div>
 
                     <Typography>Job Location: {job.location}</Typography>
-                    <Typography>Slots: {job.slots}</Typography>
-                    <Typography>Years Experience: {job.yearsofExp}</Typography>
+                    <Typography>Years Experience: {job.yearsofExp ? job.yearsofExp : "Not indicated"}</Typography>
                     <Typography>Application Ends: {formatDate(job.expiration_Date)}</Typography>
                     <Button
                         variant="contained"
                         color="primary"
                         sx={{
-                            my: "1rem", backgroundColor: "#4cceac"
+                            my: "1rem", backgroundColor: "#221769"
                         }}
                         size="small"
                         onClick={() => navigate(`/job/candidates/${job.id}`)}

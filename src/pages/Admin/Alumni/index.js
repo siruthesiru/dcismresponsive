@@ -111,11 +111,10 @@ const Alumni = () => {
                         <EditNote
                             style={{
                                 fontSize: "20px",
-                                color: !params.row.isVerified ? "#aaa" : "#ffef62",
+                                color: !params.row.isVerified ? "#aaa" : "#e6b800",
 
                             }}
                         />
-
                     </IconButton>
                     <IconButton onClick={() => {
                         setSelectedItemId(params.row.id);

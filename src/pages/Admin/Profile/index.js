@@ -22,15 +22,17 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const profileData = useSelector((state) => state.alumniSlice.adminProfile);
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+    const [formValid, setFormValid] = useState(true);
+
 
     const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
         firstName: profileData.firstName,
         lastName: profileData.lastName,
-        middleName: profileData.middleName,
+        middleName: profileData.middleName !== null ? profileData.middleName : '',
         position: profileData.position,
-        fileUpload: profileData.profileImage,
+        fileUpload: profileData && profileData.profileImage ? profileData.profileImage : null,
         email: profileData.email,
         role: profileData.role,
     });
@@ -41,7 +43,10 @@ const Profile = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            [name]: value === '' ? '' : value,
+        }));
     };
 
     const handleImageInputChange = (e) => {
@@ -62,13 +67,19 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(userData);
-        const isEditSucceed = await EditAdminProfile(dispatch, userData);
+        if (userData.middleName === '') {
+            setFormValid(false);
+            return;
+        } else {
+            setFormValid(true);
+            console.log(userData);
+            const isEditSucceed = await EditAdminProfile(dispatch, userData);
 
-        if (isEditSucceed) {
-            const profileData = await GetAdminProfile(dispatch);
-            setUserData(profileData);
-            setIsEditing(false);
+            if (isEditSucceed) {
+                const profileData = await GetAdminProfile(dispatch);
+                setUserData(profileData);
+                setIsEditing(false);
+            }
         }
     };
 
@@ -96,8 +107,8 @@ const Profile = () => {
 
                 <Card
                     sx={{
-                        width: "100",
-                        height: "100",
+                        width: "80%",
+                        height: "400px",
                         display: "flex",
                         alignItems: "center",
                     }}
@@ -201,7 +212,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.firstName}
+                                        {userData?.firstName ? userData.firstName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -216,16 +227,19 @@ const Profile = () => {
                                 {isEditing ? (
                                     <TextField
                                         name="middleName"
-                                        value={userData?.middleName}
+                                        value={userData?.middleName || ''}
                                         onChange={handleInputChange}
                                         fullWidth
+                                        required
+                                        error={!formValid && userData.middleName === ''}
+                                        helperText={!formValid && userData.middleName === '' && 'Middle Name is required'}
                                     />
                                 ) : (
                                     <Typography
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.middleName}
+                                        {(userData?.middleName !== null && userData?.middleName !== undefined && userData?.middleName !== '') ? userData.middleName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -249,7 +263,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.lastName}
+                                        {userData?.lastName ? userData.lastName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -273,7 +287,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.position}
+                                        {userData?.position ? userData.position : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -322,12 +336,12 @@ const Profile = () => {
                                         padding: "10px",
                                         marginTop: "2rem",
                                         backgroundColor: "#4cceac",
-                                        color: "#FFFFFF",
+                                        color: "black",
                                         "& .MuiSvgIcon-root": {
                                             marginRight: "0.5rem",
                                         },
                                         "&:hover": {
-                                            backgroundColor: "yellow",
+                                            backgroundColor: "#c2f0d4",
                                         },
                                     }}
                                     onClick={handleSubmit}
@@ -353,7 +367,7 @@ const Profile = () => {
                                             marginRight: "0.5rem",
                                         },
                                         "&:hover": {
-                                            backgroundColor: "#4cceac",
+                                            backgroundColor: "#fff9db",
                                         },
                                     }}
                                 >
