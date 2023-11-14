@@ -106,6 +106,5 @@ export const authenticationSlice = createSlice({
 });
 
 export const { userAuthenticated, logout, addAdmin, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount, clearMessage, verificationCodeRequestSuccess } = authenticationSlice.actions;
-export const { userAuthenticated, logout, addAdmin, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount, clearMessage, verificationCodeRequestSuccess } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;
