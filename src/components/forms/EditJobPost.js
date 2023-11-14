@@ -13,7 +13,7 @@ const EditJobPostForm = () => {
     const { id } = useParams();
     const [formData, setFormData] = useState({
         position: '',
-        requiredResume: false,
+        requireResume: false,
         expiration_Date: '',
         description: '',
         location: '',
@@ -36,7 +36,7 @@ const EditJobPostForm = () => {
                             id: jobData.id,
                             position: jobData.position,
                             expiration_Date: jobData.expiration_Date,
-                            requiredResume: jobData.requiredResume === 'true',
+                            requireResume: jobData.requiredResume === 'true',
                             location: jobData.location,
                             salary: jobData.salary,
                             description: jobData.description,
@@ -201,13 +201,13 @@ const EditJobPostForm = () => {
                                 <label className="text-[12px] w-[90px]">Required Resume: </label>
                                 <select
                                     value={
-                                        formData.requiredResume !== undefined
-                                            ? formData.requiredResume.toString()
+                                        formData.requireResume !== undefined
+                                            ? formData.requireResume.toString()
                                             : ""
                                     } onChange={(e) =>
                                         setFormData({
                                             ...formData,
-                                            requiredResume: e.target.value === "true",
+                                            requireResume: e.target.value === "true",
                                         })
                                     }
                                     className="w-[100px] h-[30px] bg-white border border-slate-200 rounded-md"

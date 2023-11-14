@@ -8,7 +8,8 @@ import { SignUpGoogleAlumniUpdate } from "../../services/authentication";
 import {
     Alert,
     AlertTitle,
-    Button, InputAdornment,
+    Button,
+    InputAdornment,
     InputLabel,
     MenuItem,
     Select,
@@ -24,14 +25,23 @@ const RegisterAlumniGoogle = () => {
 
     const dispatch = useDispatch();
 
-    const [FirstName, setFirstName] = useState("");
-    const [LastName, setLastName] = useState("");
-    const [IdNum, setIdNum] = useState("");
-    const [ProgramCode, setProgramCode] = useState("");
-    const [ProgramDescription, setProgramDescription] = useState("");
-    const [EducationalLevel, setEducationalLevel] = useState("");
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        idNum: "",
+        courses: {
+            programCode: "",
+            programDescription: "",
+            educationalLevel: "",
+        },
+    });
 
-
+    const {
+        firstName,
+        lastName,
+        idNum,
+        courses: { programDescription },
+    } = formData;
 
     return (
         <FormWithHeader imageSrc={placeholder}>
@@ -41,13 +51,11 @@ const RegisterAlumniGoogle = () => {
                     {message} — <strong>check it out!</strong>
                 </Alert>
             )}
-            <form onSubmit={event => {
+            <form onSubmit={(event) => {
                 event.preventDefault();
-                SignUpGoogleAlumniUpdate(dispatch, { FirstName, LastName, IdNum, ProgramCode, ProgramDescription, EducationalLevel });
-
+                SignUpGoogleAlumniUpdate(dispatch, formData);
             }}>
                 <div className="mb-3 flex items-center">
-
                     <TextField
                         InputProps={{
                             startAdornment: (
@@ -56,7 +64,6 @@ const RegisterAlumniGoogle = () => {
                                 </InputAdornment>
                             ),
                         }}
-
                         sx={{ outline: "none", flex: 1, marginRight: 2 }}
                         type="text"
                         placeholder="First Name"
@@ -65,8 +72,8 @@ const RegisterAlumniGoogle = () => {
                         variant="outlined"
                         fullWidth
                         required
-                        value={FirstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={firstName}
+                        onChange={(e) => setFormData((prevData) => ({ ...prevData, firstName: e.target.value }))}
                     />
 
                     <TextField
@@ -77,7 +84,6 @@ const RegisterAlumniGoogle = () => {
                                 </InputAdornment>
                             ),
                         }}
-
                         sx={{ outline: "none", flex: 1, marginRight: 0 }}
                         type="text"
                         placeholder="Last Name"
@@ -86,8 +92,8 @@ const RegisterAlumniGoogle = () => {
                         variant="outlined"
                         fullWidth
                         required
-                        value={LastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        value={lastName}
+                        onChange={(e) => setFormData((prevData) => ({ ...prevData, lastName: e.target.value }))}
                     />
                 </div>
 
@@ -100,7 +106,6 @@ const RegisterAlumniGoogle = () => {
                                 </InputAdornment>
                             ),
                         }}
-
                         sx={{ outline: "none", flex: 1 }}
                         type="text"
                         placeholder="USC ID Number"
@@ -109,18 +114,16 @@ const RegisterAlumniGoogle = () => {
                         autoComplete="IdNum"
                         fullWidth
                         required
-                        value={IdNum}
-                        onChange={(e) => setIdNum(e.target.value)}
+                        value={idNum}
+                        onChange={(e) => setFormData((prevData) => ({ ...prevData, idNum: e.target.value }))}
                     />
-
                 </div>
 
                 <div className="mb-3 flex-col items-center">
                     <InputLabel htmlFor="program">Program</InputLabel>
-
                     <Select
                         id="program"
-                        value={ProgramDescription || ''}
+                        value={programDescription || ''}
                         onChange={(e) => {
                             const selectedProgramDescription = e.target.value;
                             const selectedProgram = programs.find(program => program.description === selectedProgramDescription);
@@ -131,9 +134,14 @@ const RegisterAlumniGoogle = () => {
                                 } else if (selectedProgramDescription.startsWith("Doctor")) {
                                     educationalLevel = "Doctor";
                                 }
-                                setProgramDescription(selectedProgram.description);
-                                setProgramCode(selectedProgram.code);
-                                setEducationalLevel(educationalLevel);
+                                setFormData((prevData) => ({
+                                    ...prevData,
+                                    courses: {
+                                        programCode: selectedProgram.code,
+                                        programDescription: selectedProgram.description,
+                                        educationalLevel: educationalLevel,
+                                    },
+                                }));
                             }
                         }}
                         variant="outlined"
@@ -146,9 +154,7 @@ const RegisterAlumniGoogle = () => {
                             </MenuItem>
                         ))}
                     </Select>
-
                 </div>
-
 
                 <Button
                     type="submit"

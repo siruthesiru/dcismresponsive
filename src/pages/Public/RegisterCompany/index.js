@@ -25,22 +25,22 @@ const RegisterCompany = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [passwordError, setPasswordError] = useState("");
+    //   const [passwordError, setPasswordError] = useState("");
 
     const isMoa = false;
     const fileUpload = null;
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if (!passwordPattern.test(Password)) {
-            setPasswordError(
-                "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character"
-            );
-            return;
-        } else {
-            setPasswordError("");
-        }
+        // const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // if (!passwordPattern.test(Password)) {
+        //     setPasswordError(
+        //         "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character"
+        //     );
+        //     return;
+        // } else {
+        //     setPasswordError("");
+        // }
         if (Password === confirmPassword) {
             SignUpCompany(dispatch, { FirstName, LastName, Password, CompanyName, Email, isMoa }, fileUpload);
         }
@@ -210,9 +210,9 @@ const RegisterCompany = () => {
                 </div>
 
                 {message && <Typography className="text-red-500 mx-4">{message}</Typography>}
-                {passwordError && (
+                {/* {passwordError && (
                     <Typography className="text-red-500 mx-4">{passwordError}</Typography>
-                )}
+                )} */}
 
 
                 <Button

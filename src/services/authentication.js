@@ -77,6 +77,9 @@ export const SignUpAlumni = async (dispatch, credentials) => {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     role: response.data.role,
+                    programCode: response.programCode,
+                    programDescription: response.programDescription,
+                    educationalLevel: response.educationalLevel
                 })
             );
         } else {

@@ -13,7 +13,10 @@ const initialState = {
     isAlumniGoogle: localStorage.getItem('isAlumniGoogle') || null,
     isCompanyGoogle: localStorage.getItem('isCompanyGoogle') || null,
     admins: [],
-    errorMessage: null
+    errorMessage: null,
+    programCode: localStorage.getItem('programCode') || null,
+    programDescription: localStorage.getItem('programDescription') || null,
+    educationalLevel: localStorage.getItem('educationalLevel') || null,
 };
 
 export const authenticationSlice = createSlice({
@@ -30,6 +33,10 @@ export const authenticationSlice = createSlice({
             localStorage.setItem('role', action.payload.role);
             localStorage.setItem('isAlumniGoogle', action.payload.role);
             localStorage.setItem('isCompanyGoogle', action.payload.role);
+            localStorage.setItem('programCode', action.payload.role);
+            localStorage.setItem('programDescription', action.payload.role);
+            localStorage.setItem('educationalLevel', action.payload.role);
+
 
             state.isAccess = action.payload.isAccess;
             state.token = action.payload.token;
@@ -41,6 +48,9 @@ export const authenticationSlice = createSlice({
             state.role = action.payload.role;
             state.isAlumniGoogle = action.payload.isAlumniGoogle
             state.isCompanyGoogle = action.payload.isCompanyGoogle
+            state.programCode = action.payload.programCode
+            state.programDescription = action.payload.programDescription
+            state.educationalLevel = action.payload.educationalLevel
         },
         authenticationError: (state, action) => {
             state.isAccess = false;
