@@ -43,6 +43,7 @@ export const authenticationSlice = createSlice({
             state.isSucceed = action.payload.isSucceed;
             state.email = action.payload.email;
             state.message = action.payload.message;
+            state.message = action.payload.message;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.role = action.payload.role;
@@ -98,9 +99,13 @@ export const authenticationSlice = createSlice({
         addAdmin: (state, action) => {
             return { ...state, admins: [action.payload, ...state.admins] };
         },
+        addAdmin: (state, action) => {
+            return { ...state, admins: [action.payload, ...state.admins] };
+        },
     },
 });
 
+export const { userAuthenticated, logout, addAdmin, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount, clearMessage, verificationCodeRequestSuccess } = authenticationSlice.actions;
 export const { userAuthenticated, logout, addAdmin, authenticationError, forgotPasswordRequestSuccess, clearForgotPasswordRequestStatus, userChangePassword, clearAccount, clearMessage, verificationCodeRequestSuccess } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

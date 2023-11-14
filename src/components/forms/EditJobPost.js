@@ -81,6 +81,7 @@ const EditJobPostForm = () => {
                     targetSkills: formattedTargetSkills,
                     status: formData.status,
                     requiredResume: formData.requiredResume
+                    requiredResume: formData.requiredResume
                 });
                 if (updateSuccess) {
                     await GetAllJobs(dispatch);

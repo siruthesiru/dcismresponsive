@@ -9,6 +9,7 @@ import { Button, InputAdornment, InputLabel, MenuItem, Select, TextField, Typogr
 import { Badge } from "@mui/icons-material";
 import { clearMessage } from "../../../app/authenticationSlice";
 import { programs } from "../../../components/constant/helper";
+import { programs } from "../../../components/constant/helper";
 
 const RegisterAlumni = () => {
     const { message } = useSelector((state) => state.authentication);
