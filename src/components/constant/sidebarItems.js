@@ -7,7 +7,8 @@ import {
     ListAlt,
     Diversity3,
     CalendarMonthOutlined,
-    Person2
+    Person2,
+    SupervisorAccount
 } from "@mui/icons-material";
 
 export const navItems = [
@@ -60,5 +61,10 @@ export const navItems = [
     {
         text: "Events",
         icon: <CalendarMonthOutlined />,
+    },
+
+    {
+        text: "Add Admin",
+        icon: <SupervisorAccount />,
     },
 ];

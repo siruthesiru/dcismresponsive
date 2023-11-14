@@ -6,7 +6,8 @@ import { SendInviteApplicant, ViewAllApplicants } from '../../../services/compan
 import { getJobsError } from '../../../app/companyUserSlice';
 import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CompanyApplicants = () => {
     const { id } = useParams();
@@ -36,7 +37,7 @@ const CompanyApplicants = () => {
         try {
             const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
             if (isSuccess) {
-                console.log('Invitation sent successfully!');
+                toast.success('Invitation sent successfully!');
             }
         } catch (error) {
             console.error('Error sending invite:', error);
@@ -57,13 +58,13 @@ const CompanyApplicants = () => {
                         variant="contained"
                         size="small"
                         style={{
-                            backgroundColor: params.row.status ? "#aaa" : "#221769",
+                            backgroundColor: params.row.status ? "#aaa" : "#4cceac",
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={!params.row.job.isActive}
+                        disabled={params.row.job.isActive}
                     >
-                        Sent Invite
+                        Accept
                     </Button>
                 );
             },
@@ -77,6 +78,8 @@ const CompanyApplicants = () => {
 
     return (
         <div className='bg-slate-100 min-h-screen'>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className='container mx-auto flex flex-col sm:flex-row py-4 gap-2 items-center justify-center'>
                 <div className='mx-4 sm:mx-0 bg-white p-4 space-y-2 w-full'>
                     <h1 className='Uppercase text-xl font-bold'>List of Applicants</h1>
@@ -88,37 +91,41 @@ const CompanyApplicants = () => {
                         </div>
                     ) : (
                         <div style={{ width: '100%', overflowX: 'auto' }}>
-                            <DataGrid
-                                sx={{
-                                    padding: "20px",
-                                    "& .MuiDataGrid-toolbarContainer": {
-                                        flexDirection: "row-reverse",
-                                        color: "#221769"
-                                    },
-                                    "& .MuiButtonBase-root": {
-                                        color: "#221769",
-                                    },
-                                }}
-                                rows={filtered_candidates}
-                                columns={columns}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {
-                                            pageSize: 10,
+                            {filtered_candidates.length === 0 ? (
+                                <p>No applicants available.</p>
+                            ) : (
+                                <DataGrid
+                                    sx={{
+                                        padding: "20px",
+                                        "& .MuiDataGrid-toolbarContainer": {
+                                            flexDirection: "row-reverse",
+                                            color: "#221769"
                                         },
-                                    },
-                                }}
-                                slots={{ toolbar: GridToolbar }}
-                                slotProps={{
-                                    toolbar: {
-                                        showQuickFilter: true,
-                                        quickFilterProps: { debounceMs: 500 },
-                                    },
-                                }}
-                                pageSizeOptions={[10]}
-                                checkboxSelection
-                                disableRowSelectionOnClick
-                            />
+                                        "& .MuiButtonBase-root": {
+                                            color: "#221769",
+                                        },
+                                    }}
+                                    rows={filtered_candidates}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: {
+                                                pageSize: 10,
+                                            },
+                                        },
+                                    }}
+                                    slots={{ toolbar: GridToolbar }}
+                                    slotProps={{
+                                        toolbar: {
+                                            showQuickFilter: true,
+                                            quickFilterProps: { debounceMs: 500 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[10]}
+                                    checkboxSelection
+                                    disableRowSelectionOnClick
+                                />
+                            )}
                         </div>
                     )}
                 </div>

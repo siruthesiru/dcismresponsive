@@ -1,5 +1,7 @@
-import { authenticationError, forgotPasswordRequestSuccess, userAuthenticated, userChangePassword, verificationCodeRequestSuccess } from '../app/authenticationSlice';
+import { addAdmin, authenticationError, forgotPasswordRequestSuccess, userAuthenticated, userChangePassword, verificationCodeRequestSuccess } from '../app/authenticationSlice';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const axiosInstance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/Auth`,
@@ -75,6 +77,9 @@ export const SignUpAlumni = async (dispatch, credentials) => {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     role: response.data.role,
+                    programCode: response.programCode,
+                    programDescription: response.programDescription,
+                    educationalLevel: response.educationalLevel
                 })
             );
         } else {
@@ -328,6 +333,24 @@ export const changePassword = async (dispatch, credentials) => {
     } catch (error) {
         console.error('Error:', error);
         const errorMessage = error.response?.data || 'An error occurred while changing password.';
+        dispatch(authenticationError({ message: errorMessage }));
+    }
+}
+
+export const AddAdmin = async (dispatch, admin) => {
+    try {
+        const response = await axiosInstance.post('/make-admin', admin)
+        if (response.data.isSucceed) {
+            dispatch(addAdmin(response.data));
+            toast.success(response.data.message)
+        } else {
+            dispatch(authenticationError({ message: response.data.message }));
+            toast.error(response.data.message);
+        }
+        return response.data.isSucceed;
+    } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = error.response?.data || 'An error occurred while adding alumni.';
         dispatch(authenticationError({ message: errorMessage }));
     }
 }

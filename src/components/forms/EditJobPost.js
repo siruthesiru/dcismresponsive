@@ -13,7 +13,7 @@ const EditJobPostForm = () => {
     const { id } = useParams();
     const [formData, setFormData] = useState({
         position: '',
-        requiredResume: 'true',
+        requireResume: false,
         expiration_Date: '',
         description: '',
         location: '',
@@ -36,7 +36,7 @@ const EditJobPostForm = () => {
                             id: jobData.id,
                             position: jobData.position,
                             expiration_Date: jobData.expiration_Date,
-                            requiredResume: jobData.requiredResume,
+                            requireResume: jobData.requiredResume === 'true',
                             location: jobData.location,
                             salary: jobData.salary,
                             description: jobData.description,
@@ -80,6 +80,7 @@ const EditJobPostForm = () => {
                     yearsOfExp: formData.yearsOfExp,
                     targetSkills: formattedTargetSkills,
                     status: formData.status,
+                    requiredResume: formData.requiredResume
                 });
                 if (updateSuccess) {
                     await GetAllJobs(dispatch);
@@ -199,8 +200,16 @@ const EditJobPostForm = () => {
                             <div className="flex items-center my-2">
                                 <label className="text-[12px] w-[90px]">Required Resume: </label>
                                 <select
-                                    value={formData.requiredResume}
-                                    onChange={(e) => setFormData({ ...formData, requiredResume: e.target.value === 'true' })}
+                                    value={
+                                        formData.requireResume !== undefined
+                                            ? formData.requireResume.toString()
+                                            : ""
+                                    } onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            requireResume: e.target.value === "true",
+                                        })
+                                    }
                                     className="w-[100px] h-[30px] bg-white border border-slate-200 rounded-md"
                                 >
                                     <option value={true}>True</option>
