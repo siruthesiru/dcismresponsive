@@ -8,6 +8,7 @@ import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SwipeRight } from '@mui/icons-material';
 
 const CompanyApplicants = () => {
     const { id } = useParams();
@@ -38,6 +39,7 @@ const CompanyApplicants = () => {
             const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
             if (isSuccess) {
                 toast.success('Invitation sent successfully!');
+                ViewAllApplicants(dispatch, id);
             }
         } catch (error) {
             console.error('Error sending invite:', error);
@@ -62,7 +64,8 @@ const CompanyApplicants = () => {
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={params.row.job.isActive}
+                        disabled={params.row.job.status}
+                        startIcon={<SwipeRight />}
                     >
                         Accept
                     </Button>

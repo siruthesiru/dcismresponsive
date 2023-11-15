@@ -118,31 +118,22 @@ const CompanyProfileCard = ({ userData }) => {
                             )}
                         </div>
 
-                        <div className="flex items-center">
-                            <Button
-                                type="button"
-                                variant="contained"
-                                size="medium"
-                                onClick={() => navigate('/company/edit-profile')}
-                                startIcon={<Edit />}
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100%",
-                                    marginTop: "2rem",
-                                    backgroundColor: "yellow",
-                                    color: "black",
-                                    "& .MuiSvgIcon-root": {
-                                        marginRight: "0.5rem",
-                                    },
-                                    "&:hover": {
-                                        backgroundColor: "yellow",
-                                    },
-                                }}
-                            >
-                                Edit Profile
-                            </Button>
+                        <div className="flex items-center mt-6">
+                            <div className='flex gap-10 flex-1 justify-center'>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: "#FFC107",
+                                        color: "#FFFFFF",
+                                    }}
+                                    startIcon={<Edit />}
+                                    onClick={() => navigate('/company/edit-profile')}
+                                >
+                                    Edit Profile
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

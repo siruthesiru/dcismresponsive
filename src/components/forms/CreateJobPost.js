@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate } from 'react-router-dom';
 import { GetAllJobs, PostJob } from '../../services/company';
+import { AddCircle, FirstPage } from '@mui/icons-material';
 
 const CreateJobPost = () => {
     const [formData, setFormData] = useState({
@@ -184,6 +185,7 @@ const CreateJobPost = () => {
                                     style={{
                                         backgroundColor: "#3da58a",
                                     }}
+                                    startIcon={<AddCircle />}
                                 >
                                     Submit Post
                                 </Button>
@@ -192,6 +194,7 @@ const CreateJobPost = () => {
                                     variant="contained"
                                     size="medium"
                                     onClick={() => navigate(-1)}
+                                    startIcon={<FirstPage />}
                                 >
                                     Discard Changes
                                 </Button>

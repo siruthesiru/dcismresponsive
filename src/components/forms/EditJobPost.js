@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetAllJobs, GetJob, UpateJobPost } from '../../services/company';
 import RichTextEditor from './RichTextEditor';
+import { FirstPage, Save } from '@mui/icons-material';
 
 const EditJobPostForm = () => {
     const { id } = useParams();
@@ -224,6 +225,7 @@ const EditJobPostForm = () => {
                                         style={{
                                             backgroundColor: "#3da58a",
                                         }}
+                                        startIcon={<Save />}
                                     >
                                         Save Changes
                                     </Button>
@@ -232,6 +234,7 @@ const EditJobPostForm = () => {
                                         variant="contained"
                                         size="medium"
                                         onClick={() => navigate(-1)}
+                                        startIcon={<FirstPage />}
                                     >
                                         Discard Changes
                                     </Button>

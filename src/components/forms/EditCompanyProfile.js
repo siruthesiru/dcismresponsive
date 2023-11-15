@@ -8,6 +8,7 @@ import { EditProfile, GetCompanyProfile } from "../../services/company";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { pdfjs } from 'react-pdf';
+import { FirstPage, Save } from "@mui/icons-material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -298,6 +299,7 @@ const EditCompanyProfile = ({ profileData }) => {
                                             color: "#dbf5ee",
                                         }}
                                         onClick={handleSubmit}
+                                        startIcon={<Save />}
                                     >
                                         Save Changes
                                     </Button>
@@ -306,6 +308,7 @@ const EditCompanyProfile = ({ profileData }) => {
                                         variant="contained"
                                         size="medium"
                                         onClick={() => navigate(-1)}
+                                        startIcon={<FirstPage />}
                                     >
                                         Back
                                     </Button>

@@ -10,8 +10,7 @@ import ConfirmationDialog from '../../../components/popup/confirmationDialog';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// import './index.scss'
+import { Block, Delete, Diversity3, Edit, FirstPage, Recommend } from '@mui/icons-material';
 
 export default function ViewJobCompany() {
     const { id } = useParams();
@@ -158,6 +157,7 @@ export default function ViewJobCompany() {
                                         backgroundColor: "#FFC107",
                                         color: "#FFFFFF",
                                     }}
+                                    startIcon={<Edit />}
                                     onClick={() => navigate(`/company/edit-job/${jobData.id}`)}
                                 >
                                     Edit Job Post
@@ -171,6 +171,7 @@ export default function ViewJobCompany() {
                                         color: "#FFFFFF",
 
                                     }}
+                                    startIcon={<Delete />}
                                     onClick={() => {
                                         setSelectedItemId(jobData.id);
                                         setOpenDeletePopup(true);
@@ -192,6 +193,7 @@ export default function ViewJobCompany() {
                                         color: "#dbf5ee",
 
                                     }}
+                                    startIcon={<Recommend />}
                                     onClick={() => navigate(`/company/job/candidates/${id}`)}
                                 >
                                     View Candidates
@@ -205,6 +207,7 @@ export default function ViewJobCompany() {
                                         color: "#dbf5ee",
 
                                     }}
+                                    startIcon={<Diversity3 />}
                                     onClick={() => navigate(`/company/job/applicants/${id}`)}
                                 >
                                     View Applicants
@@ -218,6 +221,7 @@ export default function ViewJobCompany() {
                                             color: "#dbf5ee",
 
                                         }}
+                                        startIcon={<Block />}
                                         onClick={() => handlCloseJobPost(jobData.id)}
                                     >
                                         Close Job Post
@@ -240,6 +244,7 @@ export default function ViewJobCompany() {
                                             color: "#dbf5ee",
 
                                         }}
+                                        startIcon={<Block />}
                                         onClick={() => handlCloseJobPost(jobData.id)}
                                     >
                                         Close Job Post
@@ -250,6 +255,8 @@ export default function ViewJobCompany() {
                                     type="button"
                                     variant="contained"
                                     className="w-full md:w-auto bg-gray-600 text-white px-4 py-2"
+                                    startIcon={<FirstPage />}
+
                                     onClick={() => navigate(-1)}
                                 >
                                     Back

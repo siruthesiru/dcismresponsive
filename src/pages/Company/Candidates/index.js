@@ -9,6 +9,7 @@ import { ViewCandidatesColumns } from '../../../components/constant/adminColumnH
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ForwardToInbox } from '@mui/icons-material';
 
 const CompanyCandidates = () => {
     const { id } = useParams();
@@ -37,6 +38,7 @@ const CompanyCandidates = () => {
             const isSuccess = await SendInviteCandidate(dispatch, jobId, alumniId);
             if (isSuccess) {
                 toast.success('Invitation sent successfully!');
+                ViewAllCandidates(dispatch, id);
             }
         } catch (error) {
             console.error('Error sending invite:', error);
@@ -62,6 +64,7 @@ const CompanyCandidates = () => {
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
                         disabled={!params.row.job.status}
+                        startIcon={<ForwardToInbox />}
                     >
                         Send Invite
                     </Button>
