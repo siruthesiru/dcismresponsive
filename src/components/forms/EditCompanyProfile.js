@@ -22,17 +22,17 @@ const EditCompanyProfile = ({ profileData }) => {
 
 
     const [userData, setUserData] = useState({
-        firstName: profileData.firstName,
-        lastName: profileData.lastName,
-        middleName: profileData.middleName,
-        companyAddress: profileData.companyAddress,
-        companyName: profileData.companyName,
-        mobileNumber: profileData.mobileNumber,
-        websiteLink: profileData.websiteLink,
-        picture: profileData.profileImage,
-        email: profileData.email,
-        isVerified: profileData.isVerified,
-        moa: profileData.moa
+        firstName: profileData.firstName || '',
+        lastName: profileData.lastName || '',
+        middleName: profileData.middleName || '',
+        companyAddress: profileData.companyAddress || '',
+        companyName: profileData.companyName || '',
+        mobileNumber: profileData.mobileNumber || '',
+        websiteLink: profileData.websiteLink || '',
+        picture: profileData.profileImage || '',
+        email: profileData.email || '',
+        isVerified: profileData.isVerified || false,
+        moa: profileData.moa || ''
     });
 
 
@@ -40,17 +40,23 @@ const EditCompanyProfile = ({ profileData }) => {
         const { name, value } = e.target;
         const updatedValue = name === 'websiteLink' && value === '' ? '' : value;
 
-        const isMiddleNameEmpty = name === 'middleName' && value.trim() === '';
-        const isWebsiteLinkEmpty = name === 'websiteLink' && value.trim() === '';
+        const finalValue = (updatedValue === null || updatedValue.trim() === '') ? '' : updatedValue;
+
+        const isMobileNumberEmpty = name === 'mobileNumber' && finalValue.trim() === '';
+        const isCompanyAddressEmpty = name === 'companyAddress' && finalValue.trim() === '';
+        const isWebsiteLinkEmpty = name === 'websiteLink' && finalValue.trim() === '';
+        const isMiddleNameEmpty = name === 'middleName' && finalValue === null;
+
         const isFormValid =
             !isMiddleNameEmpty &&
-            userData.mobileNumber !== '' &&
-            userData.companyAddress !== '' &&
+            !isMobileNumberEmpty &&
+            !isCompanyAddressEmpty &&
             !isWebsiteLinkEmpty;
 
-        setUserData({ ...userData, [name]: updatedValue });
+        setUserData({ ...userData, [name]: finalValue });
         setFormValid(isFormValid);
     };
+
 
 
     const handleImageInputChange = (e) => {
@@ -72,23 +78,31 @@ const EditCompanyProfile = ({ profileData }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (userData.middleName?.trim() === '' || userData.mobileNumber === '' || userData.companyAddress === '') {
+        const isMiddleNameEmpty = userData.middleName?.trim() === '';
+        const isMobileNumberEmpty = userData.mobileNumber?.trim() === '';
+        const isCompanyAddressEmpty = userData.companyAddress?.trim() === '';
+        const isWebsiteLinkEmpty = userData.websiteLink?.trim() === '';
+
+        if (isMiddleNameEmpty || isMobileNumberEmpty || isCompanyAddressEmpty || isWebsiteLinkEmpty) {
             setFormValid(false);
             return;
-        } else {
-            setFormValid(true); const isEditSucceed = await EditProfile(dispatch, userData);
+        }
 
-            if (isEditSucceed) {
-                const profileData = await GetCompanyProfile(dispatch);
-                setUserData({
-                    ...userData,
-                    picture: profileData.profileImage,
-                });
-                await new Promise(resolve => setTimeout(resolve, 3000));
-                navigate('/company/profile');
-            }
+        setFormValid(true);
+        console.log(userData);
+        const isEditSucceed = await EditProfile(dispatch, userData);
+
+        if (isEditSucceed) {
+            const profileData = await GetCompanyProfile(dispatch);
+            setUserData({
+                ...userData,
+                picture: profileData.profileImage,
+            });
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            navigate('/company/profile');
         }
     };
+
 
 
 

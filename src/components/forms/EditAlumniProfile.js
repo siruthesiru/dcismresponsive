@@ -172,6 +172,7 @@ const EditAlumniProfile = ({ profileData }) => {
                                 onChange={handleInputChange}
                                 variant='outlined'
                                 className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
                             />
 
                         </div>

@@ -28,9 +28,11 @@ const CompanyProfile = () => {
     }, [dispatch]);
 
     const pending_jobs = Object.values(jobs).filter((job) => !job.status);
+
     const filteredPendingJobs = Object.values(pending_jobs)
         .filter((job) => !job.status && job.isActive)
-        .filter((job) => job.position.toLowerCase().includes(searchTerm.toLowerCase()));
+        .filter((job) => job.position && job.position.toLowerCase().includes(searchTerm.toLowerCase()));
+
 
     return (
         <div className="bg-slate-100 min-h-screen">
