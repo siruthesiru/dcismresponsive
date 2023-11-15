@@ -294,7 +294,7 @@ const EditCompanyProfile = ({ profileData }) => {
                                         variant="contained"
                                         size="medium"
                                         style={{
-                                            backgroundColor: "#4cceac",
+                                            backgroundColor: "#3da58a",
                                             color: "#dbf5ee",
                                         }}
                                         onClick={handleSubmit}

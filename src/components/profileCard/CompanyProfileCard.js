@@ -2,15 +2,12 @@ import React from "react";
 import { Button } from "@mui/material";
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Edit } from "@mui/icons-material";
 
 
-const CompanyProfileCard = () => {
-    const userData = useSelector(state => state.companyUserSlice.companyProfile);
+const CompanyProfileCard = ({ userData }) => {
     const navigate = useNavigate();
 
     const handleDownload = () => {
@@ -140,7 +137,7 @@ const CompanyProfileCard = () => {
                                         marginRight: "0.5rem",
                                     },
                                     "&:hover": {
-                                        backgroundColor: "#fff9db",
+                                        backgroundColor: "yellow",
                                     },
                                 }}
                             >

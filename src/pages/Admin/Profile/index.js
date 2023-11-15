@@ -341,7 +341,7 @@ const Profile = () => {
                                             marginRight: "0.5rem",
                                         },
                                         "&:hover": {
-                                            backgroundColor: "#c2f0d4",
+                                            backgroundColor: "#4cceac",
                                         },
                                     }}
                                     onClick={handleSubmit}
@@ -367,7 +367,7 @@ const Profile = () => {
                                             marginRight: "0.5rem",
                                         },
                                         "&:hover": {
-                                            backgroundColor: "#fff9db",
+                                            backgroundColor: "yellow",
                                         },
                                     }}
                                 >

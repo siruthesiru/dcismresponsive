@@ -7,7 +7,7 @@ import AnnouncementCard from '../../../components/cards/announcementCard';
 const LandingPageCompany = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const announcementsPerPage = 6;
+    const announcementsPerPage = 5;
 
     const announcements = useSelector((state) => state.companyUserSlice.announcements);
     const userData = useSelector((state) => state.companyUserSlice.companyProfile);

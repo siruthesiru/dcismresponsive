@@ -12,6 +12,11 @@ body,
   width: 100%;
 }
 
+ul {
+  list-style: disc;
+  padding-left: 20px; /* or list-style-type: disc; */
+}
+
 /* ::-webkit-scrollbar {
   width: 10px;
 }

@@ -17,30 +17,46 @@ const CreateJobPost = () => {
         salary: '',
         yearsOfExp: '',
         slots: '',
-        requiredResume: false,
+        requireResume: false,
         expiration_Date: '',
         targetSkills: [{ skill: '' }]
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [skillsInput, setSkillsInput] = useState('');
 
 
     const handleCheckboxChange = (e) => {
         const value = e.target.checked;
-        setFormData({ ...formData, requiredResume: value });
+        setFormData({ ...formData, requireResume: value });
     };
 
+
+    // const handleSkillsChange = (e) => {
+    //     const value = e.target.value;
+    //     const skillsArray = value ? value.match(/"([^"]+)"|[^,\s]+/g) : [];
+    //     if (formData.targetSkills) {
+    //         const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+    //         setFormData({ ...formData, targetSkills: updatedSkills });
+    //     }
+    // };
+
     const handleSkillsChange = (e) => {
-        const value = e.target.value;
-        const skillsArray = value.split(/[,\n]/);
-        const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
-        setFormData({ ...formData, targetSkills: updatedSkills });
+        setSkillsInput(e.target.value);
     };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        const addSuccess = await PostJob(dispatch, formData);
+        const skillsArray = skillsInput.split(/[,\n]/);
+        const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+        const filteredSkills = updatedSkills.filter((skill) => skill.skill !== '');
+
+        const updatedFormData = {
+            ...formData,
+            targetSkills: filteredSkills,
+        };
+
+        const addSuccess = await PostJob(dispatch, updatedFormData);
         if (addSuccess) {
             await GetAllJobs(dispatch);
             await new Promise(resolve => setTimeout(resolve, 3000));
@@ -134,20 +150,20 @@ const CreateJobPost = () => {
                             <label className="text-[12px] w-[90px]">Required Resume: </label>
                             <input
                                 type="checkbox"
-                                checked={formData.requiredResume}
+                                checked={formData.requireResume}
                                 onChange={handleCheckboxChange}
                                 className="h-[30px] bg-white border border-slate-200 rounded-md"
                             />
-                            <label className="text-[12px] ml-2">{formData.requiredResume ? 'Yes' : 'No'}</label>
+                            <label className="text-[12px] ml-2">{formData.requireResume ? 'Yes' : 'No'}</label>
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center my-2">
                             <label className="text-[12px] w-[90px]">Target Skills: </label>
                             <textarea
-                                value={formData.targetSkills.map((skill) => skill.skill).join(', ')}
+                                value={skillsInput}
                                 onChange={handleSkillsChange}
                                 placeholder="Enter skills separated by commas or new lines"
-                                className="w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                className="ml-3 w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
                                 required
                             />
                         </div>
@@ -165,11 +181,8 @@ const CreateJobPost = () => {
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    sx={{
-                                        backgroundColor: "#221769",
-                                        "&:hover": {
-                                            backgroundColor: "#221769 !important",
-                                        },
+                                    style={{
+                                        backgroundColor: "#3da58a",
                                     }}
                                 >
                                     Submit Post
