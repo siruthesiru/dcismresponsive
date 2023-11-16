@@ -127,7 +127,7 @@ export default function ViewJobCompany() {
 
                             <p className="text-xs md:text-sm text-slate-500">
                                 Job Description:
-                                <span
+                                <span className='richTextContainer'
                                     dangerouslySetInnerHTML={{ __html: jobData.description }}
                                 />
                             </p>

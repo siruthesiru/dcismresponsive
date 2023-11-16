@@ -9,14 +9,13 @@ import {
     TextField,
     IconButton,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.png";
 import { EditAdminProfile, GetAdminProfile } from "../../../services/admin_alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Edit, Save } from "@mui/icons-material";
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -167,7 +166,7 @@ const Profile = () => {
                                             },
                                         }}
                                     >
-                                        <EditIcon
+                                        <Edit
                                             color="primary"
                                             sx={{ fontSize: 30, cursor: "pointer" }}
                                         />
@@ -324,55 +323,43 @@ const Profile = () => {
                         </Grid>
                         <Grid item xs={6}>
                             {isEditing ? (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    startIcon={<SaveIcon />}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "#4cceac",
-                                        color: "black",
-                                        "& .MuiSvgIcon-root": {
-                                            marginRight: "0.5rem",
-                                        },
-                                        "&:hover": {
-                                            backgroundColor: "#4cceac",
-                                        },
-                                    }}
-                                    onClick={handleSubmit}
-                                >
-                                    Save Profile
-                                </Button>
+
+                                <div className="flex items-center mt-6">
+                                    <div className='flex gap-10 flex-1 justify-center'>
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            size="medium"
+                                            style={{
+                                                backgroundColor: "#3da58a",
+                                                color: "#dbf5ee",
+                                            }}
+                                            onClick={handleSubmit}
+                                            startIcon={<Save />}
+                                        >
+                                            Save Changes
+                                        </Button>
+                                    </div>
+                                </div>
                             ) : (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    startIcon={<EditIcon />}
-                                    onClick={toggleEditing}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "yellow",
-                                        color: "black",
-                                        "& .MuiSvgIcon-root": {
-                                            marginRight: "0.5rem",
-                                        },
-                                        "&:hover": {
-                                            backgroundColor: "yellow",
-                                        },
-                                    }}
-                                >
-                                    Edit Profile
-                                </Button>
+
+                                <div className="flex items-center mt-6">
+                                    <div className='flex gap-10 flex-1 justify-center'>
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            size="medium"
+                                            style={{
+                                                backgroundColor: "#FFC107",
+                                                color: "#FFFFFF",
+                                            }}
+                                            startIcon={<Edit />}
+                                            onClick={toggleEditing}
+                                        >
+                                            Edit Profile
+                                        </Button>
+                                    </div>
+                                </div>
                             )}
                         </Grid>
                     </CardContent>

@@ -9,7 +9,7 @@ import { DeleteAnnouncement, GetAllAnnouncements } from "../../../services/annou
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { DeleteOutline, EditNote } from "@mui/icons-material";
+import { Add, DeleteOutline, EditNote } from "@mui/icons-material";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
@@ -50,10 +50,10 @@ const Announcements = () => {
     }, [deleteOccurred, dispatch]);
 
 
-    const handleDownload = (file) => {
+    const handleDownload = (file, title) => {
         const linkSource = `data:application/pdf;base64,${file}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'announcement.pdf';
+        const fileName = `announcement-${title}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -72,7 +72,7 @@ const Announcements = () => {
                         {params.row.file !== "NULL" ? (
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                onClick={() => handleDownload(params.row.file)}
+                                onClick={() => handleDownload(params.row.file, params.row.title)}
                             >
                                 Download File
                             </button>
@@ -95,7 +95,7 @@ const Announcements = () => {
                             <EditNote
                                 style={{
                                     fontSize: "20px",
-                                    color: "#ffef62",
+                                    color: "#e6b800",
                                 }}
                             />
 
@@ -128,6 +128,7 @@ const Announcements = () => {
                         size="medium"
                         style={{ backgroundColor: "#221769" }}
                         onClick={() => navigate("/addAnnouncement")}
+                        startIcon={<Add />}
                     >
                         Add Announcement
                     </Button>

@@ -2,14 +2,15 @@ import React from 'react';
 import { formatDate } from '../constant/helper';
 import placeholder from "../../assets/placeholder.png";
 
+import './index.scss'
 
 const AnnouncementCard = ({ announcement }) => {
     const { title, posted_Date, description, file } = announcement;
 
-    const handleDownload = (file) => {
+    const handleDownload = (file, title) => {
         const linkSource = `data:application/pdf;base64,${file}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'moa.pdf';
+        const fileName = `announcement-${title}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -35,13 +36,14 @@ const AnnouncementCard = ({ announcement }) => {
                     <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-4">
                         Position: <span className="font-bold">{announcement.admin.position} </span>
                     </p>
-                    <div className="text-[12px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: description }} />
+                    <div className="text-[12px] text-justify mr-8 richTextContainer" dangerouslySetInnerHTML={{ __html: description }} />
+
                     {file !== "NULL" && (
                         <div className="text-[12px] text-justify mr-8">
                             <label className="text-[12px] text-justify mr-8">Announcement File:</label>
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                onClick={() => handleDownload(file)}
+                                onClick={() => handleDownload(file, title)}
                             >
                                 Download File
                             </button>

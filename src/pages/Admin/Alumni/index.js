@@ -4,7 +4,7 @@ import Header from "../../../components/header";
 import { alumniColumns } from "../../../components/constant/adminColumnHeaders";
 import PopUp from "../../../components/popup";
 import AlumniForm from "../../../components/forms/AlumniForm";
-import { DeleteOutline, EditNote, ThumbUpAlt } from "@mui/icons-material";
+import { DeleteOutline, EditNote, GroupAdd, Person, ThumbUpAlt } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteAlumni, GetAlumni, VerifyAlumni } from "../../../services/admin_alumni";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
@@ -147,14 +147,16 @@ const Alumni = () => {
                             size="medium"
                             style={{ backgroundColor: "#221769" }}
                             onClick={() => setOpenup(true)}
+                            startIcon={<Person />}
                         >
-                            Add User
+                            Add Alumni
                         </Button>
                         <Button
                             variant="contained"
                             size="medium"
-                            style={{ backgroundColor: "#4cceac" }}
+                            style={{ backgroundColor: "#3da58a" }}
                             onClick={() => setOpenCSVUploadPopup(true)}
+                            startIcon={<GroupAdd />}
                         >
                             Upload CSV
                         </Button>

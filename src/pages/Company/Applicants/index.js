@@ -46,9 +46,40 @@ const CompanyApplicants = () => {
         }
     };
 
+    const handleDownload = (file, firstName, lastName) => {
+        const linkSource = `data:application/pdf;base64,${file}`;
+        const downloadLink = document.createElement('a');
+        const fileName = `moa-${firstName} ${lastName}.pdf`;
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    };
+
 
     const columns = [
         ...ViewCandidatesColumns,
+        {
+            field: 'resume',
+            headerName: 'Uploaded Resume',
+            flex: 1,
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        {params.row.alumni.resume ? (
+                            <button
+                                className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
+                                onClick={() => handleDownload(params.row.alumni.resume, params.row.alumni.firstName, params.row.alumni.lastName)}
+                            >
+                                Download Resume
+                            </button>
+                        ) : (
+                            <span style={{ color: "gray" }}>No Resume</span>
+                        )}
+                    </div>
+                );
+            },
+        },
         {
             field: "action",
             headerName: "Actions",

@@ -9,6 +9,7 @@ import { GetAllEvents } from "../../../services/events";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Add } from "@mui/icons-material";
 
 
 const Events = () => {
@@ -46,6 +47,8 @@ const Events = () => {
                             onClick={() => {
                                 setOpenup(true);
                             }}
+                            startIcon={<Add />}
+
                         >
                             Add Event
                         </Button>

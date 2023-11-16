@@ -8,9 +8,10 @@ import { useSelector } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Edit } from "@mui/icons-material";
 
-const AlumniProfileCard = () => {
-    const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
+const AlumniProfileCard = ({ userData }) => {
+    // const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
     const navigate = useNavigate();
 
     const handleDownload = () => {
@@ -48,58 +49,56 @@ const AlumniProfileCard = () => {
                 <div className="flex flex-col text-[12px] space-y-2">
                     <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
                         <p className="font-bold ">Personal Information</p>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">First Name: </label>
-
                             <p className="font-bold "> {userData?.firstName}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Last Name: </label>
 
                             <p className="font-bold "> {userData?.lastName}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Middle Name: </label>
 
-                            <p className="font-bold "> {userData?.middleName}</p>
+                            <p className="font-bold "> {userData?.middleName ? userData.middleName : "Not indicated"}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Gender: </label>
 
-                            <p className="font-bold"> {userData?.gender}</p>
+                            <p className="font-bold"> {userData?.gender ? userData.gender : "Not indicated"}</p>
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Date of Birth: </label>
 
                             <p className="font-bold ">{userData?.birthday ? userData.birthday.split("T")[0] : "N/A"}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Address: </label>
-
-                            <p className="font-bold "> {userData?.alumniAddress}</p>
+                            <p className="font-bold ">{userData?.alumniAddress ? userData.alumniAddress : "Not indicated"}</p>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Account Information</p>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">USC ID: </label>
                             <p className="font-bold "> {userData?.idNum}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
                             <p className="font-bold "> {userData?.email}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Contact Number: </label>
 
-                            <p className="font-bold "> {userData?.mobileNumber}</p>
+                            <p className="font-bold "> {userData?.mobileNumber ? userData.mobileNumber : "Not indicated"}</p>
                         </div>
-                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
+                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2 justify-between" />
                         <p className="font-bold ">Academic Information</p>
                         {userData?.courses?.map((course, index) => (
-                            <div className="flex items-center" key={index}>
+                            <div className="flex items-center justify-between" key={index}>
                                 <label className="text-[12px] w-[100px]"> Program Graduated: </label>
                                 <p className="font-bold">
                                     {course.programDescription}
@@ -107,60 +106,51 @@ const AlumniProfileCard = () => {
                             </div>
                         ))}
 
-                        <div className="flex items-center my-2">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[90px]">Year Graduated: </label>
-
-                            <p className="font-bold "> {userData?.syGraduated}</p>
+                            <p className="font-bold "> {userData?.syGraduated ? userData.syGraduated : "Not indicated"}</p>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Work Information</p>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">
-                                Employment Status:{" "}
+                                Employment Status:
                             </label>
 
                             <p className="font-bold">
                                 {userData?.isEmployed === true ? "Employed" : "Unemployed"}
                             </p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Company Name: </label>
 
-                            <p className="font-bold "> {userData?.companyName}</p>
+                            <p className="font-bold "> {userData?.companyName ? userData.companyName : "Not indicated"}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Company Address: </label>
 
-                            <p className="font-bold "> {userData?.companyAddress}</p>
+                            <p className="font-bold "> {userData?.companyAddress ? userData.companyAddress : "Not indicated"}</p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Occupation: </label>
-
-                            <p className="font-bold "> {userData?.occupation}</p>
+                            <p className="font-bold "> {userData?.occupation ? userData.occupation : "Not indicated"}</p>
                         </div>
 
-                        {/* <div className="flex items-center">
-                            <label className="text-[12px] w-[100px]">
-                                Years of Experience:{" "}
-                            </label>
-
-                            <p className="font-bold "> {userData?.years}</p>
-                        </div> */}
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Skills</p>
 
-                        <div className="flex items-center">
-                            <label className="text-[12px] w-[100px]">Add Skills: </label>
+                        <div className="flex items-center justify-between">
+                            <label className="text-[12px] w-[100px]">Added Skills: </label>
                             <div>
-                                <div
-
-                                    className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                >
-                                    <div>{userData.skills.map((skill) => skill.skill).join(", ")}</div>
-                                </div>
-
+                                {userData.skills && userData.skills.length > 0 ? (
+                                    <div className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100">
+                                        <div>{userData.skills.map((skill) => skill.skill).join(", ")}</div>
+                                    </div>
+                                ) : (
+                                    <p className="font-bold ">No skills added</p>
+                                )}
                             </div>
                         </div>
 
@@ -187,28 +177,17 @@ const AlumniProfileCard = () => {
                         </div>
 
                         <div className="flex items-center px-6 mt-6">
-                            <div className="flex gap-10 flex-1 justify-end">
+                            <div className='flex gap-10 flex-1 justify-center'>
                                 <Button
                                     type="button"
                                     variant="contained"
-                                    onClick={() => navigate('/alumni/edit-profile')}
-                                    startIcon={<EditIcon />}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "yellow",
-                                        color: "black",
-                                        "& .MuiSvgIcon-root": {
-                                            marginRight: "0.5rem",
-                                        },
-                                        "&:hover": {
-                                            backgroundColor: "#4cceac",
-                                        },
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: "#FFC107",
+                                        color: "#FFFFFF",
                                     }}
+                                    startIcon={<Edit />}
+                                    onClick={() => navigate('/alumni/edit-profile')}
                                 >
                                     Edit Profile
                                 </Button>

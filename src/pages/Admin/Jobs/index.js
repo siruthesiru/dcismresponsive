@@ -4,6 +4,7 @@ import Header from "../../../components/header";
 import { useDispatch, useSelector } from "react-redux";
 import { GetJobPosts } from "../../../services/admin_company";
 import JobCard from "../../../components/cards";
+import { SkipNext, SkipPrevious } from "@mui/icons-material";
 
 const Jobs = () => {
     const isNonMobile = useMediaQuery("(min-width: 1000px)");
@@ -60,7 +61,10 @@ const Jobs = () => {
                             backgroundColor: "#221769",
                             color: "#dbf5ee",
                         }}
-                        onClick={prevPage}>
+                        onClick={prevPage}
+                        startIcon={<SkipPrevious />}
+
+                    >
                         Previous
                     </Button>
                 )}
@@ -72,7 +76,10 @@ const Jobs = () => {
                             backgroundColor: "#221769",
                             color: "#dbf5ee",
                         }}
-                        onClick={nextPage}>
+                        onClick={nextPage}
+                        startIcon={<SkipNext />}
+
+                    >
                         Next
                     </Button>
                 )}

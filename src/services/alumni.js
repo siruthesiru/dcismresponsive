@@ -108,7 +108,6 @@ export const GetAllAppliedJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs/Get-All-Applied-Jobs');
         dispatch(getApplyJobs(response.data));
-        return response.data;
     } catch (error) {
         console.error('Error:', error);
         dispatch(getJobError(error.response.data));

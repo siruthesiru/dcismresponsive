@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select, Typography } from "@mui/material";
+import { Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import placeholder from "../../assets/placeholder.png"
 import { useNavigate } from "react-router-dom";
@@ -8,42 +8,44 @@ import { EditProfile, GetAlumniProfile } from "../../services/alumni";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { programs } from '../constant/helper';
+import { FirstPage, Save } from "@mui/icons-material";
+import { differenceInYears, parseISO } from 'date-fns';
+
 
 
 const EditAlumniProfile = ({ profileData }) => {
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+    const [genderError, setGenderError] = useState(false);
+    const [birthdayError, setBirthdayError] = useState(false);
+    const [ageError, setAgeError] = useState(false);
+    const [employedError, setEmployedError] = useState(false);
+
+
+    const [formValid, setFormValid] = useState(true);
     const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
-        email: profileData.email,
-        firstName: profileData.firstName,
-        lastName: profileData.lastName,
-        middleName: profileData.middleName,
-        birthday: profileData.birthday,
-        gender: profileData.gender,
-        alumniAddress: profileData.alumniAddress,
-        idNum: profileData.idNum,
-        companyAddress: profileData.companyAddress,
-        programCode: profileData?.courses[0]?.programCode,
-        programDescription: profileData?.courses[0]?.programDescription,
-        educationLevel: profileData?.courses[0]?.educationalLevel,
-        companyName: profileData.companyName,
+        firstName: profileData.firstName || '',
+        lastName: profileData.lastName || '',
+        middleName: profileData.middleName || '',
+        email: profileData.email || '',
+        birthday: profileData.birthday || '',
+        gender: profileData.gender || '',
+        alumniAddress: profileData.alumniAddress || '',
+        idNum: profileData.idNum || '',
+        programCode: profileData?.courses[0]?.programCode || '',
+        programDescription: profileData?.courses[0]?.programDescription || '',
+        educationLevel: profileData?.courses[0]?.educationalLevel || '',
         skills: profileData.skills,
         resume: profileData.resume,
-        picture: profileData.profileImage,
-        syGraduated: profileData.syGraduated,
-        isEmployed: profileData.isEmployed,
-        mobileNumber: profileData.mobileNumber,
-        occupation: profileData.occupation
+        picture: profileData.profileImage || '',
+        syGraduated: profileData.syGraduated || '',
+        mobileNumber: profileData.mobileNumber || '',
+        isEmployed: profileData.isEmployed !== undefined ? profileData.isEmployed : false,
+        companyName: profileData.isEmployed ? profileData.companyName || '' : '',
+        companyAddress: profileData.isEmployed ? profileData.companyAddress || '' : '',
+        occupation: profileData.isEmployed ? profileData.occupation || '' : '',
     });
-
-    console.log(userData);
-
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
-    };
 
     const handleImageInputChange = (e) => {
         const file = e.target.files[0];
@@ -61,11 +63,77 @@ const EditAlumniProfile = ({ profileData }) => {
         }
     };
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const finalValue = value === '' ? '' : value;
 
+        const isMobileNumberEmpty = name === 'mobileNumber' && finalValue.trim() === '';
+        const isAlumniAddressEmpty = name === 'alumniAddress' && finalValue.trim() === '';
+        const isGenderEmpty = name === 'gender' && finalValue.trim() === '';
+        const isBirthdayEmpty = name === 'birthday' && finalValue.trim() === '';
+        const isSYGraduated = name === 'syGraduated' && finalValue.trim() === '';
+        const isMiddleNameEmpty = name === 'middleName' && finalValue.trim() === '';
+        const isEmployed = name === 'isEmployed' ? value === 'true' : userData.isEmployed;
+        setGenderError(isGenderEmpty);
+        setEmployedError(!isEmployed);
+
+
+        if (name === 'gender') {
+            setGenderError(false);
+        }
+
+        if (name === 'birthday') {
+            setBirthdayError(false);
+        }
+
+        const isFormValid =
+            !isMiddleNameEmpty &&
+            !isMobileNumberEmpty &&
+            !isAlumniAddressEmpty &&
+            !isBirthdayEmpty &&
+            !isSYGraduated &&
+            !isGenderEmpty &&
+            !isEmployed;
+
+
+        setUserData(prevUserData => ({ ...prevUserData, [name]: finalValue }));
+
+        if (name === 'isEmployed') {
+            const isEmployed = finalValue === 'true';
+            setUserData(prevUserData => ({
+                ...prevUserData,
+                isEmployed,
+                companyName: isEmployed ? prevUserData.companyName : '',
+                companyAddress: isEmployed ? prevUserData.companyAddress : '',
+                occupation: isEmployed ? prevUserData.occupation : '',
+            }));
+            // Clear the employed error when the status is updated
+            setEmployedError(false);
+        }
+        if (finalValue !== '') {
+            setFormValid(isFormValid);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const isGenderEmpty = userData.gender?.trim() === '';
+        const isBirthdayEmpty = userData.birthday?.trim() === '';
+        const isEmployedEmpty = typeof userData.isEmployed !== 'boolean';
+        const isBirthdayBelow18 = differenceInYears(new Date(), parseISO(userData.birthday)) < 18;
+
+        if (isGenderEmpty || isBirthdayEmpty || isBirthdayBelow18 || isEmployedEmpty) {
+            setFormValid(false);
+            setGenderError(isGenderEmpty);
+            setBirthdayError(isBirthdayEmpty);
+            setAgeError(isBirthdayBelow18);
+            setEmployedError(isEmployedEmpty);
+            return;
+        }
+
+        setFormValid(true);
         console.log(userData);
+
         const isEditSucceed = await EditProfile(dispatch, userData);
 
         if (isEditSucceed) {
@@ -80,25 +148,6 @@ const EditAlumniProfile = ({ profileData }) => {
         }
     };
 
-    const handleSkillChange = (e, index) => {
-        const { value } = e.target;
-        const updatedSkills = [...userData.skills];
-        updatedSkills[index] = { skill: value };
-        setUserData({ ...userData, skills: updatedSkills });
-    };
-
-    const removeSkill = (index) => {
-        const updatedSkills = [...userData.skills];
-        updatedSkills.splice(index, 1);
-        setUserData({ ...userData, skills: updatedSkills });
-    };
-
-    const addSkill = () => {
-        setUserData((prevUserData) => ({
-            ...prevUserData,
-            skills: [...prevUserData.skills, { skill: '' }],
-        }));
-    };
 
 
     const navigate = useNavigate();
@@ -135,99 +184,106 @@ const EditAlumniProfile = ({ profileData }) => {
                         <p className="font-bold ">Personal Information</p>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">First Name: </label>
-
-                            <input
-                                type="text"
-                                name="firstName"
-                                placeholder='Input your First Name'
-                                value={userData?.firstName}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    name="firstName"
+                                    placeholder='Input your First Name'
+                                    value={userData?.firstName}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Last Name: </label>
-
-                            <input
-                                type="text"
-                                name="lastName"
-                                placeholder='Input your Middle Name'
-                                value={userData?.lastName}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    name="lastName"
+                                    placeholder='Input your Last Name'
+                                    value={userData?.lastName}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Middle Name: </label>
-
-                            <input
-                                type="text"
-                                name="middleName"
-                                placeholder='Input your Middle Name'
-                                value={userData?.middleName}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                required
-                            />
-
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    name="middleName"
+                                    placeholder="Input your Middle Name"
+                                    value={userData?.middleName || ''}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!formValid && userData.middleName === ''}
+                                    helperText={!formValid && userData.middleName === '' && 'Middle Name is required'}
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Gender: </label>
-
-                            <div className="flex items-center justify-center gap-3">
-                                <input
-                                    type="radio"
-                                    id="female"
+                            <FormControl component="fieldset">
+                                <RadioGroup
+                                    row
+                                    aria-label="gender"
                                     name="gender"
-                                    value="Female"
-                                    checked={userData?.gender === "Female"}
-                                    onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
-                                    required
-                                />
-                                <label htmlFor="female">Female</label>
+                                    value={userData.gender}
+                                    onChange={handleInputChange}
+                                >
+                                    <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                                    <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                                </RadioGroup>
+                            </FormControl>
 
-                                <input
-                                    type="radio"
-                                    id="male"
-                                    name="gender"
-                                    value="Male"
-                                    checked={userData?.gender === "Male"}
-                                    onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
-                                    required
-                                />
-                                <label htmlFor="male">Male</label>
-                            </div>
-
+                            {genderError && (
+                                <p className="text-red-500 text-xs">Please select a gender.</p>
+                            )}
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Date of Birth: </label>
-                            <input
-                                type="date"
-                                value={userData?.birthday ? userData.birthday.split("T")[0] : ""}
-                                onChange={(e) => setUserData({ ...userData, birthday: e.target.value })}
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-5 rounded-md"
-                                name="birthday"
-                                required
-                            />
+                            <div className="flex-col flex-1 items-start">
+                                <input
+                                    type="date"
+                                    value={userData?.birthday ? userData.birthday.split("T")[0] : ""}
+                                    onChange={(e) => setUserData({ ...userData, birthday: e.target.value })}
+                                    className="w-[100%] h-[50px] bg-white border border-slate-200 p-5 rounded-md"
+                                    name="birthday"
+                                />
+                                {birthdayError && (
+                                    <p className="text-red-500 text-xs">Please select a date.</p>
+                                )}
+                                {ageError && (
+                                    <p className="text-red-500 text-xs">Age must be 18 or above.</p>
+                                )}
+                            </div>
+
                         </div>
+
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Address: </label>
-                            <input
-                                type="text"
-                                name="alumniAddress"
-                                placeholder='Input your Current Address'
-                                value={userData?.alumniAddress}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                required
-                            />
-
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    name="alumniAddress"
+                                    placeholder="Input your Current Address"
+                                    value={userData?.alumniAddress || ''}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!formValid && userData.alumniAddress === ''}
+                                    helperText={!formValid && userData.alumniAddress === '' && 'Your Address is required'}
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Account Information</p>
@@ -243,18 +299,20 @@ const EditAlumniProfile = ({ profileData }) => {
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Contact Number: </label>
-
-                            <input
-                                type="text"
-                                name="mobileNumber"
-                                placeholder='Input your contact Number'
-                                value={userData?.mobileNumber}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                required
-                            />
-
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    name="mobileNumber"
+                                    placeholder="Input your Contact Number"
+                                    value={userData?.mobileNumber || ''}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!formValid && userData.mobileNumber === ''}
+                                    helperText={!formValid && userData.mobileNumber === '' && 'Contact Number is required'}
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Academic Information</p>
@@ -301,18 +359,21 @@ const EditAlumniProfile = ({ profileData }) => {
                             )}
                         </div>
                         <div className="flex items-center my-2">
-                            <label className="text-[12px] w-[90px]">Year Graduated: </label>
-
-                            <input
-                                type="number"
-                                placeholder='What class batch you graduated'
-                                name="syGraduated"
-                                value={userData?.syGraduated}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
+                            <label className="text-[12px] w-[100px]">Year Graduated: </label>
+                            <div className="flex-1">
+                                <TextField
+                                    type="number"
+                                    placeholder='What class batch you graduated'
+                                    name="syGraduated"
+                                    value={userData?.syGraduated || ''}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!formValid && userData.syGraduated === ''}
+                                    helperText={!formValid && userData.syGraduated === '' && 'School Year is required'}
+                                    className="mb-2"
+                                />
+                            </div>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
@@ -320,166 +381,99 @@ const EditAlumniProfile = ({ profileData }) => {
 
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Employment Status: </label>
-
-                            <div className="flex items-center justify-center gap-3">
-                                <input
-                                    type="radio"
-                                    id="employed"
+                            <FormControl component="fieldset">
+                                <RadioGroup
+                                    row
+                                    aria-label="isEmployed"
                                     name="isEmployed"
-                                    value="true"
-                                    checked={userData?.isEmployed === true}
-                                    onChange={(e) => setUserData({ ...userData, isEmployed: e.target.value === "true" })}
-                                    required
-                                />
-                                <label htmlFor="employed">Employed</label>
+                                    value={userData.isEmployed}
+                                    onChange={handleInputChange}
+                                >
+                                    <FormControlLabel value="true" control={<Radio />} label="Employed" />
+                                    <FormControlLabel value="false" control={<Radio />} label="Unemployed" />
+                                </RadioGroup>
+                            </FormControl>
 
-                                <input
-                                    type="radio"
-                                    id="unemployed"
-                                    name="employmentStatus"
-                                    value="false"
-                                    checked={userData?.isEmployed === false}
-                                    onChange={(e) => setUserData({ ...userData, isEmployed: e.target.value === "true" })}
-                                    required
-                                />
-                                <label htmlFor="unemployed">Unemployed</label>
-                            </div>
-
+                            {employedError && (
+                                <p className="text-red-500 text-xs">Please select a status.</p>
+                            )}
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Company Name: </label>
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    placeholder='Type the company name'
+                                    name="companyName"
+                                    value={userData?.companyName}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    className="mb-2"
+                                    disabled={!userData.isEmployed}
 
-                            <input
-                                type="text"
-                                placeholder='Type the company name'
-                                name="companyName"
-                                value={userData?.companyName}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
+                                />
+                            </div>
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Company Address: </label>
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    placeholder='Type the company address'
+                                    name="companyAddress"
+                                    value={userData?.companyAddress}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    className="mb-2"
+                                    disabled={!userData.isEmployed}
 
-                            <input
-                                type="text"
-                                placeholder='Type the company address'
-                                name="companyAddress"
-                                value={userData?.companyAddress}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
+                                />
+                            </div>
 
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Occupation: </label>
+                            <div className="flex-1">
+                                <TextField
+                                    type="text"
+                                    placeholder='Type your position in the company'
+                                    name="occupation"
+                                    value={userData?.occupation}
+                                    onChange={handleInputChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    className="mb-2"
+                                    disabled={!userData.isEmployed}
 
-                            <input
-                                type="text"
-                                placeholder='Type your position in the company'
-                                name="occupation"
-                                value={userData?.occupation}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
-                        </div>
-
-                        {/* <div className="flex items-center">
-                            <label className="text-[12px] w-[100px]">Years of Experience: </label>
-
-                            <input
-                                type="number"
-                                placeholder='Input your years of experience'
-                                name="years"
-                                value={userData?.years}
-                                onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                            />
-
-                        </div> */}
-                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-                        <p className="font-bold ">Skills</p>
-
-                        <div className="flex items-center">
-                            <label className="text-[12px] w-[100px]">Add Skills: </label>
-
-                            <div className="flex flex-col my-2">
-                                {userData.skills.map((skillObj, index) => (
-                                    <div key={index} className="flex items-center my-2">
-                                        <input
-                                            type="text"
-                                            placeholder="Enter a skill"
-                                            value={skillObj.skill}
-                                            onChange={(e) => handleSkillChange(e, index)}
-                                            className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                        />
-                                        {index > 0 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeSkill(index)}
-                                                className="text-red-600 ml-2"
-                                            >
-                                                Remove
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                                <button
-                                    type="button"
-                                    onClick={addSkill}
-                                    className="text-blue-600 mt-2"
-                                >
-                                    Add Skill
-                                </button>
+                                />
                             </div>
 
                         </div>
 
-                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-                        <div className="flex items-center">
-                            <>
-                                <label className="flex mr-2">{userData?.resume ? "Change Resume File" : "Add Resume"}</label>
-                                <input
-                                    type="file"
-                                    accept=".pdf"
-                                    onChange={(e) => setUserData({ ...userData, resume: e.target.files[0] })}
-                                />
-                            </>
-                        </div>
-
                         <div className="flex items-center px-6 mt-6">
                             <div className='flex gap-10 flex-1 justify-end'>
-
                                 <>
                                     <Button
                                         type="button"
                                         variant="contained"
+                                        size="medium"
                                         style={{
-                                            display: "block",
-                                            padding: "10px",
                                             backgroundColor: "#3da58a",
-                                            color: "#FFFFFF",
+                                            color: "#dbf5ee",
                                         }}
                                         onClick={handleSubmit}
+                                        startIcon={<Save />}
                                     >
                                         Save Changes
                                     </Button>
                                     <Button
                                         type="button"
                                         variant="contained"
-                                        style={{
-                                            display: "block",
-                                            padding: "10px",
-                                            backgroundColor: "#666666",
-                                            color: "#FFFFFF",
-                                        }}
+                                        size="medium"
                                         onClick={() => navigate(-1)}
+                                        startIcon={<FirstPage />}
                                     >
                                         Back
                                     </Button>

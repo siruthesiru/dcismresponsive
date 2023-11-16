@@ -113,11 +113,6 @@ export default function ViewJobAlumni() {
                                 Posted By: <span className="font-bold">{jobData.company.firstName} {jobData.company.lastName}</span> on {formatDate(jobData.posted_Date)}
                             </p>
 
-
-                            <p className="text-xs md:text-sm text-slate-500">
-                                Job Description: <span className="font-bold"><div className="text-[12px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: jobData.description }} /> </span>
-                            </p>
-
                             <p className="text-xs md:text-sm text-slate-500">
                                 Job Location: <span className="font-bold">{jobData.location} </span>
                             </p>
@@ -132,8 +127,15 @@ export default function ViewJobAlumni() {
                                     {jobData?.targetSkills?.map((skill) => skill.skill).join(', ')}
                                 </span>
                             </p>
-                            <p className="text-xs md:text-sm text-slate-500">
+                            <p className="text-xs md:text-sm text-slate-500 mb-4">
                                 Application End: <span className="font-bold"> {formatDate(jobData.expiration_Date)} </span>
+                            </p>
+
+                            <p className="text-xs md:text-sm text-slate-500">
+                                Job Description:
+                                <span className='richTextContainer'
+                                    dangerouslySetInnerHTML={{ __html: jobData.description }}
+                                />
                             </p>
 
                             {jobData.company.companyName && jobData.company.companyAddress && jobData.company.mobileNumber && jobData.company.email && (

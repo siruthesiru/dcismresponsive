@@ -9,6 +9,7 @@ import { editAnnouncementError } from '../../app/announcementsSlice';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Add, Save } from '@mui/icons-material';
 
 const audiences = ["All", "Company", "Alumni"];
 
@@ -138,7 +139,36 @@ const AnnouncementForm = () => {
 
 
                         <Grid item xs={12} sm={12}>
-                            <Button
+                            {id ? (
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: "#3da58a",
+                                        color: "#dbf5ee",
+                                        marginTop: "3rem",
+                                    }}
+                                    startIcon={<Save />}
+                                >
+                                    Save Changes
+                                </Button>
+                            ) : (
+                                <Button
+                                    type="submite"
+                                    variant="contained"
+                                    size="medium"
+                                    style={{
+                                        backgroundColor: "#3da58a",
+                                        color: "#dbf5ee",
+                                        marginTop: "3rem",
+                                    }}
+                                    startIcon={<Add />}
+                                >
+                                    Submit Announcement
+                                </Button>
+                            )}
+                            {/* <Button
                                 type="submit"
                                 variant="contained"
                                 style={{
@@ -151,7 +181,7 @@ const AnnouncementForm = () => {
                                 }}
                             >
                                 {id ? "Update" : "Submit"}
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </form>
                 </Paper>

@@ -28,13 +28,11 @@ const EventForm = ({ onSubmit, initialEvent }) => {
     });
 
     const dispatch = useDispatch();
-    const [submitting, setSubmitting] = useState(false);
 
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            setSubmitting(true);
             if (initialEvent) {
                 const data = await EditEvent(dispatch, newEvent);
                 if (data) {
@@ -50,8 +48,6 @@ const EventForm = ({ onSubmit, initialEvent }) => {
             }
         } catch (error) {
             console.error('Error:', error);
-        } finally {
-            setSubmitting(false);
         }
     };
 
@@ -123,7 +119,6 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                     <label>Description: </label>
                     <RichTextEditor value={newEvent.description} onChange={(value) => {
                         setNewEvent({ ...newEvent, description: value });
-                        // setIsDescriptionFilled(!!value);
                     }} />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -140,7 +135,7 @@ const EventForm = ({ onSubmit, initialEvent }) => {
                         }}
                         onClick={handleFormSubmit}
                     >
-                        {submitting ? 'Update Event' : 'Add Event'}
+                        {initialEvent ? 'Update Event' : 'Add Event'}
                     </Button>
                 </Grid>
             </Grid>

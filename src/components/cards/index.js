@@ -66,12 +66,9 @@ const JobCard = ({ job }) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    sx={{
+                    style={{
                         my: "1rem",
-                        backgroundColor: "#4cceac",
-                        "&:hover": {
-                            backgroundColor: "#4cceac",
-                        },
+                        backgroundColor: "#3da58a",
                     }}
                     size="small"
                     onClick={() => setIsExpanded(!isExpanded)}
