@@ -90,7 +90,7 @@ const EditCompanyProfile = ({ profileData }) => {
         }
 
         setFormValid(true);
-        console.log(userData);
+        
         const isEditSucceed = await EditProfile(dispatch, userData);
 
         if (isEditSucceed) {

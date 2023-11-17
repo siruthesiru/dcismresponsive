@@ -26,6 +26,8 @@ const EditJobPostForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [postDataLoaded, setPostDataLoaded] = useState(false);
+    const [skillsInput, setSkillsInput] = useState('');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,6 +48,7 @@ const EditJobPostForm = () => {
                             slots: jobData.slots
 
                         });
+                        setSkillsInput(prevSkillsInput => jobData.targetSkills.map(skill => skill.skill).join(','));
                         setPostDataLoaded(true);
                     }
                 }
@@ -62,26 +65,30 @@ const EditJobPostForm = () => {
         }
     }, [id, dispatch]);
 
+    const handleCheckboxChange = (e) => {
+        const value = e.target.checked;
+        setFormData({ ...formData, requireResume: value });
+    };
+
+    const handleSkillsChange = (e) => {
+        setSkillsInput(e.target.value);
+    };
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
             if (id) {
-                const formattedTargetSkills = formData.targetSkills.map((skillObj) => ({
-                    skill: skillObj.skill,
-                }));
-                const updateSuccess = await UpateJobPost(dispatch, {
-                    id: formData.id,
-                    position: formData.position,
-                    description: formData.description,
-                    location: formData.location,
-                    salary: formData.salary,
-                    expiration_Date: formData.expiration_Date,
-                    slots: formData.slots,
-                    yearsOfExp: formData.yearsOfExp,
-                    targetSkills: formattedTargetSkills,
-                    status: formData.status,
-                    requireResume: formData.requireResume
-                });
+                const skillsArray = skillsInput.split(/[,\n]/);
+                const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+                const filteredSkills = updatedSkills.filter((skill) => skill.skill !== '');
+
+                const updatedFormData = {
+                    ...formData,
+                    targetSkills: filteredSkills,
+                };
+
+                const updateSuccess = await UpateJobPost(dispatch, updatedFormData);
                 if (updateSuccess) {
                     await GetAllJobs(dispatch);
                     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -94,17 +101,6 @@ const EditJobPostForm = () => {
         }
     };
 
-    const handleCheckboxChange = (e) => {
-        const value = e.target.checked;
-        setFormData({ ...formData, requireResume: value });
-    };
-
-    const handleSkillsChange = (e) => {
-        const value = e.target.value;
-        const skillsArray = value.split(/[,\n]/);
-        const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
-        setFormData({ ...formData, targetSkills: updatedSkills });
-    };
 
 
     return (
@@ -200,9 +196,9 @@ const EditJobPostForm = () => {
                             </div>
 
                             <div className="flex items-center">
-                                <label className="text-[12px] w-[90px]">Target Skills: </label>
+                                <label className="text-[12px] w-[100px]">Target Skills: </label>
                                 <textarea
-                                    value={formData.targetSkills.map((skill) => skill.skill).join(', ')}
+                                    value={skillsInput}
                                     onChange={handleSkillsChange}
                                     placeholder="Enter skills separated by commas or new lines"
                                     className="w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"

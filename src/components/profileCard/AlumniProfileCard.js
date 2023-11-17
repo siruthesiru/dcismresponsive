@@ -1,17 +1,15 @@
 import { Button, CardMedia } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 
 import React from "react";
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Edit } from "@mui/icons-material";
 
 const AlumniProfileCard = ({ userData }) => {
-    // const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
     const navigate = useNavigate();
 
     const handleDownload = () => {

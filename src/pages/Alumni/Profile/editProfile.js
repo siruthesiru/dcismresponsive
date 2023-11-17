@@ -5,22 +5,27 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EditAlumniProfile from "../../../components/forms/EditAlumniProfile";
+import Search from "../../../components/search";
 
 const AlumniEditProfile = () => {
-    const profileData = useSelector((state) => state.alumniUserSlice.alumniProfile);
-
+    const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
     const [appliedJobsLoaded, setAppliedJobsLoaded] = useState(null);
     const [loadingAppliedJobs, setLoadingAppliedJobs] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+
                 const appliedJobsLoaded = await GetAllAppliedJobs(dispatch);
                 setAppliedJobsLoaded(appliedJobsLoaded);
+
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error('Error fetching data:', error);
             } finally {
                 setLoadingAppliedJobs(false);
             }
@@ -29,13 +34,21 @@ const AlumniEditProfile = () => {
         fetchData();
     }, [dispatch]);
 
+    const filteredAppliedJobs = appliedJobsLoaded
+        ? appliedJobsLoaded.filter((appliedJob) =>
+            appliedJob.job.position.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
+
     return (
         <div className="bg-slate-100 min-h-screen">
             <div className="container mx-auto flex flex-col sm:flex-row py-4 gap-2">
                 <div className="flex flex-col sm:w-[60%]">
-                    <EditAlumniProfile profileData={profileData} />
+                    <EditAlumniProfile profileData={userData} />
                 </div>
                 <div className="sm:w-[40%]">
+                    <Search onChange={(e) => setSearchTerm(e.target.value)} />
+
                     <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
                         <h1 className="font-bold text-[15px] uppercase">
                             List of Applied Jobs
@@ -43,9 +56,9 @@ const AlumniEditProfile = () => {
                         <p className="text-slate-500 text-[12px]">All your placements</p>
                         {loadingAppliedJobs ? (
                             <p>Loading applied jobs...</p>
-                        ) : appliedJobsLoaded && appliedJobsLoaded.length ? (
-                            <div className="flex flex-col text-[12px] space-y-2">
-                                {appliedJobsLoaded.map((appliedJob, index) => (
+                        ) : filteredAppliedJobs && filteredAppliedJobs.length ? (
+                            <div className="flex flex-col text-[12px] space-y-2" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                                {filteredAppliedJobs.map((appliedJob, index) => (
                                     <div
                                         key={index}
                                         className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg"
@@ -72,9 +85,6 @@ const AlumniEditProfile = () => {
                                                     }
                                                 >
                                                     View Details
-                                                </p>
-                                                <p className="flex justify-end text-[#aa3636]">
-                                                    Delete Application
                                                 </p>
                                             </div>
                                         </div>

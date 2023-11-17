@@ -51,6 +51,7 @@ import AlumniEditProfile from './pages/Alumni/Profile/editProfile.js';
 import ViewJobAlumni from './pages/Alumni/Job';
 import CompanyApplicants from './pages/Company/Applicants/index.js';
 import AddAdminForm from './components/forms/AddAdminForm.js';
+import ViewAppliedJobAlumni from './pages/Alumni/Job/viewAppliedJob.js';
 
 
 const App = () => {
@@ -117,7 +118,7 @@ const App = () => {
                   <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
                   <Route path="/alumni/job/:id" element={<ViewJobAlumni />} />
-
+                  <Route path="/alumni/apply/job/:id" element={<ViewAppliedJobAlumni />} />
                 </Route>
               </Route>
 

@@ -32,16 +32,6 @@ const CreateJobPost = () => {
         setFormData({ ...formData, requireResume: value });
     };
 
-
-    // const handleSkillsChange = (e) => {
-    //     const value = e.target.value;
-    //     const skillsArray = value ? value.match(/"([^"]+)"|[^,\s]+/g) : [];
-    //     if (formData.targetSkills) {
-    //         const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
-    //         setFormData({ ...formData, targetSkills: updatedSkills });
-    //     }
-    // };
-
     const handleSkillsChange = (e) => {
         setSkillsInput(e.target.value);
     };
@@ -159,7 +149,7 @@ const CreateJobPost = () => {
                         </div>
 
                         <div className="flex items-center my-2">
-                            <label className="text-[12px] w-[90px]">Target Skills: </label>
+                            <label className="text-[12px] w-[100px]">Target Skills: </label>
                             <textarea
                                 value={skillsInput}
                                 onChange={handleSkillsChange}

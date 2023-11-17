@@ -8,23 +8,26 @@ import { useNavigate } from 'react-router-dom';
 
 const JobList = () => {
     const jobs = useSelector((state) => state.alumniUserSlice.jobList);
+    const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null);
-    const [appliedJobsLoaded, setAppliedJobsLoaded] = useState(null);
-    const [loadingAppliedJobs, setLoadingAppliedJobs] = useState(true);
+
+    const [filteredJobs, setFilteredJobs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const jobsPerPage = 4;
     const [searchTerm, setSearchTerm] = useState('');
+    const [loadingAppliedJobs, setLoadingAppliedJobs] = useState(true);
+    const [appliedJobsLoaded, setAppliedJobsLoaded] = useState(null);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userData = await GetAlumniProfile(dispatch);
-                setUserData(userData);
-
-                if (userData) {
-                    const appliedJobsLoaded = await GetAllAppliedJobs(dispatch);
-                    setAppliedJobsLoaded(appliedJobsLoaded);
-                }
+                await GetAlumniProfile(dispatch);
+                await GetAllJobs(dispatch);
+                const appliedJobsLoaded = await GetAllAppliedJobs(dispatch);
+                setAppliedJobsLoaded(appliedJobsLoaded);
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -33,13 +36,27 @@ const JobList = () => {
         };
 
         fetchData();
-        GetAllJobs(dispatch);
     }, [dispatch]);
 
+    useEffect(() => {
+        if (jobs.length > 0) {
+            const activeJobs = jobs.filter((job) => job.status && job.isActive);
+            const filteredResults = activeJobs.filter((job) =>
+                job.position.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredJobs(filteredResults);
+            const totalPagesCount = Math.ceil(filteredResults.length / jobsPerPage);
+            setTotalPages(totalPagesCount);
+        }
+    }, [jobs, searchTerm, jobsPerPage]); // Added jobs to the dependencies
 
-    const filteredActiveJobs = Object.values(jobs)
-        .filter((job) => job.status && job.isActive)
-        .filter((job) => job.position.toLowerCase().includes(searchTerm.toLowerCase()));
+    const indexOfLastJob = currentPage * jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+    const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
 
 
     return (
@@ -54,7 +71,7 @@ const JobList = () => {
 
                 <div className="sm:w-[50%] space-y-2">
                     <div className="space-y-2">
-                        {filteredActiveJobs.length === 0 ? (
+                        {filteredJobs.length === 0 ? (
                             <p className='mx-4 sm:mx-2'>No jobs available</p>
                         ) : (
                             <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
@@ -68,10 +85,28 @@ const JobList = () => {
                                         </p>
                                     </span>
                                 </div>
-                                {filteredActiveJobs.map((job, index) => (
+                                {currentJobs.map((job, index) => (
                                     <div key={index} className="flex flex-col text-[12px] space-y-2">
                                         <JobContent data={job} user={userData} />
                                     </div>
+                                ))}
+                            </div>
+                        )}
+                        {filteredJobs.length > 0 && (
+                            <div className="pagination flex items-center gap-3">
+                                <label>Page Number: </label>
+
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                                    <button
+                                        key={number}
+                                        onClick={() => paginate(number)}
+                                        className={`${currentPage === number
+                                            ? 'bg-[#221769] text-white'
+                                            : 'bg-gray-300 text-gray-700'
+                                            } font-semibold px-3 py-1 rounded-full mx-1`}
+                                    >
+                                        {number}
+                                    </button>
                                 ))}
                             </div>
                         )}
@@ -86,7 +121,7 @@ const JobList = () => {
                             <p>Loading applied jobs...</p>
                         ) : (
                             appliedJobsLoaded.length ? (
-                                <div className="flex flex-col text-[12px] space-y-2">
+                                <div className="flex flex-col text-[12px] space-y-2" style={{ maxHeight: '500px', overflowY: 'auto' }}>
                                     {appliedJobsLoaded.map((appliedJob, index) => (
                                         <div
                                             key={index}
@@ -99,7 +134,7 @@ const JobList = () => {
                                                 <Content title="Salary" desc={appliedJob.job.salary} />
                                                 <div className="flex flex-col">
                                                     <Content title="Slots" desc={appliedJob.job.slots} />
-                                                    <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={() => navigate(`/alumni/job/${appliedJob.job.id}`)}>View Details</p>
+                                                    <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={() => navigate(`/alumni/apply/job/${appliedJob.job.id}`)}>View Details</p>
                                                 </div>
                                             </div>
                                         </div>

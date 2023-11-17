@@ -1,5 +1,5 @@
 import { Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import placeholder from "../../assets/placeholder.png"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -22,6 +22,7 @@ const EditAlumniProfile = ({ profileData }) => {
 
 
     const [formValid, setFormValid] = useState(true);
+    const [skillsInput, setSkillsInput] = useState('');
     const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
@@ -36,7 +37,7 @@ const EditAlumniProfile = ({ profileData }) => {
         programCode: profileData?.courses[0]?.programCode || '',
         programDescription: profileData?.courses[0]?.programDescription || '',
         educationLevel: profileData?.courses[0]?.educationalLevel || '',
-        skills: profileData.skills,
+        skills: profileData.skills || [{ skill: '' }],
         resume: profileData.resume,
         picture: profileData.profileImage || '',
         syGraduated: profileData.syGraduated || '',
@@ -46,6 +47,11 @@ const EditAlumniProfile = ({ profileData }) => {
         companyAddress: profileData.isEmployed ? profileData.companyAddress || '' : '',
         occupation: profileData.isEmployed ? profileData.occupation || '' : '',
     });
+
+    useEffect(() => {
+        setSkillsInput(profileData.skills.map(skill => skill.skill).join(','));
+    }, [profileData.skills]);
+
 
     const handleImageInputChange = (e) => {
         const file = e.target.files[0];
@@ -107,13 +113,13 @@ const EditAlumniProfile = ({ profileData }) => {
                 companyAddress: isEmployed ? prevUserData.companyAddress : '',
                 occupation: isEmployed ? prevUserData.occupation : '',
             }));
-            // Clear the employed error when the status is updated
             setEmployedError(false);
         }
         if (finalValue !== '') {
             setFormValid(isFormValid);
         }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -132,9 +138,16 @@ const EditAlumniProfile = ({ profileData }) => {
         }
 
         setFormValid(true);
-        console.log(userData);
+        const skillsArray = skillsInput.split(/[,\n]/);
+        const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+        const filteredSkills = updatedSkills.filter((skill) => skill.skill !== '');
 
-        const isEditSucceed = await EditProfile(dispatch, userData);
+        const updatedFormData = {
+            ...userData,
+            skills: filteredSkills,
+        };
+        console.log(updatedFormData);
+        const isEditSucceed = await EditProfile(dispatch, updatedFormData);
 
         if (isEditSucceed) {
             const profileData = await GetAlumniProfile(dispatch);
@@ -148,9 +161,12 @@ const EditAlumniProfile = ({ profileData }) => {
         }
     };
 
-
-
     const navigate = useNavigate();
+
+    const handleSkillsChange = (e) => {
+        setSkillsInput(e.target.value);
+    };
+
 
     return (
         <form>
@@ -379,6 +395,7 @@ const EditAlumniProfile = ({ profileData }) => {
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Work Information</p>
 
+
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Employment Status: </label>
                             <FormControl component="fieldset">
@@ -449,7 +466,29 @@ const EditAlumniProfile = ({ profileData }) => {
 
                                 />
                             </div>
-
+                        </div>
+                        <div className="flex items-center">
+                            <label className="text-[12px] w-[100px]">Add Skills: </label>
+                            <div className="flex-1">
+                                <textarea
+                                    value={skillsInput}
+                                    onChange={handleSkillsChange}
+                                    placeholder="Enter skills separated by commas or new lines"
+                                    className="w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
+                        <div className="flex items-center">
+                            <>
+                                <label className="flex mr-2">{userData?.resume ? "Change Resume File" : "Add Resume"}</label>
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={(e) => setUserData({ ...userData, resume: e.target.files[0] })}
+                                />
+                            </>
                         </div>
 
                         <div className="flex items-center px-6 mt-6">
