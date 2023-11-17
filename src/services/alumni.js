@@ -104,10 +104,22 @@ export const GetJob = async (dispatch, id) => {
     }
 }
 
+export const GetAppliedJob = async (dispatch, id) => {
+    try {
+        const response = await axiosInstance.get(`/Jobs/Get-Job/${id}/View-JobFrom-Application`, id)
+        dispatch(getJob(response.data));
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}
+
 export const GetAllAppliedJobs = async (dispatch) => {
     try {
         const response = await axiosInstance.get('/Jobs/Get-All-Applied-Jobs');
         dispatch(getApplyJobs(response.data));
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error:', error);

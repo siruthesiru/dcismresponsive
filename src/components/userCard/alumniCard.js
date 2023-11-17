@@ -6,9 +6,6 @@ import placeholder from "../../assets/placeholder.png";
 const AlumniUser = ({ user }) => {
     const navigate = useNavigate();
 
-    console.log(user);
-    console.log(user?.courses?.programCode);
-
     return (
         <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
             <div className="flex flex-col mx-auto justify-center items-center text-center">
@@ -43,7 +40,7 @@ const AlumniUser = ({ user }) => {
                 </div>
                 <div className="flex justify-between">
                     <p>Batch</p>
-                    <p className="font-bold ">{user?.syGraduated}</p>
+                    <p className="font-bold ">{user && user.syGraduated ? user.syGraduated : 'Not indicated'}</p>
                 </div>
                 <div className="flex justify-between">
                     <p>Program</p>

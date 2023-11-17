@@ -21,10 +21,10 @@ const Companies = () => {
         return { ...company, id: company.id || index + 1 };
     });
 
-    const handleDownload = (file) => {
+    const handleDownload = (file, name) => {
         const linkSource = `data:application/pdf;base64,${file}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'moa.pdf';
+        const fileName = `moa-${name}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -43,7 +43,7 @@ const Companies = () => {
                         {params.row.moa ? (
                             <button
                                 className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
-                                onClick={() => handleDownload(params.row.moa)}
+                                onClick={() => handleDownload(params.row.moa, params.row.companyName)}
                             >
                                 Download File
                             </button>
@@ -56,7 +56,7 @@ const Companies = () => {
         },
         {
             field: "isVerified",
-            headerName: "isPartnered",
+            headerName: "Partnered Status",
             width: 150,
             type: "boolean",
             renderCell: (params) => {

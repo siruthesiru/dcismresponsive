@@ -9,28 +9,29 @@ import {
     TextField,
     IconButton,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
 import Header from "../../../components/header";
 import placeholder from "../../../assets/placeholder.png";
 import { EditAdminProfile, GetAdminProfile } from "../../../services/admin_alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Edit, Save } from "@mui/icons-material";
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const profileData = useSelector((state) => state.alumniSlice.adminProfile);
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+    const [formValid, setFormValid] = useState(true);
+
 
     const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
         firstName: profileData.firstName,
         lastName: profileData.lastName,
-        middleName: profileData.middleName,
+        middleName: profileData.middleName !== null ? profileData.middleName : '',
         position: profileData.position,
-        fileUpload: profileData.profileImage,
+        fileUpload: profileData && profileData.profileImage ? profileData.profileImage : null,
         email: profileData.email,
         role: profileData.role,
     });
@@ -41,7 +42,10 @@ const Profile = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            [name]: value === '' ? '' : value,
+        }));
     };
 
     const handleImageInputChange = (e) => {
@@ -62,13 +66,19 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(userData);
-        const isEditSucceed = await EditAdminProfile(dispatch, userData);
+        if (userData.middleName === '') {
+            setFormValid(false);
+            return;
+        } else {
+            setFormValid(true);
+            console.log(userData);
+            const isEditSucceed = await EditAdminProfile(dispatch, userData);
 
-        if (isEditSucceed) {
-            const profileData = await GetAdminProfile(dispatch);
-            setUserData(profileData);
-            setIsEditing(false);
+            if (isEditSucceed) {
+                const profileData = await GetAdminProfile(dispatch);
+                setUserData(profileData);
+                setIsEditing(false);
+            }
         }
     };
 
@@ -96,8 +106,8 @@ const Profile = () => {
 
                 <Card
                     sx={{
-                        width: "100",
-                        height: "100",
+                        width: "80%",
+                        height: "400px",
                         display: "flex",
                         alignItems: "center",
                     }}
@@ -156,7 +166,7 @@ const Profile = () => {
                                             },
                                         }}
                                     >
-                                        <EditIcon
+                                        <Edit
                                             color="primary"
                                             sx={{ fontSize: 30, cursor: "pointer" }}
                                         />
@@ -201,7 +211,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.firstName}
+                                        {userData?.firstName ? userData.firstName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -216,16 +226,19 @@ const Profile = () => {
                                 {isEditing ? (
                                     <TextField
                                         name="middleName"
-                                        value={userData?.middleName}
+                                        value={userData?.middleName || ''}
                                         onChange={handleInputChange}
                                         fullWidth
+                                        required
+                                        error={!formValid && userData.middleName === ''}
+                                        helperText={!formValid && userData.middleName === '' && 'Middle Name is required'}
                                     />
                                 ) : (
                                     <Typography
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.middleName}
+                                        {(userData?.middleName !== null && userData?.middleName !== undefined && userData?.middleName !== '') ? userData.middleName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -249,7 +262,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.lastName}
+                                        {userData?.lastName ? userData.lastName : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -273,7 +286,7 @@ const Profile = () => {
                                         variant="h3"
                                         sx={{ marginBottom: "0.5rem", overflowWrap: "break-word" }}
                                     >
-                                        {userData?.position}
+                                        {userData?.position ? userData.position : "Not indicated"}
                                     </Typography>
                                 )}
                             </Grid>
@@ -310,55 +323,43 @@ const Profile = () => {
                         </Grid>
                         <Grid item xs={6}>
                             {isEditing ? (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    startIcon={<SaveIcon />}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "#4cceac",
-                                        color: "#FFFFFF",
-                                        "& .MuiSvgIcon-root": {
-                                            marginRight: "0.5rem",
-                                        },
-                                        "&:hover": {
-                                            backgroundColor: "yellow",
-                                        },
-                                    }}
-                                    onClick={handleSubmit}
-                                >
-                                    Save Profile
-                                </Button>
+
+                                <div className="flex items-center mt-6">
+                                    <div className='flex gap-10 flex-1 justify-center'>
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            size="medium"
+                                            style={{
+                                                backgroundColor: "#3da58a",
+                                                color: "#dbf5ee",
+                                            }}
+                                            onClick={handleSubmit}
+                                            startIcon={<Save />}
+                                        >
+                                            Save Changes
+                                        </Button>
+                                    </div>
+                                </div>
                             ) : (
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    startIcon={<EditIcon />}
-                                    onClick={toggleEditing}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "yellow",
-                                        color: "black",
-                                        "& .MuiSvgIcon-root": {
-                                            marginRight: "0.5rem",
-                                        },
-                                        "&:hover": {
-                                            backgroundColor: "#4cceac",
-                                        },
-                                    }}
-                                >
-                                    Edit Profile
-                                </Button>
+
+                                <div className="flex items-center mt-6">
+                                    <div className='flex gap-10 flex-1 justify-center'>
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            size="medium"
+                                            style={{
+                                                backgroundColor: "#FFC107",
+                                                color: "#FFFFFF",
+                                            }}
+                                            startIcon={<Edit />}
+                                            onClick={toggleEditing}
+                                        >
+                                            Edit Profile
+                                        </Button>
+                                    </div>
+                                </div>
                             )}
                         </Grid>
                     </CardContent>

@@ -8,6 +8,7 @@ import { Button, CircularProgress } from '@mui/material';
 import { ViewCandidatesColumns } from '../../../components/constant/adminColumnHeaders';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SwipeRight } from '@mui/icons-material';
 
 const CompanyApplicants = () => {
     const { id } = useParams();
@@ -38,15 +39,47 @@ const CompanyApplicants = () => {
             const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
             if (isSuccess) {
                 toast.success('Invitation sent successfully!');
+                ViewAllApplicants(dispatch, id);
             }
         } catch (error) {
             console.error('Error sending invite:', error);
         }
     };
 
+    const handleDownload = (file, firstName, lastName) => {
+        const linkSource = `data:application/pdf;base64,${file}`;
+        const downloadLink = document.createElement('a');
+        const fileName = `moa-${firstName} ${lastName}.pdf`;
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    };
+
 
     const columns = [
         ...ViewCandidatesColumns,
+        {
+            field: 'resume',
+            headerName: 'Uploaded Resume',
+            flex: 1,
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        {params.row.alumni.resume ? (
+                            <button
+                                className="border-[1px] rounded-3xl p-2 mt-2 inline-block mx-1 bg-slate-100"
+                                onClick={() => handleDownload(params.row.alumni.resume, params.row.alumni.firstName, params.row.alumni.lastName)}
+                            >
+                                Download Resume
+                            </button>
+                        ) : (
+                            <span style={{ color: "gray" }}>No Resume</span>
+                        )}
+                    </div>
+                );
+            },
+        },
         {
             field: "action",
             headerName: "Actions",
@@ -62,7 +95,8 @@ const CompanyApplicants = () => {
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={params.row.job.isActive}
+                        disabled={params.row.job.status}
+                        startIcon={<SwipeRight />}
                     >
                         Accept
                     </Button>

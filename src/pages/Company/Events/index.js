@@ -5,25 +5,32 @@ import CompanyUser from '../../../components/userCard/companyCard';
 import EventsCard from '../../../components/cards/eventCard';
 
 const CompanyEvents = () => {
-    const events = useSelector((state) => state.companyUserSlice.events);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const eventsPerPage = 5;
 
     const dispatch = useDispatch();
-    const [userData, setUserData] = useState(null);
+
+    const events = useSelector((state) => state.companyUserSlice.events);
+    const userData = useSelector((state) => state.companyUserSlice.companyProfile);
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const data = await GetCompanyProfile(dispatch);
-                setUserData(data);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        };
-
-        fetchUserData();
+        GetCompanyProfile(dispatch);
         GetAllEvents(dispatch);
     }, [dispatch]);
 
+    useEffect(() => {
+        if (events.length > 0) {
+            const totalPagesCount = Math.ceil(events.length / eventsPerPage);
+            setTotalPages(totalPagesCount);
+        }
+    }, [events]);
+
+    const indexOfLastEvent = currentPage * eventsPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+    const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className='bg-slate-100 min-h-screen'>
@@ -34,12 +41,30 @@ const CompanyEvents = () => {
                     )}
                 </div>
                 <div className='sm:w-[75%]'>
-                    {events.length === 0 ? (
+                    {currentEvents.length === 0 ? (
                         <p className='mx-4 sm:mx-2'>No scheduled events available</p>
                     ) : (
-                        events.map((event, index) => (
+                        currentEvents.map((event, index) => (
                             <EventsCard key={index} events={event} />
                         ))
+                    )}
+                    {events.length > 0 && (
+                        <div className="pagination flex items-center gap-3">
+                            <label>Page Number: </label>
+
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                                <button
+                                    key={number}
+                                    onClick={() => paginate(number)}
+                                    className={`${currentPage === number
+                                        ? 'bg-[#221769] text-white'
+                                        : 'bg-gray-300 text-gray-700'
+                                        } font-semibold px-3 py-1 rounded-full mx-1`}
+                                >
+                                    {number}
+                                </button>
+                            ))}
+                        </div>
                     )}
                 </div>
             </div>
@@ -47,4 +72,4 @@ const CompanyEvents = () => {
     );
 };
 
-export default CompanyEvents; 
+export default CompanyEvents;

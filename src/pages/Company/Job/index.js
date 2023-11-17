@@ -10,6 +10,7 @@ import ConfirmationDialog from '../../../components/popup/confirmationDialog';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Block, Delete, Diversity3, Edit, FirstPage, Recommend } from '@mui/icons-material';
 
 export default function ViewJobCompany() {
     const { id } = useParams();
@@ -71,8 +72,9 @@ export default function ViewJobCompany() {
         try {
             const credentials = {
                 id: id,
-                isVerified: false
+                isActive: false
             };
+            console.log(credentials);
             await CloseJobPost(dispatch, credentials);
             await GetAllJobs(dispatch);
             toast.success("Close the Job Application successfully");
@@ -105,11 +107,6 @@ export default function ViewJobCompany() {
                                 Posted By: <span className="font-bold">{jobData.company.firstName} {jobData.company.lastName}</span> on {formatDate(jobData.posted_Date)}
                             </p>
 
-
-                            <p className="text-xs md:text-sm text-slate-500">
-                                Job Description: <span className="font-bold"><div className="text-[12px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: jobData.description }} /> </span>
-                            </p>
-
                             <p className="text-xs md:text-sm text-slate-500">
                                 Job Location: <span className="font-bold">{jobData.location} </span>
                             </p>
@@ -124,8 +121,15 @@ export default function ViewJobCompany() {
                                     {jobData?.targetSkills?.map((skill) => skill.skill).join(', ')}
                                 </span>
                             </p>
-                            <p className="text-xs md:text-sm text-slate-500">
+                            <p className="text-xs md:text-sm text-slate-500 mb-4">
                                 Application End: <span className="font-bold"> {formatDate(jobData.expiration_Date)} </span>
+                            </p>
+
+                            <p className="text-xs md:text-sm text-slate-500">
+                                Job Description:
+                                <span className='richTextContainer'
+                                    dangerouslySetInnerHTML={{ __html: jobData.description }}
+                                />
                             </p>
 
                             {jobData.company.companyName && jobData.company.companyAddress && jobData.company.mobileNumber && jobData.company.email && (
@@ -146,14 +150,14 @@ export default function ViewJobCompany() {
                         {!jobData.status && (
                             <>
                                 <Button
-                                    type="submit"
+                                    type="button"
                                     variant="contained"
-                                    size='medium'
+                                    size="medium"
                                     style={{
-                                        backgroundColor: "#ffeb3b",
-                                        color: "#dbf5ee",
-
+                                        backgroundColor: "#FFC107",
+                                        color: "#FFFFFF",
                                     }}
+                                    startIcon={<Edit />}
                                     onClick={() => navigate(`/company/edit-job/${jobData.id}`)}
                                 >
                                     Edit Job Post
@@ -164,9 +168,10 @@ export default function ViewJobCompany() {
                                     size='medium'
                                     style={{
                                         backgroundColor: "#db4f4a",
-                                        color: "#dbf5ee",
+                                        color: "#FFFFFF",
 
                                     }}
+                                    startIcon={<Delete />}
                                     onClick={() => {
                                         setSelectedItemId(jobData.id);
                                         setOpenDeletePopup(true);
@@ -188,6 +193,7 @@ export default function ViewJobCompany() {
                                         color: "#dbf5ee",
 
                                     }}
+                                    startIcon={<Recommend />}
                                     onClick={() => navigate(`/company/job/candidates/${id}`)}
                                 >
                                     View Candidates
@@ -201,6 +207,7 @@ export default function ViewJobCompany() {
                                         color: "#dbf5ee",
 
                                     }}
+                                    startIcon={<Diversity3 />}
                                     onClick={() => navigate(`/company/job/applicants/${id}`)}
                                 >
                                     View Applicants
@@ -210,10 +217,11 @@ export default function ViewJobCompany() {
                                         type="button"
                                         variant="contained"
                                         style={{
-                                            backgroundColor: "#db4f4a",
+                                            backgroundColor: "#666666",
                                             color: "#dbf5ee",
 
                                         }}
+                                        startIcon={<Block />}
                                         onClick={() => handlCloseJobPost(jobData.id)}
                                     >
                                         Close Job Post
@@ -227,22 +235,28 @@ export default function ViewJobCompany() {
                                 <p className="text-xs md:text-sm text-slate-500 mt-3">
                                     Apply for partnership to view candidates of this job and the applicants.
                                 </p>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    style={{
-                                        backgroundColor: "#db4f4a",
-                                        color: "#dbf5ee",
+                                {jobData.isActive && (
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        style={{
+                                            backgroundColor: "#666666",
+                                            color: "#dbf5ee",
 
-                                    }}
-                                    onClick={() => handlCloseJobPost(jobData.id)}
-                                >
-                                    Close Job Post
-                                </Button>
+                                        }}
+                                        startIcon={<Block />}
+                                        onClick={() => handlCloseJobPost(jobData.id)}
+                                    >
+                                        Close Job Post
+                                    </Button>
+                                )}
+
                                 <Button
                                     type="button"
                                     variant="contained"
                                     className="w-full md:w-auto bg-gray-600 text-white px-4 py-2"
+                                    startIcon={<FirstPage />}
+
                                     onClick={() => navigate(-1)}
                                 >
                                     Back

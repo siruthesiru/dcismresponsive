@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate } from 'react-router-dom';
 import { GetAllJobs, PostJob } from '../../services/company';
+import { AddCircle, FirstPage } from '@mui/icons-material';
 
 const CreateJobPost = () => {
     const [formData, setFormData] = useState({
@@ -17,47 +18,36 @@ const CreateJobPost = () => {
         salary: '',
         yearsOfExp: '',
         slots: '',
-        requiredResume: 'true',
-        status: false,
+        requireResume: false,
         expiration_Date: '',
-        targetSkills: [
-            {
-                skill: '',
-            },
-        ]
+        targetSkills: [{ skill: '' }]
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [skillsInput, setSkillsInput] = useState('');
 
 
-    const handleSkillChange = (e, index) => {
-        const { value } = e.target;
-        const updatedSkills = [...formData.targetSkills];
-        updatedSkills[index].skill = value;
-        setFormData({ ...formData, targetSkills: updatedSkills });
+    const handleCheckboxChange = (e) => {
+        const value = e.target.checked;
+        setFormData({ ...formData, requireResume: value });
     };
 
-    const removeSkill = (index) => {
-        const updatedSkills = [...formData.targetSkills];
-        updatedSkills.splice(index, 1);
-        setFormData({ ...formData, targetSkills: updatedSkills });
-    };
-
-    const addSkill = () => {
-        setFormData({
-            ...formData,
-            targetSkills: [
-                ...formData.targetSkills,
-                {
-                    skill: '',
-                },
-            ],
-        });
+    const handleSkillsChange = (e) => {
+        setSkillsInput(e.target.value);
     };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const addSuccess = await PostJob(dispatch, formData);
+        const skillsArray = skillsInput.split(/[,\n]/);
+        const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+        const filteredSkills = updatedSkills.filter((skill) => skill.skill !== '');
+
+        const updatedFormData = {
+            ...formData,
+            targetSkills: filteredSkills,
+        };
+
+        const addSuccess = await PostJob(dispatch, updatedFormData);
         if (addSuccess) {
             await GetAllJobs(dispatch);
             await new Promise(resolve => setTimeout(resolve, 3000));
@@ -149,48 +139,24 @@ const CreateJobPost = () => {
                         </div>
                         <div className="flex items-center my-2">
                             <label className="text-[12px] w-[90px]">Required Resume: </label>
-                            <select
-                                value={formData.requiredResume}
-                                onChange={(e) => setFormData({ ...formData, requiredResume: e.target.value === 'true' })}
-                                className="w-[100px] h-[30px] bg-white border border-slate-200  rounded-md"
-                            >
-                                <option value="true">True</option>
-                                <option value="false">False</option>
-                            </select>
+                            <input
+                                type="checkbox"
+                                checked={formData.requireResume}
+                                onChange={handleCheckboxChange}
+                                className="h-[30px] bg-white border border-slate-200 rounded-md"
+                            />
+                            <label className="text-[12px] ml-2">{formData.requireResume ? 'Yes' : 'No'}</label>
                         </div>
 
-                        <div className="flex items-center">
-                            <label className="text-[12px] w-[90px]">Target Skills: </label>
-                            <div className="flex flex-col my-2">
-                                {formData.targetSkills.map((skillObj, index) => (
-                                    <div key={index} className="flex items-center my-2">
-                                        <input
-                                            type="text"
-                                            placeholder="Enter a skill"
-                                            value={skillObj.skill}
-                                            onChange={(e) => handleSkillChange(e, index)}
-                                            className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                            required
-                                        />
-                                        {index > 0 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeSkill(index)}
-                                                className="text-red-600 ml-2"
-                                            >
-                                                Remove
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                                <button
-                                    type="button"
-                                    onClick={addSkill}
-                                    className="text-blue-600 mt-2"
-                                >
-                                    Add Skill
-                                </button>
-                            </div>
+                        <div className="flex items-center my-2">
+                            <label className="text-[12px] w-[100px]">Target Skills: </label>
+                            <textarea
+                                value={skillsInput}
+                                onChange={handleSkillsChange}
+                                placeholder="Enter skills separated by commas or new lines"
+                                className="ml-3 w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                required
+                            />
                         </div>
 
 
@@ -201,31 +167,24 @@ const CreateJobPost = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center px-6 mt-20">
+                        <div className="flex items-center mt-20">
                             <div className='flex gap-10 flex-1 justify-end'>
                                 <Button
                                     type="submit"
                                     variant="contained"
                                     style={{
-                                        display: "block",
-                                        padding: "10px",
-                                        backgroundColor: "#221769",
-                                        color: "#FFFFFF",
+                                        backgroundColor: "#3da58a",
                                     }}
+                                    startIcon={<AddCircle />}
                                 >
                                     Submit Post
                                 </Button>
                                 <Button
                                     type="button"
                                     variant="contained"
-                                    style={{
-                                        display: "block",
-                                        padding: "10px",
-                                        backgroundColor: "#666666",
-                                        color: "#FFFFFF",
-                                    }}
+                                    size="medium"
                                     onClick={() => navigate(-1)}
-
+                                    startIcon={<FirstPage />}
                                 >
                                     Discard Changes
                                 </Button>
@@ -233,8 +192,8 @@ const CreateJobPost = () => {
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 

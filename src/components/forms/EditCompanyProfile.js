@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import { EditProfile, GetCompanyProfile } from "../../services/company";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { pdfjs } from 'react-pdf';
+import { FirstPage, Save } from "@mui/icons-material";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -17,28 +18,47 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const EditCompanyProfile = ({ profileData }) => {
     const [currentlySelectedImage, setCurrentlySelectedImage] = useState(null);
+    const [formValid, setFormValid] = useState(true);
     const dispatch = useDispatch();
 
 
     const [userData, setUserData] = useState({
-        firstName: profileData.firstName,
-        lastName: profileData.lastName,
-        middleName: profileData.middleName,
-        companyAddress: profileData.companyAddress,
-        companyName: profileData.companyName,
-        mobileNumber: profileData.mobileNumber,
-        websiteLink: profileData.websiteLink,
-        picture: profileData.profileImage,
-        email: profileData.email,
-        isVerified: profileData.isVerified,
-        moa: profileData.moa
+        firstName: profileData.firstName || '',
+        lastName: profileData.lastName || '',
+        middleName: profileData.middleName || '',
+        companyAddress: profileData.companyAddress || '',
+        companyName: profileData.companyName || '',
+        mobileNumber: profileData.mobileNumber || '',
+        websiteLink: profileData.websiteLink || '',
+        picture: profileData.profileImage || '',
+        email: profileData.email || '',
+        isVerified: profileData.isVerified || false,
+        moa: profileData.moa || ''
     });
 
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
+        const updatedValue = name === 'websiteLink' && value === '' ? '' : value;
+
+        const finalValue = (updatedValue === null || updatedValue.trim() === '') ? '' : updatedValue;
+
+        const isMobileNumberEmpty = name === 'mobileNumber' && finalValue.trim() === '';
+        const isCompanyAddressEmpty = name === 'companyAddress' && finalValue.trim() === '';
+        const isWebsiteLinkEmpty = name === 'websiteLink' && finalValue.trim() === '';
+        const isMiddleNameEmpty = name === 'middleName' && finalValue === null;
+
+        const isFormValid =
+            !isMiddleNameEmpty &&
+            !isMobileNumberEmpty &&
+            !isCompanyAddressEmpty &&
+            !isWebsiteLinkEmpty;
+
+        setUserData({ ...userData, [name]: finalValue });
+        setFormValid(isFormValid);
     };
+
+
 
     const handleImageInputChange = (e) => {
         const file = e.target.files[0];
@@ -58,7 +78,19 @@ const EditCompanyProfile = ({ profileData }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(userData);
+
+        const isMiddleNameEmpty = userData.middleName?.trim() === '';
+        const isMobileNumberEmpty = userData.mobileNumber?.trim() === '';
+        const isCompanyAddressEmpty = userData.companyAddress?.trim() === '';
+        const isWebsiteLinkEmpty = userData.websiteLink?.trim() === '';
+
+        if (isMiddleNameEmpty || isMobileNumberEmpty || isCompanyAddressEmpty || isWebsiteLinkEmpty) {
+            setFormValid(false);
+            return;
+        }
+
+        setFormValid(true);
+        
         const isEditSucceed = await EditProfile(dispatch, userData);
 
         if (isEditSucceed) {
@@ -73,12 +105,14 @@ const EditCompanyProfile = ({ profileData }) => {
     };
 
 
+
+
     const navigate = useNavigate();
 
     const handleDownload = () => {
         const linkSource = `data:application/pdf;base64,${userData.moa}`;
         const downloadLink = document.createElement('a');
-        const fileName = 'moa.pdf';
+        const fileName = `moa-${userData.companyName}.pdf`;
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -114,107 +148,124 @@ const EditCompanyProfile = ({ profileData }) => {
 
                 <div className="flex flex-col text-[12px] space-y-2">
                     <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
-                        <p className="font-bold ">Personal Information</p>
+                        <p className="font-bold mb-2 ">Personal Information</p>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">First Name: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 name="firstName"
                                 placeholder='Input your First Name'
                                 value={userData?.firstName}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Last Name: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 name="lastName"
-                                placeholder='Input your Middle Name'
+                                placeholder='Input your Last Name'
                                 value={userData?.lastName}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Middle Name: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 name="middleName"
-                                placeholder='Input your Middle Name'
-                                value={userData?.middleName}
+                                placeholder="Input your Middle Name"
+                                value={userData?.middleName || ''}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                error={!formValid && userData.middleName === ''}
+                                helperText={!formValid && userData.middleName === '' && 'Middle Name is required'}
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
-                            <p className="font-bold "> {userData?.email}</p>
+                            <TextField
+                                type="text"
+                                name="email"
+                                placeholder="Input your Email"
+                                value={userData?.email || ''}
+                                InputProps={{ readOnly: true }}
+                                variant="outlined"
+                                fullWidth
+                                className="mb-2"
+                            />
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Company Information</p>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Contact Number: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 name="mobileNumber"
                                 placeholder='Input your contact Number'
-                                value={userData?.mobileNumber}
+                                value={userData?.mobileNumber || ''}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                error={!formValid && userData.mobileNumber === ''}
+                                helperText={!formValid && userData.mobileNumber === '' && 'Contact Number is required'}
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Company Name: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 placeholder='Type the company name'
                                 name="companyName"
                                 value={userData?.companyName}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Company Address: </label>
-
-                            <input
+                            <TextField
                                 type="text"
                                 placeholder='Type the company address'
                                 name="companyAddress"
-                                value={userData?.companyAddress}
+                                value={userData?.companyAddress || ''}
                                 onChange={handleInputChange}
-                                variant='outlined'
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                variant="outlined"
+                                fullWidth
+                                error={!formValid && userData.companyAddress === ''}
+                                helperText={!formValid && userData.companyAddress === '' && 'Company Address is required'}
+                                className="mb-2"
                             />
                         </div>
                         <div className="flex items-center">
                             <label className="text-[12px] w-[100px]">Website Link: </label>
-
-                            <input
+                            <TextField
                                 type="text"
-                                placeholder="Paste the link"
+                                placeholder="Paste the link or Type N/A if dont have website"
                                 name="websiteLink"
-                                value={userData?.websiteLink}
+                                value={userData?.websiteLink || ''}
                                 onChange={handleInputChange}
                                 variant="outlined"
-                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                fullWidth
+                                error={!formValid && userData.websiteLink === ''}
+                                helperText={!formValid && userData.websiteLink === '' && 'Website link is required'}
+                                className="mb-2"
                             />
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center mt-3">
                             {!userData.isVerified && (
                                 <>
                                     <label className="flex gap-2">{userData?.moa ? "Change MOA File" : "Apply Verification Upload MOA"}</label>
@@ -235,33 +286,29 @@ const EditCompanyProfile = ({ profileData }) => {
                             )}
                         </div>
 
-                        <div className="flex items-center px-6 mt-6">
+                        <div className="flex items-center mt-6">
                             <div className='flex gap-10 flex-1 justify-end'>
 
                                 <>
                                     <Button
                                         type="button"
                                         variant="contained"
+                                        size="medium"
                                         style={{
-                                            display: "block",
-                                            padding: "10px",
                                             backgroundColor: "#3da58a",
-                                            color: "#FFFFFF",
+                                            color: "#dbf5ee",
                                         }}
                                         onClick={handleSubmit}
+                                        startIcon={<Save />}
                                     >
                                         Save Changes
                                     </Button>
                                     <Button
                                         type="button"
                                         variant="contained"
-                                        style={{
-                                            display: "block",
-                                            padding: "10px",
-                                            backgroundColor: "#666666",
-                                            color: "#FFFFFF",
-                                        }}
+                                        size="medium"
                                         onClick={() => navigate(-1)}
+                                        startIcon={<FirstPage />}
                                     >
                                         Back
                                     </Button>

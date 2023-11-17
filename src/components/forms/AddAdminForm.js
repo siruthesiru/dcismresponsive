@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AddAdmin } from '../../services/authentication';
+import { Add } from '@mui/icons-material';
 
 const AddAdminForm = () => {
     const [formData, setFormData] = useState({
@@ -88,17 +89,16 @@ const AddAdminForm = () => {
                         required
                         sx={{ marginBottom: '1rem' }}
                     />
+
                     <Button
-                        type="submit"
                         variant="contained"
-                        style={{
-                            display: "block",
-                            padding: "10px",
-                            backgroundColor: "#221769",
-                            color: "#FFFFFF",
-                        }}
+                        size="medium"
+                        style={{ backgroundColor: "#221769" }}
+
+                        startIcon={<Add />}
+
                     >
-                        Submit
+                        Add Admin
                     </Button>
                 </form>
             </Paper>

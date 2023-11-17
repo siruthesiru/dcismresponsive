@@ -46,6 +46,11 @@ const Navbar = ({ user }) => {
 
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/')
+    }
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -67,7 +72,7 @@ const Navbar = ({ user }) => {
                 <Button onClick={() => navigate(`/${role}/profile`)}>My Profile</Button>
             </MenuItem>
             <MenuItem>
-                <Button onClick={() => { dispatch(logout()) }} href="/" > Log out</Button>
+                <Button onClick={handleLogout}> Log out</Button>
             </MenuItem>
         </Menu>
     );

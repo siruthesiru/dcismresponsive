@@ -12,6 +12,7 @@ import {
   clearForgotPasswordRequestStatus,
   clearAccount
 } from "../../app/authenticationSlice";
+import { FirstPage } from "@mui/icons-material";
 
 const AccountVerify = () => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ const AccountVerify = () => {
           color="primary"
           onClick={handleNavigateToLogin}
           style={{ marginTop: "1rem" }}
+          startIcon={<FirstPage />}
         >
           Back to Login
         </Button>

@@ -12,6 +12,16 @@ body,
   width: 100%;
 }
 
+.richTextContainer ul {
+  list-style: disc;
+  padding-left: 20px; /* or list-style-type: disc; */
+}
+
+.richTextContainer ol {
+  list-style-type: decimal;
+  padding-left: 20px; /* Adjust as needed */
+}
+
 /* ::-webkit-scrollbar {
   width: 10px;
 }

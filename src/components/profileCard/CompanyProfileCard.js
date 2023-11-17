@@ -2,14 +2,12 @@ import React from "react";
 import { Button } from "@mui/material";
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Edit } from "@mui/icons-material";
 
 
-const CompanyProfileCard = () => {
-    const userData = useSelector(state => state.companyUserSlice.companyProfile);
+const CompanyProfileCard = ({ userData }) => {
     const navigate = useNavigate();
 
     const handleDownload = () => {
@@ -19,7 +17,10 @@ const CompanyProfileCard = () => {
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
-        downloadLink.click();
+
+        setTimeout(() => {
+            downloadLink.click();
+        }, 100);
     };
 
 
@@ -38,13 +39,13 @@ const CompanyProfileCard = () => {
                 <div className="flex flex-col text-[12px] space-y-2">
                     <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
                         <p className="font-bold ">Personal Information</p>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">First Name: </label>
-                            <p className="font-bold ">
+                            <p className="font-bold">
                                 {userData.firstName ? userData.firstName : "Not Indicated"}
                             </p>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Last Name: </label>
 
                             <p className="font-bold ">
@@ -52,7 +53,7 @@ const CompanyProfileCard = () => {
                             </p>
 
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Middle Name: </label>
 
                             <p className="font-bold ">
@@ -60,21 +61,21 @@ const CompanyProfileCard = () => {
                             </p>
 
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Email Address: </label>
                             <p className="font-bold "> {userData?.email}</p>
                         </div>
 
                         <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
                         <p className="font-bold ">Company Information</p>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Contact Number: </label>
                             <p className="font-bold ">
                                 {userData.mobileNumber ? userData.mobileNumber : "Not Indicated"}
                             </p>
 
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Company Name: </label>
 
                             <p className="font-bold capitalize">
@@ -82,7 +83,7 @@ const CompanyProfileCard = () => {
                             </p>
 
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Company Address: </label>
 
                             <p className="font-bold capitalize">
@@ -90,7 +91,7 @@ const CompanyProfileCard = () => {
                             </p>
 
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="text-[12px] w-[100px]">Website Link: </label>
                             <a
                                 href={userData.websiteLink}
@@ -101,7 +102,7 @@ const CompanyProfileCard = () => {
                                 {userData?.websiteLink ? userData.websiteLink : "Not Indicated"}
                             </a>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             {userData.moa && userData.moa.length > 0 && (
                                 <div style={{ flex: 1 }}>
                                     <label className="text-[12px] w-[100px]">Uploaded Moa: </label>
@@ -117,25 +118,21 @@ const CompanyProfileCard = () => {
                             )}
                         </div>
 
-                        <div className="flex items-center px-6 mt-6">
-                            <div className='flex gap-10 flex-1 justify-end'>
-
+                        <div className="flex items-center mt-6">
+                            <div className='flex gap-10 flex-1 justify-center'>
                                 <Button
                                     type="button"
                                     variant="contained"
-                                    onClick={() => navigate('/company/edit-profile')}
+                                    size="medium"
                                     style={{
-                                        display: "block",
-                                        width: "100%",
-                                        padding: "10px",
-                                        marginTop: "2rem",
-                                        backgroundColor: "yellow",
-                                        color: "black",
+                                        backgroundColor: "#FFC107",
+                                        color: "#FFFFFF",
                                     }}
+                                    startIcon={<Edit />}
+                                    onClick={() => navigate('/company/edit-profile')}
                                 >
                                     Edit Profile
                                 </Button>
-
                             </div>
                         </div>
                     </div>

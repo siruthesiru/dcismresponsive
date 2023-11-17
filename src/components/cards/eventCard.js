@@ -22,16 +22,16 @@ const EventsCard = ({ events }) => {
                         <p className="flex items-center gap-2 text-[12px] text-slate-500 ">
                             Posted By: <span className="font-bold">{events.admin.firstName} {events.admin.lastName}</span> on {formatDate(posted_Date)} {events.admin.position}
                         </p>
-                        <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-4">
+                        <p className="flex items-center gap-2 text-[12px] text-slate-500 mt-4">
                             Venue: <span className="font-bold">{venue} </span>
                         </p>
-                        <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-4">
+                        <p className="flex items-center gap-2 text-[12px] text-slate-500">
                             Start: <span className="font-bold">{formatDate(start)} </span>
                         </p>
                         <p className="flex items-center gap-2 text-[12px] text-slate-500 mb-4">
                             End: <span className="font-bold">{formatDate(end)} </span>
                         </p>
-                        <div className="text-[12px] text-justify mr-8" dangerouslySetInnerHTML={{ __html: description }} />
+                        <div className="text-[12px] text-justify mr-8 richTextContainer" dangerouslySetInnerHTML={{ __html: description }} />
                     </div>
                 </div>
             </div>

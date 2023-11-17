@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetAllJobs, GetJob, UpateJobPost } from '../../services/company';
 import RichTextEditor from './RichTextEditor';
+import { FirstPage, Save } from '@mui/icons-material';
 
 const EditJobPostForm = () => {
     const { id } = useParams();
@@ -25,6 +26,8 @@ const EditJobPostForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [postDataLoaded, setPostDataLoaded] = useState(false);
+    const [skillsInput, setSkillsInput] = useState('');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,7 +39,7 @@ const EditJobPostForm = () => {
                             id: jobData.id,
                             position: jobData.position,
                             expiration_Date: jobData.expiration_Date,
-                            requireResume: jobData.requiredResume === 'true',
+                            requireResume: jobData.requireResume,
                             location: jobData.location,
                             salary: jobData.salary,
                             description: jobData.description,
@@ -45,6 +48,7 @@ const EditJobPostForm = () => {
                             slots: jobData.slots
 
                         });
+                        setSkillsInput(prevSkillsInput => jobData.targetSkills.map(skill => skill.skill).join(','));
                         setPostDataLoaded(true);
                     }
                 }
@@ -61,27 +65,30 @@ const EditJobPostForm = () => {
         }
     }, [id, dispatch]);
 
+    const handleCheckboxChange = (e) => {
+        const value = e.target.checked;
+        setFormData({ ...formData, requireResume: value });
+    };
+
+    const handleSkillsChange = (e) => {
+        setSkillsInput(e.target.value);
+    };
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
             if (id) {
-                console.log(formData);
-                const formattedTargetSkills = formData.targetSkills.map((skillObj) => ({
-                    skill: skillObj.skill,
-                }));
-                const updateSuccess = await UpateJobPost(dispatch, {
-                    id: formData.id,
-                    position: formData.position,
-                    description: formData.description,
-                    location: formData.location,
-                    salary: formData.salary,
-                    expiration_Date: formData.expiration_Date,
-                    slots: formData.slots,
-                    yearsOfExp: formData.yearsOfExp,
-                    targetSkills: formattedTargetSkills,
-                    status: formData.status,
-                    requiredResume: formData.requiredResume
-                });
+                const skillsArray = skillsInput.split(/[,\n]/);
+                const updatedSkills = skillsArray.map((skill) => ({ skill: skill.trim() }));
+                const filteredSkills = updatedSkills.filter((skill) => skill.skill !== '');
+
+                const updatedFormData = {
+                    ...formData,
+                    targetSkills: filteredSkills,
+                };
+
+                const updateSuccess = await UpateJobPost(dispatch, updatedFormData);
                 if (updateSuccess) {
                     await GetAllJobs(dispatch);
                     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -92,26 +99,6 @@ const EditJobPostForm = () => {
         } catch (error) {
             console.error('Error:', error);
         }
-    };
-
-    const handleSkillChange = (e, index) => {
-        const { value } = e.target;
-        const updatedSkills = [...formData.targetSkills];
-        updatedSkills[index] = { skill: value };
-        setFormData({ ...formData, targetSkills: updatedSkills });
-    };
-
-    const removeSkill = (index) => {
-        const updatedSkills = [...formData.targetSkills];
-        updatedSkills.splice(index, 1);
-        setFormData({ ...formData, targetSkills: updatedSkills });
-    };
-
-    const addSkill = () => {
-        setFormData((prevUserData) => ({
-            ...prevUserData,
-            targetSkills: [...prevUserData.targetSkills, { skill: '' }],
-        }));
     };
 
 
@@ -199,55 +186,24 @@ const EditJobPostForm = () => {
                             </div>
                             <div className="flex items-center my-2">
                                 <label className="text-[12px] w-[90px]">Required Resume: </label>
-                                <select
-                                    value={
-                                        formData.requireResume !== undefined
-                                            ? formData.requireResume.toString()
-                                            : ""
-                                    } onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            requireResume: e.target.value === "true",
-                                        })
-                                    }
-                                    className="w-[100px] h-[30px] bg-white border border-slate-200 rounded-md"
-                                >
-                                    <option value={true}>True</option>
-                                    <option value={false}>False</option>
-                                </select>
+                                <input
+                                    type="checkbox"
+                                    checked={formData.requireResume}
+                                    onChange={handleCheckboxChange}
+                                    className="h-[30px] bg-white border border-slate-200 rounded-md"
+                                />
+                                <label className="text-[12px] ml-2">{formData.requireResume ? 'Yes' : 'No'}</label>
                             </div>
 
                             <div className="flex items-center">
-                                <label className="text-[12px] w-[90px]">Target Skills: </label>
-                                <div className="flex flex-col my-2">
-                                    {formData.targetSkills.map((skillObj, index) => (
-                                        <div key={index} className="flex items-center my-2">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter a skill"
-                                                value={skillObj.skill}
-                                                onChange={(e) => handleSkillChange(e, index)}
-                                                className="w-[100%] h-[30px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
-                                            />
-                                            {index > 0 && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeSkill(index)}
-                                                    className="text-red-600 ml-2"
-                                                >
-                                                    Remove
-                                                </button>
-                                            )}
-                                        </div>
-                                    ))}
-                                    <button
-                                        type="button"
-                                        onClick={addSkill}
-                                        className="text-blue-600 mt-2"
-                                    >
-                                        Add Skill
-                                    </button>
-                                </div>
+                                <label className="text-[12px] w-[100px]">Target Skills: </label>
+                                <textarea
+                                    value={skillsInput}
+                                    onChange={handleSkillsChange}
+                                    placeholder="Enter skills separated by commas or new lines"
+                                    className="w-[100%] h-[80px] bg-white border border-slate-200 p-4 mb-2 rounded-md"
+                                    required
+                                />
                             </div>
 
                             <div className="flex items-center my-4">
@@ -257,32 +213,26 @@ const EditJobPostForm = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center px-6 mt-20">
+                            <div className="flex items-center mt-20">
                                 <div className="flex gap-10 flex-1 justify-end">
                                     <Button
                                         type="submit"
                                         variant="contained"
                                         style={{
-                                            display: "block",
-                                            padding: "10px",
-                                            backgroundColor: "#221769",
-                                            color: "#FFFFFF",
+                                            backgroundColor: "#3da58a",
                                         }}
+                                        startIcon={<Save />}
                                     >
-                                        Update Post
+                                        Save Changes
                                     </Button>
                                     <Button
                                         type="button"
                                         variant="contained"
-                                        style={{
-                                            display: "block",
-                                            padding: "10px",
-                                            backgroundColor: "#666666",
-                                            color: "#FFFFFF",
-                                        }}
-                                        onClick={() => navigate('/company/jobs')}
+                                        size="medium"
+                                        onClick={() => navigate(-1)}
+                                        startIcon={<FirstPage />}
                                     >
-                                        Cancel
+                                        Discard Changes
                                     </Button>
                                 </div>
                             </div>
