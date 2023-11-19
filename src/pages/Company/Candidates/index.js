@@ -16,6 +16,8 @@ const CompanyCandidates = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
+    const [invitationLoading, setInvitationLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,17 +33,21 @@ const CompanyCandidates = () => {
         };
 
         fetchData();
-    }, [dispatch, id]);
+    }, [dispatch, id, invitationLoading]);
 
     const handleSendInvite = async (jobId, alumniId) => {
         try {
+            setInvitationLoading(true);
+
             const isSuccess = await SendInviteCandidate(dispatch, jobId, alumniId);
+
             if (isSuccess) {
                 toast.success('Invitation sent successfully!');
-                ViewAllCandidates(dispatch, id);
             }
         } catch (error) {
             console.error('Error sending invite:', error);
+        } finally {
+            setInvitationLoading(false);
         }
     };
 
@@ -85,21 +91,26 @@ const CompanyCandidates = () => {
             width: 100,
             renderCell: (params) => {
                 return (
+                    <>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            style={{
+                                backgroundColor: params.row.status ? "#aaa" : "#221769",
+                                color: "#dbf5ee",
+                            }}
+                            onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
+                            disabled={!params.row.job.isActive || invitationLoading}
+                            startIcon={<ForwardToInbox />}
+                        >
+                            {invitationLoading ? (
+                                <CircularProgress size={20} color="inherit" />
+                            ) : (
+                                'Invite'
+                            )}
+                        </Button>
 
-                    <Button
-                        variant="contained"
-                        size="small"
-                        style={{
-                            backgroundColor: !params.row.status ? "#221769" : "#aaa",
-                            color: "#dbf5ee",
-
-                        }}
-                        onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={!params.row.job.status}
-                        startIcon={<ForwardToInbox />}
-                    >
-                        Send Invite
-                    </Button>
+                    </>
 
                 );
             },

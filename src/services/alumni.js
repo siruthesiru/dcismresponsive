@@ -1,5 +1,5 @@
 import axios from "axios";
-import { applyJob, deleteApplyJob, deleteApplyJobError, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, setErrorMessage } from "../app/alumniUserSlice";
+import { applyJob, deleteApplyJob, deleteApplyJobError, editProfile, editProfileError, getAlumniProfile, getAlumniProfileError, getAnnouncements, getAnnouncementsError, getApplyJobs, getEvents, getEventsError, getJob, getJobError, getJobs, getNotification, getNotifications, setErrorMessage } from "../app/alumniUserSlice";
 import { toast } from 'react-toastify';
 
 
@@ -152,5 +152,25 @@ export const DeleteAppliedJob = async (dispatch, id) => {
     } catch {
         dispatch(deleteApplyJobError());
         toast.error('An error occurred while deleting the application');
+    }
+}
+
+export const GetAllNotifications = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Notifications');
+        dispatch(getNotifications(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}
+
+export const GetAllNotificationByID = async (dispatch, userId, id) => {
+    try {
+        const response = await axiosInstance.get(`/Notifications/${id}/Get-Notification/${userId}`, id, userId);
+        dispatch(getNotification(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
     }
 }

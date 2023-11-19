@@ -8,6 +8,8 @@ export const editProfileError = createAction('editProfileError');
 export const getJobsError = createAction('getJobsError');
 export const getJobError = createAction('getJobError');
 export const deleteApplyJobError = createAction('deleteApplyJobError');
+export const getNotificationError = createAction('getNotificationError');
+
 
 
 export const alumniUserSlice = createSlice({
@@ -20,6 +22,8 @@ export const alumniUserSlice = createSlice({
         jobList: [],
         job: null,
         appliedJobs: [],
+        notifications: [],
+        notification: null,
     },
     reducers: {
         getAnnouncements: (state, action) => {
@@ -37,12 +41,18 @@ export const alumniUserSlice = createSlice({
         getJob: (state, action) => {
             return { ...state, job: action.payload.data };
         },
+        getNotification: (state, action) => {
+            return { ...state, notification: action.payload.data };
+        },
         applyJob: (state, action) => {
             return { ...state, appliedJobs: action.payload.data };
         },
 
         getApplyJobs: (state, action) => {
             return { ...state, appliedJobs: action.payload.data };
+        },
+        getNotifications: (state, action) => {
+            return { ...state, notifications: [...action.payload] };
         },
         setErrorMessage: (state, action) => {
             return { ...state, errorMessage: action.payload };
@@ -76,6 +86,20 @@ export const alumniUserSlice = createSlice({
     }
 });
 
-export const { getAnnouncements, deleteApplyJob, setErrorMessage, applyJob, getJobs, getApplyJobs, getJob, clearErrorMessage, getAlumniProfile, getEvents, editProfile } = alumniUserSlice.actions;
+export const {
+    getAnnouncements,
+    getNotifications,
+    deleteApplyJob,
+    setErrorMessage,
+    applyJob,
+    getJobs,
+    getApplyJobs,
+    getJob,
+    clearErrorMessage,
+    getAlumniProfile,
+    getEvents,
+    getNotification,
+    editProfile
+} = alumniUserSlice.actions;
 
 export default alumniUserSlice.reducer;

@@ -168,20 +168,7 @@ const AnnouncementForm = () => {
                                     Submit Announcement
                                 </Button>
                             )}
-                            {/* <Button
-                                type="submit"
-                                variant="contained"
-                                style={{
 
-                                    display: "block",
-                                    padding: "10px",
-                                    marginTop: "3rem",
-                                    backgroundColor: "#221769",
-                                    color: "#FFFFFF",
-                                }}
-                            >
-                                {id ? "Update" : "Submit"}
-                            </Button> */}
                         </Grid>
                     </form>
                 </Paper>

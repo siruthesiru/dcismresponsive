@@ -83,7 +83,7 @@ const JobCard = ({ job }) => {
 
             >
                 <CardContent>
-                    <Typography>Status: {job.status ? "Active" : "Inactive"}</Typography>
+                    <Typography>Status: {job.isActive ? "Active" : "Inactive"}</Typography>
 
                     <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <Typography>Posted by: </Typography>
