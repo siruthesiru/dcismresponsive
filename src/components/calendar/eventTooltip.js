@@ -4,7 +4,7 @@ import { DeleteOutline, Edit } from "@mui/icons-material";
 import PopUp from "../popup";
 import EventForm from "../forms/EventForm";
 import { DeleteEvent, GetAllEvents } from "../../services/events";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmationDialog from "../popup/confirmationDialog";
 import { formatDate } from '../constant/helper';
 
@@ -14,6 +14,7 @@ const EventWithTooltip = ({ event }) => {
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
+    const user = useSelector((state) => state.alumniSlice.adminProfile)
 
 
     const dispatch = useDispatch();
@@ -79,14 +80,21 @@ const EventWithTooltip = ({ event }) => {
                             }}
                         />
                     </IconButton>
-                    <IconButton onClick={() => { setOpenDeletePopup(true); setSelectedItemId(event.id) }}>
+                    <IconButton onClick={() => { setOpenDeletePopup(true); setSelectedItemId(event.id) }}
+
+                        disabled={event.admin.email !== user.email}
+                    >
                         <DeleteOutline
                             style={{
                                 fontSize: "20px",
-                                color: "#e2726e",
+                                // color: "#e2726e",
+                                color: event.admin.email !== user.email ? "#aaa" : "#e2726e",
+
                             }}
                         />
                     </IconButton>
+
+
                 </Box>
                 <PopUp
                     title="EDIT EVENT"

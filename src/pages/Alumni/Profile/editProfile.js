@@ -78,14 +78,8 @@ const AlumniEditProfile = () => {
                                             <Content title="Salary" desc={appliedJob.job.salary} />
                                             <div className="flex flex-col">
                                                 <Content title="Slots" desc={appliedJob.job.slots} />
-                                                <p
-                                                    className="flex justify-end text-[#0098FF] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(`/alumni/job/${appliedJob.job.id}`)
-                                                    }
-                                                >
-                                                    View Details
-                                                </p>
+                                                <p className="flex justify-end text-[#0098FF] cursor-pointer" onClick={() => navigate(`/alumni/apply/job/${appliedJob.job.id}`)}>View Details</p>
+
                                             </div>
                                         </div>
                                     </div>

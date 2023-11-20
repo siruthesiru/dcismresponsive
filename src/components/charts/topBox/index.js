@@ -10,7 +10,7 @@ const TopBox = ({ data }) => {
     return (
         <div className='topBox'>
             <h1 className="title">
-                Most Common Jobs
+                List of Jobs
             </h1>
             <div className='list'>
                 {data && data.length > 0 ? (

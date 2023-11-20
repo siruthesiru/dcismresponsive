@@ -96,12 +96,12 @@ const CompanyApplicants = () => {
                     <Button
                         variant="contained"
                         size="small"
+                        disabled={!params.row.job.isActive || invitationLoading || params.row.status}
                         style={{
-                            backgroundColor: params.row.status ? "#aaa" : "#4cceac",
+                            backgroundColor: params.row.status || !params.row.job.isActive ? "#aaa" : "#4cceac",
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={!params.row.job.isActive || invitationLoading}
                         startIcon={<SwipeRight />}
                     >
                         {invitationLoading ? (

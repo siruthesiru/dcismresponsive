@@ -89,7 +89,7 @@ export const RejectJobPost = async (dispatch, id) => {
 
 export const ViewAllCandidates = async (dispatch, id) => {
     try {
-        const response = await axiosInstance.get(`/Company/Jobs/Get-Job/${id}/View-Candidates`, id);
+        const response = await axiosInstance.get(`/Jobs/Get-Job/${id}/View-Candidates`, id);
         dispatch(getCandidates(response.data));
         return response.data;
     } catch {
