@@ -48,6 +48,7 @@ const AddAdminForm = () => {
                         fullWidth
                         required
                         sx={{ marginBottom: '1rem' }}
+
                     />
                     <TextField
                         label="Last Name"
@@ -61,6 +62,7 @@ const AddAdminForm = () => {
                     />
                     <TextField
                         label="Email"
+                        type='email'
                         placeholder="Type in the Email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -70,6 +72,7 @@ const AddAdminForm = () => {
                         sx={{ marginBottom: '1rem' }}
                     />
                     <TextField
+                        type='password'
                         label="Password"
                         placeholder="Type in the Initial Password"
                         value={formData.password}
@@ -94,7 +97,7 @@ const AddAdminForm = () => {
                         variant="contained"
                         size="medium"
                         style={{ backgroundColor: "#221769" }}
-
+                        type='submit'
                         startIcon={<Add />}
 
                     >

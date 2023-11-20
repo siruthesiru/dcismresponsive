@@ -193,56 +193,6 @@ export const alumniVerifyColumns = [
     },
 ];
 
-
-export const announcementColumn = [
-    {
-        field: "id",
-        headerName: "ID",
-        width: 80,
-    },
-    {
-        field: "title",
-        headerName: "Title",
-        flex: 1,
-    },
-    {
-        field: "description",
-        headerName: "Content",
-        flex: 2,
-        valueGetter: (params) => {
-            return params.value ? params.value : "Not Indicated";
-        },
-
-    },
-    {
-        field: "audience",
-        headerName: "Audience",
-        width: 100,
-        valueGetter: (params) => {
-            return params.value ? params.value : "Not Indicated";
-        },
-    },
-
-    {
-        field: "posted_Date",
-        headerName: "Posted Date",
-        flex: 1,
-        renderCell: (params) => {
-            const postedDate = new Date(params.value);
-            const formattedDate = postedDate.toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-            });
-            return formattedDate;
-        },
-    },
-];
-
-
 export const verifyColumns = [
     { field: "id", headerName: "ID", width: 90 },
     {

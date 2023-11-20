@@ -29,7 +29,6 @@ import LayoutAlumni from './pages/Alumni/Layout';
 import LandingPageAlumni from './pages/Alumni/LandingPage';
 import AlumniEvents from './pages/Alumni/Events';
 import AlumniFAQ from './pages/Alumni/Help';
-import AlumniNotification from './pages/Alumni/Notification';
 import JobList from './pages/Alumni/Jobs';
 import AlumniProfile from './pages/Alumni/Profile';
 
@@ -38,7 +37,6 @@ import LayoutCompany from './pages/Company/Layout';
 import LandingPageCompany from './pages/Company/LandingPage';
 import CompanyFAQ from './pages/Company/Help';
 import CompanyJobs from './pages/Company/Jobs';
-import CompanyNotification from './pages/Company/Notification';
 import CompanyProfile from './pages/Company/Profile';
 import CompanyCandidates from './pages/Company/Candidates';
 import CompanyEvents from './pages/Company/Events';
@@ -113,7 +111,6 @@ const App = () => {
                   <Route path="/alumni/dashboard" element={<LandingPageAlumni />} />
                   <Route exact path="/alumni/faq" element={<AlumniFAQ />} />
                   <Route path="/alumni/jobs" element={<JobList />} />
-                  <Route path="/alumni/notifications" element={<AlumniNotification />} />
                   <Route path="/alumni/profile" element={<AlumniProfile />} />
                   <Route path="/alumni/edit-profile" element={<AlumniEditProfile />} />
                   <Route path="/alumni/events" element={<AlumniEvents />} />
@@ -129,7 +126,6 @@ const App = () => {
                   <Route exact path="/company/faq" element={<CompanyFAQ />} />
                   <Route path="/company/jobs" element={<CompanyJobs />} />
                   <Route path="/company/events" element={<CompanyEvents />} />
-                  <Route path="/company/notifications" element={<CompanyNotification />} />
                   <Route path="/company/profile" element={<CompanyProfile />} />
                   <Route path="/company/edit-profile" element={<CompanyEditProfile />} />
                   <Route path="/company/post-job" element={<PostJob />} />

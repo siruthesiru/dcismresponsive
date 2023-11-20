@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,24 +8,28 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import applogo from "../../assets/applogowhite.png";
-import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, AddCircle, StopCircle } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { BusinessCenter, Help, AccountCircle, MoreVert, Campaign, EventNote, Notifications, Info } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from '@mui/material';
 import placeholder from "../../assets/placeholder.png";
 import { useNavigate } from "react-router-dom";
+import { GetAllNotificationByID, GetAllNotifications } from '../../services/alumni';
 
-
-
-const Navbar = ({ user }) => {
+const NavbarAlumni = ({ user }) => {
     const role = user && user.role ? user.role.toLowerCase() : '';
-    const dispatch = useDispatch();
+    const notificationsAlumni = useSelector(state => state.alumniUserSlice.notifications);
 
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    useEffect(() => {
+        GetAllNotifications(dispatch);
+    }, [dispatch]);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -50,6 +54,22 @@ const Navbar = ({ user }) => {
         dispatch(logout());
         navigate('/')
     }
+
+    const [showNotification, setShowNotification] = useState(false);
+
+    const handleNotificationClick = () => {
+        setShowNotification(!showNotification);
+    };
+
+    const handleNotificationClickByID = async ({ userId, id }) => {
+        try {
+            console.log(userId, id);
+            await GetAllNotificationByID(dispatch, userId, id);
+            await GetAllNotifications(dispatch);
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+    };
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -114,40 +134,21 @@ const Navbar = ({ user }) => {
                 </IconButton>
                 <p>Job Posts</p>
             </MenuItem>
-            {role === "company" && (
-                <MenuItem>
-                    <IconButton size="large" color="inherit">
-                        <Badge color="error" onClick={() => navigate("/company/post-job")}>
-                            <AddCircle />
-                        </Badge>
-                    </IconButton>
-                    <p>Add Job Post</p>
-                </MenuItem>
-            )}
-            {role === "company" && (
-                <MenuItem>
-                    <IconButton size="large" color="inherit">
-                        <Badge color="error" onClick={() => navigate(`/${role}/inactive/jobs`)}>
-                            <StopCircle />
-                        </Badge>
-                    </IconButton>
-                    <p>View Inactive Post</p>
-                </MenuItem>
-            )}
-            {/* <MenuItem>
-                <IconButton size="large" color="inherit">
-                    <Badge color="error" onClick={() => navigate(`/${role}/notifications`)}>
-                        <Notifications />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem> */}
             <MenuItem>
                 <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                     <Help />
                 </IconButton>
                 <p>FAQ</p>
             </MenuItem>
+            <MenuItem>
+                <IconButton size="large" color="inherit">
+                    <Badge color="error" onClick={handleNotificationClick}>
+                        <Notifications />
+                    </Badge>
+                </IconButton>
+                <p>Notifications</p>
+            </MenuItem>
+
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton size="large" color="inherit">
                     <AccountCircle />
@@ -198,40 +199,19 @@ const Navbar = ({ user }) => {
                                 <BusinessCenter />
                             </Badge>
                         </IconButton>
-                        {role === "company" && (
-                            <IconButton
-                                size="large"
-                                aria-label="show 10 jobs matches to the user"
-                                color="inherit"
-                            >
-                                <Badge color="error" onClick={() => navigate("/company/post-job")}>
-                                    <AddCircle />
-                                </Badge>
-                            </IconButton>
-                        )}
-                        {role === "company" && (
-                            <IconButton
-                                size="large"
-                                aria-label="show 10 jobs matches to the user"
-                                color="inherit"
-                            >
-                                <Badge color="error" onClick={() => navigate(`/${role}/inactive/jobs`)}>
-                                    <StopCircle />
-                                </Badge>
-                            </IconButton>
-                        )}
-                        {/* <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
-                            <Badge color="error" onClick={() => navigate(`/${role}/notifications`)}>
-                                <Notifications />
-                            </Badge>
-                        </IconButton> */}
                         <IconButton size="large" color="inherit" onClick={() => navigate(`/${role}/faq`)}>
                             <Help />
                         </IconButton>
+                        <IconButton
+                            size="large"
+                            aria-label={`show ${notificationsAlumni && notificationsAlumni.length} new notifications`}
+                            color="inherit"
+                        >
+                            <Badge color="error" badgeContent={notificationsAlumni && notificationsAlumni.length} onClick={handleNotificationClick}>
+                                <Notifications />
+                            </Badge>
+                        </IconButton>
+
                         <IconButton
                             size="large"
                             edge="end"
@@ -271,9 +251,41 @@ const Navbar = ({ user }) => {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-
-        </Box>
+            {showNotification && (
+                <div className="absolute right-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                        <p className="flex items-center px-4 py-2 text-sm text-gray-700">
+                            <Notifications className="mr-2" /> New notification!
+                        </p>
+                        {notificationsAlumni && notificationsAlumni.length > 0 ? (
+                            notificationsAlumni.map((notification, index) => {
+                                const userData = notification.user.filter(
+                                    (temp) => temp.alumniId === user.id);
+                                if (userData && userData.length > 0) {
+                                    return (
+                                        <p
+                                            key={index}
+                                            className="flex items-center px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                                            onClick={() => handleNotificationClickByID({ userId: userData[0].id, id: notification.id })}
+                                        >
+                                            <Info className="mr-2" />
+                                            {`A new post titled ${notification.title} has been added.`}
+                                        </p>
+                                    );
+                                }
+                                return null;
+                            })
+                        ) : (
+                            <p className="flex items-center px-4 py-2 text-sm text-gray-700 cursor-pointer">No New Notification Added</p>
+                        )}
+                    </div>
+                </div>
+            )
+            }
+        </Box >
     );
 };
 
-export default Navbar;
+export default NavbarAlumni;
+
+

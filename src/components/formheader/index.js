@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GoogleAuthLogin from '../googleAuthLogin/index';
-import FacebookAuthLogin from '../facebookAuthLogin/index';
 import { logout } from '../../app/authenticationSlice';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
@@ -9,7 +8,7 @@ import { useDispatch } from 'react-redux';
 const FormWithHeader = ({ imageSrc, children }) => {
     const dispatch = useDispatch();
     return (
-        
+
         <div className="container mx-auto flex py-8 gap-2 p-2 sm:p-0 pt-5 mt-10">
             <div className="hidden md:flex md:w-[30%] lg:w-[40%]">
                 <img src={imageSrc} alt="placeholder" className="mb-4 w-full h-full object-cover rounded-md" />
@@ -23,7 +22,7 @@ const FormWithHeader = ({ imageSrc, children }) => {
                 </h1>
                 <Button variant='link' href='/signin' onClick={() => { dispatch(logout()) }}>Log out</Button>
                 <GoogleAuthLogin />
-                <FacebookAuthLogin />
+                {/* <FacebookAuthLogin /> */}
                 <div className="flex items-center justify-center">
                     <div className="border border-solid border-slate-200 h-px w-1/3"></div>
                     <div className="mx-4 text-slate-400">OR</div>

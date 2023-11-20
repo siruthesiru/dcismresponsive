@@ -17,7 +17,7 @@ import './index.scss';
 
 const LineChartBox = () => {
   const { firstData, secondData, thirdData, fourthData, fifthData, sixData, sevenData } = useSelector((state) => state.adminDashboard);
-  
+
   const data = [
     {
       name: '2003',
@@ -47,6 +47,15 @@ const LineChartBox = () => {
       name: '2021',
       student: sevenData,
     },
+    {
+      name: '2024',
+      student: sevenData,
+    },
+    // {
+    //   name: '2027',
+    //   student: sevenData,
+    // },
+
   ];
   return (
     <div className='lineChartBox'>

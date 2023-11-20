@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Fade, IconButton, Modal, Typography } from "@mui/material";
 import Header from "../../../components/header";
-import { announcementColumn } from "../../../components/constant/adminColumnHeaders";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteAnnouncement, GetAllAnnouncements } from "../../../services/announcement";
@@ -12,15 +11,24 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Add, DeleteOutline, EditNote } from "@mui/icons-material";
 import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { formatDate } from "../../../components/constant/helper";
+import AnnouncementCard from "../../../components/cards/announcementCard";
 
 const Announcements = () => {
-    const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
+    const navigate = useNavigate();
     const announcements = useSelector((state) => state.announcementsSlice.announcements);
     const dispatch = useDispatch();
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [deleteOccurred, setDeleteOccurred] = useState(false);
+
+    const handleTitleClick = (announcement) => {
+        setSelectedAnnouncement(announcement);
+        setModalOpen(true);
+    };
 
     useEffect(() => {
         GetAllAnnouncements(dispatch)
@@ -61,7 +69,52 @@ const Announcements = () => {
     };
 
     const columns = [
-        ...announcementColumn,
+        {
+            field: "id",
+            headerName: "ID",
+            width: 80,
+        },
+        {
+            field: "title",
+            headerName: "Title",
+            flex: 1,
+            renderCell: (params) => {
+                return (
+                    <div
+                        style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}
+                        onClick={() => handleTitleClick(params.row)}
+                    >
+                        {params.value}
+                    </div>
+                );
+            },
+        },
+        {
+            field: "description",
+            headerName: "Content",
+            flex: 2,
+            valueGetter: (params) => {
+                return params.value ? params.value : "Not Indicated";
+            },
+
+        },
+        {
+            field: "audience",
+            headerName: "Audience",
+            width: 100,
+            valueGetter: (params) => {
+                return params.value ? params.value : "Not Indicated";
+            },
+        },
+
+        {
+            field: "posted_Date",
+            headerName: "Posted Date",
+            flex: 1,
+            valueGetter: (params) => {
+                return params.value ? formatDate(params.value) : "Not Indicated";
+            },
+        },
         {
             field: 'file',
             headerName: 'File',
@@ -173,6 +226,22 @@ const Announcements = () => {
                     />
                 )}
             </Box>
+            <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                closeAfterTransition
+
+            >
+                <Fade in={modalOpen}>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+                        {selectedAnnouncement && (
+                            <div style={{ width: "50%" }} onClick={() => setModalOpen(false)}>
+                                <AnnouncementCard announcement={selectedAnnouncement} />
+                            </div>
+                        )}
+                    </div>
+                </Fade>
+            </Modal>
 
             <ConfirmationDialog
                 open={openDeletePopup}
@@ -184,7 +253,7 @@ const Announcements = () => {
                 }}
             />
 
-        </Box>
+        </Box >
     );
 };
 

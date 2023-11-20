@@ -1,6 +1,7 @@
 import axios from "axios";
 import { addJobPost, addJobPostError, deleteJobPost, deleteJobPostError, editJobPost, editJobPostError, editProfile, editProfileError, getAnnouncements, getAnnouncementsError, getCandidates, getCompanyProfile, getCompanyProfileError, getEvents, getEventsError, getJob, getJobError, getJobs, getJobsError, setErrorMessage } from "../app/companyUserSlice";
 import { toast } from 'react-toastify';
+import { getNotification, getNotifications } from "../app/companiesSlice";
 
 
 const axiosInstance = axios.create({
@@ -225,3 +226,23 @@ export const SendInviteApplicant = async (dispatch, jobId, alumniId) => {
         dispatch(editProfileError(error.response.data));
     }
 };
+
+export const GetAllNotificationsCompany = async (dispatch) => {
+    try {
+        const response = await axiosInstance.get('/Notifications');
+        dispatch(getNotifications(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}
+
+export const GetAllNotificationByID = async (dispatch, userId, id) => {
+    try {
+        const response = await axiosInstance.get(`/Notifications/${id}/Get-Notification/${userId}`, id, userId);
+        dispatch(getNotification(response.data));
+    } catch (error) {
+        console.error('Error:', error);
+        dispatch(getJobError(error.response.data));
+    }
+}

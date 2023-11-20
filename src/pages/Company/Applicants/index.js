@@ -15,6 +15,8 @@ const CompanyApplicants = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [candidates, setCandidates] = useState([]);
+    const [invitationLoading, setInvitationLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,18 +33,22 @@ const CompanyApplicants = () => {
         };
 
         fetchData();
-    }, [dispatch, id]);
+    }, [dispatch, id, invitationLoading]);
 
 
     const handleSendInvite = async (jobId, alumniId) => {
         try {
+            setInvitationLoading(true);
+
             const isSuccess = await SendInviteApplicant(dispatch, jobId, alumniId);
+
             if (isSuccess) {
                 toast.success('Invitation sent successfully!');
-                ViewAllApplicants(dispatch, id);
             }
         } catch (error) {
             console.error('Error sending invite:', error);
+        } finally {
+            setInvitationLoading(false);
         }
     };
 
@@ -95,10 +101,14 @@ const CompanyApplicants = () => {
                             color: "#dbf5ee",
                         }}
                         onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                        disabled={params.row.job.status}
+                        disabled={!params.row.job.isActive || invitationLoading}
                         startIcon={<SwipeRight />}
                     >
-                        Accept
+                        {invitationLoading ? (
+                            <CircularProgress size={20} color="inherit" />
+                        ) : (
+                            'Accept'
+                        )}
                     </Button>
                 );
             },
