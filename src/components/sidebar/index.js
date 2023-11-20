@@ -107,7 +107,7 @@ const Sidebar = ({
 
                             if (
                                 (text === "Add Admin") &&
-                                user?.email !== "dcismaces@outlook.com"
+                                user?.email !== "admin@dcismaces.com"
                             ) {
                                 return null;
                             }

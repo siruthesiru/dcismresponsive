@@ -13,6 +13,7 @@ import ConfirmationDialog from "../../../components/popup/confirmationDialog";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { formatDate } from "../../../components/constant/helper";
 import AnnouncementCard from "../../../components/cards/announcementCard";
+import { GetAdminProfile } from "../../../services/admin_alumni";
 
 const Announcements = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -20,6 +21,8 @@ const Announcements = () => {
 
     const navigate = useNavigate();
     const announcements = useSelector((state) => state.announcementsSlice.announcements);
+    const user = useSelector((state) => state.alumniSlice.adminProfile)
+
     const dispatch = useDispatch();
     const [openDeletePopup, setOpenDeletePopup] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
@@ -30,8 +33,10 @@ const Announcements = () => {
         setModalOpen(true);
     };
 
+
     useEffect(() => {
         GetAllAnnouncements(dispatch)
+        GetAdminProfile(dispatch);
     }, [dispatch])
 
     const uniqueAnnouncements = announcements.map((announcement, index) => {
@@ -49,6 +54,8 @@ const Announcements = () => {
 
         setOpenDeletePopup(false);
     };
+
+    console.log(user);
 
     useEffect(() => {
         if (deleteOccurred) {
@@ -153,17 +160,21 @@ const Announcements = () => {
                             />
 
                         </IconButton>
-                        <IconButton onClick={() => {
-                            setSelectedItemId(params.row.id);
-                            setOpenDeletePopup(true);
-                        }}>
+                        <IconButton
+                            onClick={() => {
+                                setSelectedItemId(params.row.id);
+                                setOpenDeletePopup(true);
+                            }}
+                            disabled={!params.row.admin || params.row.admin.email !== user.email}
+                        >
                             <DeleteOutline
                                 style={{
                                     fontSize: "20px",
-                                    color: "#e2726e"
+                                    color: !params.row.admin || params.row.admin.email !== user.email ? "#aaa" : "#e2726e",
                                 }}
                             />
                         </IconButton>
+
                     </Box >
                 );
             },

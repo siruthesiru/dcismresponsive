@@ -96,11 +96,11 @@ const CompanyCandidates = () => {
                             variant="contained"
                             size="small"
                             style={{
-                                backgroundColor: params.row.status ? "#aaa" : "#221769",
+                                backgroundColor: params.row.status || !params.row.job.isActive ? "#aaa" : "#221769",
                                 color: "#dbf5ee",
                             }}
                             onClick={() => handleSendInvite(params.row.jobId, params.row.alumniId)}
-                            disabled={!params.row.job.isActive || invitationLoading}
+                            disabled={!params.row.job.isActive || invitationLoading || params.row.status}
                             startIcon={<ForwardToInbox />}
                         >
                             {invitationLoading ? (

@@ -32,7 +32,7 @@ const PendingJobs = () => {
         try {
             const credentials = {
                 id: id,
-                status: true,
+                // status: true,
             };
             await Verify_JobPost(dispatch, credentials);
             await GetJobPosts(dispatch);

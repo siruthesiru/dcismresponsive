@@ -30,7 +30,6 @@ const handleViewChange = (view) => {
 };
 
 const Calendar = ({ events }) => {
-    console.log(events);
     return (
         <BigCalendar
             localizer={localizer}

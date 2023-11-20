@@ -34,7 +34,7 @@ const AlumniForm = ({ onSubmit, id }) => {
                         setFormData({
                             id: id,
                             firstName: alumniData.firstName,
-                            lastName: alumniData.firstName,
+                            lastName: alumniData.lastName,
                             idNum: alumniData.idNum,
                             programCode: alumniData.courses.programCode,
                             programDescription: alumniData.courses.programDescription,
@@ -60,6 +60,7 @@ const AlumniForm = ({ onSubmit, id }) => {
     }, [id, dispatch]);
 
 
+    console.log(formData);
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
