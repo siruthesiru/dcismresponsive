@@ -11,8 +11,6 @@ import applogo from "../../assets/applogowhite.png";
 import {
   BusinessCenter,
   Help,
-  AccountCircle,
-  MoreVert,
   Campaign,
   EventNote,
   Notifications,
@@ -39,7 +37,6 @@ const NavbarAlumni = ({ user }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
     GetAllNotifications(dispatch);
@@ -56,10 +53,6 @@ const NavbarAlumni = ({ user }) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const navigate = useNavigate();
@@ -210,16 +203,6 @@ const NavbarAlumni = ({ user }) => {
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
-              anchorEl={mobileMoreAnchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
               size="large"
               aria-label={`show ${
                 notificationsAlumni && notificationsAlumni.length
@@ -239,10 +222,7 @@ const NavbarAlumni = ({ user }) => {
       </AppBar>
       {renderMenu}
       {showNotification && (
-        <div
-          className="absolute right-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
-          marginTop="60px"
-        >
+        <div className="absolute top-20 right-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <p className="flex items-center px-4 py-2 text-sm text-gray-700">
               <Notifications className="mr-2" /> New notification!

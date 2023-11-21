@@ -18,7 +18,7 @@ const BottomNavigationBar = ({ user }) => {
   const [value, setValue] = useState(0);
 
   return (
-    <div className="fixed md:hidden">
+    <div className="absolute md:hidden">
       <BottomNavigation
         sx={{ width: "100%", bottom: 0 }}
         value={value}
@@ -44,11 +44,6 @@ const BottomNavigationBar = ({ user }) => {
         ></BottomNavigationAction>
         <BottomNavigationAction
           label="FAQ"
-          icon={<Help />}
-          onClick={() => navigate(`/${role}/faq`)}
-        ></BottomNavigationAction>
-        <BottomNavigationAction
-          label="Notifs"
           icon={<Help />}
           onClick={() => navigate(`/${role}/faq`)}
         ></BottomNavigationAction>
