@@ -39,9 +39,6 @@ const Topbar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-          {/* <IconButton>
-                        <NotificationsOutlined />
-                    </IconButton> */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Button
               onClick={handleClick}

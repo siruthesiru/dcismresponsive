@@ -37,7 +37,7 @@ const AlumniProfileCard = ({ userData }) => {
             }
             alt="Profile picture"
           />
-          <h1 className="font-bold py-2 capitalize">
+          <h1 className="font-bold py-2 capitalize text-xl">
             {userData?.firstName} {userData?.lastName}
           </h1>
         </>
@@ -45,7 +45,7 @@ const AlumniProfileCard = ({ userData }) => {
 
       <div className="flex flex-col text-[12px] space-y-2">
         <div className="flex flex-col bg-white border border-slate-200 p-4 mb-2 rounded-lg">
-          <p className="font-bold ">Personal Information</p>
+          <p className="text-lg font-bold mb-4">Personal Information</p>
           <div className="flex items-center justify-between">
             <label className="text-[12px] w-[100px]">First Name: </label>
             <p className="font-bold "> {userData?.firstName}</p>
@@ -88,8 +88,8 @@ const AlumniProfileCard = ({ userData }) => {
             </p>
           </div>
 
-          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-          <p className="font-bold ">Account Information</p>
+          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2  mt-4" />
+          <p className="font-bold text-lg mb-4">Account Information</p>
 
           <div className="flex items-center justify-between">
             <label className="text-[12px] w-[100px]">USC ID: </label>
@@ -107,15 +107,17 @@ const AlumniProfileCard = ({ userData }) => {
               {userData?.mobileNumber ? userData.mobileNumber : "Not indicated"}
             </p>
           </div>
-          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2 justify-between" />
-          <p className="font-bold ">Academic Information</p>
+          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2 justify-between  mt-4" />
+          <p className="font-bold text-lg mb-4">Academic Information</p>
           {userData?.courses?.map((course, index) => (
-            <div className="flex items-center justify-between" key={index}>
+            <div className="flex items-center justify-between mb-4" key={index}>
               <label className="text-[12px] w-[100px]">
                 {" "}
                 Program Graduated:{" "}
               </label>
-              <p className="font-bold">{course.programDescription}</p>
+              <p className="font-bold text-right">
+                {course.programDescription}
+              </p>
             </div>
           ))}
 
@@ -127,8 +129,8 @@ const AlumniProfileCard = ({ userData }) => {
             </p>
           </div>
 
-          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-          <p className="font-bold ">Work Information</p>
+          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2  mt-4" />
+          <p className="font-bold text-lg">Work Information</p>
 
           <div className="flex items-center justify-between">
             <label className="text-[12px] w-[100px]">Employment Status:</label>
@@ -163,8 +165,8 @@ const AlumniProfileCard = ({ userData }) => {
             </p>
           </div>
 
-          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
-          <p className="font-bold ">Skills</p>
+          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2 mt-4" />
+          <p className="font-bold text-lg mb-4">Skills</p>
 
           <div className="flex items-center justify-between">
             <label className="text-[12px] w-[100px]">Added Skills: </label>
@@ -181,7 +183,7 @@ const AlumniProfileCard = ({ userData }) => {
             </div>
           </div>
 
-          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2" />
+          <div className="flex mx-auto border border-solid border-slate-200 h-px w-full my-2  mt-4" />
           <div className="flex items-center">
             {userData.resume && userData.resume.length > 0 && (
               <div style={{ flex: 1 }}>

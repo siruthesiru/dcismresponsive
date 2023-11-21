@@ -43,11 +43,8 @@ export default function ViewAppliedJobAlumni() {
     fetchJobPosting();
   }, [id, dispatch]);
 
-  console.log(jobData);
-
   const handleDelete = async (id) => {
     try {
-      console.log(id);
       await DeleteAppliedJob(dispatch, id);
       setDeleteOccurred(true);
     } catch (error) {

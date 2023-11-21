@@ -94,7 +94,7 @@ const JobList = () => {
               </div>
             )}
             {filteredJobs.length > 0 && (
-              <div className="pagination flex items-center gap-3">
+              <div className="pagination flex items-center gap-3 ml-5">
                 <label>Page Number: </label>
 
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(

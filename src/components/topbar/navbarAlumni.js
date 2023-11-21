@@ -111,96 +111,11 @@ const NavbarAlumni = ({ user }) => {
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton
-          size="large"
-          color="inherit"
-          onClick={() => navigate(`/${role}/dashboard`)}
-        >
-          <Campaign />
-        </IconButton>
-        <p>Announcement</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          color="inherit"
-          onClick={() => navigate(`/${role}/events`)}
-        >
-          <EventNote />
-        </IconButton>
-        <p>Events</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" color="inherit">
-          <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
-            <BusinessCenter />
-          </Badge>
-        </IconButton>
-        <p>Job Posts</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          color="inherit"
-          onClick={() => navigate(`/${role}/faq`)}
-        >
-          <Help />
-        </IconButton>
-        <p>FAQ</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label={`show ${
-            notificationsAlumni && notificationsAlumni.length
-          } new notifications`}
-          color="inherit"
-        >
-          <Badge
-            color="error"
-            badgeContent={notificationsAlumni && notificationsAlumni.length}
-            onClick={handleNotificationClick}
-          >
-            <Notifications />
-          </Badge>
-        </IconButton>
-        <p>Notification</p>
-      </MenuItem>
-
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton size="large" color="inherit">
-          <AccountCircle />
-        </IconButton>
-        <p className="capitalize">
-          {user?.firstName} {user?.lastName}
-        </p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         sx={{
-          position: "static",
+          position: "fixed",
           background: "#221769",
           boxShadow: "none",
         }}
@@ -234,7 +149,7 @@ const NavbarAlumni = ({ user }) => {
             <IconButton
               size="large"
               color="inherit"
-              onClick={() => navigate(`/${role}/events`)}
+              onClick={() => navigate(`/alumni/events`)}
             >
               <EventNote />
             </IconButton>
@@ -243,14 +158,14 @@ const NavbarAlumni = ({ user }) => {
               aria-label="show 10 jobs matches to the user"
               color="inherit"
             >
-              <Badge color="error" onClick={() => navigate(`/${role}/jobs`)}>
+              <Badge color="error" onClick={() => navigate(`/alumni/jobs`)}>
                 <BusinessCenter />
               </Badge>
             </IconButton>
             <IconButton
               size="large"
               color="inherit"
-              onClick={() => navigate(`/${role}/faq`)}
+              onClick={() => navigate(`/alumni/faq`)}
             >
               <Help />
             </IconButton>
@@ -295,22 +210,39 @@ const NavbarAlumni = ({ user }) => {
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
+              anchorEl={mobileMoreAnchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
               size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              aria-label={`show ${
+                notificationsAlumni && notificationsAlumni.length
+              } new notifications`}
               color="inherit"
             >
-              <MoreVert />
+              <Badge
+                color="error"
+                badgeContent={notificationsAlumni && notificationsAlumni.length}
+                onClick={handleNotificationClick}
+              >
+                <Notifications />
+              </Badge>
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
       {showNotification && (
-        <div className="absolute right-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div
+          className="absolute right-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+          marginTop="60px"
+        >
           <div className="py-1">
             <p className="flex items-center px-4 py-2 text-sm text-gray-700">
               <Notifications className="mr-2" /> New notification!

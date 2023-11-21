@@ -6,7 +6,7 @@ const AlumniUser = ({ user }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
+    <div className="hidden sm:flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-6">
       <div className="flex flex-col mx-auto justify-center items-center text-center">
         <img
           src={

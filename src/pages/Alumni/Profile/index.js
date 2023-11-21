@@ -4,6 +4,10 @@ import { GetAllAppliedJobs } from "../../../services/alumni";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Search from "../../../components/search";
+import { Button } from "@mui/material";
+
+import { logout } from "../../../app/authenticationSlice";
+import { Logout } from "@mui/icons-material";
 
 const AlumniProfile = () => {
   const userData = useSelector((state) => state.alumniUserSlice.alumniProfile);
@@ -13,6 +17,11 @@ const AlumniProfile = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,18 +46,16 @@ const AlumniProfile = () => {
       )
     : [];
 
-  console.log(appliedJobsLoaded);
-
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <div className="bg-slate-100" style={{ minHeight: "100vh" }}>
       <div className="container mx-auto flex flex-col sm:flex-row py-4 gap-2">
         <div className="flex flex-col sm:w-[60%]">
           <AlumniProfileCard userData={userData} />
         </div>
-        <div className="sm:w-[40%]">
+        <div className="sm:w-[40%] mt-5">
           <Search onChange={(e) => setSearchTerm(e.target.value)} />
 
-          <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2">
+          <div className="flex flex-col bg-white border rounded-lg p-4 mx-4 sm:mx-0 space-y-2 mt-2">
             <h1 className="font-bold text-[15px] uppercase">
               List of Applied Jobs
             </h1>
@@ -97,6 +104,22 @@ const AlumniProfile = () => {
               <p className="mx-4 sm:mx-2">No applied jobs available</p>
             )}
           </div>
+        </div>
+        <div className="flex flex-row flex-col sm:hidden">
+          <Button
+            type="button"
+            variant="contained"
+            size="medium"
+            style={{
+              margin: "20px",
+              backgroundColor: "#DB4F4A",
+              color: "#FFFFFF",
+            }}
+            startIcon={<Logout />}
+            onClick={handleLogout}
+          >
+            Sign Out
+          </Button>
         </div>
       </div>
     </div>

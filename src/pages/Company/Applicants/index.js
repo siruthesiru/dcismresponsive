@@ -131,8 +131,6 @@ const CompanyApplicants = () => {
     ? candidates.filter((candidate) => candidate.jobId === Number(id))
     : [];
 
-  console.log(filtered_candidates);
-
   return (
     <div className="bg-slate-100 min-h-screen">
       <ToastContainer position="top-right" autoClose={3000} />
