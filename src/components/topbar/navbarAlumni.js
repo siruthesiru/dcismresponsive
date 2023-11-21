@@ -47,6 +47,7 @@ const NavbarAlumni = ({ user }) => {
   };
 
   const handleMobileMenuClose = () => {
+    console.log(mobileMoreAnchorEl);
     setMobileMoreAnchorEl(null);
   };
 
