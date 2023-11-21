@@ -16,15 +16,15 @@ const HomeBanner = () => {
       <img
         src={data.img}
         alt="hero"
-        className="w-full h-screen object-cover bg-center md:h-[660px] lg:h-[860px]"
+        className="w-full h-[600px] object-cover bg-center md:h-[660px] lg:h-[860px]"
       />
       <div className="absolute top-0 left-0 w-[50%] h-full flex flex-col mt-[250px] md:p-2 lg:ml-[35px] xl:ml-[100px] space-y-4 sm:bg-gradient-to-t">
         <div
-          className="lg:text-5xl md:text-3xl md:flex md:p-2 sm:text-3xl font-bold ml-[35px]"
+          className="lg:text-5xl md:text-3xl md:flex md:p-2 sm:max-w-sm ml-[25px] text-3xl font-bold "
           dangerouslySetInnerHTML={{ __html: data.title }}
         />
         <div
-          className="md:flex text-[18px] w-[500px] sm:text-[16px] w-[300px] ml-[35px]"
+          className="hidden md:flex text-[18px] w-[500px]"
           dangerouslySetInnerHTML={{ __html: data.content }}
         />
       </div>
