@@ -54,6 +54,6 @@
   ],
   "theme_color": "#221769",
   "background_color": "#221769",
-  "start_url": "/alumni/profile",
-  "display": "minimal-ui"
+  "start_url": "/",
+  "display": "standalone"
 }
