@@ -1,6 +1,7 @@
 {
-  "short_name": "DCISM Aces Mobile",
-  "name": "Weather App PWA",
+  "name": "DCISM Aces Mobile App",
+  "short_name": "DCISM Aces",
+  "description": "Mobile application for alumni to access the centralized database information management system for alumni information and job placement processes in the Department of Computer, Information Science, and Mathematics (DCISM) of the University of San Carlos",
   "icons": [
     {
       "src": "./icon_x192.png",
@@ -17,6 +18,12 @@
     {
       "src": "./icon_x512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon_x1024.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any maskable"
     }

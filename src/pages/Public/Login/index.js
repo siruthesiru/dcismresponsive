@@ -114,22 +114,13 @@ const Login = () => {
         <Typography
           sx={{ text: "16px", marginTop: "20px", textAlign: "center" }}
         >
-          Don't have an account? Register as
+          Don't have an account?
           <span className="text-second underline px-2">
             <NavLink
               to="/signup/alumni"
               onClick={() => dispatch(clearMessage())}
             >
-              Alumni
-            </NavLink>
-          </span>
-          or
-          <span className="text-second underline px-2">
-            <NavLink
-              to="/signup/company"
-              onClick={() => dispatch(clearMessage())}
-            >
-              Company
+              Register
             </NavLink>
           </span>
         </Typography>

@@ -1,0 +1,43 @@
+{
+  "packageId": "app.netlify.master__friendly_starlight_7e4195.twa",
+  "host": "master--friendly-starlight-7e4195.netlify.app",
+  "name": "DCISM Aces",
+  "launcherName": "ACES Mobile",
+  "display": "standalone",
+  "themeColor": "#221769",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#221769",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://master--friendly-starlight-7e4195.netlify.app/icon_x512.png",
+  "maskableIconUrl": "https://master--friendly-starlight-7e4195.netlify.app/icon_x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\Siru\\Documents\\dcismacesfrontend\\android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://master--friendly-starlight-7e4195.netlify.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://master--friendly-starlight-7e4195.netlify.app/",
+  "minSdkVersion": 19,
+  "orientation": "any",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1"
+}

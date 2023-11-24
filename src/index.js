@@ -11,6 +11,10 @@ import { PersistGate } from "redux-persist/integration/react";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
+if (typeof navigator.serviceWorker !== "undefined") {
+  navigator.serviceWorker.register("sw.js");
+}
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

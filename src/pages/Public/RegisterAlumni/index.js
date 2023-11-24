@@ -355,15 +355,6 @@ const RegisterAlumni = () => {
             <NavLink to="/signin" onClick={() => dispatch(clearMessage())}>
               Login
             </NavLink>
-          </span>{" "}
-          or Register as
-          <span className="text-second underline px-2">
-            <NavLink
-              to="/signup/company"
-              onClick={() => dispatch(clearMessage())}
-            >
-              Company
-            </NavLink>
           </span>
         </Typography>
       </form>
