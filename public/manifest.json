@@ -55,5 +55,6 @@
   "theme_color": "#221769",
   "background_color": "#221769",
   "start_url": "/",
-  "display": "standalone"
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"]
 }
